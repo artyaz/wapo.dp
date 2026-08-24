@@ -1,0 +1,535 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@source "./";
+@source "../src";
+@source not "../extracted";
+@source not "../upload";
+@source not "../tool-results";
+@source not "../download";
+@source not "../skills";
+@source not "../examples";
+@source not "../tests";
+@source not "../BRIEFING.md";
+@source not "../worklog.md";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   Praxis Design System — token layer
+   Raw values (--ds-*) switch between light and dark.
+   ============================================================ */
+
+:root {
+  /* Default Colors */
+  --ds-color-panel: rgb(255 255 255);
+
+  /* Default */
+  --ds-color-default-background: rgb(251 251 249);
+  --ds-color-default-border: rgb(233 230 223);
+  --ds-color-default-font: rgb(21 20 15);
+
+  /* Neutral */
+  --ds-color-neutral-50: rgb(251 251 249);
+  --ds-color-neutral-100: rgb(244 242 236);
+  --ds-color-neutral-200: rgb(233 230 223);
+  --ds-color-neutral-300: rgb(214 210 199);
+  --ds-color-neutral-400: rgb(179 175 163);
+  --ds-color-neutral-500: rgb(138 135 126);
+  --ds-color-neutral-600: rgb(110 107 98);
+  --ds-color-neutral-700: rgb(76 74 67);
+  --ds-color-neutral-800: rgb(42 41 38);
+  --ds-color-neutral-900: rgb(21 20 15);
+
+  /* Brand (monochrome by doctrine) */
+  --ds-color-brand-50: rgb(251 251 249);
+  --ds-color-brand-100: rgb(244 242 236);
+  --ds-color-brand-200: rgb(233 230 223);
+  --ds-color-brand-300: rgb(214 210 199);
+  --ds-color-brand-400: rgb(179 175 163);
+  --ds-color-brand-500: rgb(138 135 126);
+  --ds-color-brand-600: rgb(110 107 98);
+  --ds-color-brand-700: rgb(76 74 67);
+  --ds-color-brand-800: rgb(42 41 38);
+  --ds-color-brand-900: rgb(21 20 15);
+  --ds-color-brand-primary: rgb(21 20 15);
+  --ds-color-brand-primary-foreground: rgb(251 251 249);
+  --ds-color-brand-secondary: rgb(138 135 126);
+
+  /* Success */
+  --ds-color-success-50: rgb(237 250 243);
+  --ds-color-success-100: rgb(209 242 224);
+  --ds-color-success-200: rgb(163 229 194);
+  --ds-color-success-300: rgb(109 211 158);
+  --ds-color-success-400: rgb(61 186 122);
+  --ds-color-success-500: rgb(28 122 77);
+  --ds-color-success-600: rgb(23 101 63);
+  --ds-color-success-700: rgb(18 79 50);
+  --ds-color-success-800: rgb(13 58 37);
+  --ds-color-success-900: rgb(8 37 24);
+
+  /* Warning */
+  --ds-color-warning-50: rgb(254 248 234);
+  --ds-color-warning-100: rgb(252 237 197);
+  --ds-color-warning-200: rgb(248 217 138);
+  --ds-color-warning-300: rgb(239 192 80);
+  --ds-color-warning-400: rgb(214 155 26);
+  --ds-color-warning-500: rgb(176 116 0);
+  --ds-color-warning-600: rgb(143 94 0);
+  --ds-color-warning-700: rgb(110 72 0);
+  --ds-color-warning-800: rgb(77 51 0);
+  --ds-color-warning-900: rgb(44 29 0);
+
+  /* Destructive */
+  --ds-color-destructive-50: rgb(254 240 238);
+  --ds-color-destructive-100: rgb(253 216 212);
+  --ds-color-destructive-200: rgb(245 174 167);
+  --ds-color-destructive-300: rgb(228 127 116);
+  --ds-color-destructive-400: rgb(208 88 72);
+  --ds-color-destructive-500: rgb(187 58 44);
+  --ds-color-destructive-600: rgb(154 47 35);
+  --ds-color-destructive-700: rgb(120 36 27);
+  --ds-color-destructive-800: rgb(87 26 19);
+  --ds-color-destructive-900: rgb(54 16 12);
+
+  /* Typography — sizes / weights / tracking / leading */
+  --ds-text-body: 16px;
+  --ds-text-body--font-weight: 400;
+  --ds-text-body--letter-spacing: 0em;
+  --ds-text-body--line-height: 24px;
+  --ds-text-body-medium: 14px;
+  --ds-text-body-medium--font-weight: 400;
+  --ds-text-body-medium--letter-spacing: 0em;
+  --ds-text-body-medium--line-height: 20px;
+  --ds-text-caption: 13px;
+  --ds-text-caption--font-weight: 400;
+  --ds-text-caption--letter-spacing: 0em;
+  --ds-text-caption--line-height: 19px;
+  --ds-text-heading-1: 28px;
+  --ds-text-heading-1--font-weight: 600;
+  --ds-text-heading-1--letter-spacing: -0.01em;
+  --ds-text-heading-1--line-height: 35px;
+  --ds-text-heading-2: 22px;
+  --ds-text-heading-2--font-weight: 600;
+  --ds-text-heading-2--letter-spacing: -0.005em;
+  --ds-text-heading-2--line-height: 29px;
+  --ds-text-heading-3: 17px;
+  --ds-text-heading-3--font-weight: 600;
+  --ds-text-heading-3--letter-spacing: 0em;
+  --ds-text-heading-3--line-height: 23px;
+  --ds-text-prose: 19px;
+  --ds-text-prose--font-weight: 400;
+  --ds-text-prose--letter-spacing: 0em;
+  --ds-text-prose--line-height: 31px;
+  --ds-text-default: 16px;
+  --ds-text-default--font-weight: 400;
+  --ds-text-default--letter-spacing: 0em;
+  --ds-text-default--line-height: 24px;
+  --ds-text-code: 13px;
+  --ds-text-code--font-weight: 400;
+  --ds-text-code--letter-spacing: 0em;
+  --ds-text-code--line-height: 20px;
+
+  /* Font families (resolved from next/font variables on <html>) */
+  --ds-font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ds-font-body-medium: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ds-font-caption: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ds-font-heading-1: var(--font-source-serif-4), ui-serif, Georgia, serif;
+  --ds-font-heading-2: var(--font-source-serif-4), ui-serif, Georgia, serif;
+  --ds-font-heading-3: var(--font-source-serif-4), ui-serif, Georgia, serif;
+  --ds-font-prose: var(--font-source-serif-4), ui-serif, Georgia, serif;
+  --ds-font-default: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ds-font-code: var(--font-ibm-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Border radiuses */
+  --ds-radius-sm: 3px;
+  --ds-radius-md: 3px;
+  --ds-radius-lg: 8px;
+  --ds-radius-xl: 8px;
+
+  /* Box shadows */
+  --ds-shadow-default: 0px 12px 40px 0px rgb(21 20 15 / 0.18);
+  --ds-shadow-glass-specular: inset 0px 1px 0px 0px rgb(255 255 255 / 0.26),
+    inset 0px -1px 0px 0px rgb(255 255 255 / 0.1);
+  --ds-shadow-glass-hairline: 0px 0px 0px 1px rgb(255 255 255 / 0.08);
+  --ds-shadow-glass-surface: inset 0px 1px 0px 0px rgb(255 255 255 / 0.26),
+    inset 0px -1px 0px 0px rgb(255 255 255 / 0.1),
+    0px 0px 0px 1px rgb(255 255 255 / 0.08);
+
+  /* shadcn bridge — aligned to the monochrome palette */
+  --radius: 8px;
+  --background: var(--ds-color-default-background);
+  --foreground: var(--ds-color-default-font);
+  --card: var(--ds-color-panel);
+  --card-foreground: var(--ds-color-default-font);
+  --popover: var(--ds-color-panel);
+  --popover-foreground: var(--ds-color-default-font);
+  --primary: var(--ds-color-brand-primary);
+  --primary-foreground: var(--ds-color-brand-primary-foreground);
+  --secondary: var(--ds-color-neutral-100);
+  --secondary-foreground: var(--ds-color-default-font);
+  --muted: var(--ds-color-neutral-100);
+  --muted-foreground: var(--ds-color-neutral-500);
+  --accent: var(--ds-color-neutral-100);
+  --accent-foreground: var(--ds-color-default-font);
+  --destructive: var(--ds-color-destructive-500);
+  --border: var(--ds-color-default-border);
+  --input: var(--ds-color-default-border);
+  --ring: var(--ds-color-neutral-400);
+  --chart-1: var(--ds-color-neutral-500);
+  --chart-2: var(--ds-color-neutral-400);
+  --chart-3: var(--ds-color-neutral-600);
+  --chart-4: var(--ds-color-neutral-300);
+  --chart-5: var(--ds-color-neutral-700);
+  --sidebar: var(--ds-color-neutral-50);
+  --sidebar-foreground: var(--ds-color-default-font);
+  --sidebar-primary: var(--ds-color-brand-primary);
+  --sidebar-primary-foreground: var(--ds-color-brand-primary-foreground);
+  --sidebar-accent: var(--ds-color-neutral-100);
+  --sidebar-accent-foreground: var(--ds-color-default-font);
+  --sidebar-border: var(--ds-color-default-border);
+  --sidebar-ring: var(--ds-color-neutral-400);
+}
+
+.dark {
+  --ds-color-panel: rgb(21 21 19);
+  --ds-color-default-background: rgb(11 11 10);
+  --ds-color-default-border: rgb(42 41 38);
+  --ds-color-default-font: rgb(241 239 233);
+
+  --ds-color-neutral-50: rgb(11 11 10);
+  --ds-color-neutral-100: rgb(21 21 19);
+  --ds-color-neutral-200: rgb(42 41 38);
+  --ds-color-neutral-300: rgb(58 56 53);
+  --ds-color-neutral-400: rgb(85 82 76);
+  --ds-color-neutral-500: rgb(143 140 132);
+  --ds-color-neutral-600: rgb(168 164 155);
+  --ds-color-neutral-700: rgb(196 192 182);
+  --ds-color-neutral-800: rgb(221 217 207);
+  --ds-color-neutral-900: rgb(241 239 233);
+
+  --ds-color-brand-50: rgb(11 11 10);
+  --ds-color-brand-100: rgb(21 21 19);
+  --ds-color-brand-200: rgb(42 41 38);
+  --ds-color-brand-300: rgb(58 56 53);
+  --ds-color-brand-400: rgb(85 82 76);
+  --ds-color-brand-500: rgb(143 140 132);
+  --ds-color-brand-600: rgb(168 164 155);
+  --ds-color-brand-700: rgb(196 192 182);
+  --ds-color-brand-800: rgb(221 217 207);
+  --ds-color-brand-900: rgb(241 239 233);
+  --ds-color-brand-primary: rgb(241 239 233);
+  --ds-color-brand-primary-foreground: rgb(11 11 10);
+  --ds-color-brand-secondary: rgb(143 140 132);
+
+  --ds-color-success-50: rgb(8 37 24);
+  --ds-color-success-100: rgb(13 58 37);
+  --ds-color-success-200: rgb(18 79 50);
+  --ds-color-success-300: rgb(23 101 63);
+  --ds-color-success-400: rgb(45 165 104);
+  --ds-color-success-500: rgb(86 207 144);
+  --ds-color-success-600: rgb(126 219 169);
+  --ds-color-success-700: rgb(166 231 194);
+  --ds-color-success-800: rgb(206 243 219);
+  --ds-color-success-900: rgb(237 250 243);
+
+  --ds-color-warning-50: rgb(44 29 0);
+  --ds-color-warning-100: rgb(77 51 0);
+  --ds-color-warning-200: rgb(110 72 0);
+  --ds-color-warning-300: rgb(143 94 0);
+  --ds-color-warning-400: rgb(196 142 26);
+  --ds-color-warning-500: rgb(224 168 58);
+  --ds-color-warning-600: rgb(232 188 100);
+  --ds-color-warning-700: rgb(240 208 142);
+  --ds-color-warning-800: rgb(247 228 184);
+  --ds-color-warning-900: rgb(254 248 234);
+
+  --ds-color-destructive-50: rgb(54 16 12);
+  --ds-color-destructive-100: rgb(87 26 19);
+  --ds-color-destructive-200: rgb(120 36 27);
+  --ds-color-destructive-300: rgb(154 47 35);
+  --ds-color-destructive-400: rgb(212 82 72);
+  --ds-color-destructive-500: rgb(255 111 99);
+  --ds-color-destructive-600: rgb(255 145 137);
+  --ds-color-destructive-700: rgb(255 179 174);
+  --ds-color-destructive-800: rgb(255 213 210);
+  --ds-color-destructive-900: rgb(254 240 238);
+
+  --ds-shadow-default: 0px 12px 40px 0px rgb(0 0 0 / 0.55);
+
+  --background: var(--ds-color-default-background);
+  --foreground: var(--ds-color-default-font);
+  --card: var(--ds-color-panel);
+  --card-foreground: var(--ds-color-default-font);
+  --popover: var(--ds-color-panel);
+  --popover-foreground: var(--ds-color-default-font);
+  --primary: var(--ds-color-brand-primary);
+  --primary-foreground: var(--ds-color-brand-primary-foreground);
+  --secondary: var(--ds-color-neutral-100);
+  --secondary-foreground: var(--ds-color-default-font);
+  --muted: var(--ds-color-neutral-100);
+  --muted-foreground: var(--ds-color-neutral-500);
+  --accent: var(--ds-color-neutral-100);
+  --accent-foreground: var(--ds-color-default-font);
+  --destructive: var(--ds-color-destructive-500);
+  --border: var(--ds-color-default-border);
+  --input: var(--ds-color-default-border);
+  --ring: var(--ds-color-neutral-400);
+  --sidebar: var(--ds-color-neutral-100);
+  --sidebar-foreground: var(--ds-color-default-font);
+  --sidebar-primary: var(--ds-color-brand-primary);
+  --sidebar-primary-foreground: var(--ds-color-brand-primary-foreground);
+  --sidebar-accent: var(--ds-color-neutral-200);
+  --sidebar-accent-foreground: var(--ds-color-default-font);
+  --sidebar-border: var(--ds-color-default-border);
+  --sidebar-ring: var(--ds-color-neutral-400);
+}
+
+/* ============================================================
+   Tailwind 4 theme mapping — generates the design-system
+   utilities (bg-panel/60, text-heading-1, font-body,
+   shadow-glass-specular, backdrop-blur-2xl …)
+   ============================================================ */
+
+@theme inline {
+  --color-panel: var(--ds-color-panel);
+  --color-default-background: var(--ds-color-default-background);
+  --color-default-border: var(--ds-color-default-border);
+  --color-default-font: var(--ds-color-default-font);
+  --color-neutral-50: var(--ds-color-neutral-50);
+  --color-neutral-100: var(--ds-color-neutral-100);
+  --color-neutral-200: var(--ds-color-neutral-200);
+  --color-neutral-300: var(--ds-color-neutral-300);
+  --color-neutral-400: var(--ds-color-neutral-400);
+  --color-neutral-500: var(--ds-color-neutral-500);
+  --color-neutral-600: var(--ds-color-neutral-600);
+  --color-neutral-700: var(--ds-color-neutral-700);
+  --color-neutral-800: var(--ds-color-neutral-800);
+  --color-neutral-900: var(--ds-color-neutral-900);
+  --color-brand-50: var(--ds-color-brand-50);
+  --color-brand-100: var(--ds-color-brand-100);
+  --color-brand-200: var(--ds-color-brand-200);
+  --color-brand-300: var(--ds-color-brand-300);
+  --color-brand-400: var(--ds-color-brand-400);
+  --color-brand-500: var(--ds-color-brand-500);
+  --color-brand-600: var(--ds-color-brand-600);
+  --color-brand-700: var(--ds-color-brand-700);
+  --color-brand-800: var(--ds-color-brand-800);
+  --color-brand-900: var(--ds-color-brand-900);
+  --color-brand-primary: var(--ds-color-brand-primary);
+  --color-brand-primary-foreground: var(--ds-color-brand-primary-foreground);
+  --color-brand-secondary: var(--ds-color-brand-secondary);
+  --color-success-50: var(--ds-color-success-50);
+  --color-success-100: var(--ds-color-success-100);
+  --color-success-200: var(--ds-color-success-200);
+  --color-success-300: var(--ds-color-success-300);
+  --color-success-400: var(--ds-color-success-400);
+  --color-success-500: var(--ds-color-success-500);
+  --color-success-600: var(--ds-color-success-600);
+  --color-success-700: var(--ds-color-success-700);
+  --color-success-800: var(--ds-color-success-800);
+  --color-success-900: var(--ds-color-success-900);
+  --color-warning-50: var(--ds-color-warning-50);
+  --color-warning-100: var(--ds-color-warning-100);
+  --color-warning-200: var(--ds-color-warning-200);
+  --color-warning-300: var(--ds-color-warning-300);
+  --color-warning-400: var(--ds-color-warning-400);
+  --color-warning-500: var(--ds-color-warning-500);
+  --color-warning-600: var(--ds-color-warning-600);
+  --color-warning-700: var(--ds-color-warning-700);
+  --color-warning-800: var(--ds-color-warning-800);
+  --color-warning-900: var(--ds-color-warning-900);
+  --color-destructive-50: var(--ds-color-destructive-50);
+  --color-destructive-100: var(--ds-color-destructive-100);
+  --color-destructive-200: var(--ds-color-destructive-200);
+  --color-destructive-300: var(--ds-color-destructive-300);
+  --color-destructive-400: var(--ds-color-destructive-400);
+  --color-destructive-500: var(--ds-color-destructive-500);
+  --color-destructive-600: var(--ds-color-destructive-600);
+  --color-destructive-700: var(--ds-color-destructive-700);
+  --color-destructive-800: var(--ds-color-destructive-800);
+  --color-destructive-900: var(--ds-color-destructive-900);
+
+  --text-body: var(--ds-text-body);
+  --text-body--line-height: var(--ds-text-body--line-height);
+  --text-body--font-weight: var(--ds-text-body--font-weight);
+  --text-body--letter-spacing: var(--ds-text-body--letter-spacing);
+  --text-body-medium: var(--ds-text-body-medium);
+  --text-body-medium--line-height: var(--ds-text-body-medium--line-height);
+  --text-body-medium--font-weight: var(--ds-text-body-medium--font-weight);
+  --text-body-medium--letter-spacing: var(--ds-text-body-medium--letter-spacing);
+  --text-caption: var(--ds-text-caption);
+  --text-caption--line-height: var(--ds-text-caption--line-height);
+  --text-caption--font-weight: var(--ds-text-caption--font-weight);
+  --text-caption--letter-spacing: var(--ds-text-caption--letter-spacing);
+  --text-heading-1: var(--ds-text-heading-1);
+  --text-heading-1--line-height: var(--ds-text-heading-1--line-height);
+  --text-heading-1--font-weight: var(--ds-text-heading-1--font-weight);
+  --text-heading-1--letter-spacing: var(--ds-text-heading-1--letter-spacing);
+  --text-heading-2: var(--ds-text-heading-2);
+  --text-heading-2--line-height: var(--ds-text-heading-2--line-height);
+  --text-heading-2--font-weight: var(--ds-text-heading-2--font-weight);
+  --text-heading-2--letter-spacing: var(--ds-text-heading-2--letter-spacing);
+  --text-heading-3: var(--ds-text-heading-3);
+  --text-heading-3--line-height: var(--ds-text-heading-3--line-height);
+  --text-heading-3--font-weight: var(--ds-text-heading-3--font-weight);
+  --text-heading-3--letter-spacing: var(--ds-text-heading-3--letter-spacing);
+  --text-prose: var(--ds-text-prose);
+  --text-prose--line-height: var(--ds-text-prose--line-height);
+  --text-prose--font-weight: var(--ds-text-prose--font-weight);
+  --text-prose--letter-spacing: var(--ds-text-prose--letter-spacing);
+  --text-default: var(--ds-text-default);
+  --text-default--line-height: var(--ds-text-default--line-height);
+  --text-default--font-weight: var(--ds-text-default--font-weight);
+  --text-default--letter-spacing: var(--ds-text-default--letter-spacing);
+  --text-code: var(--ds-text-code);
+  --text-code--line-height: var(--ds-text-code--line-height);
+  --text-code--font-weight: var(--ds-text-code--font-weight);
+  --text-code--letter-spacing: var(--ds-text-code--letter-spacing);
+
+  --font-body: var(--ds-font-body);
+  --font-body-medium: var(--ds-font-body-medium);
+  --font-caption: var(--ds-font-caption);
+  --font-heading-1: var(--ds-font-heading-1);
+  --font-heading-2: var(--ds-font-heading-2);
+  --font-heading-3: var(--ds-font-heading-3);
+  --font-prose: var(--ds-font-prose);
+  --font-default: var(--ds-font-default);
+  --font-code: var(--ds-font-code);
+
+  --radius-sm: var(--ds-radius-sm);
+  --radius-md: var(--ds-radius-md);
+  --radius-lg: var(--ds-radius-lg);
+  --radius-xl: var(--ds-radius-xl);
+
+  --shadow-default: var(--ds-shadow-default);
+  --shadow-glass-specular: var(--ds-shadow-glass-specular);
+  --shadow-glass-hairline: var(--ds-shadow-glass-hairline);
+  --shadow-glass-surface: var(--ds-shadow-glass-surface);
+
+  /* shadcn bridge */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@theme {
+  /* Blur scale pinned to the values the Subframe export was authored
+     against (TW3 semantics): sm 4 · md 12 · lg 16 · xl 24 · 2xl 40 · 3xl 64 */
+  --blur-sm: 4px;
+  --blur-md: 12px;
+  --blur-lg: 16px;
+  --blur-xl: 24px;
+  --blur-2xl: 40px;
+  --blur-3xl: 64px;
+
+  /* Extended spacing scale used by the export */
+  --spacing-112: 28rem;
+  --spacing-144: 36rem;
+  --spacing-192: 48rem;
+  --spacing-256: 64rem;
+  --spacing-320: 80rem;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-default-background text-default-font font-body text-body antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--ds-color-default-font) 12%, transparent);
+  }
+
+  /* Calm, thin scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--ds-color-neutral-300) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--ds-color-neutral-300);
+    border-radius: 9999px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* ============================================================
+   Liquid glass — shared layer styles
+   (kept as plain CSS classes; never put url(#…) inside Tailwind
+   arbitrary values — the bundler treats them as module imports)
+   ============================================================ */
+
+/* Dual-gradient specular sheen — canonical construction (spec §3) */
+.praxis-sheen-primary {
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.16) 26%,
+    rgba(255, 255, 255, 0.04) 44%,
+    rgba(255, 255, 255, 0) 60%
+  );
+}
+.praxis-sheen-counter {
+  background: linear-gradient(
+    340deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.07) 22%,
+    rgba(255, 255, 255, 0) 42%
+  );
+}
+
+/* Glass filter layers are applied via inline styles from the
+   GlassSurface runtime so a failed url() voids only its own layer. */
+
+/* Honor reduced transparency where supported */
+@media (prefers-reduced-transparency: reduce) {
+  .praxis-glass-tint {
+    background-color: color-mix(in srgb, var(--ds-color-panel) 92%, transparent) !important;
+  }
+}

@@ -1,0 +1,81 @@
+"use client";
+
+/**
+ * CrosshairTag — a chart inspection frame: crisp panel, hairline gridlines,
+ * a quiet bar series and a full-height crosshair with a floating glass value
+ * tag anchored above it. The frame itself stays plain (no blur) — glass is
+ * reserved for the floating tag, per the system doctrine.
+ */
+
+import React from "react";
+import * as SubframeUtils from "@/lib/subframe/utils";
+
+export interface CrosshairTagRootProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  value?: React.ReactNode;
+  glyph?: React.ReactNode;
+  timestamp?: React.ReactNode;
+  className?: string;
+}
+
+const CrosshairTagRoot = React.forwardRef<
+  HTMLDivElement,
+  CrosshairTagRootProps
+>(function CrosshairTagRoot(
+  { value, glyph, timestamp, className, ...otherProps }: CrosshairTagRootProps,
+  ref
+) {
+  return (
+    <div
+      className={SubframeUtils.twClassNames(
+        "flex h-[150px] w-[260px] items-start overflow-hidden rounded-lg border border-solid border-default-border bg-panel relative",
+        className
+      )}
+      ref={ref}
+      {...otherProps}
+    >
+      <div className="flex h-px grow shrink-0 basis-0 items-start bg-default-border absolute left-0 right-0 top-1/4" />
+      <div className="flex h-px grow shrink-0 basis-0 items-start bg-default-border absolute left-0 right-0 top-1/2" />
+      <div className="flex h-px grow shrink-0 basis-0 items-start bg-default-border absolute left-0 right-0 top-3/4" />
+      <div className="flex h-7 w-2.5 flex-none items-start rounded-[1px] bg-success-200 absolute bottom-[20px] left-[30px]" />
+      <div className="flex h-4 w-2.5 flex-none items-start rounded-[1px] bg-destructive-200 absolute bottom-[20px] left-[44px]" />
+      <div className="flex h-[34px] w-2.5 flex-none items-start rounded-[1px] bg-success-200 absolute bottom-[20px] left-[58px]" />
+      <div className="flex h-5 w-2.5 flex-none items-start rounded-[1px] bg-destructive-200 absolute bottom-[20px] left-[72px]" />
+      <div className="flex h-[26px] w-2.5 flex-none items-start rounded-[1px] bg-success-200 absolute bottom-[20px] left-[86px]" />
+      <div className="flex h-3.5 w-2.5 flex-none items-start rounded-[1px] bg-destructive-200 absolute bottom-[20px] left-[100px]" />
+      <div className="flex h-[30px] w-2.5 flex-none items-start rounded-[1px] bg-success-200 absolute bottom-[20px] left-[114px]" />
+      <div className="flex h-[18px] w-2.5 flex-none items-start rounded-[1px] bg-destructive-200 absolute bottom-[20px] left-[128px]" />
+      <div className="flex h-[22px] w-2.5 flex-none items-start rounded-[1px] bg-success-200 absolute bottom-[20px] left-[142px]" />
+      <div className="flex h-[38px] w-2.5 flex-none items-start rounded-[1px] bg-success-200 absolute bottom-[20px] left-[156px]" />
+      <div className="flex h-3 w-2.5 flex-none items-start rounded-[1px] bg-destructive-200 absolute bottom-[20px] left-[170px]" />
+      <div className="flex h-6 w-2.5 flex-none items-start rounded-[1px] bg-success-200 absolute bottom-[20px] left-[184px]" />
+      <div className="flex h-4 w-2.5 flex-none items-start rounded-[1px] bg-destructive-200 absolute bottom-[20px] left-[198px]" />
+      <div className="flex h-8 w-2.5 flex-none items-start rounded-[1px] bg-success-200 absolute bottom-[20px] left-[212px]" />
+      <div className="flex w-px flex-none items-start self-stretch bg-neutral-400 absolute left-[62%] top-0" />
+      <div className="flex min-w-[96px] flex-col items-start gap-0.5 rounded-[10px] border border-solid border-[#ffffff33] px-3 py-2 shadow-glass-surface bg-panel/72 backdrop-blur-[56px] backdrop-saturate-[165%] absolute left-[62%] top-[26px] -translate-x-1/2">
+        <div className="flex items-start rounded-[10px] absolute inset-0 pointer-events-none bg-[linear-gradient(160deg,rgba(255,255,255,0.55)_0%,rgba(255,255,255,0.16)_26%,rgba(255,255,255,0.04)_44%,transparent_60%)]" />
+        <div className="flex items-start rounded-[10px] absolute inset-0 pointer-events-none bg-[linear-gradient(340deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0.07)_22%,transparent_42%)]" />
+        <div className="flex w-full gap-1 items-baseline relative">
+          {value ? (
+            <span className="font-code text-[16px] font-[700] leading-[24px] text-default-font tabular-nums">
+              {value}
+            </span>
+          ) : null}
+          {glyph ? (
+            <span className="font-code text-[10px] font-[400] leading-[10px] text-success-600">
+              {glyph}
+            </span>
+          ) : null}
+        </div>
+        {timestamp ? (
+          <span className="w-full font-code text-[13px] font-[400] leading-[19px] text-neutral-500 tabular-nums relative">
+            {timestamp}
+          </span>
+        ) : null}
+        <div className="flex h-[9px] w-[9px] flex-none items-start border-r border-b border-solid border-[#ffffff33] bg-panel/72 absolute -bottom-[5px] left-1/2 -translate-x-1/2 rotate-45" />
+      </div>
+    </div>
+  );
+});
+
+export const CrosshairTag = CrosshairTagRoot;
