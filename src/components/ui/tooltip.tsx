@@ -28,9 +28,15 @@ function Tooltip({
   )
 }
 
-function TooltipTrigger({
-  ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
+function TooltipTrigger({ render, children, ...props }: React.ComponentProps<typeof TooltipPrimitive.Trigger> &
+  { render?: React.ReactElement<Record<string, unknown>> }) {
+  if (render) {
+    return (
+      <TooltipPrimitive.Trigger data-slot="tooltip-trigger" asChild {...props}>
+        {children !== undefined ? React.cloneElement(render, undefined, children) : React.cloneElement(render)}
+      </TooltipPrimitive.Trigger>
+    )
+  }
   return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
 }
 

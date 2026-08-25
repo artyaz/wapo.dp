@@ -20,15 +20,16 @@ function DropdownMenuPortal({
   )
 }
 
-function DropdownMenuTrigger({
-  ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger>) {
-  return (
-    <DropdownMenuPrimitive.Trigger
-      data-slot="dropdown-menu-trigger"
-      {...props}
-    />
-  )
+function DropdownMenuTrigger({ render, children, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger> &
+  { render?: React.ReactElement<Record<string, unknown>> }) {
+  if (render) {
+    return (
+      <DropdownMenuPrimitive.Trigger data-slot="dropdown-menu-trigger" asChild {...props}>
+        {children !== undefined ? React.cloneElement(render, undefined, children) : React.cloneElement(render)}
+      </DropdownMenuPrimitive.Trigger>
+    )
+  }
+  return <DropdownMenuPrimitive.Trigger data-slot="dropdown-menu-trigger" {...props} />
 }
 
 function DropdownMenuContent({

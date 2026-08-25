@@ -63,3 +63,6 @@ server.log
 # agent-facing docs must not be scanned by tailwind
 /BRIEFING.md
 /worklog.md
+
+# generation scripts must not be scanned by tailwind (they contain class-name literals)
+/scripts/

@@ -12,6 +12,7 @@
 @source not "../tests";
 @source not "../BRIEFING.md";
 @source not "../worklog.md";
+@source not "../scripts";
 
 @custom-variant dark (&:is(.dark *));
 

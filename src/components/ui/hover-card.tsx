@@ -11,12 +11,16 @@ function HoverCard({
   return <HoverCardPrimitive.Root data-slot="hover-card" {...props} />
 }
 
-function HoverCardTrigger({
-  ...props
-}: React.ComponentProps<typeof HoverCardPrimitive.Trigger>) {
-  return (
-    <HoverCardPrimitive.Trigger data-slot="hover-card-trigger" {...props} />
-  )
+function HoverCardTrigger({ render, children, ...props }: React.ComponentProps<typeof HoverCardPrimitive.Trigger> &
+  { render?: React.ReactElement<Record<string, unknown>> }) {
+  if (render) {
+    return (
+      <HoverCardPrimitive.Trigger data-slot="hover-card-trigger" asChild {...props}>
+        {children !== undefined ? React.cloneElement(render, undefined, children) : React.cloneElement(render)}
+      </HoverCardPrimitive.Trigger>
+    )
+  }
+  return <HoverCardPrimitive.Trigger data-slot="hover-card-trigger" {...props} />
 }
 
 function HoverCardContent({

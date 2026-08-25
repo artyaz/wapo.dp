@@ -1,0 +1,143 @@
+{
+  "name": "Sidebar",
+  "description": "A composable, themeable and customizable sidebar component.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import { SidebarProvider, SidebarTrigger } from \"@/components/ui/sidebar\"\nimport { AppSidebar } from \"@/components/app-sidebar\"\n \nexport default function Layout({ children }: { children: React.ReactNode }) {\n  return (\n    <SidebarProvider>\n      <AppSidebar />\n      <main>\n        <SidebarTrigger />\n        {children}\n      </main>\n    </SidebarProvider>\n  )\n}",
+        "import {\n  Sidebar,\n  SidebarContent,\n  SidebarFooter,\n  SidebarGroup,\n  SidebarHeader,\n} from \"@/components/ui/sidebar\"\n \nexport function AppSidebar() {\n  return (\n    <Sidebar>\n      <SidebarHeader />\n      <SidebarContent>\n        <SidebarGroup />\n        <SidebarGroup />\n      </SidebarContent>\n      <SidebarFooter />\n    </Sidebar>\n  )\n}"
+      ]
+    },
+    {
+      "variant": "Composition",
+      "code": [
+        "SidebarProvider\n\u251c\u2500\u2500 Sidebar\n\u2502   \u251c\u2500\u2500 SidebarHeader\n\u2502   \u251c\u2500\u2500 SidebarContent\n\u2502   \u2502   \u251c\u2500\u2500 SidebarGroup\n\u2502   \u2502   \u2502   \u251c\u2500\u2500 SidebarGroupLabel\n\u2502   \u2502   \u2502   \u251c\u2500\u2500 SidebarGroupAction\n\u2502   \u2502   \u2502   \u251c\u2500\u2500 SidebarGroupContent\n\u2502   \u2502   \u2502   \u2514\u2500\u2500 SidebarMenu\n\u2502   \u2502   \u2502       \u251c\u2500\u2500 SidebarMenuItem\n\u2502   \u2502   \u2502       \u2502   \u251c\u2500\u2500 SidebarMenuButton\n\u2502   \u2502   \u2502       \u2502   \u251c\u2500\u2500 SidebarMenuAction\n\u2502   \u2502   \u2502       \u2502   \u2514\u2500\u2500 SidebarMenuBadge\n\u2502   \u2502   \u2502       \u2514\u2500\u2500 SidebarMenuItem\n\u2502   \u2502   \u2502           \u251c\u2500\u2500 SidebarMenuButton\n\u2502   \u2502   \u2502           \u2514\u2500\u2500 SidebarMenuSub\n\u2502   \u2502   \u2502               \u251c\u2500\u2500 SidebarMenuSubItem\n\u2502   \u2502   \u2502               \u2514\u2500\u2500 SidebarMenuSubItem\n\u2502   \u2502   \u2514\u2500\u2500 SidebarGroup\n\u2502   \u2502       \u2514\u2500\u2500 SidebarMenu\n\u2502   \u2502           \u251c\u2500\u2500 SidebarMenuItem\n\u2502   \u2502           \u2514\u2500\u2500 SidebarMenuItem\n\u2502   \u251c\u2500\u2500 SidebarFooter\n\u2502   \u2514\u2500\u2500 SidebarRail\n\u251c\u2500\u2500 SidebarInset\n\u2514\u2500\u2500 SidebarTrigger"
+      ]
+    },
+    {
+      "variant": "SidebarProvider",
+      "code": [
+        "const SIDEBAR_WIDTH = \"16rem\"\nconst SIDEBAR_WIDTH_MOBILE = \"18rem\"",
+        "<SidebarProvider\n  style={\n    {\n      \"--sidebar-width\": \"20rem\",\n      \"--sidebar-width-mobile\": \"20rem\",\n    } as React.CSSProperties\n  }\n>\n  <Sidebar />\n</SidebarProvider>",
+        "const SIDEBAR_KEYBOARD_SHORTCUT = \"b\""
+      ]
+    },
+    {
+      "variant": "Sidebar",
+      "code": [
+        "<SidebarProvider>\n  <Sidebar variant=\"inset\" />\n  <SidebarInset>\n    <main>{children}</main>\n  </SidebarInset>\n</SidebarProvider>"
+      ]
+    },
+    {
+      "variant": "useSidebar",
+      "code": [
+        "import { useSidebar } from \"@/components/ui/sidebar\"\n \nexport function AppSidebar() {\n  const {\n    state,\n    open,\n    setOpen,\n    openMobile,\n    setOpenMobile,\n    isMobile,\n    toggleSidebar,\n  } = useSidebar()\n}"
+      ]
+    },
+    {
+      "variant": "SidebarHeader",
+      "code": [
+        "<Sidebar>\n  <SidebarHeader>\n    <SidebarMenu>\n      <SidebarMenuItem>\n        <DropdownMenu>\n          <DropdownMenuTrigger render={<SidebarMenuButton />}>\n            Select Workspace\n            <ChevronDown className=\"ml-auto\" />\n          </DropdownMenuTrigger>\n          <DropdownMenuContent>\n            <DropdownMenuItem>\n              <span>Acme Inc</span>\n            </DropdownMenuItem>\n          </DropdownMenuContent>\n        </DropdownMenu>\n      </SidebarMenuItem>\n    </SidebarMenu>\n  </SidebarHeader>\n</Sidebar>"
+      ]
+    },
+    {
+      "variant": "SidebarFooter",
+      "code": [
+        "<Sidebar>\n  <SidebarFooter>\n    <SidebarMenu>\n      <SidebarMenuItem>\n        <SidebarMenuButton>\n          <User2 /> Username\n        </SidebarMenuButton>\n      </SidebarMenuItem>\n    </SidebarMenu>\n  </SidebarFooter>\n</Sidebar>"
+      ]
+    },
+    {
+      "variant": "SidebarContent",
+      "code": [
+        "<Sidebar>\n  <SidebarContent>\n    <SidebarGroup />\n    <SidebarGroup />\n  </SidebarContent>\n</Sidebar>"
+      ]
+    },
+    {
+      "variant": "SidebarGroup",
+      "code": [
+        "<SidebarGroup>\n  <SidebarGroupLabel>Application</SidebarGroupLabel>\n  <SidebarGroupAction>\n    <Plus /> <span className=\"sr-only\">Add Project</span>\n  </SidebarGroupAction>\n  <SidebarGroupContent></SidebarGroupContent>\n</SidebarGroup>",
+        "<Collapsible defaultOpen className=\"group/collapsible\">\n  <SidebarGroup>\n    <SidebarGroupLabel render={<CollapsibleTrigger />}>\n      Help\n      <ChevronDown className=\"ml-auto transition-transform group-data-open/collapsible:rotate-180\" />\n    </SidebarGroupLabel>\n    <CollapsibleContent>\n      <SidebarGroupContent />\n    </CollapsibleContent>\n  </SidebarGroup>\n</Collapsible>"
+      ]
+    },
+    {
+      "variant": "SidebarMenu",
+      "code": [
+        "<SidebarMenu>\n  {projects.map((project) => (\n    <SidebarMenuItem key={project.name}>\n      <SidebarMenuButton render={<a href={project.url} />}>\n        <project.icon />\n        <span>{project.name}</span>\n      </SidebarMenuButton>\n    </SidebarMenuItem>\n  ))}\n</SidebarMenu>"
+      ]
+    },
+    {
+      "variant": "SidebarMenuButton",
+      "code": [
+        "<SidebarMenuButton render={<a href=\"#\" />} isActive>\n  Home\n</SidebarMenuButton>"
+      ]
+    },
+    {
+      "variant": "SidebarMenuAction",
+      "code": [
+        "<SidebarMenuItem>\n  <SidebarMenuButton render={<a href=\"#\" />}>\n    <Home />\n    <span>Home</span>\n  </SidebarMenuButton>\n  <SidebarMenuAction>\n    <Plus /> <span className=\"sr-only\">Add Project</span>\n  </SidebarMenuAction>\n</SidebarMenuItem>"
+      ]
+    },
+    {
+      "variant": "SidebarMenuSub",
+      "code": [
+        "<SidebarMenuItem>\n  <SidebarMenuButton />\n  <SidebarMenuSub>\n    <SidebarMenuSubItem>\n      <SidebarMenuSubButton />\n    </SidebarMenuSubItem>\n  </SidebarMenuSub>\n</SidebarMenuItem>"
+      ]
+    },
+    {
+      "variant": "SidebarMenuBadge",
+      "code": [
+        "<SidebarMenuItem>\n  <SidebarMenuButton />\n  <SidebarMenuBadge>24</SidebarMenuBadge>\n</SidebarMenuItem>"
+      ]
+    },
+    {
+      "variant": "SidebarMenuSkeleton",
+      "code": [
+        "<SidebarMenu>\n  {Array.from({ length: 5 }).map((_, index) => (\n    <SidebarMenuItem key={index}>\n      <SidebarMenuSkeleton />\n    </SidebarMenuItem>\n  ))}\n</SidebarMenu>"
+      ]
+    },
+    {
+      "variant": "SidebarTrigger",
+      "code": [
+        "import { useSidebar } from \"@/components/ui/sidebar\"\n \nexport function CustomTrigger() {\n  const { toggleSidebar } = useSidebar()\n \n  return <button onClick={toggleSidebar}>Toggle Sidebar</button>\n}"
+      ]
+    },
+    {
+      "variant": "SidebarRail",
+      "code": [
+        "<Sidebar>\n  <SidebarHeader />\n  <SidebarContent>\n    <SidebarGroup />\n  </SidebarContent>\n  <SidebarFooter />\n  <SidebarRail />\n</Sidebar>"
+      ]
+    },
+    {
+      "variant": "Controlled Sidebar",
+      "code": [
+        "export function AppSidebar() {\n  const [open, setOpen] = React.useState(false)\n \n  return (\n    <SidebarProvider open={open} onOpenChange={setOpen}>\n      <Sidebar />\n    </SidebarProvider>\n  )\n}"
+      ]
+    },
+    {
+      "variant": "Theming",
+      "code": [
+        "@layer base {\n  :root {\n    --sidebar-background: 0 0% 98%;\n    --sidebar-foreground: 240 5.3% 26.1%;\n    --sidebar-primary: 240 5.9% 10%;\n    --sidebar-primary-foreground: 0 0% 98%;\n    --sidebar-accent: 240 4.8% 95.9%;\n    --sidebar-accent-foreground: 240 5.9% 10%;\n    --sidebar-border: 220 13% 91%;\n    --sidebar-ring: 217.2 91.2% 59.8%;\n  }\n \n  .dark {\n    --sidebar-background: 240 5.9% 10%;\n    --sidebar-foreground: 240 4.8% 95.9%;\n    --sidebar-primary: 0 0% 98%;\n    --sidebar-primary-foreground: 240 5.9% 10%;\n    --sidebar-accent: 240 3.7% 15.9%;\n    --sidebar-accent-foreground: 240 4.8% 95.9%;\n    --sidebar-border: 240 3.7% 15.9%;\n    --sidebar-ring: 217.2 91.2% 59.8%;\n  }\n}"
+      ]
+    },
+    {
+      "variant": "Styling",
+      "code": [
+        "<Sidebar collapsible=\"icon\">\n  <SidebarContent>\n    <SidebarGroup className=\"group-data-[collapsible=icon]:hidden\" />\n  </SidebarContent>\n</Sidebar>",
+        "<SidebarMenuItem>\n  <SidebarMenuButton />\n  <SidebarMenuAction className=\"peer-data-[active=true]/menu-button:opacity-100\" />\n</SidebarMenuItem>"
+      ]
+    },
+    {
+      "variant": "Changelog",
+      "code": [
+        "  function Sidebar({\n    side = \"left\",\n    variant = \"sidebar\",\n    collapsible = \"offcanvas\",\n    className,\n    children,\n+   dir,\n    ...props\n  }: React.ComponentProps<\"div\"> & {\n    side?: \"left\" | \"right\"\n    variant?: \"sidebar\" | \"floating\" | \"inset\"\n    collapsible?: \"offcanvas\" | \"icon\" | \"none\"\n  }) {",
+        "  <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>\n    <SheetContent\n+     dir={dir}\n      data-sidebar=\"sidebar\"\n      data-slot=\"sidebar\"\n      data-mobile=\"true\"",
+        "  <div\n    data-slot=\"sidebar-container\"\n+   data-side={side}\n    className={cn(",
+        "  className={cn(\n-   \"fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex\",\n-   side === \"left\"\n-     ? \"left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]\"\n-     : \"right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]\",\n+   \"fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex data-[side=left]:left-0 data-[side=right]:right-0 data-[side=left]:group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)] data-[side=right]:group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]\",",
+        "  className={cn(\n-   \"hover:after:bg-sidebar-border absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]:-end-4 group-data-[side=right]:start-0 after:absolute after:inset-y-0 after:start-1/2 after:w-[2px] sm:flex\",\n+   \"hover:after:bg-sidebar-border absolute inset-y-0 z-20 hidden w-4 ltr:-translate-x-1/2 rtl:-translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:start-1/2 after:w-[2px] sm:flex\",",
+        "  <Button ...>\n-   <PanelLeftIcon />\n+   <PanelLeftIcon className=\"rtl:rotate-180\" />\n    <span className=\"sr-only\">Toggle Sidebar</span>\n  </Button>",
+        "<Sidebar dir=\"rtl\" side=\"right\">\n  {/* ... */}\n</Sidebar>"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "name": "Input",
+  "description": "A text input component for forms and user data entry with built-in styling and accessibility features.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import { Input } from \"@/components/ui/input\"",
+        "<Input />"
+      ]
+    },
+    {
+      "variant": "Basic",
+      "code": [
+        "import { Input } from \"@/components/ui/input\"\n\nexport function InputBasic() {\n  return <Input placeholder=\"Enter text\" />\n}\n"
+      ]
+    },
+    {
+      "variant": "Field",
+      "code": [
+        "import {\n  Field,\n  FieldDescription,\n  FieldLabel,\n} from \"@/components/ui/field\"\nimport { Input } from \"@/components/ui/input\"\n\nexport function InputField() {\n  return (\n    <Field>\n      <FieldLabel htmlFor=\"input-field-username\">Username</FieldLabel>\n      <Input\n        id=\"input-field-username\"\n        type=\"text\"\n        placeholder=\"Enter your username\"\n      />\n      <FieldDescription>\n        Choose a unique username for your account.\n      </FieldDescription>\n    </Field>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Field Group",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\nimport {\n  Field,\n  FieldDescription,\n  FieldGroup,\n  FieldLabel,\n} from \"@/components/ui/field\"\nimport { Input } from \"@/components/ui/input\"\n\nexport function InputFieldgroup() {\n  return (\n    <FieldGroup>\n      <Field>\n        <FieldLabel htmlFor=\"fieldgroup-name\">Name</FieldLabel>\n        <Input id=\"fieldgroup-name\" placeholder=\"Jordan Lee\" />\n      </Field>\n      <Field>\n        <FieldLabel htmlFor=\"fieldgroup-email\">Email</FieldLabel>\n        <Input\n          id=\"fieldgroup-email\"\n          type=\"email\"\n          placeholder=\"name@example.com\"\n        />\n        <FieldDescription>\n          We&apos;ll send updates to this address.\n        </FieldDescription>\n      </Field>\n      <Field orientation=\"horizontal\">\n        <Button type=\"reset\" variant=\"outline\">\n          Reset\n        </Button>\n        <Button type=\"submit\">Submit</Button>\n      </Field>\n    </FieldGroup>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Disabled",
+      "code": [
+        "import {\n  Field,\n  FieldDescription,\n  FieldLabel,\n} from \"@/components/ui/field\"\nimport { Input } from \"@/components/ui/input\"\n\nexport function InputDisabled() {\n  return (\n    <Field data-disabled>\n      <FieldLabel htmlFor=\"input-demo-disabled\">Email</FieldLabel>\n      <Input\n        id=\"input-demo-disabled\"\n        type=\"email\"\n        placeholder=\"Email\"\n        disabled\n      />\n      <FieldDescription>This field is currently disabled.</FieldDescription>\n    </Field>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Invalid",
+      "code": [
+        "import {\n  Field,\n  FieldDescription,\n  FieldLabel,\n} from \"@/components/ui/field\"\nimport { Input } from \"@/components/ui/input\"\n\nexport function InputInvalid() {\n  return (\n    <Field data-invalid>\n      <FieldLabel htmlFor=\"input-invalid\">Invalid Input</FieldLabel>\n      <Input id=\"input-invalid\" placeholder=\"Error\" aria-invalid />\n      <FieldDescription>\n        This field contains validation errors.\n      </FieldDescription>\n    </Field>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "File",
+      "code": [
+        "import {\n  Field,\n  FieldDescription,\n  FieldLabel,\n} from \"@/components/ui/field\"\nimport { Input } from \"@/components/ui/input\"\n\nexport function InputFile() {\n  return (\n    <Field>\n      <FieldLabel htmlFor=\"picture\">Picture</FieldLabel>\n      <Input id=\"picture\" type=\"file\" />\n      <FieldDescription>Select a picture to upload.</FieldDescription>\n    </Field>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Inline",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\nimport { Field } from \"@/components/ui/field\"\nimport { Input } from \"@/components/ui/input\"\n\nexport function InputInline() {\n  return (\n    <Field orientation=\"horizontal\">\n      <Input type=\"search\" placeholder=\"Search...\" />\n      <Button>Search</Button>\n    </Field>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Grid",
+      "code": [
+        "import { Field, FieldGroup, FieldLabel } from \"@/components/ui/field\"\nimport { Input } from \"@/components/ui/input\"\n\nexport function InputGrid() {\n  return (\n    <FieldGroup className=\"grid max-w-sm grid-cols-2\">\n      <Field>\n        <FieldLabel htmlFor=\"first-name\">First Name</FieldLabel>\n        <Input id=\"first-name\" placeholder=\"Jordan\" />\n      </Field>\n      <Field>\n        <FieldLabel htmlFor=\"last-name\">Last Name</FieldLabel>\n        <Input id=\"last-name\" placeholder=\"Lee\" />\n      </Field>\n    </FieldGroup>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Required",
+      "code": [
+        "import {\n  Field,\n  FieldDescription,\n  FieldLabel,\n} from \"@/components/ui/field\"\nimport { Input } from \"@/components/ui/input\"\n\nexport function InputRequired() {\n  return (\n    <Field>\n      <FieldLabel htmlFor=\"input-required\">\n        Required Field <span className=\"text-destructive\">*</span>\n      </FieldLabel>\n      <Input\n        id=\"input-required\"\n        placeholder=\"This field is required\"\n        required\n      />\n      <FieldDescription>This field must be filled out.</FieldDescription>\n    </Field>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Badge",
+      "code": [
+        "import { Badge } from \"@/components/ui/badge\"\nimport { Field, FieldLabel } from \"@/components/ui/field\"\nimport { Input } from \"@/components/ui/input\"\n\nexport function InputBadge() {\n  return (\n    <Field>\n      <FieldLabel htmlFor=\"input-badge\">\n        Webhook URL{\" \"}\n        <Badge variant=\"secondary\" className=\"ml-auto\">\n          Beta\n        </Badge>\n      </FieldLabel>\n      <Input\n        id=\"input-badge\"\n        type=\"url\"\n        placeholder=\"https://api.example.com/webhook\"\n      />\n    </Field>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Input Group",
+      "code": [
+        "import { InfoIcon } from \"lucide-react\"\n\nimport { Field, FieldLabel } from \"@/components/ui/field\"\nimport {\n  InputGroup,\n  InputGroupAddon,\n  InputGroupInput,\n  InputGroupText,\n} from \"@/components/ui/input-group\"\n\nexport function InputInputGroup() {\n  return (\n    <Field>\n      <FieldLabel htmlFor=\"input-group-url\">Website URL</FieldLabel>\n      <InputGroup>\n        <InputGroupInput id=\"input-group-url\" placeholder=\"example.com\" />\n        <InputGroupAddon>\n          <InputGroupText>https://</InputGroupText>\n        </InputGroupAddon>\n        <InputGroupAddon align=\"inline-end\">\n          <InfoIcon />\n        </InputGroupAddon>\n      </InputGroup>\n    </Field>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Button Group",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\nimport { ButtonGroup } from \"@/components/ui/button-group\"\nimport { Field, FieldLabel } from \"@/components/ui/field\"\nimport { Input } from \"@/components/ui/input\"\n\nexport function InputButtonGroup() {\n  return (\n    <Field>\n      <FieldLabel htmlFor=\"input-button-group\">Search</FieldLabel>\n      <ButtonGroup>\n        <Input id=\"input-button-group\" placeholder=\"Type to search...\" />\n        <Button variant=\"outline\">Search</Button>\n      </ButtonGroup>\n    </Field>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Form",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\nimport {\n  Field,\n  FieldDescription,\n  FieldGroup,\n  FieldLabel,\n} from \"@/components/ui/field\"\nimport { Input } from \"@/components/ui/input\"\nimport {\n  Select,\n  SelectContent,\n  SelectGroup,\n  SelectItem,\n  SelectTrigger,\n  SelectValue,\n} from \"@/components/ui/select\"\n\nexport function InputForm() {\n  const countries = [\n    { label: \"United States\", value: \"us\" },\n    { label: \"United Kingdom\", value: \"uk\" },\n    { label: \"Canada\", value: \"ca\" },\n  ]\n  return (\n    <form className=\"w-full max-w-sm\">\n      <FieldGroup>\n        <Field>\n          <FieldLabel htmlFor=\"form-name\">Name</FieldLabel>\n          <Input\n            id=\"form-name\"\n            type=\"text\"\n            placeholder=\"Evil Rabbit\"\n            required\n          />\n        </Field>\n        <Field>\n          <FieldLabel htmlFor=\"form-email\">Email</FieldLabel>\n          <Input id=\"form-email\" type=\"email\" placeholder=\"john@example.com\" />\n          <FieldDescription>\n            We&apos;ll never share your email with anyone.\n          </FieldDescription>\n        </Field>\n        <div className=\"grid grid-cols-2 gap-4\">\n          <Field>\n            <FieldLabel htmlFor=\"form-phone\">Phone</FieldLabel>\n            <Input id=\"form-phone\" type=\"tel\" placeholder=\"+1 (555) 123-4567\" />\n          </Field>\n          <Field>\n            <FieldLabel htmlFor=\"form-country\">Country</FieldLabel>\n            <Select items={countries} defaultValue=\"us\">\n              <SelectTrigger id=\"form-country\">\n                <SelectValue />\n              </SelectTrigger>\n              <SelectContent>\n                <SelectGroup>\n                  {countries.map((country) => (\n                    <SelectItem key={country.value} value={country.value}>\n                      {country.label}\n                    </SelectItem>\n                  ))}\n                </SelectGroup>\n              </SelectContent>\n            </Select>\n          </Field>\n        </div>\n        <Field>\n          <FieldLabel htmlFor=\"form-address\">Address</FieldLabel>\n          <Input id=\"form-address\" type=\"text\" placeholder=\"123 Main St\" />\n        </Field>\n        <Field orientation=\"horizontal\">\n          <Button type=\"button\" variant=\"outline\">\n            Cancel\n          </Button>\n          <Button type=\"submit\">Submit</Button>\n        </Field>\n      </FieldGroup>\n    </form>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport {\n  Field,\n  FieldDescription,\n  FieldLabel,\n} from \"@/components/ui/field\"\nimport { Input } from \"@/components/ui/input\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {\n      apiKey: \"API Key\",\n      placeholder: \"sk-...\",\n      description: \"Your API key is encrypted and stored securely.\",\n    },\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {\n      apiKey: \"\u0645\u0641\u062a\u0627\u062d API\",\n      placeholder: \"sk-...\",\n      description: \"\u0645\u0641\u062a\u0627\u062d API \u0627\u0644\u062e\u0627\u0635 \u0628\u0643 \u0645\u0634\u0641\u0631 \u0648\u0645\u062e\u0632\u0646 \u0628\u0623\u0645\u0627\u0646.\",\n    },\n  },\n  he: {\n    dir: \"rtl\",\n    values: {\n      apiKey: \"\u05de\u05e4\u05ea\u05d7 API\",\n      placeholder: \"sk-...\",\n      description: \"\u05de\u05e4\u05ea\u05d7 \u05d4-API \u05e9\u05dc\u05da \u05de\u05d5\u05e6\u05e4\u05df \u05d5\u05e0\u05e9\u05de\u05e8 \u05d1\u05e6\u05d5\u05e8\u05d4 \u05de\u05d0\u05d5\u05d1\u05d8\u05d7\u05ea.\",\n    },\n  },\n}\n\nexport function InputRtl() {\n  const { dir, t } = useTranslation(translations, \"ar\")\n\n  return (\n    <Field dir={dir}>\n      <FieldLabel htmlFor=\"input-rtl-api-key\">{t.apiKey}</FieldLabel>\n      <Input\n        id=\"input-rtl-api-key\"\n        type=\"password\"\n        placeholder={t.placeholder}\n        dir={dir}\n      />\n      <FieldDescription>{t.description}</FieldDescription>\n    </Field>\n  )\n}\n"
+      ]
+    }
+  ]
+}

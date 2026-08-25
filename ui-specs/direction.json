@@ -1,0 +1,19 @@
+{
+  "name": "Direction",
+  "description": "A provider component that sets the text direction for your application.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import { DirectionProvider } from \"@/components/ui/direction\"",
+        "<html dir=\"rtl\">\n  <body>\n    <DirectionProvider direction=\"rtl\">\n      {/* Your app content */}\n    </DirectionProvider>\n  </body>\n</html>"
+      ]
+    },
+    {
+      "variant": "useDirection",
+      "code": [
+        "import { useDirection } from \"@/components/ui/direction\"\n \nfunction MyComponent() {\n  const direction = useDirection()\n  return <div>Current direction: {direction}</div>\n}"
+      ]
+    }
+  ]
+}

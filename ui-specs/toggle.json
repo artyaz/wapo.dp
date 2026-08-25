@@ -1,0 +1,43 @@
+{
+  "name": "Toggle",
+  "description": "A two-state button that can be either on or off.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import { Toggle } from \"@/components/ui/toggle\"",
+        "<Toggle>Toggle</Toggle>"
+      ]
+    },
+    {
+      "variant": "Outline",
+      "code": [
+        "import { BoldIcon, ItalicIcon } from \"lucide-react\"\n\nimport { Toggle } from \"@/components/ui/toggle\"\n\nexport function ToggleOutline() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-2\">\n      <Toggle variant=\"outline\" aria-label=\"Toggle italic\">\n        <ItalicIcon />\n        Italic\n      </Toggle>\n      <Toggle variant=\"outline\" aria-label=\"Toggle bold\">\n        <BoldIcon />\n        Bold\n      </Toggle>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "With Text",
+      "code": [
+        "import { ItalicIcon } from \"lucide-react\"\n\nimport { Toggle } from \"@/components/ui/toggle\"\n\nexport function ToggleText() {\n  return (\n    <Toggle aria-label=\"Toggle italic\">\n      <ItalicIcon />\n      Italic\n    </Toggle>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Size",
+      "code": [
+        "import { Toggle } from \"@/components/ui/toggle\"\n\nexport function ToggleSizes() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-2\">\n      <Toggle variant=\"outline\" aria-label=\"Toggle small\" size=\"sm\">\n        Small\n      </Toggle>\n      <Toggle variant=\"outline\" aria-label=\"Toggle default\" size=\"default\">\n        Default\n      </Toggle>\n      <Toggle variant=\"outline\" aria-label=\"Toggle large\" size=\"lg\">\n        Large\n      </Toggle>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Disabled",
+      "code": [
+        "import { Toggle } from \"@/components/ui/toggle\"\n\nexport function ToggleDisabled() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-2\">\n      <Toggle aria-label=\"Toggle disabled\" disabled>\n        Disabled\n      </Toggle>\n      <Toggle variant=\"outline\" aria-label=\"Toggle disabled outline\" disabled>\n        Disabled\n      </Toggle>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\nimport { BookmarkIcon } from \"lucide-react\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport { Toggle } from \"@/components/ui/toggle\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {\n      label: \"Bookmark\",\n    },\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {\n      label: \"\u0625\u0634\u0627\u0631\u0629 \u0645\u0631\u062c\u0639\u064a\u0629\",\n    },\n  },\n  he: {\n    dir: \"rtl\",\n    values: {\n      label: \"\u05e1\u05d9\u05de\u05e0\u05d9\u05d9\u05d4\",\n    },\n  },\n}\n\nexport function ToggleRtl() {\n  const { dir, t } = useTranslation(translations, \"ar\")\n\n  return (\n    <Toggle aria-label=\"Toggle bookmark\" size=\"sm\" variant=\"outline\" dir={dir}>\n      <BookmarkIcon className=\"group-aria-pressed/toggle:fill-foreground\" />\n      {t.label}\n    </Toggle>\n  )\n}\n"
+      ]
+    }
+  ]
+}

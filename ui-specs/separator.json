@@ -1,0 +1,37 @@
+{
+  "name": "Separator",
+  "description": "Visually or semantically separates content.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import { Separator } from \"@/components/ui/separator\"",
+        "<Separator />"
+      ]
+    },
+    {
+      "variant": "Vertical",
+      "code": [
+        "import { Separator } from \"@/components/ui/separator\"\n\nexport function SeparatorVertical() {\n  return (\n    <div className=\"flex h-5 items-center gap-4 text-sm\">\n      <div>Blog</div>\n      <Separator orientation=\"vertical\" />\n      <div>Docs</div>\n      <Separator orientation=\"vertical\" />\n      <div>Source</div>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Menu",
+      "code": [
+        "import { Separator } from \"@/components/ui/separator\"\n\nexport function SeparatorMenu() {\n  return (\n    <div className=\"flex items-center gap-2 text-sm md:gap-4\">\n      <div className=\"flex flex-col gap-1\">\n        <span className=\"font-medium\">Settings</span>\n        <span className=\"text-xs text-muted-foreground\">\n          Manage preferences\n        </span>\n      </div>\n      <Separator orientation=\"vertical\" />\n      <div className=\"flex flex-col gap-1\">\n        <span className=\"font-medium\">Account</span>\n        <span className=\"text-xs text-muted-foreground\">\n          Profile & security\n        </span>\n      </div>\n      <Separator orientation=\"vertical\" className=\"hidden md:block\" />\n      <div className=\"hidden flex-col gap-1 md:flex\">\n        <span className=\"font-medium\">Help</span>\n        <span className=\"text-xs text-muted-foreground\">Support & docs</span>\n      </div>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "List",
+      "code": [
+        "import { Separator } from \"@/components/ui/separator\"\n\nexport function SeparatorList() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-2 text-sm\">\n      <dl className=\"flex items-center justify-between\">\n        <dt>Item 1</dt>\n        <dd className=\"text-muted-foreground\">Value 1</dd>\n      </dl>\n      <Separator />\n      <dl className=\"flex items-center justify-between\">\n        <dt>Item 2</dt>\n        <dd className=\"text-muted-foreground\">Value 2</dd>\n      </dl>\n      <Separator />\n      <dl className=\"flex items-center justify-between\">\n        <dt>Item 3</dt>\n        <dd className=\"text-muted-foreground\">Value 3</dd>\n      </dl>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport { Separator } from \"@/components/ui/separator\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {\n      title: \"shadcn/ui\",\n      subtitle: \"The Foundation for your Design System\",\n      description:\n        \"A set of beautifully designed components that you can customize, extend, and build on.\",\n    },\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {\n      title: \"shadcn/ui\",\n      subtitle: \"\u0627\u0644\u0623\u0633\u0627\u0633 \u0644\u0646\u0638\u0627\u0645 \u0627\u0644\u062a\u0635\u0645\u064a\u0645 \u0627\u0644\u062e\u0627\u0635 \u0628\u0643\",\n      description:\n        \"\u0645\u062c\u0645\u0648\u0639\u0629 \u0645\u0646 \u0627\u0644\u0645\u0643\u0648\u0646\u0627\u062a \u0627\u0644\u0645\u0635\u0645\u0645\u0629 \u0628\u0634\u0643\u0644 \u062c\u0645\u064a\u0644 \u064a\u0645\u0643\u0646\u0643 \u062a\u062e\u0635\u064a\u0635\u0647\u0627 \u0648\u062a\u0648\u0633\u064a\u0639\u0647\u0627 \u0648\u0627\u0644\u0628\u0646\u0627\u0621 \u0639\u0644\u064a\u0647\u0627.\",\n    },\n  },\n  he: {\n    dir: \"rtl\",\n    values: {\n      title: \"shadcn/ui\",\n      subtitle: \"\u05d4\u05d1\u05e1\u05d9\u05e1 \u05dc\u05de\u05e2\u05e8\u05db\u05ea \u05d4\u05e2\u05d9\u05e6\u05d5\u05d1 \u05e9\u05dc\u05da\",\n      description:\n        \"\u05e1\u05d8 \u05e9\u05dc \u05e8\u05db\u05d9\u05d1\u05d9\u05dd \u05de\u05e2\u05d5\u05e6\u05d1\u05d9\u05dd \u05d1\u05e6\u05d5\u05e8\u05d4 \u05d9\u05e4\u05d4 \u05e9\u05d0\u05ea\u05d4 \u05d9\u05db\u05d5\u05dc \u05dc\u05d4\u05ea\u05d0\u05d9\u05dd \u05d0\u05d9\u05e9\u05d9\u05ea, \u05dc\u05d4\u05e8\u05d7\u05d9\u05d1 \u05d5\u05dc\u05d1\u05e0\u05d5\u05ea \u05e2\u05dc\u05d9\u05d4\u05dd.\",\n    },\n  },\n}\n\nexport function SeparatorRtl() {\n  const { dir, t } = useTranslation(translations, \"ar\")\n\n  return (\n    <div className=\"flex max-w-sm flex-col gap-4 text-sm\" dir={dir}>\n      <div className=\"flex flex-col gap-1.5\">\n        <div className=\"leading-none font-medium\">{t.title}</div>\n        <div className=\"text-muted-foreground\">{t.subtitle}</div>\n      </div>\n      <Separator />\n      <div>{t.description}</div>\n    </div>\n  )\n}\n"
+      ]
+    }
+  ]
+}

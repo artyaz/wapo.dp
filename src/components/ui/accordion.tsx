@@ -6,10 +6,69 @@ import { ChevronDownIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+type AccordionProps = Omit<
+  React.ComponentProps<typeof AccordionPrimitive.Root>,
+  "type" | "defaultValue" | "value" | "onValueChange"
+> & {
+  /**
+   * Base-UI-style API: pass to allow multiple items open at once.
+   * The mode is also inferred automatically when `defaultValue`/`value`
+   * is an array.
+   */
+  multiple?: boolean
+  /** Radix-style API. Inferred from `multiple`/`defaultValue` when omitted. */
+  type?: "single" | "multiple"
+  /** Single mode: allow the open item to be collapsed (defaults to true). */
+  collapsible?: boolean
+  defaultValue?: string | string[]
+  value?: string | string[]
+  onValueChange?: (value: string | string[]) => void
+}
+
+function toArray(value: string | string[] | undefined) {
+  if (value === undefined) return undefined
+  return Array.isArray(value) ? value : [value]
+}
+
 function Accordion({
+  multiple,
+  type,
+  collapsible,
+  defaultValue,
+  value,
+  onValueChange,
   ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Root>) {
-  return <AccordionPrimitive.Root data-slot="accordion" {...props} />
+}: AccordionProps) {
+  const isMultiple =
+    multiple ||
+    type === "multiple" ||
+    Array.isArray(defaultValue) ||
+    Array.isArray(value)
+
+  if (isMultiple) {
+    return (
+      <AccordionPrimitive.Root
+        data-slot="accordion"
+        type="multiple"
+        defaultValue={toArray(defaultValue)}
+        value={toArray(value)}
+        onValueChange={onValueChange as ((value: string[]) => void) | undefined}
+        {...props}
+      />
+    )
+  }
+
+  return (
+    <AccordionPrimitive.Root
+      data-slot="accordion"
+      type="single"
+      collapsible={collapsible ?? true}
+      defaultValue={Array.isArray(defaultValue) ? defaultValue[0] : defaultValue}
+      value={Array.isArray(value) ? value[0] : value}
+      onValueChange={onValueChange as ((value: string) => void) | undefined}
+      {...props}
+    />
+  )
 }
 
 function AccordionItem({

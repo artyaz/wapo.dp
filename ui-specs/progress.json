@@ -1,0 +1,38 @@
+{
+  "name": "Progress",
+  "description": "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import { Progress } from \"@/components/ui/progress\"",
+        "<Progress value={33} />"
+      ]
+    },
+    {
+      "variant": "Composition",
+      "code": [
+        "import {\n  Progress,\n  ProgressLabel,\n  ProgressValue,\n} from \"@/components/ui/progress\"\n \n;<Progress value={56} className=\"w-full max-w-sm\">\n  <ProgressLabel>Upload progress</ProgressLabel>\n  <ProgressValue />\n</Progress>",
+        "Progress\n\u251c\u2500\u2500 ProgressLabel\n\u251c\u2500\u2500 ProgressValue\n\u2514\u2500\u2500 ProgressTrack\n    \u2514\u2500\u2500 ProgressIndicator"
+      ]
+    },
+    {
+      "variant": "Label",
+      "code": [
+        "import {\n  Progress,\n  ProgressLabel,\n  ProgressValue,\n} from \"@/components/ui/progress\"\n\nexport function ProgressWithLabel() {\n  return (\n    <Progress value={56} className=\"w-full max-w-sm\">\n      <ProgressLabel>Upload progress</ProgressLabel>\n      <ProgressValue />\n    </Progress>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Controlled",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Progress } from \"@/components/ui/progress\"\nimport { Slider } from \"@/components/ui/slider\"\n\nexport function ProgressControlled() {\n  const [value, setValue] = React.useState(50)\n\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-4\">\n      <Progress value={value} className=\"w-full\" />\n      <Slider\n        value={value}\n        onValueChange={(value) => setValue(value as number)}\n        min={0}\n        max={100}\n        step={1}\n      />\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport {\n  Progress,\n  ProgressLabel,\n  ProgressValue,\n} from \"@/components/ui/progress\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {\n      label: \"Upload progress\",\n    },\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {\n      label: \"\u062a\u0642\u062f\u0645 \u0627\u0644\u0631\u0641\u0639\",\n    },\n  },\n  he: {\n    dir: \"rtl\",\n    values: {\n      label: \"\u05d4\u05ea\u05e7\u05d3\u05de\u05d5\u05ea \u05d4\u05e2\u05dc\u05d0\u05d4\",\n    },\n  },\n}\n\nfunction toArabicNumerals(num: number): string {\n  const arabicNumerals = [\"\u0660\", \"\u0661\", \"\u0662\", \"\u0663\", \"\u0664\", \"\u0665\", \"\u0666\", \"\u0667\", \"\u0668\", \"\u0669\"]\n  return num\n    .toString()\n    .split(\"\")\n    .map((digit) => arabicNumerals[parseInt(digit, 10)])\n    .join(\"\")\n}\n\nexport function ProgressRtl() {\n  const { dir, t, language } = useTranslation(translations, \"ar\")\n\n  const formatNumber = (num: number): string => {\n    if (language === \"ar\") {\n      return toArabicNumerals(num)\n    }\n    return num.toString()\n  }\n\n  return (\n    <Progress value={56} className=\"w-full max-w-sm\" dir={dir}>\n      <ProgressLabel>{t.label}</ProgressLabel>\n      <ProgressValue>\n        {(value) => (\n          <span className=\"ms-auto\">\n            {formatNumber(parseFloat(value ?? \"0\"))}%\n          </span>\n        )}\n      </ProgressValue>\n    </Progress>\n  )\n}\n"
+      ]
+    }
+  ]
+}

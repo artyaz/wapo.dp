@@ -1,0 +1,55 @@
+{
+  "name": "Breadcrumb",
+  "description": "Displays the path to the current resource using a hierarchy of links.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import {\n  Breadcrumb,\n  BreadcrumbItem,\n  BreadcrumbLink,\n  BreadcrumbList,\n  BreadcrumbPage,\n  BreadcrumbSeparator,\n} from \"@/components/ui/breadcrumb\"",
+        "<Breadcrumb>\n  <BreadcrumbList>\n    <BreadcrumbItem>\n      <BreadcrumbLink render={<a href=\"/\" />}>Home</BreadcrumbLink>\n    </BreadcrumbItem>\n    <BreadcrumbSeparator />\n    <BreadcrumbItem>\n      <BreadcrumbLink render={<a href=\"/components\" />}>\n        Components\n      </BreadcrumbLink>\n    </BreadcrumbItem>\n    <BreadcrumbSeparator />\n    <BreadcrumbItem>\n      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>\n    </BreadcrumbItem>\n  </BreadcrumbList>\n</Breadcrumb>"
+      ]
+    },
+    {
+      "variant": "Composition",
+      "code": [
+        "Breadcrumb\n\u2514\u2500\u2500 BreadcrumbList\n    \u251c\u2500\u2500 BreadcrumbItem\n    \u2502   \u2514\u2500\u2500 BreadcrumbLink\n    \u251c\u2500\u2500 BreadcrumbSeparator\n    \u251c\u2500\u2500 BreadcrumbItem\n    \u2502   \u2514\u2500\u2500 BreadcrumbLink\n    \u251c\u2500\u2500 BreadcrumbSeparator\n    \u2514\u2500\u2500 BreadcrumbItem\n        \u2514\u2500\u2500 BreadcrumbPage"
+      ]
+    },
+    {
+      "variant": "Basic",
+      "code": [
+        "import {\n  Breadcrumb,\n  BreadcrumbItem,\n  BreadcrumbLink,\n  BreadcrumbList,\n  BreadcrumbPage,\n  BreadcrumbSeparator,\n} from \"@/components/ui/breadcrumb\"\n\nexport function BreadcrumbBasic() {\n  return (\n    <Breadcrumb>\n      <BreadcrumbList>\n        <BreadcrumbItem>\n          <BreadcrumbLink href=\"#\">Home</BreadcrumbLink>\n        </BreadcrumbItem>\n        <BreadcrumbSeparator />\n        <BreadcrumbItem>\n          <BreadcrumbLink href=\"#\">Components</BreadcrumbLink>\n        </BreadcrumbItem>\n        <BreadcrumbSeparator />\n        <BreadcrumbItem>\n          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>\n        </BreadcrumbItem>\n      </BreadcrumbList>\n    </Breadcrumb>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Custom separator",
+      "code": [
+        "import Link from \"next/link\"\nimport { DotIcon } from \"lucide-react\"\n\nimport {\n  Breadcrumb,\n  BreadcrumbItem,\n  BreadcrumbLink,\n  BreadcrumbList,\n  BreadcrumbPage,\n  BreadcrumbSeparator,\n} from \"@/components/ui/breadcrumb\"\n\nexport function BreadcrumbSeparatorDemo() {\n  return (\n    <Breadcrumb>\n      <BreadcrumbList>\n        <BreadcrumbItem>\n          <BreadcrumbLink render={<Link href=\"/\">Home</Link>} />\n        </BreadcrumbItem>\n        <BreadcrumbSeparator>\n          <DotIcon />\n        </BreadcrumbSeparator>\n        <BreadcrumbItem>\n          <BreadcrumbLink render={<Link href=\"/components\">Components</Link>} />\n        </BreadcrumbItem>\n        <BreadcrumbSeparator>\n          <DotIcon />\n        </BreadcrumbSeparator>\n        <BreadcrumbItem>\n          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>\n        </BreadcrumbItem>\n      </BreadcrumbList>\n    </Breadcrumb>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Dropdown",
+      "code": [
+        "import Link from \"next/link\"\nimport { ChevronDownIcon, DotIcon } from \"lucide-react\"\n\nimport {\n  Breadcrumb,\n  BreadcrumbItem,\n  BreadcrumbLink,\n  BreadcrumbList,\n  BreadcrumbPage,\n  BreadcrumbSeparator,\n} from \"@/components/ui/breadcrumb\"\nimport {\n  DropdownMenu,\n  DropdownMenuContent,\n  DropdownMenuGroup,\n  DropdownMenuItem,\n  DropdownMenuTrigger,\n} from \"@/components/ui/dropdown-menu\"\n\nexport function BreadcrumbDropdown() {\n  return (\n    <Breadcrumb>\n      <BreadcrumbList>\n        <BreadcrumbItem>\n          <BreadcrumbLink render={<Link href=\"/\">Home</Link>} />\n        </BreadcrumbItem>\n        <BreadcrumbSeparator>\n          <DotIcon />\n        </BreadcrumbSeparator>\n        <BreadcrumbItem>\n          <DropdownMenu>\n            <DropdownMenuTrigger render={<button className=\"flex items-center gap-1\">Components\n              <ChevronDownIcon data-icon=\"inline-end\" className=\"size-3.5\" /></button>} />\n            <DropdownMenuContent align=\"start\">\n              <DropdownMenuGroup>\n                <DropdownMenuItem>Documentation</DropdownMenuItem>\n                <DropdownMenuItem>Themes</DropdownMenuItem>\n                <DropdownMenuItem>GitHub</DropdownMenuItem>\n              </DropdownMenuGroup>\n            </DropdownMenuContent>\n          </DropdownMenu>\n        </BreadcrumbItem>\n        <BreadcrumbSeparator>\n          <DotIcon />\n        </BreadcrumbSeparator>\n        <BreadcrumbItem>\n          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>\n        </BreadcrumbItem>\n      </BreadcrumbList>\n    </Breadcrumb>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Collapsed",
+      "code": [
+        "import Link from \"next/link\"\n\nimport {\n  Breadcrumb,\n  BreadcrumbEllipsis,\n  BreadcrumbItem,\n  BreadcrumbLink,\n  BreadcrumbList,\n  BreadcrumbPage,\n  BreadcrumbSeparator,\n} from \"@/components/ui/breadcrumb\"\n\nexport function BreadcrumbEllipsisDemo() {\n  return (\n    <Breadcrumb>\n      <BreadcrumbList>\n        <BreadcrumbItem>\n          <BreadcrumbLink render={<Link href=\"/\">Home</Link>} />\n        </BreadcrumbItem>\n        <BreadcrumbSeparator />\n        <BreadcrumbItem>\n          <BreadcrumbEllipsis />\n        </BreadcrumbItem>\n        <BreadcrumbSeparator />\n        <BreadcrumbItem>\n          <BreadcrumbLink render={<Link href=\"/docs/components\">Components</Link>} />\n        </BreadcrumbItem>\n        <BreadcrumbSeparator />\n        <BreadcrumbItem>\n          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>\n        </BreadcrumbItem>\n      </BreadcrumbList>\n    </Breadcrumb>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Link component",
+      "code": [
+        "import Link from \"next/link\"\n\nimport {\n  Breadcrumb,\n  BreadcrumbItem,\n  BreadcrumbLink,\n  BreadcrumbList,\n  BreadcrumbPage,\n  BreadcrumbSeparator,\n} from \"@/components/ui/breadcrumb\"\n\nexport function BreadcrumbLinkDemo() {\n  return (\n    <Breadcrumb>\n      <BreadcrumbList>\n        <BreadcrumbItem>\n          <BreadcrumbLink render={<Link href=\"#link-component\">Home</Link>} />\n        </BreadcrumbItem>\n        <BreadcrumbSeparator />\n        <BreadcrumbItem>\n          <BreadcrumbLink render={<Link href=\"#link-component\">Components</Link>} />\n        </BreadcrumbItem>\n        <BreadcrumbSeparator />\n        <BreadcrumbItem>\n          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>\n        </BreadcrumbItem>\n      </BreadcrumbList>\n    </Breadcrumb>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport Link from \"next/link\"\nimport { ChevronDownIcon, DotIcon } from \"lucide-react\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport {\n  Breadcrumb,\n  BreadcrumbItem,\n  BreadcrumbLink,\n  BreadcrumbList,\n  BreadcrumbPage,\n  BreadcrumbSeparator,\n} from \"@/components/ui/breadcrumb\"\nimport {\n  DropdownMenu,\n  DropdownMenuContent,\n  DropdownMenuGroup,\n  DropdownMenuItem,\n  DropdownMenuTrigger,\n} from \"@/components/ui/dropdown-menu\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {\n      home: \"Home\",\n      components: \"Components\",\n      documentation: \"Documentation\",\n      themes: \"Themes\",\n      github: \"GitHub\",\n      breadcrumb: \"Breadcrumb\",\n    },\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {\n      home: \"\u0627\u0644\u0631\u0626\u064a\u0633\u064a\u0629\",\n      components: \"\u0627\u0644\u0645\u0643\u0648\u0646\u0627\u062a\",\n      documentation: \"\u0627\u0644\u062a\u0648\u062b\u064a\u0642\",\n      themes: \"\u0627\u0644\u0633\u0645\u0627\u062a\",\n      github: \"\u062c\u064a\u062a \u0647\u0627\u0628\",\n      breadcrumb: \"\u0645\u0633\u0627\u0631 \u0627\u0644\u062a\u0646\u0642\u0644\",\n    },\n  },\n  he: {\n    dir: \"rtl\",\n    values: {\n      home: \"\u05d1\u05d9\u05ea\",\n      components: \"\u05e8\u05db\u05d9\u05d1\u05d9\u05dd\",\n      documentation: \"\u05ea\u05d9\u05e2\u05d5\u05d3\",\n      themes: \"\u05e2\u05e8\u05db\u05d5\u05ea \u05e0\u05d5\u05e9\u05d0\",\n      github: \"\u05d2\u05d9\u05d8\u05d4\u05d0\u05d1\",\n      breadcrumb: \"\u05e4\u05d9\u05e8\u05d5\u05e8\u05d9 \u05dc\u05d7\u05dd\",\n    },\n  },\n}\n\nexport function BreadcrumbRtl() {\n  const { dir, t, language } = useTranslation(translations, \"ar\")\n\n  return (\n    <Breadcrumb dir={dir}>\n      <BreadcrumbList>\n        <BreadcrumbItem>\n          <BreadcrumbLink render={<Link href=\"/\">{t.home}</Link>} />\n        </BreadcrumbItem>\n        <BreadcrumbSeparator>\n          <DotIcon />\n        </BreadcrumbSeparator>\n        <BreadcrumbItem>\n          <DropdownMenu>\n            <DropdownMenuTrigger render={<button className=\"flex items-center gap-1\">{t.components}<ChevronDownIcon data-icon=\"inline-end\" className=\"size-3.5\" /></button>} />\n            <DropdownMenuContent\n              align={dir === \"rtl\" ? \"end\" : \"start\"}\n              data-lang={dir === \"rtl\" ? language : undefined}\n              dir={dir}\n            >\n              <DropdownMenuGroup>\n                <DropdownMenuItem>{t.documentation}</DropdownMenuItem>\n                <DropdownMenuItem>{t.themes}</DropdownMenuItem>\n                <DropdownMenuItem>{t.github}</DropdownMenuItem>\n              </DropdownMenuGroup>\n            </DropdownMenuContent>\n          </DropdownMenu>\n        </BreadcrumbItem>\n        <BreadcrumbSeparator>\n          <DotIcon />\n        </BreadcrumbSeparator>\n        <BreadcrumbItem>\n          <BreadcrumbPage>{t.breadcrumb}</BreadcrumbPage>\n        </BreadcrumbItem>\n      </BreadcrumbList>\n    </Breadcrumb>\n  )\n}\n"
+      ]
+    }
+  ]
+}

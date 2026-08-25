@@ -1,0 +1,49 @@
+{
+  "name": "Skeleton",
+  "description": "Use to show a placeholder while content is loading.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import { Skeleton } from \"@/components/ui/skeleton\"",
+        "<Skeleton className=\"h-[20px] w-[100px] rounded-full\" />"
+      ]
+    },
+    {
+      "variant": "Avatar",
+      "code": [
+        "import { Skeleton } from \"@/components/ui/skeleton\"\n\nexport function SkeletonAvatar() {\n  return (\n    <div className=\"flex w-fit items-center gap-4\">\n      <Skeleton className=\"size-10 shrink-0 rounded-full\" />\n      <div className=\"grid gap-2\">\n        <Skeleton className=\"h-4 w-[150px]\" />\n        <Skeleton className=\"h-4 w-[100px]\" />\n      </div>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Card",
+      "code": [
+        "import { Card, CardContent, CardHeader } from \"@/components/ui/card\"\nimport { Skeleton } from \"@/components/ui/skeleton\"\n\nexport function SkeletonCard() {\n  return (\n    <Card className=\"w-full max-w-xs\">\n      <CardHeader>\n        <Skeleton className=\"h-4 w-2/3\" />\n        <Skeleton className=\"h-4 w-1/2\" />\n      </CardHeader>\n      <CardContent>\n        <Skeleton className=\"aspect-video w-full\" />\n      </CardContent>\n    </Card>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Text",
+      "code": [
+        "import { Skeleton } from \"@/components/ui/skeleton\"\n\nexport function SkeletonText() {\n  return (\n    <div className=\"flex w-full max-w-xs flex-col gap-2\">\n      <Skeleton className=\"h-4 w-full\" />\n      <Skeleton className=\"h-4 w-full\" />\n      <Skeleton className=\"h-4 w-3/4\" />\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Form",
+      "code": [
+        "import { Skeleton } from \"@/components/ui/skeleton\"\n\nexport function SkeletonForm() {\n  return (\n    <div className=\"flex w-full max-w-xs flex-col gap-7\">\n      <div className=\"flex flex-col gap-3\">\n        <Skeleton className=\"h-4 w-20\" />\n        <Skeleton className=\"h-8 w-full\" />\n      </div>\n      <div className=\"flex flex-col gap-3\">\n        <Skeleton className=\"h-4 w-24\" />\n        <Skeleton className=\"h-8 w-full\" />\n      </div>\n      <Skeleton className=\"h-8 w-24\" />\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Table",
+      "code": [
+        "import { Skeleton } from \"@/components/ui/skeleton\"\n\nexport function SkeletonTable() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-2\">\n      {Array.from({ length: 5 }).map((_, index) => (\n        <div className=\"flex gap-4\" key={index}>\n          <Skeleton className=\"h-4 flex-1\" />\n          <Skeleton className=\"h-4 w-24\" />\n          <Skeleton className=\"h-4 w-20\" />\n        </div>\n      ))}\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport { Skeleton } from \"@/components/ui/skeleton\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {},\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {},\n  },\n  he: {\n    dir: \"rtl\",\n    values: {},\n  },\n}\n\nexport function SkeletonRtl() {\n  const { dir } = useTranslation(translations, \"ar\")\n\n  return (\n    <div className=\"flex items-center gap-4\" dir={dir}>\n      <Skeleton className=\"h-12 w-12 rounded-full\" />\n      <div className=\"space-y-2\">\n        <Skeleton className=\"h-4 w-[250px]\" />\n        <Skeleton className=\"h-4 w-[200px]\" />\n      </div>\n    </div>\n  )\n}\n"
+      ]
+    }
+  ]
+}

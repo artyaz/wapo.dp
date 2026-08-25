@@ -1,0 +1,75 @@
+{
+  "name": "Avatar",
+  "description": "An image element with a fallback for representing the user.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\"",
+        "<Avatar>\n  <AvatarImage src=\"https://github.com/shadcn.png\" />\n  <AvatarFallback>CN</AvatarFallback>\n</Avatar>"
+      ]
+    },
+    {
+      "variant": "Composition",
+      "code": [
+        "Avatar\n\u251c\u2500\u2500 AvatarImage\n\u251c\u2500\u2500 AvatarFallback\n\u2514\u2500\u2500 AvatarBadge",
+        "AvatarGroup\n\u251c\u2500\u2500 Avatar\n\u2502   \u251c\u2500\u2500 AvatarImage\n\u2502   \u251c\u2500\u2500 AvatarFallback\n\u2502   \u2514\u2500\u2500 AvatarBadge\n\u251c\u2500\u2500 Avatar\n\u2502   \u251c\u2500\u2500 AvatarImage\n\u2502   \u251c\u2500\u2500 AvatarFallback\n\u2502   \u2514\u2500\u2500 AvatarBadge\n\u2514\u2500\u2500 AvatarGroupCount"
+      ]
+    },
+    {
+      "variant": "Basic",
+      "code": [
+        "import {\n  Avatar,\n  AvatarFallback,\n  AvatarImage,\n} from \"@/components/ui/avatar\"\n\nexport function AvatarDemo() {\n  return (\n    <Avatar>\n      <AvatarImage\n        src=\"https://github.com/shadcn.png\"\n        alt=\"@shadcn\"\n        className=\"grayscale\"\n      />\n      <AvatarFallback>CN</AvatarFallback>\n    </Avatar>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Badge",
+      "code": [
+        "import {\n  Avatar,\n  AvatarBadge,\n  AvatarFallback,\n  AvatarImage,\n} from \"@/components/ui/avatar\"\n\nexport function AvatarWithBadge() {\n  return (\n    <Avatar>\n      <AvatarImage src=\"https://github.com/shadcn.png\" alt=\"@shadcn\" />\n      <AvatarFallback>CN</AvatarFallback>\n      <AvatarBadge className=\"bg-green-600 dark:bg-green-800\" />\n    </Avatar>\n  )\n}\n",
+        "<Avatar>\n  <AvatarImage src=\"https://github.com/shadcn.png\" alt=\"@shadcn\" />\n  <AvatarFallback>CN</AvatarFallback>\n  <AvatarBadge className=\"bg-green-600 dark:bg-green-800\" />\n</Avatar>"
+      ]
+    },
+    {
+      "variant": "Badge with Icon",
+      "code": [
+        "import { PlusIcon } from \"lucide-react\"\n\nimport {\n  Avatar,\n  AvatarBadge,\n  AvatarFallback,\n  AvatarImage,\n} from \"@/components/ui/avatar\"\n\nexport function AvatarBadgeIconExample() {\n  return (\n    <Avatar className=\"grayscale\">\n      <AvatarImage src=\"https://github.com/pranathip.png\" alt=\"@pranathip\" />\n      <AvatarFallback>PP</AvatarFallback>\n      <AvatarBadge>\n        <PlusIcon />\n      </AvatarBadge>\n    </Avatar>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Avatar Group",
+      "code": [
+        "import {\n  Avatar,\n  AvatarFallback,\n  AvatarGroup,\n  AvatarImage,\n} from \"@/components/ui/avatar\"\n\nexport function AvatarGroupExample() {\n  return (\n    <AvatarGroup className=\"grayscale\">\n      <Avatar>\n        <AvatarImage src=\"https://github.com/shadcn.png\" alt=\"@shadcn\" />\n        <AvatarFallback>CN</AvatarFallback>\n      </Avatar>\n      <Avatar>\n        <AvatarImage src=\"https://github.com/maxleiter.png\" alt=\"@maxleiter\" />\n        <AvatarFallback>LR</AvatarFallback>\n      </Avatar>\n      <Avatar>\n        <AvatarImage\n          src=\"https://github.com/evilrabbit.png\"\n          alt=\"@evilrabbit\"\n        />\n        <AvatarFallback>ER</AvatarFallback>\n      </Avatar>\n    </AvatarGroup>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Avatar Group Count",
+      "code": [
+        "import {\n  Avatar,\n  AvatarFallback,\n  AvatarGroup,\n  AvatarGroupCount,\n  AvatarImage,\n} from \"@/components/ui/avatar\"\n\nexport function AvatarGroupCountExample() {\n  return (\n    <AvatarGroup className=\"grayscale\">\n      <Avatar>\n        <AvatarImage src=\"https://github.com/shadcn.png\" alt=\"@shadcn\" />\n        <AvatarFallback>CN</AvatarFallback>\n      </Avatar>\n      <Avatar>\n        <AvatarImage src=\"https://github.com/maxleiter.png\" alt=\"@maxleiter\" />\n        <AvatarFallback>LR</AvatarFallback>\n      </Avatar>\n      <Avatar>\n        <AvatarImage\n          src=\"https://github.com/evilrabbit.png\"\n          alt=\"@evilrabbit\"\n        />\n        <AvatarFallback>ER</AvatarFallback>\n      </Avatar>\n      <AvatarGroupCount>+3</AvatarGroupCount>\n    </AvatarGroup>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Avatar Group with Icon",
+      "code": [
+        "import { PlusIcon } from \"lucide-react\"\n\nimport {\n  Avatar,\n  AvatarFallback,\n  AvatarGroup,\n  AvatarGroupCount,\n  AvatarImage,\n} from \"@/components/ui/avatar\"\n\nexport function AvatarGroupCountIconExample() {\n  return (\n    <AvatarGroup className=\"grayscale\">\n      <Avatar>\n        <AvatarImage src=\"https://github.com/shadcn.png\" alt=\"@shadcn\" />\n        <AvatarFallback>CN</AvatarFallback>\n      </Avatar>\n      <Avatar>\n        <AvatarImage src=\"https://github.com/maxleiter.png\" alt=\"@maxleiter\" />\n        <AvatarFallback>LR</AvatarFallback>\n      </Avatar>\n      <Avatar>\n        <AvatarImage\n          src=\"https://github.com/evilrabbit.png\"\n          alt=\"@evilrabbit\"\n        />\n        <AvatarFallback>ER</AvatarFallback>\n      </Avatar>\n      <AvatarGroupCount>\n        <PlusIcon />\n      </AvatarGroupCount>\n    </AvatarGroup>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Sizes",
+      "code": [
+        "import {\n  Avatar,\n  AvatarFallback,\n  AvatarImage,\n} from \"@/components/ui/avatar\"\n\nexport function AvatarSizeExample() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-2 grayscale\">\n      <Avatar size=\"sm\">\n        <AvatarImage src=\"https://github.com/shadcn.png\" alt=\"@shadcn\" />\n        <AvatarFallback>CN</AvatarFallback>\n      </Avatar>\n      <Avatar>\n        <AvatarImage src=\"https://github.com/shadcn.png\" alt=\"@shadcn\" />\n        <AvatarFallback>CN</AvatarFallback>\n      </Avatar>\n      <Avatar size=\"lg\">\n        <AvatarImage src=\"https://github.com/shadcn.png\" alt=\"@shadcn\" />\n        <AvatarFallback>CN</AvatarFallback>\n      </Avatar>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Dropdown",
+      "code": [
+        "\"use client\"\n\nimport {\n  Avatar,\n  AvatarFallback,\n  AvatarImage,\n} from \"@/components/ui/avatar\"\nimport { Button } from \"@/components/ui/button\"\nimport {\n  DropdownMenu,\n  DropdownMenuContent,\n  DropdownMenuGroup,\n  DropdownMenuItem,\n  DropdownMenuSeparator,\n  DropdownMenuTrigger,\n} from \"@/components/ui/dropdown-menu\"\n\nexport function AvatarDropdown() {\n  return (\n    <DropdownMenu>\n      <DropdownMenuTrigger render={<Button variant=\"ghost\" size=\"icon\" className=\"rounded-full\"><Avatar>\n          <AvatarImage src=\"https://github.com/shadcn.png\" alt=\"shadcn\" />\n          <AvatarFallback>CN</AvatarFallback>\n        </Avatar></Button>} />\n      <DropdownMenuContent className=\"w-32\">\n        <DropdownMenuGroup>\n          <DropdownMenuItem>Profile</DropdownMenuItem>\n          <DropdownMenuItem>Billing</DropdownMenuItem>\n          <DropdownMenuItem>Settings</DropdownMenuItem>\n        </DropdownMenuGroup>\n        <DropdownMenuSeparator />\n        <DropdownMenuGroup>\n          <DropdownMenuItem variant=\"destructive\">Log out</DropdownMenuItem>\n        </DropdownMenuGroup>\n      </DropdownMenuContent>\n    </DropdownMenu>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport {\n  Avatar,\n  AvatarBadge,\n  AvatarFallback,\n  AvatarGroup,\n  AvatarGroupCount,\n  AvatarImage,\n} from \"@/components/ui/avatar\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {\n      moreUsers: \"+3\",\n    },\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {\n      moreUsers: \"+\u0663\",\n    },\n  },\n  he: {\n    dir: \"rtl\",\n    values: {\n      moreUsers: \"+3\",\n    },\n  },\n}\n\nexport function AvatarRtl() {\n  const { dir, t } = useTranslation(translations, \"ar\")\n\n  return (\n    <div\n      className=\"flex flex-row flex-wrap items-center gap-6 md:gap-12\"\n      dir={dir}\n    >\n      <Avatar>\n        <AvatarImage\n          src=\"https://github.com/shadcn.png\"\n          alt=\"@shadcn\"\n          className=\"grayscale\"\n        />\n        <AvatarFallback>CN</AvatarFallback>\n      </Avatar>\n      <Avatar>\n        <AvatarImage\n          src=\"https://github.com/evilrabbit.png\"\n          alt=\"@evilrabbit\"\n        />\n        <AvatarFallback>ER</AvatarFallback>\n        <AvatarBadge className=\"bg-green-600 dark:bg-green-800\" />\n      </Avatar>\n      <AvatarGroup className=\"grayscale\">\n        <Avatar>\n          <AvatarImage src=\"https://github.com/shadcn.png\" alt=\"@shadcn\" />\n          <AvatarFallback>CN</AvatarFallback>\n        </Avatar>\n        <Avatar>\n          <AvatarImage\n            src=\"https://github.com/maxleiter.png\"\n            alt=\"@maxleiter\"\n          />\n          <AvatarFallback>LR</AvatarFallback>\n        </Avatar>\n        <Avatar>\n          <AvatarImage\n            src=\"https://github.com/evilrabbit.png\"\n            alt=\"@evilrabbit\"\n          />\n          <AvatarFallback>ER</AvatarFallback>\n        </Avatar>\n        <AvatarGroupCount>{t.moreUsers}</AvatarGroupCount>\n      </AvatarGroup>\n    </div>\n  )\n}\n"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "name": "Typography",
+  "description": "A styling system for HTML and rendered markdown, from blog posts to streaming chat. One CSS file you own.",
+  "usage": [
+    {
+      "variant": "Building Your Typeset",
+      "code": [
+        "@import \"tailwindcss\";\n@import \"./typeset.css\";",
+        "<div className=\"typeset typeset-docs\">\n  <YourMarkdownRenderer>{content}</YourMarkdownRenderer>\n</div>"
+      ]
+    },
+    {
+      "variant": "Custom Typesets",
+      "code": [
+        ".typeset {\n  --typeset-font-body: inherit;\n  --typeset-font-heading: var(--font-heading);\n  --typeset-font-mono: var(--font-mono);\n \n  --typeset-size: 1em; /* body font-size */\n  --typeset-leading: 1.75; /* line-height */\n  --typeset-flow: 1.25em; /* space between blocks */\n}",
+        ".typeset-chat {\n  --typeset-flow: 1em;\n  --typeset-leading: 1.6;\n}\n \n.typeset-docs {\n  --typeset-size: 15px;\n  --typeset-flow: 1.5em;\n}",
+        "<div className=\"typeset typeset-chat\">{message}</div>\n<article className=\"typeset typeset-docs\">{page}</article>",
+        "<article className=\"typeset [--typeset-flow:1.75em]\">...</article>"
+      ]
+    },
+    {
+      "variant": "Custom Themes",
+      "code": [
+        "/* Reading: serif, larger type, roomy rhythm. */\n.typeset-reading {\n  --typeset-font-body: var(--font-lora);\n  --typeset-font-heading: var(--font-lora);\n  --typeset-size: 18px;\n  --typeset-leading: 1.9;\n  --typeset-flow: 2em;\n}\n \n/* Compact: sans, smaller type, tighter rhythm. */\n.typeset-compact {\n  --typeset-font-body: var(--font-geist);\n  --typeset-font-heading: var(--font-geist);\n  --typeset-size: 14px;\n  --typeset-leading: 1.6;\n  --typeset-flow: 1em;\n}"
+      ]
+    },
+    {
+      "variant": "Accessibility and Dark Mode",
+      "code": [
+        ".typeset-large {\n  --typeset-size: 16px;\n  --typeset-leading: 2;\n  --typeset-flow: 2em;\n}",
+        ".dark .typeset {\n  --typeset-leading: 1.9;\n}"
+      ]
+    },
+    {
+      "variant": "Responsive Table",
+      "code": [
+        "<div className=\"typeset-scroll\">\n  <table>...</table>\n</div>"
+      ]
+    },
+    {
+      "variant": "Overrides",
+      "code": [
+        "<div className=\"typeset typeset-docs\">\n  <p className=\"text-lg\">...</p>\n</div>"
+      ]
+    },
+    {
+      "variant": "Opting Out",
+      "code": [
+        "<div className=\"typeset\">\n  <p>Styled prose.</p>\n  <Card className=\"not-typeset\">Untouched component.</Card>\n</div>"
+      ]
+    }
+  ]
+}

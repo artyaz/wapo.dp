@@ -121,10 +121,15 @@ function NavigationMenuViewport({
   )
 }
 
-function NavigationMenuLink({
-  className,
-  ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Link>) {
+function NavigationMenuLink({ render, children, className, ...props }: React.ComponentProps<typeof NavigationMenuPrimitive.Link> &
+  { render?: React.ReactElement<Record<string, unknown>> }) {
+  if (render) {
+    return (
+      <NavigationMenuPrimitive.Link data-slot="navigation-menu-link" asChild className={className} {...props}>
+        {children !== undefined ? React.cloneElement(render, undefined, children) : React.cloneElement(render)}
+      </NavigationMenuPrimitive.Link>
+    )
+  }
   return (
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"

@@ -5,6 +5,7 @@ import * as ToastPrimitives from "@radix-ui/react-toast"
 import { cva, type VariantProps } from "class-variance-authority"
 import { X } from "lucide-react"
 
+import { toast as dispatchToast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
 
 const ToastProvider = ToastPrimitives.Provider
@@ -116,12 +117,151 @@ type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>
 
 type ToastActionElement = React.ReactElement<typeof ToastAction>
 
+/**
+ * Options for the imperative `toast.add()` API used by the docs demos
+ * (mirrors the new shadcn toast API). Toasts are dispatched into the store
+ * behind `@/hooks/use-toast`, so they render through the app's mounted
+ * `<Toaster />`.
+ */
+export type ToastOptions = {
+  title?: React.ReactNode
+  description?: React.ReactNode
+  type?: "success" | "info" | "warning" | "error"
+  /** Accepted for API compatibility. "error"/"warning" render destructively. */
+  priority?: "high" | "normal" | "low"
+  /** Props for the optional action button (e.g. `children` + `onClick`). */
+  actionProps?: React.ComponentPropsWithoutRef<"button">
+  /** Auto-dismiss delay in ms. `Infinity` keeps the toast open. */
+  duration?: number
+}
+
+export type ToastPromiseOptions<T> = {
+  loading?: React.ReactNode
+  success?: React.ReactNode | ((data: T) => React.ReactNode)
+  error?: React.ReactNode | ((error: unknown) => React.ReactNode)
+}
+
+type ToastStoreHandle = ReturnType<typeof dispatchToast>
+
+/** Handles for toasts created through the imperative API. */
+const toastHandles = new Map<string, ToastStoreHandle>()
+
+/** Default auto-dismiss delay (ms) for `toast.add()`. */
+const TOAST_DURATION = 5000
+
+function resolveToastContent<T>(
+  content: React.ReactNode | ((data: T) => React.ReactNode) | undefined,
+  data: T
+): React.ReactNode {
+  return typeof content === "function" ? content(data) : content
+}
+
+function createToast(options: ToastOptions): ToastStoreHandle {
+  const { title, description, type, actionProps } = options
+
+  // Radix's Toast root types `title` as a plain string (an aria attribute),
+  // which narrows the store's input type even though the mounted <Toaster />
+  // renders it as an arbitrary ReactNode. Cast at this boundary only.
+  const handle = dispatchToast({
+    variant:
+      type === "error" || type === "warning" ? "destructive" : undefined,
+    title,
+    description,
+    action: actionProps ? (
+      <ToastAction
+        altText={
+          typeof actionProps.children === "string"
+            ? actionProps.children
+            : "Action"
+        }
+        onClick={actionProps.onClick}
+        className={actionProps.className}
+      >
+        {actionProps.children}
+      </ToastAction>
+    ) : undefined,
+  } as Parameters<typeof dispatchToast>[0])
+
+  toastHandles.set(handle.id, handle)
+
+  const duration = options.duration ?? TOAST_DURATION
+  if (duration !== Infinity) {
+    setTimeout(() => handle.dismiss(), duration)
+  }
+
+  return handle
+}
+
+function addToast(options: ToastOptions): string {
+  return createToast(options).id
+}
+
+function closeToast(id?: string): void {
+  if (id === undefined) {
+    toastHandles.forEach((handle) => handle.dismiss())
+    return
+  }
+  toastHandles.get(id)?.dismiss()
+}
+
+function promiseToast<T>(
+  promise: Promise<T>,
+  options: ToastPromiseOptions<T> = {}
+): Promise<T> {
+  const handle = createToast({
+    description: options.loading,
+    // Keep the loading state open until the promise settles.
+    duration: Infinity,
+  })
+
+  return promise
+    .then((data) => {
+      handle.update({
+        id: handle.id,
+        description: resolveToastContent(options.success, data),
+        variant: undefined,
+      })
+      setTimeout(() => handle.dismiss(), TOAST_DURATION)
+      return data
+    })
+    .catch((error: unknown) => {
+      handle.update({
+        id: handle.id,
+        description: resolveToastContent(options.error, error),
+        variant: "destructive",
+      })
+      setTimeout(() => handle.dismiss(), TOAST_DURATION)
+      return Promise.reject(error)
+    })
+}
+
+/**
+ * Imperative toast API: `toast.add()`, `toast.close(id)` and
+ * `toast.promise(p, { loading, success, error })`. Calling `toast()` directly
+ * is an alias for `toast.add()`.
+ */
+const toast = ((options: ToastOptions) => addToast(options)) as {
+  (options: ToastOptions): string
+  add(options: ToastOptions): string
+  close(id?: string): void
+  dismiss(id?: string): void
+  remove(id?: string): void
+  promise<T>(promise: Promise<T>, options?: ToastPromiseOptions<T>): Promise<T>
+}
+
+toast.add = addToast
+toast.close = closeToast
+toast.dismiss = closeToast
+toast.remove = closeToast
+toast.promise = promiseToast
+
 export {
   type ToastProps,
   type ToastActionElement,
   ToastProvider,
   ToastViewport,
   Toast,
+  toast,
   ToastTitle,
   ToastDescription,
   ToastClose,

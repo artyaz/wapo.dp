@@ -1,0 +1,43 @@
+{
+  "name": "Popover",
+  "description": "Displays rich content in a portal, triggered by a button.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import {\n  Popover,\n  PopoverContent,\n  PopoverDescription,\n  PopoverHeader,\n  PopoverTitle,\n  PopoverTrigger,\n} from \"@/components/ui/popover\"",
+        "<Popover>\n  <PopoverTrigger render={<Button variant=\"outline\" />}>\n    Open Popover\n  </PopoverTrigger>\n  <PopoverContent>\n    <PopoverHeader>\n      <PopoverTitle>Title</PopoverTitle>\n      <PopoverDescription>Description text here.</PopoverDescription>\n    </PopoverHeader>\n  </PopoverContent>\n</Popover>"
+      ]
+    },
+    {
+      "variant": "Composition",
+      "code": [
+        "Popover\n\u251c\u2500\u2500 PopoverTrigger\n\u2514\u2500\u2500 PopoverContent"
+      ]
+    },
+    {
+      "variant": "Basic",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\nimport {\n  Popover,\n  PopoverContent,\n  PopoverDescription,\n  PopoverHeader,\n  PopoverTitle,\n  PopoverTrigger,\n} from \"@/components/ui/popover\"\n\nexport function PopoverBasic() {\n  return (\n    <>\n      <Popover>\n        <PopoverTrigger render={<Button variant=\"outline\" className=\"w-fit\">Open Popover</Button>} />\n        <PopoverContent align=\"start\">\n          <PopoverHeader>\n            <PopoverTitle>Dimensions</PopoverTitle>\n            <PopoverDescription>\n              Set the dimensions for the layer.\n            </PopoverDescription>\n          </PopoverHeader>\n        </PopoverContent>\n      </Popover>\n    </>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Align",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\nimport {\n  Popover,\n  PopoverContent,\n  PopoverTrigger,\n} from \"@/components/ui/popover\"\n\nexport function PopoverAlignments() {\n  return (\n    <>\n      <div className=\"flex gap-6\">\n        <Popover>\n          <PopoverTrigger render={<Button variant=\"outline\" size=\"sm\">Start</Button>} />\n          <PopoverContent align=\"start\" className=\"w-40\">\n            Aligned to start\n          </PopoverContent>\n        </Popover>\n        <Popover>\n          <PopoverTrigger render={<Button variant=\"outline\" size=\"sm\">Center</Button>} />\n          <PopoverContent align=\"center\" className=\"w-40\">\n            Aligned to center\n          </PopoverContent>\n        </Popover>\n        <Popover>\n          <PopoverTrigger render={<Button variant=\"outline\" size=\"sm\">End</Button>} />\n          <PopoverContent align=\"end\" className=\"w-40\">\n            Aligned to end\n          </PopoverContent>\n        </Popover>\n      </div>\n    </>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "With Form",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\nimport { Field, FieldGroup, FieldLabel } from \"@/components/ui/field\"\nimport { Input } from \"@/components/ui/input\"\nimport {\n  Popover,\n  PopoverContent,\n  PopoverDescription,\n  PopoverHeader,\n  PopoverTitle,\n  PopoverTrigger,\n} from \"@/components/ui/popover\"\n\nexport function PopoverForm() {\n  return (\n    <>\n      <Popover>\n        <PopoverTrigger render={<Button variant=\"outline\">Open Popover</Button>} />\n        <PopoverContent className=\"w-64\" align=\"start\">\n          <PopoverHeader>\n            <PopoverTitle>Dimensions</PopoverTitle>\n            <PopoverDescription>\n              Set the dimensions for the layer.\n            </PopoverDescription>\n          </PopoverHeader>\n          <FieldGroup className=\"gap-4\">\n            <Field orientation=\"horizontal\">\n              <FieldLabel htmlFor=\"width\" className=\"w-1/2\">\n                Width\n              </FieldLabel>\n              <Input id=\"width\" defaultValue=\"100%\" />\n            </Field>\n            <Field orientation=\"horizontal\">\n              <FieldLabel htmlFor=\"height\" className=\"w-1/2\">\n                Height\n              </FieldLabel>\n              <Input id=\"height\" defaultValue=\"25px\" />\n            </Field>\n          </FieldGroup>\n        </PopoverContent>\n      </Popover>\n    </>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport { Button } from \"@/components/ui/button\"\nimport {\n  Popover,\n  PopoverContent,\n  PopoverDescription,\n  PopoverHeader,\n  PopoverTitle,\n  PopoverTrigger,\n} from \"@/components/ui/popover\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {\n      title: \"Dimensions\",\n      description: \"Set the dimensions for the layer.\",\n      \"inline-start\": \"Inline Start\",\n      left: \"Left\",\n      top: \"Top\",\n      bottom: \"Bottom\",\n      right: \"Right\",\n      \"inline-end\": \"Inline End\",\n    },\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {\n      title: \"\u0627\u0644\u0623\u0628\u0639\u0627\u062f\",\n      description: \"\u062a\u0639\u064a\u064a\u0646 \u0627\u0644\u0623\u0628\u0639\u0627\u062f \u0644\u0644\u0637\u0628\u0642\u0629.\",\n      \"inline-start\": \"\u0628\u062f\u0627\u064a\u0629 \u0627\u0644\u0633\u0637\u0631\",\n      left: \"\u064a\u0633\u0627\u0631\",\n      top: \"\u0623\u0639\u0644\u0649\",\n      bottom: \"\u0623\u0633\u0641\u0644\",\n      right: \"\u064a\u0645\u064a\u0646\",\n      \"inline-end\": \"\u0646\u0647\u0627\u064a\u0629 \u0627\u0644\u0633\u0637\u0631\",\n    },\n  },\n  he: {\n    dir: \"rtl\",\n    values: {\n      title: \"\u05de\u05d9\u05de\u05d3\u05d9\u05dd\",\n      description: \"\u05d4\u05d2\u05d3\u05e8 \u05d0\u05ea \u05d4\u05de\u05d9\u05de\u05d3\u05d9\u05dd \u05dc\u05e9\u05db\u05d1\u05d4.\",\n      \"inline-start\": \"\u05ea\u05d7\u05d9\u05dc\u05ea \u05d4\u05e9\u05d5\u05e8\u05d4\",\n      left: \"\u05e9\u05de\u05d0\u05dc\",\n      top: \"\u05dc\u05de\u05e2\u05dc\u05d4\",\n      bottom: \"\u05dc\u05de\u05d8\u05d4\",\n      right: \"\u05d9\u05de\u05d9\u05df\",\n      \"inline-end\": \"\u05e1\u05d5\u05e3 \u05d4\u05e9\u05d5\u05e8\u05d4\",\n    },\n  },\n}\n\nconst physicalSides = [\"left\", \"top\", \"bottom\", \"right\"] as const\nconst logicalSides = [\"inline-start\", \"inline-end\"] as const\n\nexport function PopoverRtl() {\n  const { dir, t } = useTranslation(translations, \"ar\")\n\n  return (\n    <div className=\"grid gap-4\">\n      <div className=\"flex flex-wrap justify-center gap-2\">\n        {physicalSides.map((side) => (\n          <Popover key={side}>\n            <PopoverTrigger render={<Button variant=\"outline\">{t[side]}</Button>} />\n            <PopoverContent side={side} dir={dir}>\n              <PopoverHeader>\n                <PopoverTitle>{t.title}</PopoverTitle>\n                <PopoverDescription>{t.description}</PopoverDescription>\n              </PopoverHeader>\n            </PopoverContent>\n          </Popover>\n        ))}\n      </div>\n      <div className=\"flex flex-wrap justify-center gap-2\">\n        {logicalSides.map((side) => (\n          <Popover key={side}>\n            <PopoverTrigger render={<Button variant=\"outline\">{t[side]}</Button>} />\n            <PopoverContent side={side} dir={dir}>\n              <PopoverHeader>\n                <PopoverTitle>{t.title}</PopoverTitle>\n                <PopoverDescription>{t.description}</PopoverDescription>\n              </PopoverHeader>\n            </PopoverContent>\n          </Popover>\n        ))}\n      </div>\n    </div>\n  )\n}\n"
+      ]
+    }
+  ]
+}

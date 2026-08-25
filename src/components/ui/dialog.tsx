@@ -12,9 +12,15 @@ function Dialog({
   return <DialogPrimitive.Root data-slot="dialog" {...props} />
 }
 
-function DialogTrigger({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
+function DialogTrigger({ render, children, ...props }: React.ComponentProps<typeof DialogPrimitive.Trigger> &
+  { render?: React.ReactElement<Record<string, unknown>> }) {
+  if (render) {
+    return (
+      <DialogPrimitive.Trigger data-slot="dialog-trigger" asChild {...props}>
+        {children !== undefined ? React.cloneElement(render, undefined, children) : React.cloneElement(render)}
+      </DialogPrimitive.Trigger>
+    )
+  }
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
 }
 
@@ -24,9 +30,15 @@ function DialogPortal({
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
 }
 
-function DialogClose({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Close>) {
+function DialogClose({ render, children, ...props }: React.ComponentProps<typeof DialogPrimitive.Close> &
+  { render?: React.ReactElement<Record<string, unknown>> }) {
+  if (render) {
+    return (
+      <DialogPrimitive.Close data-slot="dialog-close" asChild {...props}>
+        {children !== undefined ? React.cloneElement(render, undefined, children) : React.cloneElement(render)}
+      </DialogPrimitive.Close>
+    )
+  }
   return <DialogPrimitive.Close data-slot="dialog-close" {...props} />
 }
 

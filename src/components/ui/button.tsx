@@ -25,7 +25,11 @@ const buttonVariants = cva(
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+        xs: "h-7 rounded-md gap-1 px-2.5 has-[>svg]:px-2.5",
         icon: "size-9",
+        "icon-xs": "size-7",
+        "icon-sm": "size-8",
+        "icon-lg": "size-10",
       },
     },
     defaultVariants: {
@@ -40,11 +44,31 @@ function Button({
   variant,
   size,
   asChild = false,
+  render,
+  children,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
+    render?: React.ReactElement<Record<string, unknown>>
   }) {
+  if (render) {
+    return (
+      <Slot
+        data-slot="button"
+        className={cn(buttonVariants({ variant, size, className }))}
+        {...props}
+      >
+        {/* Only clone with new children when children were actually passed;
+           cloneElement's 3rd argument always *replaces* children, so passing
+           `undefined` would wipe the render element's own children. */}
+        {children !== undefined
+          ? React.cloneElement(render, undefined, children)
+          : render}
+      </Slot>
+    )
+  }
+
   const Comp = asChild ? Slot : "button"
 
   return (
@@ -52,7 +76,9 @@ function Button({
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
-    />
+    >
+      {children}
+    </Comp>
   )
 }
 

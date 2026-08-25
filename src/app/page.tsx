@@ -12,6 +12,8 @@ import { MaterialsView } from "@/views/MaterialsView";
 import { ComponentsView } from "@/views/ComponentsView";
 import { ComponentDetailView } from "@/views/ComponentDetailView";
 import { PatternsView } from "@/views/PatternsView";
+import { UIView } from "@/views/UIView";
+import { UIDetailView } from "@/views/UIDetailView";
 
 function Router() {
   const route = useRoute();
@@ -30,6 +32,10 @@ function Router() {
     return <ComponentsView />;
   }
   if (first === "patterns") return <PatternsView section={second} />;
+  if (first === "ui") {
+    if (second) return <UIDetailView slug={second} />;
+    return <UIView />;
+  }
   return <OverviewView />;
 }
 

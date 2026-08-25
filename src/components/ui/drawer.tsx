@@ -11,9 +11,15 @@ function Drawer({
   return <DrawerPrimitive.Root data-slot="drawer" {...props} />
 }
 
-function DrawerTrigger({
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Trigger>) {
+function DrawerTrigger({ render, children, ...props }: React.ComponentProps<typeof DrawerPrimitive.Trigger> &
+  { render?: React.ReactElement<Record<string, unknown>> }) {
+  if (render) {
+    return (
+      <DrawerPrimitive.Trigger data-slot="drawer-trigger" asChild {...props}>
+        {children !== undefined ? React.cloneElement(render, undefined, children) : React.cloneElement(render)}
+      </DrawerPrimitive.Trigger>
+    )
+  }
   return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />
 }
 
@@ -23,9 +29,15 @@ function DrawerPortal({
   return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />
 }
 
-function DrawerClose({
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Close>) {
+function DrawerClose({ render, children, ...props }: React.ComponentProps<typeof DrawerPrimitive.Close> &
+  { render?: React.ReactElement<Record<string, unknown>> }) {
+  if (render) {
+    return (
+      <DrawerPrimitive.Close data-slot="drawer-close" asChild {...props}>
+        {children !== undefined ? React.cloneElement(render, undefined, children) : React.cloneElement(render)}
+      </DrawerPrimitive.Close>
+    )
+  }
   return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />
 }
 

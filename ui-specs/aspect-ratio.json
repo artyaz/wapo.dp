@@ -1,0 +1,31 @@
+{
+  "name": "Aspect Ratio",
+  "description": "Displays content within a desired ratio.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import { AspectRatio } from \"@/components/ui/aspect-ratio\"",
+        "<AspectRatio ratio={16 / 9}>\n  <Image src=\"...\" alt=\"Image\" className=\"rounded-md object-cover\" />\n</AspectRatio>"
+      ]
+    },
+    {
+      "variant": "Square",
+      "code": [
+        "import Image from \"next/image\"\n\nimport { AspectRatio } from \"@/components/ui/aspect-ratio\"\n\nexport function AspectRatioSquare() {\n  return (\n    <AspectRatio\n      ratio={1 / 1}\n      className=\"w-full max-w-[12rem] rounded-lg bg-muted\"\n    >\n      <Image\n        src=\"https://avatar.vercel.sh/shadcn1\"\n        alt=\"Photo\"\n        fill\n        className=\"rounded-lg object-cover grayscale dark:brightness-20\"\n      />\n    </AspectRatio>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Portrait",
+      "code": [
+        "import Image from \"next/image\"\n\nimport { AspectRatio } from \"@/components/ui/aspect-ratio\"\n\nexport function AspectRatioPortrait() {\n  return (\n    <AspectRatio\n      ratio={9 / 16}\n      className=\"w-full max-w-[10rem] rounded-lg bg-muted\"\n    >\n      <Image\n        src=\"https://avatar.vercel.sh/shadcn1\"\n        alt=\"Photo\"\n        fill\n        className=\"rounded-lg object-cover grayscale dark:brightness-20\"\n      />\n    </AspectRatio>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\nimport Image from \"next/image\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport { AspectRatio } from \"@/components/ui/aspect-ratio\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {\n      caption: \"Beautiful landscape\",\n    },\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {\n      caption: \"\u0645\u0646\u0638\u0631 \u0637\u0628\u064a\u0639\u064a \u062c\u0645\u064a\u0644\",\n    },\n  },\n  he: {\n    dir: \"rtl\",\n    values: {\n      caption: \"\u05e0\u05d5\u05e3 \u05d9\u05e4\u05d4\",\n    },\n  },\n}\n\nexport function AspectRatioRtl() {\n  const { dir, t } = useTranslation(translations, \"ar\")\n\n  return (\n    <figure className=\"w-full max-w-sm\" dir={dir}>\n      <AspectRatio ratio={16 / 9} className=\"rounded-lg bg-muted\">\n        <Image\n          src=\"https://avatar.vercel.sh/shadcn1\"\n          alt=\"Photo\"\n          fill\n          className=\"rounded-lg object-cover grayscale dark:brightness-20\"\n        />\n      </AspectRatio>\n      <figcaption className=\"mt-2 text-center text-sm text-muted-foreground\">\n        {t.caption}\n      </figcaption>\n    </figure>\n  )\n}\n"
+      ]
+    }
+  ]
+}

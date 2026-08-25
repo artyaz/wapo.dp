@@ -1,0 +1,103 @@
+{
+  "name": "Button",
+  "description": "Displays a button or a component that looks like a button.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"",
+        "<Button variant=\"outline\">Button</Button>"
+      ]
+    },
+    {
+      "variant": "Cursor",
+      "code": [
+        "@layer base {\n  button:not(:disabled),\n  [role=\"button\"]:not(:disabled) {\n    cursor: pointer;\n  }\n}"
+      ]
+    },
+    {
+      "variant": "Size",
+      "code": [
+        "import { ArrowUpRightIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\n\nexport function ButtonSize() {\n  return (\n    <div className=\"flex flex-col items-start gap-8 sm:flex-row\">\n      <div className=\"flex items-start gap-2\">\n        <Button size=\"xs\" variant=\"outline\">\n          Extra Small\n        </Button>\n        <Button size=\"icon-xs\" aria-label=\"Submit\" variant=\"outline\">\n          <ArrowUpRightIcon />\n        </Button>\n      </div>\n      <div className=\"flex items-start gap-2\">\n        <Button size=\"sm\" variant=\"outline\">\n          Small\n        </Button>\n        <Button size=\"icon-sm\" aria-label=\"Submit\" variant=\"outline\">\n          <ArrowUpRightIcon />\n        </Button>\n      </div>\n      <div className=\"flex items-start gap-2\">\n        <Button variant=\"outline\">Default</Button>\n        <Button size=\"icon\" aria-label=\"Submit\" variant=\"outline\">\n          <ArrowUpRightIcon />\n        </Button>\n      </div>\n      <div className=\"flex items-start gap-2\">\n        <Button variant=\"outline\" size=\"lg\">\n          Large\n        </Button>\n        <Button size=\"icon-lg\" aria-label=\"Submit\" variant=\"outline\">\n          <ArrowUpRightIcon />\n        </Button>\n      </div>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Default",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\n\nexport function ButtonDefault() {\n  return <Button>Button</Button>\n}\n"
+      ]
+    },
+    {
+      "variant": "Outline",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\n\nexport function ButtonOutline() {\n  return <Button variant=\"outline\">Outline</Button>\n}\n"
+      ]
+    },
+    {
+      "variant": "Secondary",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\n\nexport function ButtonSecondary() {\n  return <Button variant=\"secondary\">Secondary</Button>\n}\n"
+      ]
+    },
+    {
+      "variant": "Ghost",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\n\nexport function ButtonGhost() {\n  return <Button variant=\"ghost\">Ghost</Button>\n}\n"
+      ]
+    },
+    {
+      "variant": "Destructive",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\n\nexport function ButtonDestructive() {\n  return <Button variant=\"destructive\">Destructive</Button>\n}\n"
+      ]
+    },
+    {
+      "variant": "Link",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\n\nexport function ButtonLink() {\n  return <Button variant=\"link\">Link</Button>\n}\n"
+      ]
+    },
+    {
+      "variant": "Icon",
+      "code": [
+        "import { CircleFadingArrowUpIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\n\nexport function ButtonIcon() {\n  return (\n    <Button variant=\"outline\" size=\"icon\">\n      <CircleFadingArrowUpIcon />\n    </Button>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "With Icon",
+      "code": [
+        "import { IconGitBranch, IconGitFork } from \"@tabler/icons-react\"\n\nimport { Button } from \"@/components/ui/button\"\n\nexport function ButtonWithIcon() {\n  return (\n    <div className=\"flex gap-2\">\n      <Button variant=\"outline\">\n        <IconGitBranch data-icon=\"inline-start\" /> New Branch\n      </Button>\n      <Button variant=\"outline\">\n        Fork\n        <IconGitFork data-icon=\"inline-end\" />\n      </Button>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Rounded",
+      "code": [
+        "import { ArrowUpIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\n\nexport function ButtonRounded() {\n  return (\n    <div className=\"flex gap-2\">\n      <Button className=\"rounded-full\">Get Started</Button>\n      <Button variant=\"outline\" size=\"icon\" className=\"rounded-full\">\n        <ArrowUpIcon />\n      </Button>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Spinner",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\nimport { Spinner } from \"@/components/ui/spinner\"\n\nexport function ButtonLoading() {\n  return (\n    <div className=\"flex gap-2\">\n      <Button variant=\"outline\" disabled>\n        <Spinner data-icon=\"inline-start\" />\n        Generating\n      </Button>\n      <Button variant=\"secondary\" disabled>\n        Downloading\n        <Spinner data-icon=\"inline-start\" />\n      </Button>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Button Group",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  ArchiveIcon,\n  ArrowLeftIcon,\n  CalendarPlusIcon,\n  ClockIcon,\n  ListFilterIcon,\n  MailCheckIcon,\n  MoreHorizontalIcon,\n  TagIcon,\n  Trash2Icon,\n} from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { ButtonGroup } from \"@/components/ui/button-group\"\nimport {\n  DropdownMenu,\n  DropdownMenuContent,\n  DropdownMenuGroup,\n  DropdownMenuItem,\n  DropdownMenuRadioGroup,\n  DropdownMenuRadioItem,\n  DropdownMenuSeparator,\n  DropdownMenuSub,\n  DropdownMenuSubContent,\n  DropdownMenuSubTrigger,\n  DropdownMenuTrigger,\n} from \"@/components/ui/dropdown-menu\"\n\nexport function ButtonGroupDemo() {\n  const [label, setLabel] = React.useState(\"personal\")\n\n  return (\n    <ButtonGroup>\n      <ButtonGroup className=\"hidden sm:flex\">\n        <Button variant=\"outline\" size=\"icon\" aria-label=\"Go Back\">\n          <ArrowLeftIcon />\n        </Button>\n      </ButtonGroup>\n      <ButtonGroup>\n        <Button variant=\"outline\">Archive</Button>\n        <Button variant=\"outline\">Report</Button>\n      </ButtonGroup>\n      <ButtonGroup>\n        <Button variant=\"outline\">Snooze</Button>\n        <DropdownMenu>\n          <DropdownMenuTrigger render={<Button variant=\"outline\" size=\"icon\" aria-label=\"More Options\"><MoreHorizontalIcon /></Button>} />\n          <DropdownMenuContent align=\"end\" className=\"w-40\">\n            <DropdownMenuGroup>\n              <DropdownMenuItem>\n                <MailCheckIcon />\n                Mark as Read\n              </DropdownMenuItem>\n              <DropdownMenuItem>\n                <ArchiveIcon />\n                Archive\n              </DropdownMenuItem>\n            </DropdownMenuGroup>\n            <DropdownMenuSeparator />\n            <DropdownMenuGroup>\n              <DropdownMenuItem>\n                <ClockIcon />\n                Snooze\n              </DropdownMenuItem>\n              <DropdownMenuItem>\n                <CalendarPlusIcon />\n                Add to Calendar\n              </DropdownMenuItem>\n              <DropdownMenuItem>\n                <ListFilterIcon />\n                Add to List\n              </DropdownMenuItem>\n              <DropdownMenuSub>\n                <DropdownMenuSubTrigger>\n                  <TagIcon />\n                  Label As...\n                </DropdownMenuSubTrigger>\n                <DropdownMenuSubContent>\n                  <DropdownMenuRadioGroup\n                    value={label}\n                    onValueChange={setLabel}\n                  >\n                    <DropdownMenuRadioItem value=\"personal\">\n                      Personal\n                    </DropdownMenuRadioItem>\n                    <DropdownMenuRadioItem value=\"work\">\n                      Work\n                    </DropdownMenuRadioItem>\n                    <DropdownMenuRadioItem value=\"other\">\n                      Other\n                    </DropdownMenuRadioItem>\n                  </DropdownMenuRadioGroup>\n                </DropdownMenuSubContent>\n              </DropdownMenuSub>\n            </DropdownMenuGroup>\n            <DropdownMenuSeparator />\n            <DropdownMenuGroup>\n              <DropdownMenuItem variant=\"destructive\">\n                <Trash2Icon />\n                Trash\n              </DropdownMenuItem>\n            </DropdownMenuGroup>\n          </DropdownMenuContent>\n        </DropdownMenu>\n      </ButtonGroup>\n    </ButtonGroup>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "As Link",
+      "code": [
+        "import { buttonVariants } from \"@/components/ui/button\"\n\nexport function ButtonRender() {\n  return (\n    <a\n      href=\"#\"\n      className={buttonVariants({ variant: \"secondary\", size: \"sm\" })}\n    >\n      Login\n    </a>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport { ArrowRightIcon, PlusIcon } from \"lucide-react\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport { Button } from \"@/components/ui/button\"\nimport { Spinner } from \"@/components/ui/spinner\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {\n      button: \"Button\",\n      submit: \"Submit\",\n      delete: \"Delete\",\n      loading: \"Loading\",\n    },\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {\n      button: \"\u0632\u0631\",\n      submit: \"\u0625\u0631\u0633\u0627\u0644\",\n      delete: \"\u062d\u0630\u0641\",\n      loading: \"\u062c\u0627\u0631\u064a \u0627\u0644\u062a\u062d\u0645\u064a\u0644\",\n    },\n  },\n  he: {\n    dir: \"rtl\",\n    values: {\n      button: \"\u05db\u05e4\u05ea\u05d5\u05e8\",\n      submit: \"\u05e9\u05dc\u05d7\",\n      delete: \"\u05de\u05d7\u05e7\",\n      loading: \"\u05d8\u05d5\u05e2\u05df\",\n    },\n  },\n}\n\nexport function ButtonRtl() {\n  const { dir, t } = useTranslation(translations, \"ar\")\n\n  return (\n    <div className=\"flex flex-wrap items-center gap-2 md:flex-row\" dir={dir}>\n      <Button variant=\"outline\">{t.button}</Button>\n      <Button variant=\"destructive\">{t.delete}</Button>\n      <Button variant=\"outline\">\n        {t.submit}{\" \"}\n        <ArrowRightIcon className=\"rtl:rotate-180\" data-icon=\"inline-end\" />\n      </Button>\n      <Button variant=\"outline\" size=\"icon\" aria-label=\"Add\">\n        <PlusIcon />\n      </Button>\n      <Button variant=\"secondary\" disabled>\n        <Spinner data-icon=\"inline-start\" /> {t.loading}\n      </Button>\n    </div>\n  )\n}\n"
+      ]
+    }
+  ]
+}

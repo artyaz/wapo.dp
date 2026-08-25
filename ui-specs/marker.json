@@ -1,0 +1,72 @@
+{
+  "name": "Marker",
+  "description": "Displays an inline status, system note, bordered row, or labeled separator in a conversation.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import { Marker, MarkerContent, MarkerIcon } from \"@/components/ui/marker\"",
+        "<Marker>\n  <MarkerIcon>\n    <CheckIcon />\n  </MarkerIcon>\n  <MarkerContent>Explored 4 files</MarkerContent>\n</Marker>"
+      ]
+    },
+    {
+      "variant": "Composition",
+      "code": [
+        "Marker\n\u251c\u2500\u2500 MarkerIcon\n\u2514\u2500\u2500 MarkerContent"
+      ]
+    },
+    {
+      "variant": "Variants",
+      "code": [
+        "import { Marker, MarkerContent } from \"@/components/ui/marker\"\n\nexport function MarkerVariantsDemo() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-8 py-12\">\n      <Marker>\n        <MarkerContent>A default marker for inline notes.</MarkerContent>\n      </Marker>\n      <Marker variant=\"separator\">\n        <MarkerContent>A separator marker</MarkerContent>\n      </Marker>\n      <Marker variant=\"border\">\n        <MarkerContent>A border marker for row boundaries.</MarkerContent>\n      </Marker>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Status",
+      "code": [
+        "import { Marker, MarkerContent, MarkerIcon } from \"@/components/ui/marker\"\nimport { Spinner } from \"@/components/ui/spinner\"\n\nexport function MarkerStatusDemo() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-8 py-12\">\n      <Marker role=\"status\">\n        <MarkerIcon>\n          <Spinner />\n        </MarkerIcon>\n        <MarkerContent>Compacting conversation</MarkerContent>\n      </Marker>\n      <Marker variant=\"separator\" role=\"status\">\n        <MarkerIcon>\n          <Spinner />\n        </MarkerIcon>\n        <MarkerContent>Running tests</MarkerContent>\n      </Marker>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Shimmer",
+      "code": [
+        "import { Marker, MarkerContent } from \"@/components/ui/marker\"\n\nexport function MarkerShimmerDemo() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-8 py-12\">\n      <Marker role=\"status\">\n        <MarkerContent className=\"shimmer\">Thinking...</MarkerContent>\n      </Marker>\n      <Marker variant=\"separator\" role=\"status\">\n        <MarkerContent className=\"shimmer\">Reading 4 files</MarkerContent>\n      </Marker>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Separator",
+      "code": [
+        "import { Marker, MarkerContent } from \"@/components/ui/marker\"\n\nexport function MarkerSeparatorDemo() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-8 py-12\">\n      <Marker variant=\"separator\">\n        <MarkerContent>Today</MarkerContent>\n      </Marker>\n      <Marker variant=\"separator\">\n        <MarkerContent>Worked for 42s</MarkerContent>\n      </Marker>\n      <Marker variant=\"separator\">\n        <MarkerContent>Conversation compacted</MarkerContent>\n      </Marker>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Border",
+      "code": [
+        "import { FileTextIcon, GitBranchIcon, SearchIcon } from \"lucide-react\"\n\nimport { Marker, MarkerContent, MarkerIcon } from \"@/components/ui/marker\"\n\nexport function MarkerBorderDemo() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-3 py-12\">\n      <Marker variant=\"border\">\n        <MarkerIcon>\n          <GitBranchIcon />\n        </MarkerIcon>\n        <MarkerContent>Switched to release-candidate</MarkerContent>\n      </Marker>\n      <Marker variant=\"border\">\n        <MarkerIcon>\n          <SearchIcon />\n        </MarkerIcon>\n        <MarkerContent>Reviewed 8 related files</MarkerContent>\n      </Marker>\n      <Marker variant=\"border\">\n        <MarkerIcon>\n          <FileTextIcon />\n        </MarkerIcon>\n        <MarkerContent>Opened implementation notes</MarkerContent>\n      </Marker>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "With Icon",
+      "code": [
+        "import { BookOpenCheck, GitBranchIcon, SearchIcon } from \"lucide-react\"\n\nimport { Marker, MarkerContent, MarkerIcon } from \"@/components/ui/marker\"\n\nexport function MarkerIconDemo() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-12 py-12\">\n      <Marker>\n        <MarkerIcon>\n          <GitBranchIcon />\n        </MarkerIcon>\n        <MarkerContent>Switched to a new branch</MarkerContent>\n      </Marker>\n      <Marker variant=\"separator\">\n        <MarkerIcon>\n          <SearchIcon />\n        </MarkerIcon>\n        <MarkerContent>Explored 4 files</MarkerContent>\n      </Marker>\n      <Marker className=\"flex-col\">\n        <MarkerIcon>\n          <BookOpenCheck />\n        </MarkerIcon>\n        <MarkerContent>Syncing completed</MarkerContent>\n      </Marker>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Links and Buttons",
+      "code": [
+        "\"use client\"\n\nimport { GitBranchIcon, RotateCcwIcon } from \"lucide-react\"\nimport { toast } from \"sonner\"\n\nimport { Marker, MarkerContent, MarkerIcon } from \"@/components/ui/marker\"\n\nexport function MarkerLinkButtonDemo() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-8 py-12\">\n      <Marker render={<a href=\"#links-and-buttons\"><MarkerIcon>\n          <GitBranchIcon />\n        </MarkerIcon><MarkerContent>View the pull request</MarkerContent></a>} />\n      <Marker render={<button type=\"button\" className=\"transition-colors hover:text-foreground\" onClick={() => toast(\"You clicked the revert button\")}><MarkerIcon>\n          <RotateCcwIcon />\n        </MarkerIcon><MarkerContent>Revert this change</MarkerContent></button>} />\n    </div>\n  )\n}\n",
+        "import { Marker, MarkerContent } from \"@/components/ui/marker\"\n \nexport function MarkerLinkDemo() {\n  return (\n    <Marker render={<a href=\"#\" />}>\n      <MarkerContent>View the pull request</MarkerContent>\n    </Marker>\n  )\n}"
+      ]
+    },
+    {
+      "variant": "Accessibility",
+      "code": [
+        "<Marker role=\"status\">\n  <MarkerIcon>\n    <Spinner />\n  </MarkerIcon>\n  <MarkerContent>Compacting conversation</MarkerContent>\n</Marker>",
+        "<Marker variant=\"separator\">\n  <MarkerContent>Today</MarkerContent>\n</Marker>",
+        "<Marker variant=\"border\">\n  <MarkerIcon>\n    <FileTextIcon />\n  </MarkerIcon>\n  <MarkerContent>Opened implementation notes</MarkerContent>\n</Marker>",
+        "<Marker aria-label=\"Synced\">\n  <MarkerIcon>\n    <CheckIcon />\n  </MarkerIcon>\n</Marker>",
+        "<Marker render={<a href=\"/files\" />}>\n  <MarkerIcon>\n    <FileTextIcon />\n  </MarkerIcon>\n  <MarkerContent>Explored 4 files</MarkerContent>\n</Marker>"
+      ]
+    }
+  ]
+}

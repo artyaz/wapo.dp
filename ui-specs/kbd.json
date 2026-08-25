@@ -1,0 +1,49 @@
+{
+  "name": "Kbd",
+  "description": "Used to display textual user input from keyboard.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import { Kbd } from \"@/components/ui/kbd\"",
+        "<Kbd>Ctrl</Kbd>"
+      ]
+    },
+    {
+      "variant": "Composition",
+      "code": [
+        "Kbd\nKbdGroup\n\u251c\u2500\u2500 Kbd\n\u2514\u2500\u2500 Kbd"
+      ]
+    },
+    {
+      "variant": "Group",
+      "code": [
+        "import { Kbd, KbdGroup } from \"@/components/ui/kbd\"\n\nexport function KbdGroupExample() {\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <p className=\"text-sm text-muted-foreground\">\n        Use{\" \"}\n        <KbdGroup>\n          <Kbd>Ctrl + B</Kbd>\n          <Kbd>Ctrl + K</Kbd>\n        </KbdGroup>{\" \"}\n        to open the command palette\n      </p>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Button",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\nimport { Kbd } from \"@/components/ui/kbd\"\n\nexport function KbdButton() {\n  return (\n    <Button variant=\"outline\">\n      Accept{\" \"}\n      <Kbd data-icon=\"inline-end\" className=\"translate-x-0.5\">\n        \u23ce\n      </Kbd>\n    </Button>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Tooltip",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\nimport { ButtonGroup } from \"@/components/ui/button-group\"\nimport { Kbd, KbdGroup } from \"@/components/ui/kbd\"\nimport {\n  Tooltip,\n  TooltipContent,\n  TooltipTrigger,\n} from \"@/components/ui/tooltip\"\n\nexport function KbdTooltip() {\n  return (\n    <div className=\"flex flex-wrap gap-4\">\n      <ButtonGroup>\n        <Tooltip>\n          <TooltipTrigger render={<Button variant=\"outline\">Save</Button>} />\n          <TooltipContent>\n            Save Changes <Kbd>S</Kbd>\n          </TooltipContent>\n        </Tooltip>\n        <Tooltip>\n          <TooltipTrigger render={<Button variant=\"outline\">Print</Button>} />\n          <TooltipContent>\n            Print Document{\" \"}\n            <KbdGroup>\n              <Kbd>Ctrl</Kbd>\n              <Kbd>P</Kbd>\n            </KbdGroup>\n          </TooltipContent>\n        </Tooltip>\n      </ButtonGroup>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Input Group",
+      "code": [
+        "import { SearchIcon } from \"lucide-react\"\n\nimport {\n  InputGroup,\n  InputGroupAddon,\n  InputGroupInput,\n} from \"@/components/ui/input-group\"\nimport { Kbd } from \"@/components/ui/kbd\"\n\nexport function KbdInputGroup() {\n  return (\n    <div className=\"flex w-full max-w-xs flex-col gap-6\">\n      <InputGroup>\n        <InputGroupInput placeholder=\"Search...\" />\n        <InputGroupAddon>\n          <SearchIcon />\n        </InputGroupAddon>\n        <InputGroupAddon align=\"inline-end\">\n          <Kbd>\u2318</Kbd>\n          <Kbd>K</Kbd>\n        </InputGroupAddon>\n      </InputGroup>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport { Kbd, KbdGroup } from \"@/components/ui/kbd\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {},\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {},\n  },\n  he: {\n    dir: \"rtl\",\n    values: {},\n  },\n}\n\nexport function KbdRtl() {\n  const { dir } = useTranslation(translations, \"ar\")\n\n  return (\n    <div className=\"flex flex-col items-center gap-4\" dir={dir}>\n      <KbdGroup>\n        <Kbd>\u2318</Kbd>\n        <Kbd>\u21e7</Kbd>\n        <Kbd>\u2325</Kbd>\n        <Kbd>\u2303</Kbd>\n      </KbdGroup>\n      <KbdGroup>\n        <Kbd>Ctrl</Kbd>\n        <span>+</span>\n        <Kbd>B</Kbd>\n      </KbdGroup>\n    </div>\n  )\n}\n"
+      ]
+    }
+  ]
+}

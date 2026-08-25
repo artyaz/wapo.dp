@@ -1,0 +1,44 @@
+{
+  "name": "Native Select",
+  "description": "A styled native HTML select element with consistent design system integration.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import {\n  NativeSelect,\n  NativeSelectOptGroup,\n  NativeSelectOption,\n} from \"@/components/ui/native-select\"",
+        "<NativeSelect>\n  <NativeSelectOption value=\"\">Select a fruit</NativeSelectOption>\n  <NativeSelectOption value=\"apple\">Apple</NativeSelectOption>\n  <NativeSelectOption value=\"banana\">Banana</NativeSelectOption>\n  <NativeSelectOption value=\"blueberry\">Blueberry</NativeSelectOption>\n  <NativeSelectOption value=\"pineapple\">Pineapple</NativeSelectOption>\n</NativeSelect>"
+      ]
+    },
+    {
+      "variant": "Composition",
+      "code": [
+        "NativeSelect\n\u251c\u2500\u2500 NativeSelectOption\n\u251c\u2500\u2500 NativeSelectOption\n\u251c\u2500\u2500 NativeSelectOption\n\u2514\u2500\u2500 NativeSelectOption",
+        "NativeSelect\n\u251c\u2500\u2500 NativeSelectOptGroup\n\u2502   \u251c\u2500\u2500 NativeSelectOption\n\u2502   \u2514\u2500\u2500 NativeSelectOption\n\u2514\u2500\u2500 NativeSelectOptGroup\n    \u251c\u2500\u2500 NativeSelectOption\n    \u2514\u2500\u2500 NativeSelectOption"
+      ]
+    },
+    {
+      "variant": "Groups",
+      "code": [
+        "import {\n  NativeSelect,\n  NativeSelectOptGroup,\n  NativeSelectOption,\n} from \"@/components/ui/native-select\"\n\nexport function NativeSelectGroups() {\n  return (\n    <NativeSelect>\n      <NativeSelectOption value=\"\">Select department</NativeSelectOption>\n      <NativeSelectOptGroup label=\"Engineering\">\n        <NativeSelectOption value=\"frontend\">Frontend</NativeSelectOption>\n        <NativeSelectOption value=\"backend\">Backend</NativeSelectOption>\n        <NativeSelectOption value=\"devops\">DevOps</NativeSelectOption>\n      </NativeSelectOptGroup>\n      <NativeSelectOptGroup label=\"Sales\">\n        <NativeSelectOption value=\"sales-rep\">Sales Rep</NativeSelectOption>\n        <NativeSelectOption value=\"account-manager\">\n          Account Manager\n        </NativeSelectOption>\n        <NativeSelectOption value=\"sales-director\">\n          Sales Director\n        </NativeSelectOption>\n      </NativeSelectOptGroup>\n      <NativeSelectOptGroup label=\"Operations\">\n        <NativeSelectOption value=\"support\">\n          Customer Support\n        </NativeSelectOption>\n        <NativeSelectOption value=\"product-manager\">\n          Product Manager\n        </NativeSelectOption>\n        <NativeSelectOption value=\"ops-manager\">\n          Operations Manager\n        </NativeSelectOption>\n      </NativeSelectOptGroup>\n    </NativeSelect>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Disabled",
+      "code": [
+        "import {\n  NativeSelect,\n  NativeSelectOption,\n} from \"@/components/ui/native-select\"\n\nexport function NativeSelectDisabled() {\n  return (\n    <NativeSelect disabled>\n      <NativeSelectOption value=\"\">Disabled</NativeSelectOption>\n      <NativeSelectOption value=\"apple\">Apple</NativeSelectOption>\n      <NativeSelectOption value=\"banana\">Banana</NativeSelectOption>\n      <NativeSelectOption value=\"blueberry\">Blueberry</NativeSelectOption>\n    </NativeSelect>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Invalid",
+      "code": [
+        "import {\n  NativeSelect,\n  NativeSelectOption,\n} from \"@/components/ui/native-select\"\n\nexport function NativeSelectInvalid() {\n  return (\n    <NativeSelect aria-invalid=\"true\">\n      <NativeSelectOption value=\"\">Error state</NativeSelectOption>\n      <NativeSelectOption value=\"apple\">Apple</NativeSelectOption>\n      <NativeSelectOption value=\"banana\">Banana</NativeSelectOption>\n      <NativeSelectOption value=\"blueberry\">Blueberry</NativeSelectOption>\n    </NativeSelect>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport {\n  NativeSelect,\n  NativeSelectOption,\n} from \"@/components/ui/native-select\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {\n      placeholder: \"Select status\",\n      todo: \"Todo\",\n      inProgress: \"In Progress\",\n      done: \"Done\",\n      cancelled: \"Cancelled\",\n    },\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {\n      placeholder: \"\u0627\u062e\u062a\u0631 \u0627\u0644\u062d\u0627\u0644\u0629\",\n      todo: \"\u0645\u0647\u0627\u0645\",\n      inProgress: \"\u0642\u064a\u062f \u0627\u0644\u062a\u0646\u0641\u064a\u0630\",\n      done: \"\u0645\u0646\u062c\u0632\",\n      cancelled: \"\u0645\u0644\u063a\u064a\",\n    },\n  },\n  he: {\n    dir: \"rtl\",\n    values: {\n      placeholder: \"\u05d1\u05d7\u05e8 \u05e1\u05d8\u05d8\u05d5\u05e1\",\n      todo: \"\u05dc\u05e2\u05e9\u05d5\u05ea\",\n      inProgress: \"\u05d1\u05ea\u05d4\u05dc\u05d9\u05da\",\n      done: \"\u05d4\u05d5\u05e9\u05dc\u05dd\",\n      cancelled: \"\u05d1\u05d5\u05d8\u05dc\",\n    },\n  },\n}\n\nexport function NativeSelectRtl() {\n  const { dir, t } = useTranslation(translations, \"ar\")\n\n  return (\n    <NativeSelect dir={dir}>\n      <NativeSelectOption value=\"\">{t.placeholder}</NativeSelectOption>\n      <NativeSelectOption value=\"todo\">{t.todo}</NativeSelectOption>\n      <NativeSelectOption value=\"in-progress\">\n        {t.inProgress}\n      </NativeSelectOption>\n      <NativeSelectOption value=\"done\">{t.done}</NativeSelectOption>\n      <NativeSelectOption value=\"cancelled\">{t.cancelled}</NativeSelectOption>\n    </NativeSelect>\n  )\n}\n"
+      ]
+    }
+  ]
+}

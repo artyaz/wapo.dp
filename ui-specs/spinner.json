@@ -1,0 +1,56 @@
+{
+  "name": "Spinner",
+  "description": "An indicator that can be used to show a loading state.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import { Spinner } from \"@/components/ui/spinner\"",
+        "<Spinner />"
+      ]
+    },
+    {
+      "variant": "Customization",
+      "code": [
+        "import { LoaderIcon } from \"lucide-react\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Spinner({ className, ...props }: React.ComponentProps<\"svg\">) {\n  return (\n    <LoaderIcon\n      role=\"status\"\n      aria-label=\"Loading\"\n      className={cn(\"size-4 animate-spin\", className)}\n      {...props}\n    />\n  )\n}\n\nexport function SpinnerCustom() {\n  return (\n    <div className=\"flex items-center gap-4\">\n      <Spinner />\n    </div>\n  )\n}\n",
+        "import { LoaderIcon } from \"lucide-react\"\n \nimport { cn } from \"@/lib/utils\"\n \nfunction Spinner({ className, ...props }: React.ComponentProps<\"svg\">) {\n  return (\n    <LoaderIcon\n      role=\"status\"\n      aria-label=\"Loading\"\n      className={cn(\"size-4 animate-spin\", className)}\n      {...props}\n    />\n  )\n}\n \nexport { Spinner }"
+      ]
+    },
+    {
+      "variant": "Size",
+      "code": [
+        "import { Spinner } from \"@/components/ui/spinner\"\n\nexport function SpinnerSize() {\n  return (\n    <div className=\"flex items-center gap-6\">\n      <Spinner className=\"size-3\" />\n      <Spinner className=\"size-4\" />\n      <Spinner className=\"size-6\" />\n      <Spinner className=\"size-8\" />\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Button",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\nimport { Spinner } from \"@/components/ui/spinner\"\n\nexport function SpinnerButton() {\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <Button disabled size=\"sm\">\n        <Spinner data-icon=\"inline-start\" />\n        Loading...\n      </Button>\n      <Button variant=\"outline\" disabled size=\"sm\">\n        <Spinner data-icon=\"inline-start\" />\n        Please wait\n      </Button>\n      <Button variant=\"secondary\" disabled size=\"sm\">\n        <Spinner data-icon=\"inline-start\" />\n        Processing\n      </Button>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Badge",
+      "code": [
+        "import { Badge } from \"@/components/ui/badge\"\nimport { Spinner } from \"@/components/ui/spinner\"\n\nexport function SpinnerBadge() {\n  return (\n    <div className=\"flex items-center gap-4 [--radius:1.2rem]\">\n      <Badge>\n        <Spinner data-icon=\"inline-start\" />\n        Syncing\n      </Badge>\n      <Badge variant=\"secondary\">\n        <Spinner data-icon=\"inline-start\" />\n        Updating\n      </Badge>\n      <Badge variant=\"outline\">\n        <Spinner data-icon=\"inline-start\" />\n        Processing\n      </Badge>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Input Group",
+      "code": [
+        "import { ArrowUpIcon } from \"lucide-react\"\n\nimport {\n  InputGroup,\n  InputGroupAddon,\n  InputGroupButton,\n  InputGroupInput,\n  InputGroupTextarea,\n} from \"@/components/ui/input-group\"\nimport { Spinner } from \"@/components/ui/spinner\"\n\nexport function SpinnerInputGroup() {\n  return (\n    <div className=\"flex w-full max-w-md flex-col gap-4\">\n      <InputGroup>\n        <InputGroupInput placeholder=\"Send a message...\" disabled />\n        <InputGroupAddon align=\"inline-end\">\n          <Spinner />\n        </InputGroupAddon>\n      </InputGroup>\n      <InputGroup>\n        <InputGroupTextarea placeholder=\"Send a message...\" disabled />\n        <InputGroupAddon align=\"block-end\">\n          <Spinner /> Validating...\n          <InputGroupButton className=\"ml-auto\" variant=\"default\">\n            <ArrowUpIcon />\n            <span className=\"sr-only\">Send</span>\n          </InputGroupButton>\n        </InputGroupAddon>\n      </InputGroup>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Empty",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\nimport {\n  Empty,\n  EmptyContent,\n  EmptyDescription,\n  EmptyHeader,\n  EmptyMedia,\n  EmptyTitle,\n} from \"@/components/ui/empty\"\nimport { Spinner } from \"@/components/ui/spinner\"\n\nexport function SpinnerEmpty() {\n  return (\n    <Empty className=\"w-full\">\n      <EmptyHeader>\n        <EmptyMedia variant=\"icon\">\n          <Spinner />\n        </EmptyMedia>\n        <EmptyTitle>Processing your request</EmptyTitle>\n        <EmptyDescription>\n          Please wait while we process your request. Do not refresh the page.\n        </EmptyDescription>\n      </EmptyHeader>\n      <EmptyContent>\n        <Button variant=\"outline\" size=\"sm\">\n          Cancel\n        </Button>\n      </EmptyContent>\n    </Empty>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport {\n  Item,\n  ItemContent,\n  ItemMedia,\n  ItemTitle,\n} from \"@/components/ui/item\"\nimport { Spinner } from \"@/components/ui/spinner\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {\n      title: \"Processing payment...\",\n      amount: \"$100.00\",\n    },\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {\n      title: \"\u062c\u0627\u0631\u064a \u0645\u0639\u0627\u0644\u062c\u0629 \u0627\u0644\u062f\u0641\u0639...\",\n      amount: \"\u0661\u0660\u0660.\u0660\u0660 \u062f\u0648\u0644\u0627\u0631\",\n    },\n  },\n  he: {\n    dir: \"rtl\",\n    values: {\n      title: \"\u05de\u05e2\u05d1\u05d3 \u05ea\u05e9\u05dc\u05d5\u05dd...\",\n      amount: \"$100.00\",\n    },\n  },\n}\n\nexport function SpinnerRtl() {\n  const { dir, t } = useTranslation(translations, \"ar\")\n\n  return (\n    <div\n      className=\"flex w-full max-w-xs flex-col gap-4 [--radius:1rem]\"\n      dir={dir}\n    >\n      <Item variant=\"muted\" dir={dir}>\n        <ItemMedia>\n          <Spinner />\n        </ItemMedia>\n        <ItemContent>\n          <ItemTitle className=\"line-clamp-1\">{t.title}</ItemTitle>\n        </ItemContent>\n        <ItemContent className=\"flex-none justify-end\">\n          <span className=\"text-sm tabular-nums\">{t.amount}</span>\n        </ItemContent>\n      </Item>\n    </div>\n  )\n}\n"
+      ]
+    }
+  ]
+}

@@ -6,10 +6,41 @@ import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+/** Item shape accepted by the `Select` `items` prop. */
+export type SelectItemData = {
+  label?: React.ReactNode
+  value: string | null
+  disabled?: boolean
+}
+
+/**
+ * Internal value used for `null`-valued items (the "reset / placeholder" row).
+ * Radix requires non-empty item values (an empty string clears the selection),
+ * so `null` items are rendered with this sentinel instead.
+ */
+const SELECT_EMPTY_ITEM_VALUE = "__select-empty-item__"
+
 function Select({
+  items: _items,
+  value,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Root>) {
-  return <SelectPrimitive.Root data-slot="select" {...props} />
+}: Omit<React.ComponentProps<typeof SelectPrimitive.Root>, "value"> & {
+  /**
+   * List of items. Demos pair it with explicitly rendered `SelectItem`
+   * children (groups, labels, separators), so it is accepted for API
+   * compatibility and not used to render content.
+   */
+  items?: readonly SelectItemData[]
+  /** Controlled value. `null` clears the selection (shows the placeholder). */
+  value?: string | null
+}) {
+  return (
+    <SelectPrimitive.Root
+      data-slot="select"
+      value={value === null ? undefined : value}
+      {...props}
+    />
+  )
 }
 
 function SelectGroup({
@@ -28,10 +59,29 @@ function SelectTrigger({
   className,
   size = "default",
   children,
+  render,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
   size?: "sm" | "default"
+  render?: React.ReactElement<Record<string, unknown>>
 }) {
+  if (render) {
+    return (
+      <SelectPrimitive.Trigger
+        data-slot="select-trigger"
+        data-size={size}
+        asChild
+        {...props}
+      >
+        {/* Only clone with new children when children were actually passed;
+           cloneElement's 3rd argument always *replaces* children, so passing
+           `undefined` would wipe the render element's own children. */}
+        {children !== undefined
+          ? React.cloneElement(render, undefined, children)
+          : render}
+      </SelectPrimitive.Trigger>
+    )
+  }
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
@@ -53,27 +103,40 @@ function SelectTrigger({
 function SelectContent({
   className,
   children,
-  position = "popper",
+  position,
+  alignItemWithTrigger,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Content>) {
+}: React.ComponentProps<typeof SelectPrimitive.Content> & {
+  /**
+   * Align the selected item with the trigger when the list opens
+   * (Radix `position="item-aligned"`). When `false` (or with an explicit
+   * `position`), the list opens centered under the trigger ("popper").
+   *
+   * @default false
+   */
+  alignItemWithTrigger?: boolean
+}) {
+  const resolvedPosition =
+    position ?? (alignItemWithTrigger ? "item-aligned" : "popper")
+
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
         data-slot="select-content"
         className={cn(
           "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-(--radix-select-content-available-height) min-w-[8rem] origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border shadow-md",
-          position === "popper" &&
+          resolvedPosition === "popper" &&
             "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
           className
         )}
-        position={position}
+        position={resolvedPosition}
         {...props}
       >
         <SelectScrollUpButton />
         <SelectPrimitive.Viewport
           className={cn(
             "p-1",
-            position === "popper" &&
+            resolvedPosition === "popper" &&
               "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)] scroll-my-1"
           )}
         >
@@ -101,11 +164,19 @@ function SelectLabel({
 function SelectItem({
   className,
   children,
+  value,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Item>) {
+}: Omit<React.ComponentProps<typeof SelectPrimitive.Item>, "value"> & {
+  /**
+   * Value of the item. `null` marks the reset/placeholder row (rendered with
+   * an internal sentinel value because Radix forbids empty-string values).
+   */
+  value: string | null
+}) {
   return (
     <SelectPrimitive.Item
       data-slot="select-item"
+      value={value ?? SELECT_EMPTY_ITEM_VALUE}
       className={cn(
         "focus:bg-accent focus:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
         className

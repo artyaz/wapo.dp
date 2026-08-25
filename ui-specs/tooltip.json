@@ -1,0 +1,43 @@
+{
+  "name": "Tooltip",
+  "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import {\n  Tooltip,\n  TooltipContent,\n  TooltipTrigger,\n} from \"@/components/ui/tooltip\"",
+        "<Tooltip>\n  <TooltipTrigger>Hover</TooltipTrigger>\n  <TooltipContent>\n    <p>Add to library</p>\n  </TooltipContent>\n</Tooltip>"
+      ]
+    },
+    {
+      "variant": "Composition",
+      "code": [
+        "Tooltip\n\u251c\u2500\u2500 TooltipTrigger\n\u2514\u2500\u2500 TooltipContent"
+      ]
+    },
+    {
+      "variant": "Side",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\nimport {\n  Tooltip,\n  TooltipContent,\n  TooltipTrigger,\n} from \"@/components/ui/tooltip\"\n\nexport function TooltipSides() {\n  return (\n    <div className=\"flex flex-wrap gap-2\">\n      {([\"left\", \"top\", \"bottom\", \"right\"] as const).map((side) => (\n        <Tooltip key={side}>\n          <TooltipTrigger render={<Button variant=\"outline\" className=\"w-fit capitalize\">{side}</Button>} />\n          <TooltipContent side={side}>\n            <p>Add to library</p>\n          </TooltipContent>\n        </Tooltip>\n      ))}\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "With Keyboard Shortcut",
+      "code": [
+        "import { SaveIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { Kbd } from \"@/components/ui/kbd\"\nimport {\n  Tooltip,\n  TooltipContent,\n  TooltipTrigger,\n} from \"@/components/ui/tooltip\"\n\nexport function TooltipKeyboard() {\n  return (\n    <Tooltip>\n      <TooltipTrigger render={<Button variant=\"outline\" size=\"icon-sm\"><SaveIcon /></Button>} />\n      <TooltipContent>\n        Save Changes <Kbd>S</Kbd>\n      </TooltipContent>\n    </Tooltip>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Disabled Button",
+      "code": [
+        "import { Button } from \"@/components/ui/button\"\nimport {\n  Tooltip,\n  TooltipContent,\n  TooltipTrigger,\n} from \"@/components/ui/tooltip\"\n\nexport function TooltipDisabled() {\n  return (\n    <>\n      <Tooltip>\n        <TooltipTrigger render={<span className=\"inline-block w-fit\"><Button variant=\"outline\" disabled>\n            Disabled\n          </Button></span>} />\n        <TooltipContent>\n          <p>This feature is currently unavailable</p>\n        </TooltipContent>\n      </Tooltip>\n    </>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport { Button } from \"@/components/ui/button\"\nimport {\n  Tooltip,\n  TooltipContent,\n  TooltipTrigger,\n} from \"@/components/ui/tooltip\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {\n      content: \"Add to library\",\n      \"inline-start\": \"Inline Start\",\n      left: \"Left\",\n      top: \"Top\",\n      bottom: \"Bottom\",\n      right: \"Right\",\n      \"inline-end\": \"Inline End\",\n    },\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {\n      content: \"\u0625\u0636\u0627\u0641\u0629 \u0625\u0644\u0649 \u0627\u0644\u0645\u0643\u062a\u0628\u0629\",\n      \"inline-start\": \"\u0628\u062f\u0627\u064a\u0629 \u0627\u0644\u0633\u0637\u0631\",\n      left: \"\u064a\u0633\u0627\u0631\",\n      top: \"\u0623\u0639\u0644\u0649\",\n      bottom: \"\u0623\u0633\u0641\u0644\",\n      right: \"\u064a\u0645\u064a\u0646\",\n      \"inline-end\": \"\u0646\u0647\u0627\u064a\u0629 \u0627\u0644\u0633\u0637\u0631\",\n    },\n  },\n  he: {\n    dir: \"rtl\",\n    values: {\n      content: \"\u05d4\u05d5\u05e1\u05e3 \u05dc\u05e1\u05e4\u05e8\u05d9\u05d9\u05d4\",\n      \"inline-start\": \"\u05ea\u05d7\u05d9\u05dc\u05ea \u05d4\u05e9\u05d5\u05e8\u05d4\",\n      left: \"\u05e9\u05de\u05d0\u05dc\",\n      top: \"\u05dc\u05de\u05e2\u05dc\u05d4\",\n      bottom: \"\u05dc\u05de\u05d8\u05d4\",\n      right: \"\u05d9\u05de\u05d9\u05df\",\n      \"inline-end\": \"\u05e1\u05d5\u05e3 \u05d4\u05e9\u05d5\u05e8\u05d4\",\n    },\n  },\n}\n\nconst physicalSides = [\"left\", \"top\", \"bottom\", \"right\"] as const\nconst logicalSides = [\"inline-start\", \"inline-end\"] as const\n\nexport function TooltipRtl() {\n  const { dir, t } = useTranslation(translations, \"ar\")\n\n  return (\n    <div className=\"grid gap-4\">\n      <div className=\"flex flex-wrap justify-center gap-2\">\n        {physicalSides.map((side) => (\n          <Tooltip key={side}>\n            <TooltipTrigger render={<Button variant=\"outline\">{t[side]}</Button>} />\n            <TooltipContent side={side} dir={dir}>\n              {t.content}\n            </TooltipContent>\n          </Tooltip>\n        ))}\n      </div>\n      <div className=\"flex flex-wrap justify-center gap-2\">\n        {logicalSides.map((side) => (\n          <Tooltip key={side}>\n            <TooltipTrigger render={<Button variant=\"outline\">{t[side]}</Button>} />\n            <TooltipContent side={side} dir={dir}>\n              {t.content}\n            </TooltipContent>\n          </Tooltip>\n        ))}\n      </div>\n    </div>\n  )\n}\n"
+      ]
+    }
+  ]
+}

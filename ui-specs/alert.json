@@ -1,0 +1,49 @@
+{
+  "name": "Alert",
+  "description": "Displays a callout for user attention.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import {\n  Alert,\n  AlertAction,\n  AlertDescription,\n  AlertTitle,\n} from \"@/components/ui/alert\"",
+        "<Alert>\n  <InfoIcon />\n  <AlertTitle>Heads up!</AlertTitle>\n  <AlertDescription>\n    You can add components and dependencies to your app using the cli.\n  </AlertDescription>\n  <AlertAction>\n    <Button variant=\"outline\">Enable</Button>\n  </AlertAction>\n</Alert>"
+      ]
+    },
+    {
+      "variant": "Composition",
+      "code": [
+        "Alert\n\u251c\u2500\u2500 Icon\n\u251c\u2500\u2500 AlertTitle\n\u251c\u2500\u2500 AlertDescription\n\u2514\u2500\u2500 AlertAction"
+      ]
+    },
+    {
+      "variant": "Basic",
+      "code": [
+        "import { CheckCircle2Icon } from \"lucide-react\"\n\nimport {\n  Alert,\n  AlertDescription,\n  AlertTitle,\n} from \"@/components/ui/alert\"\n\nexport function AlertBasic() {\n  return (\n    <Alert className=\"max-w-md\">\n      <CheckCircle2Icon />\n      <AlertTitle>Account updated successfully</AlertTitle>\n      <AlertDescription>\n        Your profile information has been saved. Changes will be reflected\n        immediately.\n      </AlertDescription>\n    </Alert>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Destructive",
+      "code": [
+        "import { AlertCircleIcon } from \"lucide-react\"\n\nimport {\n  Alert,\n  AlertDescription,\n  AlertTitle,\n} from \"@/components/ui/alert\"\n\nexport function AlertDestructive() {\n  return (\n    <Alert variant=\"destructive\" className=\"max-w-md\">\n      <AlertCircleIcon />\n      <AlertTitle>Payment failed</AlertTitle>\n      <AlertDescription>\n        Your payment could not be processed. Please check your payment method\n        and try again.\n      </AlertDescription>\n    </Alert>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Action",
+      "code": [
+        "import {\n  Alert,\n  AlertAction,\n  AlertDescription,\n  AlertTitle,\n} from \"@/components/ui/alert\"\nimport { Button } from \"@/components/ui/button\"\n\nexport function AlertActionExample() {\n  return (\n    <Alert className=\"max-w-md\">\n      <AlertTitle>Dark mode is now available</AlertTitle>\n      <AlertDescription>\n        Enable it under your profile settings to get started.\n      </AlertDescription>\n      <AlertAction>\n        <Button size=\"xs\" variant=\"default\">\n          Enable\n        </Button>\n      </AlertAction>\n    </Alert>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Custom Colors",
+      "code": [
+        "import { AlertTriangleIcon } from \"lucide-react\"\n\nimport {\n  Alert,\n  AlertDescription,\n  AlertTitle,\n} from \"@/components/ui/alert\"\n\nexport function AlertColors() {\n  return (\n    <Alert className=\"max-w-md border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50\">\n      <AlertTriangleIcon />\n      <AlertTitle>Your subscription will expire in 3 days.</AlertTitle>\n      <AlertDescription>\n        Renew now to avoid service interruption or upgrade to a paid plan to\n        continue using the service.\n      </AlertDescription>\n    </Alert>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\nimport { CheckCircle2Icon, InfoIcon } from \"lucide-react\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport {\n  Alert,\n  AlertDescription,\n  AlertTitle,\n} from \"@/components/ui/alert\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {\n      paymentTitle: \"Payment successful\",\n      paymentDescription:\n        \"Your payment of $29.99 has been processed. A receipt has been sent to your email address.\",\n      featureTitle: \"New feature available\",\n      featureDescription:\n        \"We've added dark mode support. You can enable it in your account settings.\",\n    },\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {\n      paymentTitle: \"\u062a\u0645 \u0627\u0644\u062f\u0641\u0639 \u0628\u0646\u062c\u0627\u062d\",\n      paymentDescription:\n        \"\u062a\u0645\u062a \u0645\u0639\u0627\u0644\u062c\u0629 \u062f\u0641\u0639\u062a\u0643 \u0627\u0644\u0628\u0627\u0644\u063a\u0629 29.99 \u062f\u0648\u0644\u0627\u0631\u064b\u0627. \u062a\u0645 \u0625\u0631\u0633\u0627\u0644 \u0625\u064a\u0635\u0627\u0644 \u0625\u0644\u0649 \u0639\u0646\u0648\u0627\u0646 \u0628\u0631\u064a\u062f\u0643 \u0627\u0644\u0625\u0644\u0643\u062a\u0631\u0648\u0646\u064a.\",\n      featureTitle: \"\u0645\u064a\u0632\u0629 \u062c\u062f\u064a\u062f\u0629 \u0645\u062a\u0627\u062d\u0629\",\n      featureDescription:\n        \"\u0644\u0642\u062f \u0623\u0636\u0641\u0646\u0627 \u062f\u0639\u0645 \u0627\u0644\u0648\u0636\u0639 \u0627\u0644\u062f\u0627\u0643\u0646. \u064a\u0645\u0643\u0646\u0643 \u062a\u0641\u0639\u064a\u0644\u0647 \u0641\u064a \u0625\u0639\u062f\u0627\u062f\u0627\u062a \u062d\u0633\u0627\u0628\u0643.\",\n    },\n  },\n  he: {\n    dir: \"rtl\",\n    values: {\n      paymentTitle: \"\u05d4\u05ea\u05e9\u05dc\u05d5\u05dd \u05d1\u05d5\u05e6\u05e2 \u05d1\u05d4\u05e6\u05dc\u05d7\u05d4\",\n      paymentDescription:\n        \"\u05d4\u05ea\u05e9\u05dc\u05d5\u05dd \u05e9\u05dc\u05da \u05d1\u05e1\u05da 29.99 \u05d3\u05d5\u05dc\u05e8 \u05e2\u05d5\u05d1\u05d3. \u05e7\u05d1\u05dc\u05d4 \u05e0\u05e9\u05dc\u05d7\u05d4 \u05dc\u05db\u05ea\u05d5\u05d1\u05ea \u05d4\u05d0\u05d9\u05de\u05d9\u05d9\u05dc \u05e9\u05dc\u05da.\",\n      featureTitle: \"\u05ea\u05db\u05d5\u05e0\u05d4 \u05d7\u05d3\u05e9\u05d4 \u05d6\u05de\u05d9\u05e0\u05d4\",\n      featureDescription:\n        \"\u05d4\u05d5\u05e1\u05e4\u05e0\u05d5 \u05ea\u05de\u05d9\u05db\u05d4 \u05d1\u05de\u05e6\u05d1 \u05db\u05d4\u05d4. \u05d0\u05ea\u05d4 \u05d9\u05db\u05d5\u05dc \u05dc\u05d4\u05e4\u05e2\u05d9\u05dc \u05d0\u05d5\u05ea\u05d5 \u05d1\u05d4\u05d2\u05d3\u05e8\u05d5\u05ea \u05d4\u05d7\u05e9\u05d1\u05d5\u05df \u05e9\u05dc\u05da.\",\n    },\n  },\n}\n\nconst alerts = [\n  {\n    icon: CheckCircle2Icon,\n    titleKey: \"paymentTitle\" as const,\n    descriptionKey: \"paymentDescription\" as const,\n  },\n  {\n    icon: InfoIcon,\n    titleKey: \"featureTitle\" as const,\n    descriptionKey: \"featureDescription\" as const,\n  },\n] as const\n\nexport function AlertRtl() {\n  const { dir, t } = useTranslation(translations, \"ar\")\n\n  return (\n    <div className=\"grid w-full max-w-md items-start gap-4\" dir={dir}>\n      {alerts.map((alert, index) => {\n        const Icon = alert.icon\n        return (\n          <Alert key={index}>\n            <Icon />\n            <AlertTitle>{t[alert.titleKey]}</AlertTitle>\n            <AlertDescription>{t[alert.descriptionKey]}</AlertDescription>\n          </Alert>\n        )\n      })}\n    </div>\n  )\n}\n"
+      ]
+    }
+  ]
+}

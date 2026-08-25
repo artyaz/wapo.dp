@@ -1,0 +1,31 @@
+{
+  "name": "Scroll Area",
+  "description": "Augments native scroll functionality for custom, cross-browser styling.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import { ScrollArea, ScrollBar } from \"@/components/ui/scroll-area\"",
+        "<ScrollArea className=\"h-[200px] w-[350px] rounded-md border p-4\">\n  Your scrollable content here.\n</ScrollArea>"
+      ]
+    },
+    {
+      "variant": "Composition",
+      "code": [
+        "ScrollArea\n\u2514\u2500\u2500 ScrollBar"
+      ]
+    },
+    {
+      "variant": "Horizontal",
+      "code": [
+        "import * as React from \"react\"\nimport Image from \"next/image\"\n\nimport { ScrollArea, ScrollBar } from \"@/components/ui/scroll-area\"\n\nexport interface Artwork {\n  artist: string\n  art: string\n}\n\nexport const works: Artwork[] = [\n  {\n    artist: \"Ornella Binni\",\n    art: \"https://images.unsplash.com/photo-1465869185982-5a1a7522cbcb?auto=format&fit=crop&w=300&q=80\",\n  },\n  {\n    artist: \"Tom Byrom\",\n    art: \"https://images.unsplash.com/photo-1548516173-3cabfa4607e9?auto=format&fit=crop&w=300&q=80\",\n  },\n  {\n    artist: \"Vladimir Malyavko\",\n    art: \"https://images.unsplash.com/photo-1494337480532-3725c85fd2ab?auto=format&fit=crop&w=300&q=80\",\n  },\n]\n\nexport function ScrollAreaHorizontalDemo() {\n  return (\n    <ScrollArea className=\"w-96 rounded-md border whitespace-nowrap\">\n      <div className=\"flex w-max space-x-4 p-4\">\n        {works.map((artwork) => (\n          <figure key={artwork.artist} className=\"shrink-0\">\n            <div className=\"overflow-hidden rounded-md\">\n              <Image\n                src={artwork.art}\n                alt={`Photo by ${artwork.artist}`}\n                className=\"aspect-[3/4] h-fit w-fit object-cover\"\n                width={300}\n                height={400}\n              />\n            </div>\n            <figcaption className=\"pt-2 text-xs text-muted-foreground\">\n              Photo by{\" \"}\n              <span className=\"font-semibold text-foreground\">\n                {artwork.artist}\n              </span>\n            </figcaption>\n          </figure>\n        ))}\n      </div>\n      <ScrollBar orientation=\"horizontal\" />\n    </ScrollArea>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport { ScrollArea } from \"@/components/ui/scroll-area\"\nimport { Separator } from \"@/components/ui/separator\"\n\nconst tags = Array.from({ length: 50 }).map(\n  (_, i, a) => `v1.2.0-beta.${a.length - i}`\n)\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {\n      tags: \"Tags\",\n    },\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {\n      tags: \"\u0627\u0644\u0639\u0644\u0627\u0645\u0627\u062a\",\n    },\n  },\n  he: {\n    dir: \"rtl\",\n    values: {\n      tags: \"\u05ea\u05d2\u05d9\u05d5\u05ea\",\n    },\n  },\n}\n\nexport function ScrollAreaRtl() {\n  const { dir, t } = useTranslation(translations, \"ar\")\n\n  return (\n    <ScrollArea className=\"h-72 w-48 rounded-md border\" dir={dir}>\n      <div className=\"p-4\">\n        <h4 className=\"mb-4 text-sm leading-none font-medium\">{t.tags}</h4>\n        {tags.map((tag) => (\n          <React.Fragment key={tag}>\n            <div className=\"text-sm\">{tag}</div>\n            <Separator className=\"my-2\" />\n          </React.Fragment>\n        ))}\n      </div>\n    </ScrollArea>\n  )\n}\n"
+      ]
+    }
+  ]
+}

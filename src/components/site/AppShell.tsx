@@ -18,6 +18,7 @@ const NAV = [
   { to: "/foundations", label: "Foundations" },
   { to: "/materials", label: "Materials" },
   { to: "/components", label: "Components" },
+  { to: "/ui", label: "UI Library" },
   { to: "/patterns", label: "Patterns" },
 ];
 

@@ -1,0 +1,74 @@
+{
+  "name": "Input OTP",
+  "description": "Accessible one-time password component with copy-paste functionality.",
+  "usage": [
+    {
+      "variant": "Usage",
+      "code": [
+        "import {\n  InputOTP,\n  InputOTPGroup,\n  InputOTPSeparator,\n  InputOTPSlot,\n} from \"@/components/ui/input-otp\"",
+        "<InputOTP maxLength={6}>\n  <InputOTPGroup>\n    <InputOTPSlot index={0} />\n    <InputOTPSlot index={1} />\n    <InputOTPSlot index={2} />\n  </InputOTPGroup>\n  <InputOTPSeparator />\n  <InputOTPGroup>\n    <InputOTPSlot index={3} />\n    <InputOTPSlot index={4} />\n    <InputOTPSlot index={5} />\n  </InputOTPGroup>\n</InputOTP>"
+      ]
+    },
+    {
+      "variant": "Composition",
+      "code": [
+        "InputOTP\n\u251c\u2500\u2500 InputOTPGroup\n\u2502   \u251c\u2500\u2500 InputOTPSlot\n\u2502   \u251c\u2500\u2500 InputOTPSlot\n\u2502   \u2514\u2500\u2500 InputOTPSlot\n\u251c\u2500\u2500 InputOTPSeparator\n\u251c\u2500\u2500 InputOTPGroup\n\u2502   \u251c\u2500\u2500 InputOTPSlot\n\u2502   \u251c\u2500\u2500 InputOTPSlot\n\u2502   \u2514\u2500\u2500 InputOTPSlot\n\u251c\u2500\u2500 InputOTPSeparator\n\u2514\u2500\u2500 InputOTPGroup\n    \u251c\u2500\u2500 InputOTPSlot\n    \u2514\u2500\u2500 InputOTPSlot"
+      ]
+    },
+    {
+      "variant": "Pattern",
+      "code": [
+        "import { REGEXP_ONLY_DIGITS_AND_CHARS } from \"input-otp\"\n \n;<InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>\n  ...\n</InputOTP>",
+        "\"use client\"\n\nimport { REGEXP_ONLY_DIGITS } from \"input-otp\"\n\nimport { Field, FieldLabel } from \"@/components/ui/field\"\nimport {\n  InputOTP,\n  InputOTPGroup,\n  InputOTPSlot,\n} from \"@/components/ui/input-otp\"\n\nexport function InputOTPPattern() {\n  return (\n    <Field className=\"w-fit\">\n      <FieldLabel htmlFor=\"digits-only\">Digits Only</FieldLabel>\n      <InputOTP id=\"digits-only\" maxLength={6} pattern={REGEXP_ONLY_DIGITS}>\n        <InputOTPGroup>\n          <InputOTPSlot index={0} />\n          <InputOTPSlot index={1} />\n          <InputOTPSlot index={2} />\n          <InputOTPSlot index={3} />\n          <InputOTPSlot index={4} />\n          <InputOTPSlot index={5} />\n        </InputOTPGroup>\n      </InputOTP>\n    </Field>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Separator",
+      "code": [
+        "import {\n  InputOTP,\n  InputOTPGroup,\n  InputOTPSeparator,\n  InputOTPSlot,\n} from \"@/components/ui/input-otp\"\n\nexport function InputOTPWithSeparator() {\n  return (\n    <InputOTP maxLength={6}>\n      <InputOTPGroup>\n        <InputOTPSlot index={0} />\n        <InputOTPSlot index={1} />\n      </InputOTPGroup>\n      <InputOTPSeparator />\n      <InputOTPGroup>\n        <InputOTPSlot index={2} />\n        <InputOTPSlot index={3} />\n      </InputOTPGroup>\n      <InputOTPSeparator />\n      <InputOTPGroup>\n        <InputOTPSlot index={4} />\n        <InputOTPSlot index={5} />\n      </InputOTPGroup>\n    </InputOTP>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Disabled",
+      "code": [
+        "import { Field, FieldLabel } from \"@/components/ui/field\"\nimport {\n  InputOTP,\n  InputOTPGroup,\n  InputOTPSeparator,\n  InputOTPSlot,\n} from \"@/components/ui/input-otp\"\n\nexport function InputOTPDisabled() {\n  return (\n    <InputOTP id=\"disabled\" maxLength={6} disabled value=\"123456\">\n      <InputOTPGroup>\n        <InputOTPSlot index={0} />\n        <InputOTPSlot index={1} />\n        <InputOTPSlot index={2} />\n      </InputOTPGroup>\n      <InputOTPSeparator />\n      <InputOTPGroup>\n        <InputOTPSlot index={3} />\n        <InputOTPSlot index={4} />\n        <InputOTPSlot index={5} />\n      </InputOTPGroup>\n    </InputOTP>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Controlled",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\n\nimport {\n  InputOTP,\n  InputOTPGroup,\n  InputOTPSlot,\n} from \"@/components/ui/input-otp\"\n\nexport function InputOTPControlled() {\n  const [value, setValue] = React.useState(\"\")\n\n  return (\n    <div className=\"space-y-2\">\n      <InputOTP\n        maxLength={6}\n        value={value}\n        onChange={(value) => setValue(value)}\n      >\n        <InputOTPGroup>\n          <InputOTPSlot index={0} />\n          <InputOTPSlot index={1} />\n          <InputOTPSlot index={2} />\n          <InputOTPSlot index={3} />\n          <InputOTPSlot index={4} />\n          <InputOTPSlot index={5} />\n        </InputOTPGroup>\n      </InputOTP>\n      <div className=\"text-center text-sm\">\n        {value === \"\" ? (\n          <>Enter your one-time password.</>\n        ) : (\n          <>You entered: {value}</>\n        )}\n      </div>\n    </div>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Invalid",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\n\nimport {\n  InputOTP,\n  InputOTPGroup,\n  InputOTPSeparator,\n  InputOTPSlot,\n} from \"@/components/ui/input-otp\"\n\nexport function InputOTPInvalid() {\n  const [value, setValue] = React.useState(\"000000\")\n\n  return (\n    <InputOTP maxLength={6} value={value} onChange={setValue}>\n      <InputOTPGroup>\n        <InputOTPSlot index={0} aria-invalid />\n        <InputOTPSlot index={1} aria-invalid />\n      </InputOTPGroup>\n      <InputOTPSeparator />\n      <InputOTPGroup>\n        <InputOTPSlot index={2} aria-invalid />\n        <InputOTPSlot index={3} aria-invalid />\n      </InputOTPGroup>\n      <InputOTPSeparator />\n      <InputOTPGroup>\n        <InputOTPSlot index={4} aria-invalid />\n        <InputOTPSlot index={5} aria-invalid />\n      </InputOTPGroup>\n    </InputOTP>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Four Digits",
+      "code": [
+        "\"use client\"\n\nimport { REGEXP_ONLY_DIGITS } from \"input-otp\"\n\nimport {\n  InputOTP,\n  InputOTPGroup,\n  InputOTPSlot,\n} from \"@/components/ui/input-otp\"\n\nexport function InputOTPFourDigits() {\n  return (\n    <InputOTP maxLength={4} pattern={REGEXP_ONLY_DIGITS}>\n      <InputOTPGroup>\n        <InputOTPSlot index={0} />\n        <InputOTPSlot index={1} />\n        <InputOTPSlot index={2} />\n        <InputOTPSlot index={3} />\n      </InputOTPGroup>\n    </InputOTP>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Alphanumeric",
+      "code": [
+        "\"use client\"\n\nimport { REGEXP_ONLY_DIGITS_AND_CHARS } from \"input-otp\"\n\nimport {\n  InputOTP,\n  InputOTPGroup,\n  InputOTPSeparator,\n  InputOTPSlot,\n} from \"@/components/ui/input-otp\"\n\nexport function InputOTPAlphanumeric() {\n  return (\n    <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>\n      <InputOTPGroup>\n        <InputOTPSlot index={0} />\n        <InputOTPSlot index={1} />\n        <InputOTPSlot index={2} />\n      </InputOTPGroup>\n      <InputOTPSeparator />\n      <InputOTPGroup>\n        <InputOTPSlot index={3} />\n        <InputOTPSlot index={4} />\n        <InputOTPSlot index={5} />\n      </InputOTPGroup>\n    </InputOTP>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "Form",
+      "code": [
+        "import { RefreshCwIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  Card,\n  CardContent,\n  CardDescription,\n  CardFooter,\n  CardHeader,\n  CardTitle,\n} from \"@/components/ui/card\"\nimport {\n  Field,\n  FieldDescription,\n  FieldLabel,\n} from \"@/components/ui/field\"\nimport {\n  InputOTP,\n  InputOTPGroup,\n  InputOTPSeparator,\n  InputOTPSlot,\n} from \"@/components/ui/input-otp\"\n\nexport function InputOTPForm() {\n  return (\n    <Card className=\"mx-auto max-w-md\">\n      <CardHeader>\n        <CardTitle>Verify your login</CardTitle>\n        <CardDescription>\n          Enter the verification code we sent to your email address:{\" \"}\n          <span className=\"font-medium\">m@example.com</span>.\n        </CardDescription>\n      </CardHeader>\n      <CardContent>\n        <Field>\n          <div className=\"flex items-center justify-between\">\n            <FieldLabel htmlFor=\"otp-verification\">\n              Verification code\n            </FieldLabel>\n            <Button variant=\"outline\" size=\"xs\">\n              <RefreshCwIcon />\n              Resend Code\n            </Button>\n          </div>\n          <InputOTP maxLength={6} id=\"otp-verification\" required>\n            <InputOTPGroup className=\"*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl\">\n              <InputOTPSlot index={0} />\n              <InputOTPSlot index={1} />\n              <InputOTPSlot index={2} />\n            </InputOTPGroup>\n            <InputOTPSeparator className=\"mx-2\" />\n            <InputOTPGroup className=\"*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl\">\n              <InputOTPSlot index={3} />\n              <InputOTPSlot index={4} />\n              <InputOTPSlot index={5} />\n            </InputOTPGroup>\n          </InputOTP>\n          <FieldDescription>\n            <a href=\"#\">I no longer have access to this email address.</a>\n          </FieldDescription>\n        </Field>\n      </CardContent>\n      <CardFooter>\n        <Field>\n          <Button type=\"submit\" className=\"w-full\">\n            Verify\n          </Button>\n          <div className=\"text-sm text-muted-foreground\">\n            Having trouble signing in?{\" \"}\n            <a\n              href=\"#\"\n              className=\"underline underline-offset-4 transition-colors hover:text-primary\"\n            >\n              Contact support\n            </a>\n          </div>\n        </Field>\n      </CardFooter>\n    </Card>\n  )\n}\n"
+      ]
+    },
+    {
+      "variant": "RTL",
+      "code": [
+        "\"use client\"\n\nimport * as React from \"react\"\n\nimport {\n  useTranslation,\n  type Translations,\n} from \"@/components/language-selector\"\nimport { Field, FieldLabel } from \"@/components/ui/field\"\nimport {\n  InputOTP,\n  InputOTPGroup,\n  InputOTPSlot,\n} from \"@/components/ui/input-otp\"\n\nconst translations: Translations = {\n  en: {\n    dir: \"ltr\",\n    values: {\n      verificationCode: \"Verification code\",\n    },\n  },\n  ar: {\n    dir: \"rtl\",\n    values: {\n      verificationCode: \"\u0631\u0645\u0632 \u0627\u0644\u062a\u062d\u0642\u0642\",\n    },\n  },\n  he: {\n    dir: \"rtl\",\n    values: {\n      verificationCode: \"\u05e7\u05d5\u05d3 \u05d0\u05d9\u05de\u05d5\u05ea\",\n    },\n  },\n}\n\nexport function InputOTPRtl() {\n  const { dir, t } = useTranslation(translations, \"ar\")\n\n  return (\n    <Field className=\"mx-auto max-w-xs\">\n      <FieldLabel htmlFor=\"input-otp-rtl\">{t.verificationCode}</FieldLabel>\n      <InputOTP\n        maxLength={6}\n        defaultValue=\"123456\"\n        dir={dir}\n        id=\"input-otp-rtl\"\n      >\n        <InputOTPGroup>\n          <InputOTPSlot index={0} />\n          <InputOTPSlot index={1} />\n          <InputOTPSlot index={2} />\n          <InputOTPSlot index={3} />\n          <InputOTPSlot index={4} />\n          <InputOTPSlot index={5} />\n        </InputOTPGroup>\n      </InputOTP>\n    </Field>\n  )\n}\n"
+      ]
+    }
+  ]
+}
