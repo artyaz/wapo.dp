@@ -12,7 +12,8 @@ export type CategoryId =
   | "data-visualization"
   | "code-editor"
   | "media"
-  | "layouts";
+  | "layouts"
+  | "ai-elements";
 
 export interface Category {
   id: CategoryId;
@@ -80,6 +81,12 @@ export const CATEGORIES: Category[] = [
     name: "Layouts",
     description:
       "Page-level scaffolds — default pages, dialog frames and drawer shells.",
+  },
+  {
+    id: "ai-elements",
+    name: "AI Elements",
+    description:
+      "The agent chat surface — user bubbles, thought headers, tool summaries, granular traces, payload inspectors, inline chips, response blocks and the jump-to-latest FAB that compose an auditable AI conversation.",
   },
 ];
 

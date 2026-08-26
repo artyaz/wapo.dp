@@ -86,6 +86,14 @@ export const COMPONENT_REGISTRY: RegistryEntry[] = [
   { name: "DrawerLayout", slug: "drawer-layout", category: "layouts" },
   { name: "Dialog", slug: "dialog", category: "surfaces" },
   { name: "Drawer", slug: "drawer", category: "surfaces" },
+  { name: "UserMessage", slug: "user-message", category: "ai-elements" },
+  { name: "ThoughtHeader", slug: "thought-header", category: "ai-elements" },
+  { name: "ToolSummaryRow", slug: "tool-summary-row", category: "ai-elements" },
+  { name: "ActionTraces", slug: "action-traces", category: "ai-elements" },
+  { name: "PayloadInspector", slug: "payload-inspector", category: "ai-elements" },
+  { name: "InlineChips", slug: "inline-chips", category: "ai-elements" },
+  { name: "AssistantMessage", slug: "assistant-message", category: "ai-elements" },
+  { name: "JumpToLatest", slug: "jump-to-latest", category: "ai-elements" },
 ];
 
 /** slug → registry entry lookup. */
@@ -164,6 +172,14 @@ const META_LOADERS: Record<string, () => Promise<{ default: ComponentMeta }>> = 
   DrawerLayout: () => import("@/components/ds/DrawerLayout/meta"),
   Dialog: () => import("@/components/ds/Dialog/meta"),
   Drawer: () => import("@/components/ds/Drawer/meta"),
+  UserMessage: () => import("@/components/ds/UserMessage/meta"),
+  ThoughtHeader: () => import("@/components/ds/ThoughtHeader/meta"),
+  ToolSummaryRow: () => import("@/components/ds/ToolSummaryRow/meta"),
+  ActionTraces: () => import("@/components/ds/ActionTraces/meta"),
+  PayloadInspector: () => import("@/components/ds/PayloadInspector/meta"),
+  InlineChips: () => import("@/components/ds/InlineChips/meta"),
+  AssistantMessage: () => import("@/components/ds/AssistantMessage/meta"),
+  JumpToLatest: () => import("@/components/ds/JumpToLatest/meta"),
 };
 
 /** Shape of a `demo.tsx` module: default demo component + source string. */
@@ -227,6 +243,14 @@ const DEMO_LOADERS: Record<string, () => Promise<DemoModule>> = {
   DrawerLayout: () => import("@/components/ds/DrawerLayout/demo"),
   Dialog: () => import("@/components/ds/Dialog/demo"),
   Drawer: () => import("@/components/ds/Drawer/demo"),
+  UserMessage: () => import("@/components/ds/UserMessage/demo"),
+  ThoughtHeader: () => import("@/components/ds/ThoughtHeader/demo"),
+  ToolSummaryRow: () => import("@/components/ds/ToolSummaryRow/demo"),
+  ActionTraces: () => import("@/components/ds/ActionTraces/demo"),
+  PayloadInspector: () => import("@/components/ds/PayloadInspector/demo"),
+  InlineChips: () => import("@/components/ds/InlineChips/demo"),
+  AssistantMessage: () => import("@/components/ds/AssistantMessage/demo"),
+  JumpToLatest: () => import("@/components/ds/JumpToLatest/demo"),
 };
 
 /**
