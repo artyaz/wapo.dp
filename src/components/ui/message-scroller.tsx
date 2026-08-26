@@ -302,7 +302,10 @@ function MessageScrollerProvider({
             )
           : 0
 
-        viewport.scrollTop += itemRect.height + gap
+        viewport.scrollTo({
+          top: viewport.scrollTop + itemRect.height + gap,
+          behavior: "instant",
+        })
         scheduleUpdate()
         return
       }
@@ -435,9 +438,9 @@ function MessageScrollerProvider({
     }
 
     if (defaultScrollPosition === "start") {
-      viewport.scrollTop = 0
+      viewport.scrollTo({ top: 0, behavior: "instant" })
     } else if (defaultScrollPosition === "end") {
-      viewport.scrollTop = viewport.scrollHeight
+      viewport.scrollTo({ top: viewport.scrollHeight, behavior: "instant" })
     } else {
       const orderedItems = getOrderedItems()
       const lastAnchor = [...orderedItems]
@@ -447,7 +450,7 @@ function MessageScrollerProvider({
       if (lastAnchor) {
         scrollToAnchorItem(lastAnchor, "instant")
       } else {
-        viewport.scrollTop = viewport.scrollHeight
+        viewport.scrollTo({ top: viewport.scrollHeight, behavior: "instant" })
       }
     }
 

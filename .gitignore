@@ -66,3 +66,6 @@ server.log
 
 # generation scripts must not be scanned by tailwind (they contain class-name literals)
 /scripts/
+
+# local sqlite db
+db/*.db
