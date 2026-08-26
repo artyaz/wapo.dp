@@ -108,70 +108,81 @@ export default function Demo() {
       <CandleSeries />
 
       {/* The pattern at model scale: forty deterministic sessions */}
-      <div className="mt-2">
+      <div className="mt-3">
+        <div className="mb-1.5 flex items-center gap-2">
+          <span className="font-code text-[9px] font-[400] uppercase tracking-[0.08em] text-neutral-400">
+            model · 40 sessions
+          </span>
+          <div className="h-px flex-1 bg-default-border" />
+        </div>
         <div className="relative w-full" style={{ height: CHART_HEIGHT }}>
           <div className="absolute inset-0 pointer-events-none">
             {GRID_PRICES.map((price) => (
               <div
                 key={price}
-                className="flex h-px w-full flex-none items-center bg-default-border absolute left-0 right-0"
+                className="flex h-px w-full flex-none items-center absolute left-0 right-0"
                 style={{ top: priceToY(price) }}
               >
-                <span className="font-code text-[9px] font-[400] leading-[9px] text-neutral-400 ml-auto tabular-nums">
+                <div className="flex h-px flex-1 items-start bg-default-border" />
+                <span className="flex-none pl-1.5 font-code text-[9px] font-[400] leading-[9px] text-neutral-400 tabular-nums">
                   {price.toFixed(1)}
                 </span>
               </div>
             ))}
           </div>
-          {CANDLES.map((candle, i) => {
-            const up = candle.close >= candle.open;
-            return (
-              <React.Fragment key={i}>
-                <div
-                  className="absolute flex-none bg-neutral-400"
-                  style={{
-                    left: `${candleLeft(i, WICK_WIDTH)}%`,
-                    width: `${WICK_WIDTH}%`,
-                    top: priceToY(candle.high),
-                    height: priceToY(candle.low) - priceToY(candle.high),
-                  }}
-                />
-                <div
-                  className={`absolute flex-none rounded-[1px] ${
-                    up ? "bg-default-font/80" : "bg-default-font/35"
-                  }`}
-                  style={{
-                    left: `${candleLeft(i, BODY_WIDTH)}%`,
-                    width: `${BODY_WIDTH}%`,
-                    top: priceToY(Math.max(candle.open, candle.close)),
-                    height: Math.max(
-                      2,
-                      Math.abs(priceToY(candle.open) - priceToY(candle.close))
-                    ),
-                  }}
-                />
-              </React.Fragment>
-            );
-          })}
+          <div className="absolute inset-y-0 left-0 right-[34px]">
+            {CANDLES.map((candle, i) => {
+              const up = candle.close >= candle.open;
+              return (
+                <React.Fragment key={i}>
+                  <div
+                    className="absolute flex-none bg-neutral-400"
+                    style={{
+                      left: `${candleLeft(i, WICK_WIDTH)}%`,
+                      width: `${WICK_WIDTH}%`,
+                      top: priceToY(candle.high),
+                      height: priceToY(candle.low) - priceToY(candle.high),
+                    }}
+                  />
+                  <div
+                    className={`absolute flex-none rounded-[1px] ${
+                      up ? "bg-default-font/80" : "bg-default-font/35"
+                    }`}
+                    style={{
+                      left: `${candleLeft(i, BODY_WIDTH)}%`,
+                      width: `${BODY_WIDTH}%`,
+                      top: priceToY(Math.max(candle.open, candle.close)),
+                      height: Math.max(
+                        2,
+                        Math.abs(priceToY(candle.open) - priceToY(candle.close))
+                      ),
+                    }}
+                  />
+                </React.Fragment>
+              );
+            })}
+          </div>
         </div>
         <div className="mt-[2px] h-px w-full flex-none bg-default-border" />
         <div className="relative mt-[2px] w-full" style={{ height: VOLUME_HEIGHT }}>
-          {CANDLES.map((candle, i) => (
-            <div
-              key={i}
-              className={`absolute bottom-0 flex-none rounded-[1px] ${
-                i === SESSIONS - 1 ? "bg-default-font/40" : "bg-neutral-300"
-              }`}
-              style={{
-                left: `${candleLeft(i, BODY_WIDTH)}%`,
-                width: `${BODY_WIDTH}%`,
-                height: Math.max(
-                  2,
-                  (candle.volume / MAX_VOLUME) * VOLUME_HEIGHT
-                ),
-              }}
-            />
-          ))}
+          <div className="absolute inset-y-0 left-0 right-[34px]">
+            {CANDLES.map((candle, i) => (
+              <div
+                key={i}
+                className={`absolute bottom-0 flex-none rounded-[1px] ${
+                  i === SESSIONS - 1 ? "bg-default-font/40" : "bg-neutral-300"
+                }`}
+                style={{
+                  left: `${candleLeft(i, BODY_WIDTH)}%`,
+                  width: `${BODY_WIDTH}%`,
+                  height: Math.max(
+                    2,
+                    (candle.volume / MAX_VOLUME) * VOLUME_HEIGHT
+                  ),
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
 

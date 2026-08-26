@@ -16,6 +16,7 @@ export interface ActivityEventRootProps
   timestamp?: React.ReactNode;
   body?: React.ReactNode;
   subject?: React.ReactNode;
+  isFirst?: boolean;
   isLast?: boolean;
   className?: string;
 }
@@ -30,6 +31,7 @@ const ActivityEventRoot = React.forwardRef<
     timestamp,
     body,
     subject,
+    isFirst = false,
     isLast = false,
     className,
     ...otherProps
@@ -45,7 +47,19 @@ const ActivityEventRoot = React.forwardRef<
       ref={ref}
       {...otherProps}
     >
-      <div className="flex w-3 flex-none flex-col items-center self-stretch">
+      {/* Rail column spans the row's full height (through the vertical
+          padding via -my-3) so the connector crosses row boundaries and
+          consecutive markers read as one continuous thread. */}
+      <div className="-my-3 flex w-3 flex-none flex-col items-center self-stretch">
+        <div
+          className={SubframeUtils.twClassNames(
+            "flex h-3 w-px flex-none items-start border-l border-solid border-default-border",
+            {
+              "border-l border-y-0 border-r-0 border-solid border-transparent":
+                isFirst,
+            }
+          )}
+        />
         <div className="flex h-5 flex-none items-center justify-center">
           <div
             className={SubframeUtils.twClassNames(
@@ -131,9 +145,9 @@ const ActivityEventRoot = React.forwardRef<
           {body ? (
             <span
               className={SubframeUtils.twClassNames(
-                "self-stretch text-body-medium font-body-medium text-default-font",
+                "self-stretch min-w-[0px] text-body-medium font-body-medium text-default-font",
                 {
-                  "whitespace-nowrap text-caption font-caption text-neutral-500":
+                  "text-caption font-caption text-neutral-500":
                     variant === "email",
                 }
               )}

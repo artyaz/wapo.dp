@@ -24,7 +24,10 @@ const Content = React.forwardRef<HTMLDivElement, ContentProps>(function Content(
     <SubframeCore.Drawer.Content asChild={true} {...otherProps}>
       <div
         className={SubframeUtils.twClassNames(
-          "flex h-full min-w-[320px] flex-col items-start border-l border-solid border-[#e5e5e5] bg-[#ffffff]",
+          // max-w-full: the sheet never forces its frame wider than the
+          // viewport at narrow sizes; overflow-y-auto keeps tall content
+          // scrolling inside the panel instead of spilling past its edge.
+          "flex h-full max-w-full flex-col items-start overflow-y-auto border-l border-solid border-[#e5e5e5] bg-[#ffffff]",
           className
         )}
         ref={ref}
@@ -52,7 +55,10 @@ const DrawerRoot = React.forwardRef<HTMLDivElement, DrawerRootProps>(
       <SubframeCore.Drawer.Root asChild={true} {...otherProps}>
         <div
           className={SubframeUtils.twClassNames(
-            "flex h-full w-full flex-col items-end justify-center gap-2 bg-[#00000066]",
+            // relative + z-50: the scrim must own a stacking context above any
+            // adjacent absolutely-positioned content — otherwise positioned
+            // siblings paint over the scrim AND the (opaque) sheet panel.
+            "relative z-50 flex h-full w-full flex-col items-end justify-center gap-2 bg-[#00000066]",
             className
           )}
           ref={ref}

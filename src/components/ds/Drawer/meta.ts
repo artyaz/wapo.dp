@@ -5,7 +5,7 @@ export default defineMeta({
   slug: "drawer",
   category: "surfaces",
   description:
-    "A side-sheet surface for secondary content that belongs to the page without interrupting it. The root renders a 40% black scrim anchored to the right edge, and Drawer.Content renders the sheet — full height, minimum 320px wide, with a hairline left border where it meets the page. Because the sheet is plain, rows and metadata are composed from the text styles, which keeps detail panels quiet and scannable. The sheet is drag-dismissible in the direction it came from.",
+    "A side-sheet surface for secondary content that belongs to the page without interrupting it. The root renders a 40% black scrim anchored to the right edge, and Drawer.Content renders the sheet — full height, never wider than its container, with a hairline left border where it meets the page and internal scrolling when content grows past the panel. Because the sheet is plain, rows and metadata are composed from the text styles, which keeps detail panels quiet and scannable. The sheet is drag-dismissible in the direction it came from.",
   usage:
     "Control it with open/onOpenChange state (direction=\"right\" restores the Subframe side sheet), then fill a Drawer.Content with a heading and a few metadata rows.",
   tags: ["sheet", "overlay", "scrim", "side-panel", "surface"],

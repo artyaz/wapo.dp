@@ -4,6 +4,9 @@
  * MaterialTokens — the live reference card for the material hierarchy:
  * a warm-gray test backdrop plus one glass Swatch per level (ultrathin,
  * thin, regular, thick) captioned with its exact tint · blur · saturate.
+ * The busy backdrop (radial gradients + specimen text) renders as an
+ * absolute layer BEHIND the swatches so every swatch demonstrates its
+ * translucency over real content.
  */
 
 import React from "react";
@@ -29,7 +32,7 @@ const Swatch = React.forwardRef<HTMLDivElement, SwatchProps>(function Swatch(
     >
       <div
         className={SubframeUtils.twClassNames(
-          "flex h-10 w-48 flex-none items-center justify-center overflow-hidden rounded-[9999px] border border-solid border-[#ffffff33] shadow-glass-specular isolate relative bg-panel/50 backdrop-blur-[28px] backdrop-saturate-[135%]",
+          "flex h-10 w-48 mobile:w-36 flex-none items-center justify-center overflow-hidden rounded-[9999px] border border-solid border-[#ffffff33] shadow-glass-specular isolate relative bg-panel/50 backdrop-blur-[28px] backdrop-saturate-[135%]",
           {
             "bg-panel/72 backdrop-blur-[56px] backdrop-saturate-[165%]":
               level === "thick",
@@ -96,11 +99,33 @@ const MaterialTokensRoot = React.forwardRef<
           backdrop-filter · laid-object surfaces
         </span>
       </div>
-      <div className="flex w-full flex-col items-start gap-4">
-        <div className="flex h-14 w-full flex-none items-center justify-center overflow-hidden rounded-lg bg-neutral-300 relative">
-          <div className="flex items-start absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(160,155,145,0.25)_0%,transparent_60%)]" />
-          <div className="flex items-start absolute inset-0 bg-[radial-gradient(circle_at_75%_60%,rgba(140,138,130,0.20)_0%,transparent_55%)]" />
-          <div className="flex items-start absolute inset-0 bg-neutral-200/60" />
+      <div className="flex w-full flex-col items-start gap-4 relative">
+        {/* busy test backdrop — warm-gray radials + faint specimen text,
+            layered BEHIND the swatches so translucency is provable */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -inset-x-2 -inset-y-2 flex-col gap-1.5 overflow-hidden rounded-lg bg-neutral-300/60 flex"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(160,155,145,0.25)_0%,transparent_60%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_60%,rgba(140,138,130,0.20)_0%,transparent_55%)]" />
+          <div className="absolute inset-0 bg-neutral-200/40" />
+          <div className="relative flex flex-col gap-1.5 px-4 py-3">
+            {[
+              "specimen 01 — the quick brown fox",
+              "specimen 02 — jumps over the lazy dog",
+              "specimen 03 — laid-object surfaces",
+              "specimen 04 — one substance, graded",
+              "specimen 05 — tint · blur · saturate",
+              "specimen 06 — quiet elevation by refraction",
+            ].map((line) => (
+              <span
+                key={line}
+                className="font-code text-[11px] font-[400] leading-[16px] text-default-font/50 select-none"
+              >
+                {line}
+              </span>
+            ))}
+          </div>
         </div>
         <div className="flex w-full flex-col items-start gap-3 relative">
           <Swatch level="ultrathin" />

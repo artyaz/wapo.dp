@@ -51,7 +51,7 @@ export default function Demo() {
               }
             }}
           >
-            <div className="flex w-[400px] flex-col items-start gap-5 p-6">
+            <div className="flex w-full max-w-[400px] flex-col items-start gap-5 p-6">
               <div className="flex w-full flex-col items-start gap-1.5">
                 <SubframeCore.Dialog.Title className="text-heading-2 font-heading-2 text-default-font">
                   Delete transcript?

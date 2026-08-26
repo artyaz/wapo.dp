@@ -82,7 +82,7 @@ const InspectorRowRoot = React.forwardRef<
             </span>
           </div>
           {value ? (
-            <span className="min-w-[36px] text-caption font-caption text-default-font text-center tabular-nums">
+            <span className="min-w-[36px] text-code font-code text-default-font text-center tabular-nums">
               {value}
             </span>
           ) : null}
@@ -132,9 +132,9 @@ const InspectorRowRoot = React.forwardRef<
             { flex: variant === "select" }
           )}
         >
-          <div className="flex h-7 grow shrink-0 basis-0 items-center gap-1 rounded-sm border-2 border-solid border-default-border bg-panel px-2 cursor-pointer hover:border-neutral-400 focus-within:border-neutral-600">
+          <div className="flex h-7 grow min-w-0 items-center gap-1 rounded-sm border-2 border-solid border-default-border bg-panel px-2 cursor-pointer hover:border-neutral-400 focus-within:border-neutral-600">
             {value ? (
-              <span className="grow shrink-0 basis-0 whitespace-nowrap text-caption font-caption text-default-font">
+              <span className="grow min-w-0 truncate text-code font-code text-default-font">
                 {value}
               </span>
             ) : null}

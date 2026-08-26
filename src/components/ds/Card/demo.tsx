@@ -9,7 +9,7 @@ import { Card } from "@/components/ds/Card";
 export default function Demo() {
   return (
     <Card
-      className="w-full max-w-[420px]"
+      className="mx-auto w-full max-w-[420px]"
       header={
         <div className="flex w-full flex-col items-start gap-0.5">
           <span className="text-body-medium text-default-font">

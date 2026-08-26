@@ -32,7 +32,7 @@ const DefaultPageLayoutRoot = React.forwardRef<
       {...otherProps}
     >
       {children ? (
-        <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 self-stretch overflow-y-auto bg-[#ffffff]">
+        <div className="flex min-w-0 grow shrink-0 basis-0 flex-col items-start gap-4 self-stretch overflow-y-auto bg-[#ffffff]">
           {children}
         </div>
       ) : null}

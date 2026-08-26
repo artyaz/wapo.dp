@@ -18,26 +18,29 @@ const endpoints = [
 
 export default function Demo() {
   return (
-    <div className="flex w-fit flex-col gap-6">
-      <div className="flex items-center gap-2">
+    <div className="flex w-fit max-w-full flex-col gap-6">
+      <div className="flex flex-wrap items-center gap-2">
         {methods.map((method) => (
           <MethodChip key={method} method={method} />
         ))}
       </div>
       <div className="flex flex-col gap-2.5">
         {endpoints.map(({ method, path, note }) => (
-          <div key={`${method} ${path}`} className="flex items-center gap-3">
+          <div
+            key={`${method} ${path}`}
+            className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1"
+          >
             <MethodChip method={method} />
-            <code className="font-code text-[13px] leading-[18px] text-default-font">
+            <code className="min-w-0 truncate font-code text-[13px] leading-[18px] text-default-font">
               {path}
             </code>
-            <span className="text-[13px] leading-[18px] text-neutral-500">
+            <span className="min-w-0 truncate text-[13px] leading-[18px] text-neutral-500">
               {note}
             </span>
           </div>
         ))}
       </div>
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <MethodChip method="get" disabled />
         <span className="text-[12px] leading-[18px] text-neutral-400">
           route disabled

@@ -26,7 +26,9 @@ const DialogLayoutRoot = React.forwardRef<
     <Dialog className={className} ref={ref} {...otherProps}>
       <Dialog.Content>
         {children ? (
-          <div className="flex w-full grow shrink-0 basis-0 items-start gap-6">
+          // p-6: the layout variant owns the panel padding so composed
+          // children never sit flush against the panel border.
+          <div className="flex w-full min-w-0 items-start gap-6 p-6">
             {children}
           </div>
         ) : null}

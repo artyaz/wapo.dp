@@ -4,7 +4,9 @@
  * PlayerBar — a 28px-radius floating glass card (panel/60, 40px blur, 150%
  * saturation) for audio-style playback: a StatusBadge header row with position,
  * a two-line serif excerpt, prev / play / next controls and an outlined
- * "explain" action. It composes StatusBadge from the indicators family.
+ * "explain" action. It composes StatusBadge from the indicators family. The
+ * card is fluid (w-full up to its max-width) so it never clips in narrow
+ * specimen stages.
  */
 
 import React from "react";
@@ -41,7 +43,7 @@ const PlayerBarRoot = React.forwardRef<HTMLDivElement, PlayerBarRootProps>(
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "group/f240b0b5 flex w-144 flex-col items-start gap-2 rounded-[28px] border border-solid border-[#ffffff33] px-[18px] py-3.5 shadow-glass-surface bg-panel/60 max-w-[calc(100vw-24px)] backdrop-blur-[40px] backdrop-saturate-[150%] relative",
+          "group/f240b0b5 flex w-full max-w-[576px] flex-col items-start gap-2 rounded-[28px] border border-solid border-[#ffffff33] px-[18px] py-3.5 shadow-glass-surface bg-panel/60 backdrop-blur-[40px] backdrop-saturate-[150%] relative",
           className
         )}
         ref={ref}
@@ -81,7 +83,7 @@ const PlayerBarRoot = React.forwardRef<HTMLDivElement, PlayerBarRootProps>(
               {excerpt}
             </p>
           ) : null}
-          <div className="flex w-full items-center gap-2.5">
+          <div className="flex w-full flex-wrap items-center gap-2.5">
             <div
               className={SubframeUtils.twClassNames(
                 "flex h-[42px] w-[42px] flex-none items-center justify-center rounded-[9999px] border-2 border-solid border-default-border cursor-pointer text-default-font",
@@ -142,7 +144,7 @@ const PlayerBarRoot = React.forwardRef<HTMLDivElement, PlayerBarRootProps>(
                 />
               </svg>
             </div>
-            <div className="flex grow shrink-0 basis-0 items-start" />
+            <div className="flex grow shrink-0 basis-0 items-start min-w-0" />
             <div className="flex items-center gap-[7px] rounded-[22px] border-2 border-solid border-default-border px-4 py-[11px] cursor-pointer whitespace-nowrap">
               <svg
                 className="font-body text-[14px] font-[400] leading-[21px] text-default-font"

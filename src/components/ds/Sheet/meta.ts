@@ -36,7 +36,7 @@ export default defineMeta({
       name: "Content.children",
       type: "React.ReactNode",
       description:
-        "Panel content, laid out as a 13px-gapped column inside the bordered sheet.",
+        "Panel content, laid out as a 16px-gapped column inside the bordered sheet.",
     },
     {
       name: "Content.className",

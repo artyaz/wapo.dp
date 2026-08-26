@@ -40,26 +40,26 @@ const RecordHeaderRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "flex w-full items-start justify-between border-b border-solid border-default-border bg-default-background px-5 py-5 gap-4",
+        "flex w-full flex-col items-start justify-between gap-4 px-5 py-5 sm:flex-row border-b border-solid border-default-border bg-default-background",
         className
       )}
       ref={ref}
       {...otherProps}
     >
-      <div className="flex min-w-[0px] flex-col items-start gap-1 flex-1">
+      <div className="flex w-full min-w-[0px] flex-col items-start gap-1 flex-1">
         {breadcrumb ? (
           <span className="whitespace-nowrap text-caption font-caption text-neutral-500 tracking-[0.08em] uppercase max-w-full overflow-hidden text-ellipsis">
             {breadcrumb}
           </span>
         ) : null}
-        <div className="flex w-full items-center gap-2.5">
+        <div className="flex w-full min-w-0 items-center gap-2.5 overflow-hidden">
           {title ? (
-            <span className="min-w-[0px] whitespace-nowrap text-heading-1 font-heading-1 text-default-font overflow-hidden text-ellipsis">
+            <span className="min-w-[0px] flex-1 whitespace-nowrap text-heading-1 font-heading-1 text-default-font overflow-hidden text-ellipsis">
               {title}
             </span>
           ) : null}
           {recordId ? (
-            <span className="whitespace-nowrap text-code font-code text-neutral-500 rounded-[3px] border border-solid border-default-border px-2 py-0.5">
+            <span className="flex-none whitespace-nowrap text-code font-code text-neutral-500 rounded-[3px] border border-solid border-default-border px-2 py-0.5">
               {recordId}
             </span>
           ) : null}

@@ -3,7 +3,9 @@
 /**
  * EntityTabs — record-level tab strip with counts.
  * A baseline-aligned tab row over a hairline rule; the active tab takes the
- * ink underline, counts render in small tabular monospace.
+ * ink underline, counts render in small tabular monospace. Below the sm
+ * breakpoint the tab gap tightens and the row scrolls horizontally rather
+ * than clipping; the overflow affordance stays pinned after the last tab.
  */
 
 import React from "react";
@@ -71,7 +73,7 @@ const EntityTabsRoot = React.forwardRef<HTMLDivElement, EntityTabsRootProps>(
         ref={ref}
         {...otherProps}
       >
-        <div className="flex items-end gap-6 flex-1">
+        <div className="flex min-w-0 flex-1 items-end gap-3 overflow-x-auto pb-px sm:gap-6">
           <TabItem label="Details" count="" active={true} />
           <TabItem label="Child Records" count="12" />
           <TabItem label="Activity" count="47" />

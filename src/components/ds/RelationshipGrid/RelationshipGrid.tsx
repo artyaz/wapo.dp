@@ -51,17 +51,17 @@ const RelationshipGridRoot = React.forwardRef<
             Title
           </span>
         </div>
-        <div className="flex w-[120px] flex-none items-center self-stretch px-3">
+        <div className="hidden sm:flex w-[120px] flex-none items-center self-stretch px-3">
           <span className="font-body text-[11px] font-[700] leading-[14px] tracking-[0.08em] text-neutral-500 uppercase select-none">
             Status
           </span>
         </div>
-        <div className="flex w-20 flex-none items-center self-stretch px-3">
+        <div className="hidden md:flex w-20 flex-none items-center self-stretch px-3">
           <span className="font-body text-[11px] font-[700] leading-[14px] tracking-[0.08em] text-neutral-500 uppercase select-none">
             Priority ▾
           </span>
         </div>
-        <div className="flex w-40 flex-none items-center self-stretch px-3 py-2.5">
+        <div className="hidden md:flex w-40 flex-none items-center self-stretch px-3 py-2.5">
           <span className="font-body text-[11px] font-[700] leading-[14px] tracking-[0.08em] text-neutral-500 uppercase select-none">
             Updated ▲
           </span>
@@ -80,17 +80,17 @@ const RelationshipGridRoot = React.forwardRef<
             <span className="text-code font-code text-neutral-400">Filter</span>
           </div>
         </div>
-        <div className="flex w-[120px] flex-none items-center self-stretch px-3 py-1">
+        <div className="hidden sm:flex w-[120px] flex-none items-center self-stretch px-3 py-1">
           <div className="flex h-[26px] grow shrink-0 basis-0 items-center rounded-[3px] border border-solid border-default-border px-2">
             <span className="text-code font-code text-neutral-400">= open</span>
           </div>
         </div>
-        <div className="flex w-20 flex-none items-center self-stretch px-3 py-1">
+        <div className="hidden md:flex w-20 flex-none items-center self-stretch px-3 py-1">
           <div className="flex h-[26px] grow shrink-0 basis-0 items-center rounded-[3px] border border-solid border-default-border px-2">
             <span className="text-code font-code text-neutral-400">Filter</span>
           </div>
         </div>
-        <div className="flex w-40 flex-none items-center self-stretch" />
+        <div className="hidden md:flex w-40 flex-none items-center self-stretch" />
       </div>
       <div className="flex h-9 w-full flex-none items-center border-b border-solid border-default-border">
         <div className="flex w-10 flex-none items-center justify-center self-stretch">
@@ -106,18 +106,18 @@ const RelationshipGridRoot = React.forwardRef<
             CHG-1189
           </span>
         </div>
-        <div className="flex items-center self-stretch overflow-hidden px-3 flex-1">
-          <span className="whitespace-nowrap text-body-medium font-body-medium text-default-font">
+        <div className="flex min-w-0 items-center self-stretch overflow-hidden px-3 flex-1">
+          <span className="truncate text-body-medium font-body-medium text-default-font">
             Replace BGP session on eu-edge-03
           </span>
         </div>
-        <div className="flex w-[120px] flex-none items-center self-stretch px-3">
+        <div className="hidden sm:flex w-[120px] flex-none items-center self-stretch px-3">
           <StatusBadge tone="success">Open</StatusBadge>
         </div>
-        <div className="flex w-20 flex-none items-center self-stretch px-3">
+        <div className="hidden md:flex w-20 flex-none items-center self-stretch px-3">
           <span className="text-code font-code text-default-font">P1</span>
         </div>
-        <div className="flex w-40 flex-none items-center self-stretch px-3">
+        <div className="hidden md:flex w-40 flex-none items-center self-stretch px-3">
           <span className="text-code font-code text-neutral-500 tabular-nums">
             2026-08-21 09:14
           </span>
@@ -141,18 +141,18 @@ const RelationshipGridRoot = React.forwardRef<
             INC-40221
           </span>
         </div>
-        <div className="flex items-center self-stretch overflow-hidden px-3 flex-1">
-          <span className="whitespace-nowrap text-body-medium font-body-medium text-default-font">
+        <div className="flex min-w-0 items-center self-stretch overflow-hidden px-3 flex-1">
+          <span className="truncate text-body-medium font-body-medium text-default-font">
             Latency spike on us-west-2 cluster
           </span>
         </div>
-        <div className="flex w-[120px] flex-none items-center self-stretch px-3">
+        <div className="hidden sm:flex w-[120px] flex-none items-center self-stretch px-3">
           <StatusBadge tone="live">In Progress</StatusBadge>
         </div>
-        <div className="flex w-20 flex-none items-center self-stretch px-3">
+        <div className="hidden md:flex w-20 flex-none items-center self-stretch px-3">
           <span className="text-code font-code text-default-font">P1</span>
         </div>
-        <div className="flex w-40 flex-none items-center self-stretch px-3">
+        <div className="hidden md:flex w-40 flex-none items-center self-stretch px-3">
           <span className="text-code font-code text-neutral-500 tabular-nums">
             2026-08-20 17:42
           </span>
@@ -172,18 +172,18 @@ const RelationshipGridRoot = React.forwardRef<
             PRB-0087
           </span>
         </div>
-        <div className="flex items-center self-stretch overflow-hidden px-3 flex-1">
-          <span className="whitespace-nowrap text-body-medium font-body-medium text-default-font">
+        <div className="flex min-w-0 items-center self-stretch overflow-hidden px-3 flex-1">
+          <span className="truncate text-body-medium font-body-medium text-default-font">
             Root cause analysis — BGP flap pattern
           </span>
         </div>
-        <div className="flex w-[120px] flex-none items-center self-stretch px-3">
+        <div className="hidden sm:flex w-[120px] flex-none items-center self-stretch px-3">
           <StatusBadge tone="warning">Blocked</StatusBadge>
         </div>
-        <div className="flex w-20 flex-none items-center self-stretch px-3">
+        <div className="hidden md:flex w-20 flex-none items-center self-stretch px-3">
           <span className="text-code font-code text-default-font">P2</span>
         </div>
-        <div className="flex w-40 flex-none items-center self-stretch px-3">
+        <div className="hidden md:flex w-40 flex-none items-center self-stretch px-3">
           <span className="text-code font-code text-neutral-500 tabular-nums">
             2026-08-19 11:03
           </span>
@@ -203,18 +203,18 @@ const RelationshipGridRoot = React.forwardRef<
             RITM-5540
           </span>
         </div>
-        <div className="flex items-center self-stretch overflow-hidden px-3 flex-1">
-          <span className="whitespace-nowrap text-body-medium font-body-medium text-default-font">
+        <div className="flex min-w-0 items-center self-stretch overflow-hidden px-3 flex-1">
+          <span className="truncate text-body-medium font-body-medium text-default-font">
             Provision temp firewall rule for vendor
           </span>
         </div>
-        <div className="flex w-[120px] flex-none items-center self-stretch px-3">
+        <div className="hidden sm:flex w-[120px] flex-none items-center self-stretch px-3">
           <StatusBadge tone="success">Open</StatusBadge>
         </div>
-        <div className="flex w-20 flex-none items-center self-stretch px-3">
+        <div className="hidden md:flex w-20 flex-none items-center self-stretch px-3">
           <span className="text-code font-code text-default-font">P2</span>
         </div>
-        <div className="flex w-40 flex-none items-center self-stretch px-3">
+        <div className="hidden md:flex w-40 flex-none items-center self-stretch px-3">
           <span className="text-code font-code text-neutral-500 tabular-nums">
             2026-08-18 14:27
           </span>
@@ -234,18 +234,18 @@ const RelationshipGridRoot = React.forwardRef<
             INC-39880
           </span>
         </div>
-        <div className="flex items-center self-stretch overflow-hidden px-3 flex-1">
-          <span className="whitespace-nowrap text-body-medium font-body-medium text-default-font underline underline-offset-2 cursor-pointer">
+        <div className="flex min-w-0 items-center self-stretch overflow-hidden px-3 flex-1">
+          <span className="truncate text-body-medium font-body-medium text-default-font underline underline-offset-2 cursor-pointer">
             Parent INC-39880
           </span>
         </div>
-        <div className="flex w-[120px] flex-none items-center self-stretch px-3">
+        <div className="hidden sm:flex w-[120px] flex-none items-center self-stretch px-3">
           <StatusBadge tone="live">In Progress</StatusBadge>
         </div>
-        <div className="flex w-20 flex-none items-center self-stretch px-3">
+        <div className="hidden md:flex w-20 flex-none items-center self-stretch px-3">
           <span className="text-code font-code text-default-font">P1</span>
         </div>
-        <div className="flex w-40 flex-none items-center self-stretch px-3">
+        <div className="hidden md:flex w-40 flex-none items-center self-stretch px-3">
           <span className="text-code font-code text-neutral-500 tabular-nums">
             2026-08-17 08:55
           </span>
@@ -265,18 +265,18 @@ const RelationshipGridRoot = React.forwardRef<
             CHG-1190
           </span>
         </div>
-        <div className="flex items-center self-stretch overflow-hidden px-3 flex-1">
-          <span className="whitespace-nowrap text-body-medium font-body-medium text-default-font">
+        <div className="flex min-w-0 items-center self-stretch overflow-hidden px-3 flex-1">
+          <span className="truncate text-body-medium font-body-medium text-default-font">
             Schedule maintenance window for patch
           </span>
         </div>
-        <div className="flex w-[120px] flex-none items-center self-stretch px-3">
+        <div className="hidden sm:flex w-[120px] flex-none items-center self-stretch px-3">
           <StatusBadge tone="idle">Closed</StatusBadge>
         </div>
-        <div className="flex w-20 flex-none items-center self-stretch px-3">
+        <div className="hidden md:flex w-20 flex-none items-center self-stretch px-3">
           <span className="text-code font-code text-default-font">P2</span>
         </div>
-        <div className="flex w-40 flex-none items-center self-stretch px-3">
+        <div className="hidden md:flex w-40 flex-none items-center self-stretch px-3">
           <span className="text-code font-code text-neutral-500 tabular-nums">
             2026-08-16 22:10
           </span>
@@ -296,18 +296,18 @@ const RelationshipGridRoot = React.forwardRef<
             TASK-8812
           </span>
         </div>
-        <div className="flex items-center self-stretch overflow-hidden px-3 flex-1">
-          <span className="whitespace-nowrap text-body-medium font-body-medium text-default-font">
+        <div className="flex min-w-0 items-center self-stretch overflow-hidden px-3 flex-1">
+          <span className="truncate text-body-medium font-body-medium text-default-font">
             Verify rollback procedure documented
           </span>
         </div>
-        <div className="flex w-[120px] flex-none items-center self-stretch px-3">
+        <div className="hidden sm:flex w-[120px] flex-none items-center self-stretch px-3">
           <StatusBadge tone="success">Open</StatusBadge>
         </div>
-        <div className="flex w-20 flex-none items-center self-stretch px-3">
+        <div className="hidden md:flex w-20 flex-none items-center self-stretch px-3">
           <span className="text-code font-code text-default-font">P2</span>
         </div>
-        <div className="flex w-40 flex-none items-center self-stretch px-3">
+        <div className="hidden md:flex w-40 flex-none items-center self-stretch px-3">
           <span className="text-code font-code text-neutral-500 tabular-nums">
             2026-08-15 06:33
           </span>

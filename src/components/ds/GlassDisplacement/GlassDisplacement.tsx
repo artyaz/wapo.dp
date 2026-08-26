@@ -5,13 +5,15 @@
  * GlassSurface runtime. On Chromium engines the negotiated svg-displacement
  * strategy bends the backdrop edge through an feDisplacementMap filter whose
  * map is generated at runtime for this element's exact size and radius
- * (chromatic aberration via per-channel scales); every other engine renders
- * the same universal base material. Swap implementation, never semantics.
+ * (chromatic aberration via per-channel scales — kept SUBTLE per the
+ * monochrome doctrine through the local GlassSurfaceSubtle fork); every other
+ * engine renders the same universal base material. Swap implementation, never
+ * semantics.
  */
 
 import React from "react";
 import * as SubframeUtils from "@/lib/subframe/utils";
-import { GlassSurface } from "@/lib/glass";
+import { GlassSurfaceSubtle } from "@/components/ds/GlassDisplacement/GlassSurfaceSubtle";
 
 export interface GlassDisplacementRootProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -64,10 +66,11 @@ const GlassDisplacementRoot = React.forwardRef<
       ref={ref}
       {...otherProps}
     >
-      {/* GlassSurface owns every tier: Chromium SVG displacement via the
-          runtime-registered per-geometry filters, WebGL refraction on
-          Safari/Firefox, and the backdrop-filter base everywhere else. */}
-      <GlassSurface
+      {/* GlassSurfaceSubtle owns every tier: Chromium SVG displacement via the
+          runtime-registered per-geometry filters (with the subtle aberration
+          multipliers), WebGL refraction on Safari/Firefox, and the
+          backdrop-filter base everywhere else. */}
+      <GlassSurfaceSubtle
         material="regular"
         shape="free"
         radius={RADIUS_PX[radius]}
@@ -75,7 +78,7 @@ const GlassDisplacementRoot = React.forwardRef<
         className="h-full w-full"
       >
         {children}
-      </GlassSurface>
+      </GlassSurfaceSubtle>
     </div>
   );
 });

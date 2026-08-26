@@ -3,7 +3,8 @@
 /**
  * Demo — the ruler at default zoom (24 px/s) inside a panning viewport. The
  * component spans 00:00–02:00 across 2880px; the frame reveals the first
- * stretch and scrolls horizontally for the rest. Fixed content only.
+ * stretch and scrolls horizontally for the rest, with a quiet right-edge fade
+ * marking the continuation. Fixed content only.
  */
 
 import React from "react";
@@ -20,8 +21,11 @@ export default function Demo() {
           00:00–02:00 · 24 px/s
         </span>
       </div>
-      <div className="overflow-x-auto">
-        <TimelineRuler />
+      <div className="relative">
+        <div className="overflow-x-auto">
+          <TimelineRuler />
+        </div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-panel to-transparent" />
       </div>
       <p className="mt-3 font-code text-[11px] text-neutral-400">
         major tick every 10 s · minor every 2 s · ◆ event markers · scroll to pan
@@ -30,6 +34,9 @@ export default function Demo() {
   );
 }
 
-export const demoSource = `<div className="overflow-x-auto">
-  <TimelineRuler />
+export const demoSource = `<div className="relative">
+  <div className="overflow-x-auto">
+    <TimelineRuler />
+  </div>
+  <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-panel to-transparent" />
 </div>`;

@@ -67,7 +67,7 @@ const EditorTabRoot = React.forwardRef<HTMLDivElement, EditorTabRootProps>(
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "group/5c17f3ef flex h-9 cursor-pointer items-center gap-2 border-b border-solid border-default-border px-3 relative text-neutral-500 hover:text-neutral-700",
+          "group/5c17f3ef flex h-9 min-w-0 cursor-pointer items-center gap-2 border-b border-solid border-default-border px-3 relative text-neutral-500 hover:text-neutral-700",
           {
             "bg-panel border-solid border-default-border text-default-font border-b-0":
               active,

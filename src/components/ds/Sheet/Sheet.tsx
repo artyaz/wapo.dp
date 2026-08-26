@@ -24,7 +24,7 @@ const Content = React.forwardRef<HTMLDivElement, ContentProps>(function Content(
     <SubframeCore.Dialog.Content asChild={true} {...otherProps}>
       <div
         className={SubframeUtils.twClassNames(
-          "flex w-full max-w-[544px] flex-col items-start gap-[13px] rounded-none border border-solid border-default-border bg-panel px-[18px] py-[18px] max-h-[88vh] overflow-y-auto",
+          "flex w-full max-w-[544px] flex-col items-start gap-4 rounded-none border border-solid border-default-border bg-panel px-[18px] py-[18px] max-h-[88vh] overflow-y-auto",
           className
         )}
         ref={ref}
@@ -52,7 +52,10 @@ const SheetRoot = React.forwardRef<HTMLDivElement, SheetRootProps>(
       <SubframeCore.Dialog.Root asChild={true} {...otherProps}>
         <div
           className={SubframeUtils.twClassNames(
-            "flex h-full w-full flex-col items-center justify-end bg-default-font/[0.34]",
+            // relative + z-50: the scrim must own a stacking context above any
+            // adjacent absolutely-positioned content — otherwise positioned
+            // siblings paint over the scrim AND the (opaque) sheet panel.
+            "relative z-50 flex h-full w-full flex-col items-center justify-end bg-default-font/[0.34]",
             className
           )}
           ref={ref}

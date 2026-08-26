@@ -33,7 +33,7 @@ export default defineMeta({
       name: "meta",
       type: "React.ReactNode",
       description:
-        "Quiet secondary line under the title — format, sample rate or similar metadata.",
+        "Quiet secondary line under the title — format, sample rate or similar metadata — clamped to one line like the title.",
     },
     {
       name: "className",

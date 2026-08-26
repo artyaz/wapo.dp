@@ -12,7 +12,7 @@ const INTENSITIES = [
 
 export default function Demo() {
   return (
-    <DemoStage variant="text" height="h-72">
+    <DemoStage variant="text" height="h-64">
       <div className="flex items-center justify-center gap-4">
         {INTENSITIES.map((tier) => (
           <GlassDisplacement

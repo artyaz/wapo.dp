@@ -20,7 +20,10 @@ const LINES = [
 
 export default function Demo() {
   return (
-    <div className="relative h-48 w-full max-w-[560px] overflow-hidden rounded-lg border border-solid border-default-border bg-neutral-100">
+    // definite width — every child of this card is absolutely positioned, so
+    // a percentage width inside the stage's shrink-to-fit wrapper would
+    // collapse the card to its borders (the "vertical seam" artifact)
+    <div className="relative h-48 w-[min(560px,calc(100vw-112px))] overflow-hidden rounded-lg border border-solid border-default-border bg-neutral-100">
       <div className="absolute inset-x-0 bottom-0 z-0 flex flex-col gap-1.5 px-6 pb-6">
         {LINES.map((line) => (
           <p key={line} className="text-body-medium text-neutral-600">

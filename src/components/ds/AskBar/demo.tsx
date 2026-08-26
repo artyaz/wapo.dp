@@ -4,7 +4,7 @@ import { AskBar } from "@/components/ds/AskBar";
 
 export default function Demo() {
   return (
-    <div className="w-full max-w-[560px]">
+    <div className="w-full">
       <AskBar
         placeholder="Summarize this incident timeline…"
         statusText="Answers cite the linked record and its activity log."

@@ -19,7 +19,7 @@ const HoverDocCard = React.forwardRef<HTMLDivElement, HoverDocCardProps>(
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "flex max-w-[300px] flex-col items-start gap-2 rounded-xl border border-solid border-default-border bg-panel px-3 py-3 shadow-default",
+          "flex max-w-[min(240px,60%)] flex-col items-start gap-2 rounded-xl border border-solid border-default-border bg-panel px-3 py-3 shadow-default",
           className
         )}
         ref={ref}

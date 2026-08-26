@@ -34,7 +34,7 @@ const TerminalLineRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/2f1a8c2e flex items-start",
+        "group/2f1a8c2e flex w-full min-w-0 items-start",
         className
       )}
       ref={ref}
@@ -53,18 +53,18 @@ const TerminalLineRoot = React.forwardRef<
         )}
       >
         {path ? (
-          <span className="whitespace-pre-wrap text-code font-code text-success-600">
+          <span className="min-w-0 whitespace-pre-wrap text-code font-code text-success-600 [overflow-wrap:anywhere]">
             {path}
           </span>
         ) : null}
-        <span className="whitespace-pre-wrap text-code font-code text-neutral-400">
+        <span className="flex-none whitespace-pre-wrap text-code font-code text-neutral-400">
           {"$"}
         </span>
       </div>
       {command ? (
         <span
           className={SubframeUtils.twClassNames(
-            "whitespace-pre-wrap text-code font-code text-default-font ml-1.5",
+            "min-w-0 whitespace-pre-wrap text-code font-code text-default-font ml-1.5 [overflow-wrap:anywhere]",
             {
               hidden:
                 variant === "stderr" ||
@@ -79,7 +79,7 @@ const TerminalLineRoot = React.forwardRef<
       ) : null}
       <span
         className={SubframeUtils.twClassNames(
-          "hidden whitespace-pre-wrap text-code font-code text-neutral-400 mr-1.5",
+          "hidden flex-none whitespace-pre-wrap text-code font-code text-neutral-400 mr-1.5",
           { inline: variant === "spinner" }
         )}
       >
@@ -87,7 +87,7 @@ const TerminalLineRoot = React.forwardRef<
       </span>
       <span
         className={SubframeUtils.twClassNames(
-          "hidden whitespace-pre-wrap text-code font-code text-success-600 mr-1.5",
+          "hidden flex-none whitespace-pre-wrap text-code font-code text-success-600 mr-1.5",
           { inline: variant === "success" }
         )}
       >
@@ -96,7 +96,7 @@ const TerminalLineRoot = React.forwardRef<
       {text ? (
         <span
           className={SubframeUtils.twClassNames(
-            "hidden whitespace-pre-wrap text-code font-code text-destructive-600",
+            "hidden min-w-0 whitespace-pre-wrap text-code font-code text-destructive-600 [overflow-wrap:anywhere]",
             {
               inline: variant === "stderr",
               "inline text-success-600": variant === "success",

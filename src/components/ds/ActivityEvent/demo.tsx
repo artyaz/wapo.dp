@@ -16,6 +16,7 @@ export default function Demo() {
         author="Indexer"
         timestamp="09:41:07"
         body="Transcript indexed — 12,408 tokens across 38 segments."
+        isFirst
       />
       <ActivityEvent
         variant="system"
@@ -36,6 +37,7 @@ export const demoSource = `<ActivityEvent
   author="Indexer"
   timestamp="09:41:07"
   body="Transcript indexed — 12,408 tokens across 38 segments."
+  isFirst
 />
 <ActivityEvent variant="system" body="Export queued → batch #4471 (markdown)" />
 <ActivityEvent

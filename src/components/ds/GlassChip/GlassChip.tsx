@@ -32,7 +32,7 @@ const Action = React.forwardRef<HTMLDivElement, ActionProps>(function Action(
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/6162f87c flex cursor-pointer items-center gap-1.5 rounded-[9999px] px-2.5 py-1.5 transition-colors hover:bg-default-font/[0.05] active:bg-default-font/[0.09]",
+        "group/6162f87c flex flex-none cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-[9999px] px-2.5 py-1.5 transition-colors hover:bg-default-font/[0.05] active:bg-default-font/[0.09]",
         {
           "opacity-40 pointer-events-none hover:bg-transparent": disabled,
           "text-destructive-500 hover:bg-destructive-500/[0.07] active:bg-destructive-500/[0.12]":
@@ -101,7 +101,7 @@ const GlassChipRoot = React.forwardRef<HTMLDivElement, GlassChipRootProps>(
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "items-center gap-1 rounded-[9999px] border border-solid border-[#ffffff33] px-2 py-1.5 shadow-[0px_0px_0px_1px_#ffffff14,inset_0px_1px_0px_0px_#ffffff42,inset_0px_-1px_0px_0px_#ffffff1a] relative inline-flex bg-panel/60 backdrop-blur-2xl backdrop-saturate-150",
+          "items-center gap-1 rounded-[9999px] border border-solid border-[#ffffff33] px-2 py-1.5 shadow-[0px_0px_0px_1px_#ffffff14,inset_0px_1px_0px_0px_#ffffff42,inset_0px_-1px_0px_0px_#ffffff1a] relative inline-flex max-w-full min-w-0 bg-panel/60 backdrop-blur-2xl backdrop-saturate-150",
           className
         )}
         ref={ref}
@@ -110,7 +110,9 @@ const GlassChipRoot = React.forwardRef<HTMLDivElement, GlassChipRootProps>(
         <div className="flex items-start rounded-[9999px] pointer-events-none absolute inset-0 bg-[linear-gradient(160deg,rgba(255,255,255,0.55)_0%,rgba(255,255,255,0.16)_26%,rgba(255,255,255,0.04)_44%,rgba(255,255,255,0)_60%)]" />
         <div className="flex items-start rounded-[9999px] pointer-events-none absolute inset-0 bg-[linear-gradient(340deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0.07)_22%,rgba(255,255,255,0)_42%)]" />
         {children ? (
-          <div className="flex items-center gap-1 relative">{children}</div>
+          <div className="flex flex-wrap items-center justify-center gap-1 relative min-w-0">
+            {children}
+          </div>
         ) : null}
       </div>
     );

@@ -49,7 +49,7 @@ export default function Demo() {
             </div>
           ))}
         </div>
-        <footer className="mt-auto flex w-full shrink-0 items-center justify-between border-t border-solid border-default-border px-6 py-3">
+        <footer className="mt-auto flex w-full shrink-0 flex-wrap items-center justify-between gap-x-6 border-t border-solid border-default-border px-6 py-3">
           <span className="text-caption font-caption text-neutral-500">
             12 sessions · 8 h 14 m total
           </span>
@@ -82,7 +82,7 @@ export const demoSource = `<DefaultPageLayout className="h-full">
     </div>
     {/* …more session rows… */}
   </div>
-  <footer className="mt-auto flex w-full shrink-0 items-center justify-between border-t border-solid border-default-border px-6 py-3">
+  <footer className="mt-auto flex w-full shrink-0 flex-wrap items-center justify-between gap-x-6 border-t border-solid border-default-border px-6 py-3">
     <span className="text-caption font-caption text-neutral-500">
       12 sessions · 8 h 14 m total
     </span>

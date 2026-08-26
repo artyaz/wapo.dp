@@ -10,10 +10,10 @@ import { PanelTile } from "@/components/ds/PanelTile";
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex w-full items-baseline justify-between gap-4">
-      <span className="text-caption font-caption text-neutral-500">
+      <span className="min-w-0 truncate text-caption font-caption text-neutral-500">
         {label}
       </span>
-      <span className="font-code text-[13px] text-default-font tabular-nums">
+      <span className="min-w-0 truncate font-code text-[13px] text-default-font tabular-nums">
         {value}
       </span>
     </div>

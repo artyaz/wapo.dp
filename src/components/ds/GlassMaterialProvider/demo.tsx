@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { GlassSurface, useGlassRuntime, type GlassStrategy } from "@/lib/glass";
+import { useGlassRuntime, type GlassStrategy } from "@/lib/glass";
+import { GlassSurfaceSubtle } from "@/components/ds/GlassDisplacement/GlassSurfaceSubtle";
 import { GlassMaterialProvider } from "@/components/ds/GlassMaterialProvider";
 import { DemoStage } from "@/components/site/DemoStage";
 
@@ -16,14 +17,14 @@ export default function Demo() {
   const live = useGlassRuntime((s) => s.strategy);
 
   return (
-    <GlassMaterialProvider level="thick" className="gap-6">
+    <GlassMaterialProvider level="thick" className="gap-4">
       {/* the surface inherits material="thick" from the provider context */}
-      <DemoStage variant="text" height="h-56">
-        <GlassSurface shape="capsule" className="h-20 w-72">
+      <DemoStage variant="text" height="h-44">
+        <GlassSurfaceSubtle shape="capsule" className="h-16 w-64 mobile:w-56">
           <span className="w-full text-center font-code text-[11px] tracking-[0.1em] text-default-font/80 uppercase">
             thick · inherited
           </span>
-        </GlassSurface>
+        </GlassSurfaceSubtle>
       </DemoStage>
 
       <div className="flex flex-wrap items-center gap-2">
@@ -39,10 +40,10 @@ export default function Demo() {
   );
 }
 
-export const demoSource = `<GlassMaterialProvider level="thick" className="gap-6">
+export const demoSource = `<GlassMaterialProvider level="thick" className="gap-4">
   {/* the surface inherits material="thick" from the provider context */}
-  <DemoStage variant="text" height="h-56">
-    <GlassSurface shape="capsule" className="h-20 w-72">
+  <DemoStage variant="text" height="h-44">
+    <GlassSurface shape="capsule" className="h-16 w-64">
       <span className="w-full text-center">thick · inherited</span>
     </GlassSurface>
   </DemoStage>

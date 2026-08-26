@@ -35,7 +35,7 @@ const AssetCardRoot = React.forwardRef<HTMLDivElement, AssetCardRootProps>(
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "group/edbd3739 flex w-full flex-col items-start gap-1.5 rounded-lg border border-solid border-default-border bg-panel px-1.5 py-1.5 group/assetcard cursor-grab transition-colors duration-150 hover:border-neutral-400",
+          "group/edbd3739 flex w-full flex-col items-start gap-1.5 rounded-lg border border-solid border-default-border bg-panel px-1.5 py-1.5 group/assetcard cursor-grab transition-colors duration-150 hover:border-neutral-400 active:cursor-grabbing",
           className
         )}
         ref={ref}
@@ -44,7 +44,7 @@ const AssetCardRoot = React.forwardRef<HTMLDivElement, AssetCardRootProps>(
         <div className="flex h-[88px] w-full flex-none items-center justify-center overflow-hidden rounded-[4px] bg-neutral-50 relative">
           <div
             className={SubframeUtils.twClassNames(
-              "flex grow shrink-0 basis-0 items-center self-stretch px-3",
+              "flex min-w-0 grow shrink-0 basis-0 items-center self-stretch px-3",
               { hidden: kind === "text" || kind === "video" }
             )}
           >
@@ -97,7 +97,7 @@ const AssetCardRoot = React.forwardRef<HTMLDivElement, AssetCardRootProps>(
             </span>
           ) : null}
           {meta ? (
-            <span className="font-body text-[11px] font-[400] leading-[16px] text-neutral-500">
+            <span className="w-full truncate font-body text-[11px] font-[400] leading-[16px] text-neutral-500">
               {meta}
             </span>
           ) : null}

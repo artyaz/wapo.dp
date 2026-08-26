@@ -4,7 +4,9 @@
  * CandleSeries — a compact candlestick price chart: four hairline gridlines
  * with mono price labels over fourteen fixed OHLC candles (neutral wicks,
  * success/destructive bodies), a closing hairline, and a volume histogram
- * beneath. Authored at 196px wide; fully static and deterministic.
+ * beneath. Authored at 224px wide — candles occupy the left ~190px and the
+ * last ~34px form a quiet right-axis gutter for the price labels so gridline
+ * text never collides with wicks or bodies. Fully static and deterministic.
  */
 
 import React from "react";
@@ -31,25 +33,29 @@ const CandleSeriesRoot = React.forwardRef<
       ref={ref}
       {...otherProps}
     >
-      <div className="flex h-[130px] w-[196px] flex-none items-start relative">
+      <div className="flex h-[130px] w-[224px] flex-none items-start relative">
         <div className="flex flex-col items-start justify-between absolute inset-0 pointer-events-none">
-          <div className="flex h-px w-full flex-none items-center bg-default-border">
-            <span className="font-code text-[9px] font-[400] leading-[9px] text-neutral-400 ml-auto tabular-nums">
+          <div className="flex h-px w-full flex-none items-center">
+            <div className="flex h-px flex-1 items-start bg-default-border" />
+            <span className="flex-none pl-[6px] font-code text-[9px] font-[400] leading-[9px] text-neutral-400 tabular-nums">
               108.0
             </span>
           </div>
-          <div className="flex h-px w-full flex-none items-center bg-default-border">
-            <span className="font-code text-[9px] font-[400] leading-[9px] text-neutral-400 ml-auto tabular-nums">
+          <div className="flex h-px w-full flex-none items-center">
+            <div className="flex h-px flex-1 items-start bg-default-border" />
+            <span className="flex-none pl-[6px] font-code text-[9px] font-[400] leading-[9px] text-neutral-400 tabular-nums">
               106.5
             </span>
           </div>
-          <div className="flex h-px w-full flex-none items-center bg-default-border">
-            <span className="font-code text-[9px] font-[400] leading-[9px] text-neutral-400 ml-auto tabular-nums">
+          <div className="flex h-px w-full flex-none items-center">
+            <div className="flex h-px flex-1 items-start bg-default-border" />
+            <span className="flex-none pl-[6px] font-code text-[9px] font-[400] leading-[9px] text-neutral-400 tabular-nums">
               105.0
             </span>
           </div>
-          <div className="flex h-px w-full flex-none items-center bg-default-border">
-            <span className="font-code text-[9px] font-[400] leading-[9px] text-neutral-400 ml-auto tabular-nums">
+          <div className="flex h-px w-full flex-none items-center">
+            <div className="flex h-px flex-1 items-start bg-default-border" />
+            <span className="flex-none pl-[6px] font-code text-[9px] font-[400] leading-[9px] text-neutral-400 tabular-nums">
               103.5
             </span>
           </div>
@@ -111,8 +117,8 @@ const CandleSeriesRoot = React.forwardRef<
           <div className="flex h-[26px] w-2.5 flex-none items-start rounded-[1px] bg-success-500 absolute top-[34px]" />
         </div>
       </div>
-      <div className="flex h-px w-[196px] flex-none items-start bg-default-border" />
-      <div className="flex h-[18px] w-[196px] flex-none items-start relative">
+      <div className="flex h-px w-[224px] flex-none items-start bg-default-border" />
+      <div className="flex h-[18px] w-[224px] flex-none items-start relative">
         <div className="flex h-2.5 w-2.5 flex-none items-start rounded-[1px] bg-success-200 absolute left-[4px] bottom-0" />
         <div className="flex h-1.5 w-2.5 flex-none items-start rounded-[1px] bg-destructive-200 absolute left-[17px] bottom-0" />
         <div className="flex h-3.5 w-2.5 flex-none items-start rounded-[1px] bg-success-200 absolute left-[30px] bottom-0" />

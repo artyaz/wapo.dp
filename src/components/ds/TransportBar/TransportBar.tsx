@@ -40,7 +40,7 @@ const TransportBarRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/4d642c3c h-[76px] items-center gap-2.5 rounded-3xl border border-solid border-[#ffffff33] px-6 shadow-glass-surface bg-panel/60 backdrop-blur-[40px] backdrop-saturate-[150%] inline-flex w-fit transition-colors duration-150 relative focus-within:border-neutral-600",
+        "group/4d642c3c min-h-[76px] py-2 items-center gap-2 sm:gap-2.5 rounded-3xl border border-solid border-[#ffffff33] px-4 sm:px-6 shadow-glass-surface bg-panel/60 backdrop-blur-[40px] backdrop-saturate-[150%] inline-flex w-fit max-w-full transition-colors duration-150 relative focus-within:border-neutral-600",
         className
       )}
       ref={ref}
@@ -48,7 +48,7 @@ const TransportBarRoot = React.forwardRef<
     >
       <div className="flex items-start rounded-3xl absolute inset-0 pointer-events-none bg-[linear-gradient(160deg,rgba(255,255,255,0.55)_0%,rgba(255,255,255,0.16)_26%,rgba(255,255,255,0.04)_44%,transparent_60%)]" />
       <div className="flex items-start rounded-3xl absolute inset-0 pointer-events-none bg-[linear-gradient(340deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0.07)_22%,transparent_42%)]" />
-      <div className="flex items-center gap-2.5 relative z-[1]">
+      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 relative z-[1]">
         <div
           className={SubframeUtils.twClassNames(
             "flex h-[42px] w-[42px] flex-none items-center justify-center rounded-[9999px] border-2 border-solid border-default-border cursor-pointer transition-colors duration-150 hover:border-neutral-400 hover:text-default-font",

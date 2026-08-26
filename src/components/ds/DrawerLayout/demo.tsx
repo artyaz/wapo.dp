@@ -52,7 +52,7 @@ export default function Demo() {
           modal={false}
           className="absolute inset-0"
         >
-          <div className="flex w-[320px] flex-col items-start gap-1.5 px-6 pt-6">
+          <div className="flex w-[320px] max-w-full flex-col items-start gap-1.5 px-6 pt-6">
             <SubframeCore.Drawer.Title className="text-heading-2 font-heading-2 text-default-font">
               Session details
             </SubframeCore.Drawer.Title>
@@ -60,7 +60,7 @@ export default function Demo() {
               Q3 planning session
             </SubframeCore.Drawer.Description>
           </div>
-          <div className="flex w-[320px] flex-col items-start px-6 pb-6">
+          <div className="flex w-[320px] max-w-full flex-col items-start px-6 pb-6">
             {rows.map(({ label, value }) => (
               <div
                 key={label}
@@ -101,7 +101,7 @@ export const demoSource = `const [open, setOpen] = useState(true);
   onOpenChange={setOpen}
   direction="right"
 >
-  <div className="flex w-[320px] flex-col items-start gap-1.5 px-6 pt-6">
+  <div className="flex w-[320px] max-w-full flex-col items-start gap-1.5 px-6 pt-6">
     <SubframeCore.Drawer.Title className="text-heading-2 font-heading-2 text-default-font">
       Session details
     </SubframeCore.Drawer.Title>
@@ -109,7 +109,7 @@ export const demoSource = `const [open, setOpen] = useState(true);
       Q3 planning session
     </SubframeCore.Drawer.Description>
   </div>
-  <div className="flex w-[320px] flex-col items-start px-6 pb-6">
+  <div className="flex w-[320px] max-w-full flex-col items-start px-6 pb-6">
     <div className="flex w-full flex-col items-start gap-1 border-t border-solid border-default-border py-3 first:border-t-0 first:pt-0">
       <span className="text-caption font-caption uppercase tracking-[0.1em] text-neutral-500">
         Recorded

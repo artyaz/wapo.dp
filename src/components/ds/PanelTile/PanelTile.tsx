@@ -50,25 +50,25 @@ const PanelTileRoot = React.forwardRef<HTMLDivElement, PanelTileRootProps>(
             </span>
           ) : null}
           <div className="flex items-center gap-0.5">
-            <div className="flex h-6 w-6 flex-none items-center justify-center rounded-sm hover:bg-brand-50 cursor-pointer transition-colors">
-              <span className="text-caption font-caption text-neutral-500 hover:text-default-font">
+            <div className="group/icon flex h-6 w-6 flex-none items-center justify-center rounded-sm hover:bg-brand-50 cursor-pointer transition-colors">
+              <span className="text-caption font-caption text-neutral-500 group-hover/icon:text-default-font">
                 ⋯
               </span>
             </div>
-            <div className="flex h-6 w-6 flex-none items-center justify-center rounded-sm hover:bg-brand-50 cursor-pointer transition-colors">
-              <span className="text-caption font-caption text-neutral-500 hover:text-default-font">
+            <div className="group/icon flex h-6 w-6 flex-none items-center justify-center rounded-sm hover:bg-brand-50 cursor-pointer transition-colors">
+              <span className="text-caption font-caption text-neutral-500 group-hover/icon:text-default-font">
                 ⤢
               </span>
             </div>
-            <div className="flex h-6 w-6 flex-none items-center justify-center rounded-sm hover:bg-brand-50 cursor-pointer transition-colors">
-              <span className="text-caption font-caption text-neutral-500 hover:text-default-font">
+            <div className="group/icon flex h-6 w-6 flex-none items-center justify-center rounded-sm hover:bg-brand-50 cursor-pointer transition-colors">
+              <span className="text-caption font-caption text-neutral-500 group-hover/icon:text-default-font">
                 ✕
               </span>
             </div>
           </div>
         </div>
         {children ? (
-          <div className="flex min-h-[0px] w-full flex-col items-start px-3 py-3 flex-1">
+          <div className="flex min-h-[0px] w-full min-w-0 flex-col items-start px-3 py-3 flex-1">
             {children}
           </div>
         ) : null}

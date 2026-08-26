@@ -42,6 +42,13 @@ export default defineMeta({
         "Entry content: body-medium prose for comments, a monospace system line for system events, caption text for email.",
     },
     {
+      name: "isFirst",
+      type: "boolean",
+      default: "false",
+      description:
+        "Clears the upward connector stub so the timeline starts cleanly on this row's marker.",
+    },
+    {
       name: "isLast",
       type: "boolean",
       default: "false",

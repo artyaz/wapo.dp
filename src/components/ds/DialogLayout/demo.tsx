@@ -45,7 +45,7 @@ export default function Demo() {
           modal={false}
           className="absolute inset-0"
         >
-          <div className="flex w-[104px] shrink-0 flex-col items-start gap-2 pt-1">
+          <div className="flex w-[104px] shrink-0 flex-col items-start gap-2 pt-1 max-sm:hidden">
             <div className="flex h-10 w-10 items-center justify-center rounded-[4px] bg-neutral-100 font-code text-[13px] text-neutral-500">
               NL
             </div>
@@ -56,7 +56,7 @@ export default function Demo() {
               Pro · 12 members
             </span>
           </div>
-          <div className="flex w-[296px] flex-col items-start gap-5">
+          <div className="flex w-[296px] max-w-full flex-col items-start gap-5">
             <div className="flex w-full flex-col items-start gap-1.5">
               <SubframeCore.Dialog.Title className="text-heading-2 font-heading-2 text-default-font">
                 Archive workspace?
@@ -67,7 +67,7 @@ export default function Demo() {
                 restored.
               </SubframeCore.Dialog.Description>
             </div>
-            <div className="flex w-full items-center justify-end gap-2">
+            <div className="flex w-full flex-wrap items-center justify-end gap-2">
               <Button variant="secondary" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
@@ -103,7 +103,7 @@ export const demoSource = `const [open, setOpen] = useState(true);
       Pro · 12 members
     </span>
   </div>
-  <div className="flex w-[296px] flex-col items-start gap-5">
+  <div className="flex w-[296px] max-w-full flex-col items-start gap-5">
     <div className="flex w-full flex-col items-start gap-1.5">
       <SubframeCore.Dialog.Title className="text-heading-2 font-heading-2 text-default-font">
         Archive workspace?
@@ -113,7 +113,7 @@ export const demoSource = `const [open, setOpen] = useState(true);
         stay available; new recordings are paused until it is restored.
       </SubframeCore.Dialog.Description>
     </div>
-    <div className="flex w-full items-center justify-end gap-2">
+    <div className="flex w-full flex-wrap items-center justify-end gap-2">
       <Button variant="secondary" onClick={() => setOpen(false)}>
         Cancel
       </Button>

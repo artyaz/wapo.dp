@@ -4,7 +4,7 @@ import { RecordHeader } from "@/components/ds/RecordHeader";
 
 export default function Demo() {
   return (
-    <div className="w-full max-w-[560px]">
+    <div className="w-full max-w-[720px]">
       <RecordHeader
         breadcrumb="Incidents / 2025 / Q3"
         title="Checkout latency spike"

@@ -48,7 +48,7 @@ export default function Demo() {
           modal={false}
         >
           <Drawer.Content aria-describedby={undefined}>
-            <div className="flex w-[320px] flex-col items-start gap-6 p-6">
+            <div className="flex w-[320px] max-w-full flex-col items-start gap-6 p-6">
               <div className="flex w-full flex-col items-start gap-1.5">
                 <SubframeCore.Drawer.Title className="text-heading-2 font-heading-2 text-default-font">
                   Session details
@@ -97,7 +97,7 @@ export const demoSource = `const [open, setOpen] = useState(true);
 
 <Drawer open={open} onOpenChange={setOpen} direction="right">
   <Drawer.Content>
-    <div className="flex w-[320px] flex-col items-start gap-6 p-6">
+    <div className="flex w-[320px] max-w-full flex-col items-start gap-6 p-6">
       <div className="flex w-full flex-col items-start gap-1.5">
         <span className="text-heading-2 font-heading-2 text-default-font">
           Session details

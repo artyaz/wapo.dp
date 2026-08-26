@@ -39,12 +39,12 @@ const AskBarRoot = React.forwardRef<HTMLDivElement, AskBarRootProps>(
         {...otherProps}
       >
         {statusText ? (
-          <span className="w-full max-w-[544px] text-caption font-caption text-neutral-500 pb-2">
+          <span className="w-full text-caption font-caption text-neutral-500 pb-2">
             {statusText}
           </span>
         ) : null}
-        <div className="flex w-full max-w-[544px] items-center gap-2">
-          <TextField label="" helpText="">
+        <div className="flex w-full items-center gap-2">
+          <TextField label="" helpText="" className="min-w-0 flex-1">
             <TextField.Input placeholder={placeholder} value="" />
           </TextField>
           <div

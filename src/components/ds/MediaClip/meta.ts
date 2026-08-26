@@ -7,7 +7,7 @@ export default defineMeta({
   description:
     "A timeline clip block that stretches to its lane and shows its kind — waveform for audio, filmstrip blocks for video, a caption line for text — under label and duration chips pinned to opposite corners. The selected state adds a 2px brand border, an opaque background and col-resize rails along both edges; the locked state dims the clip to 60% under a 45° hatch. Drive selection from the editor state, not from inside the clip.",
   usage:
-    "Position it into a timeline lane (it is h-full with a 200px floor) and drive kind/state from the sequence model.",
+    "Position it into a timeline lane (it is h-full with a 140px floor) and drive kind/state from the sequence model.",
   tags: ["media", "timeline", "clip", "editor", "waveform"],
   props: [
     {

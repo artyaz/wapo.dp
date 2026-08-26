@@ -11,11 +11,10 @@ import { FileTreeRow } from "@/components/ds/FileTreeRow";
 
 export default function Demo() {
   return (
-    <div className="flex w-full max-w-[420px] flex-col items-start gap-2">
-      <span className="font-code text-[11px] tracking-[0.04em] text-neutral-500">
-        explorer · praxis-ui
-      </span>
-      <div className="flex w-full flex-col overflow-hidden rounded-lg border border-solid border-default-border bg-panel">
+    <div className="flex w-full max-w-[420px] flex-col items-start">
+      {/* max-h keeps the tree inside a preview frame (~120px gallery clip);
+          the panel scrolls like a real explorer so all rows stay reachable */}
+      <div className="flex w-full max-h-[114px] flex-col overflow-hidden rounded-lg border border-solid border-default-border bg-panel overflow-y-auto">
         <FileTreeRow name="src" nodeType="folder" depth="0" expanded selected />
         <FileTreeRow name="components" nodeType="folder" depth="1" />
         <FileTreeRow name="lib" nodeType="folder" depth="1" expanded />

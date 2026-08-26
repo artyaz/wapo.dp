@@ -11,7 +11,7 @@ import { AssetCard } from "@/components/ds/AssetCard";
 
 export default function Demo() {
   return (
-    <div className="w-[248px]">
+    <div className="mx-auto w-[248px] max-w-full">
       <AssetCard
         kind="audio"
         title="room-tone.wav"

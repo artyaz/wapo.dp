@@ -45,32 +45,35 @@ const JsonTreeNodeLeaf = React.forwardRef<
     >
       <div className="flex w-4 flex-none items-center justify-center self-stretch" />
       <div
-        className={SubframeUtils.twClassNames("hidden items-center gap-1", {
-          flex: isArrayItem,
-        })}
+        className={SubframeUtils.twClassNames(
+          "hidden min-w-0 items-center gap-1",
+          {
+            flex: isArrayItem,
+          }
+        )}
       >
         {arrayIndex ? (
-          <span className="text-code font-code text-neutral-400 select-none">
+          <span className="flex-none text-code font-code text-neutral-400 select-none">
             {arrayIndex}
           </span>
         ) : null}
       </div>
       <div
-        className={SubframeUtils.twClassNames("flex items-center gap-1", {
+        className={SubframeUtils.twClassNames("flex min-w-0 items-center gap-1", {
           hidden: isArrayItem,
         })}
       >
         {keyName ? (
-          <span className="text-code font-code text-default-font select-none">
+          <span className="truncate text-code font-code text-default-font select-none">
             {keyName}
           </span>
         ) : null}
-        <span className="text-code font-code text-neutral-400 select-none">
+        <span className="flex-none text-code font-code text-neutral-400 select-none">
           :
         </span>
       </div>
       <div
-        className={SubframeUtils.twClassNames("flex items-center", {
+        className={SubframeUtils.twClassNames("flex min-w-0 items-center", {
           hidden:
             valueType === "null" ||
             valueType === "boolean" ||
@@ -78,29 +81,29 @@ const JsonTreeNodeLeaf = React.forwardRef<
         })}
       >
         {value ? (
-          <span className="text-code font-code text-success-600 select-none">
+          <span className="truncate text-code font-code text-success-600 select-none">
             {value}
           </span>
         ) : null}
       </div>
       <div
-        className={SubframeUtils.twClassNames("hidden items-center", {
+        className={SubframeUtils.twClassNames("hidden min-w-0 items-center", {
           flex: valueType === "number",
         })}
       >
         {value ? (
-          <span className="text-code font-code text-default-font tabular-nums select-none">
+          <span className="truncate text-code font-code text-default-font tabular-nums select-none">
             {value}
           </span>
         ) : null}
       </div>
       <div
-        className={SubframeUtils.twClassNames("hidden items-center", {
+        className={SubframeUtils.twClassNames("hidden min-w-0 items-center", {
           flex: valueType === "null" || valueType === "boolean",
         })}
       >
         {value ? (
-          <span className="text-code font-code text-warning-600 select-none">
+          <span className="truncate text-code font-code text-warning-600 select-none">
             {value}
           </span>
         ) : null}
@@ -167,27 +170,27 @@ const JsonTreeNodeBranch = React.forwardRef<
           </span>
         </div>
         <div
-          className={SubframeUtils.twClassNames("hidden items-center gap-1", {
+          className={SubframeUtils.twClassNames("hidden min-w-0 items-center gap-1", {
             flex: isArrayItem,
           })}
         >
           {arrayIndex ? (
-            <span className="text-code font-code text-neutral-400 select-none">
+            <span className="flex-none text-code font-code text-neutral-400 select-none">
               {arrayIndex}
             </span>
           ) : null}
         </div>
         <div
-          className={SubframeUtils.twClassNames("flex items-center gap-1", {
+          className={SubframeUtils.twClassNames("flex min-w-0 items-center gap-1", {
             hidden: isArrayItem,
           })}
         >
           {keyName ? (
-            <span className="text-code font-code text-default-font select-none">
+            <span className="truncate text-code font-code text-default-font select-none">
               {keyName}
             </span>
           ) : null}
-          <span className="text-code font-code text-neutral-400 select-none">
+          <span className="flex-none text-code font-code text-neutral-400 select-none">
             :
           </span>
         </div>
@@ -237,7 +240,7 @@ const JsonTreeNodeBranch = React.forwardRef<
       ) : null}
       <div
         className={SubframeUtils.twClassNames(
-          "hidden h-6 w-full flex-none items-center pl-4",
+          "hidden h-6 w-full flex-none items-center pl-5",
           { flex: expanded }
         )}
       >
@@ -277,7 +280,7 @@ const JsonTreeNodeRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "flex w-[420px] flex-col items-start rounded-lg border border-solid border-default-border bg-panel px-3 py-3",
+        "flex w-full max-w-[420px] flex-col items-start rounded-lg border border-solid border-default-border bg-panel px-3 py-3",
         className
       )}
       ref={ref}
@@ -288,7 +291,6 @@ const JsonTreeNodeRoot = React.forwardRef<
         braceType="object"
         expanded={true}
         collapsedBadge="{…} 3 keys"
-        arrayIndex="[0]"
       >
         <JsonTreeNodeLeaf
           keyName={'"status"'}

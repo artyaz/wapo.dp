@@ -3,7 +3,8 @@
 /**
  * MediaClip — a timeline clip block that stretches to its lane: waveform body
  * for audio, filmstrip blocks for video, a caption line for text, with label
- * and duration chips pinned to opposite corners. Selected clips gain a 2px
+ * and duration chips pinned to opposite corners. The clip keeps a 140px floor
+ * so the corner chips never collide on narrow lanes. Selected clips gain a 2px
  * brand border plus col-resize rails; locked clips dim under a 45° hatch.
  */
 
@@ -37,7 +38,7 @@ const MediaClipRoot = React.forwardRef<HTMLDivElement, MediaClipRootProps>(
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "group/7e3041e1 flex h-full min-w-[200px] items-start overflow-hidden rounded-[3px] border border-solid border-default-border bg-panel group/mediaclip cursor-grab transition-all duration-150 relative focus-within:border-neutral-600",
+          "group/7e3041e1 flex h-full max-w-full min-w-[140px] items-start overflow-hidden rounded-[3px] border border-solid border-default-border bg-panel group/mediaclip cursor-grab transition-all duration-150 relative focus-within:border-neutral-600",
           {
             "opacity-60": state === "locked",
             "border-2 border-solid border-brand-primary bg-default-background":
@@ -79,7 +80,7 @@ const MediaClipRoot = React.forwardRef<HTMLDivElement, MediaClipRootProps>(
         >
           <span className="text-caption font-caption text-neutral-500">¶</span>
           {caption ? (
-            <span className="whitespace-nowrap text-caption font-caption text-default-font">
+            <span className="min-w-0 truncate text-caption font-caption text-default-font">
               {caption}
             </span>
           ) : null}
@@ -90,9 +91,9 @@ const MediaClipRoot = React.forwardRef<HTMLDivElement, MediaClipRootProps>(
             { flex: state === "locked" }
           )}
         />
-        <div className="flex items-center rounded-[2px] bg-panel px-1.5 py-0.5 absolute top-1 left-1 max-w-[70%] z-10">
+        <div className="flex min-w-0 items-center rounded-[2px] bg-panel px-1.5 py-0.5 absolute top-1 left-1 max-w-[70%] z-10">
           {label ? (
-            <span className="whitespace-nowrap font-body text-[11px] font-[600] leading-[14px] text-default-font">
+            <span className="truncate font-body text-[11px] font-[600] leading-[14px] text-default-font">
               {label}
             </span>
           ) : null}

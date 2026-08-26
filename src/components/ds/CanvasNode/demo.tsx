@@ -15,7 +15,7 @@ export default function Demo() {
       <span className="font-code text-[11px] tracking-[0.04em] text-neutral-500">
         flow · production
       </span>
-      <div className="flex h-[280px] w-full items-center justify-center overflow-hidden rounded-lg border border-solid border-default-border bg-default-background">
+      <div className="flex min-h-[280px] w-full flex-wrap items-center justify-center overflow-hidden rounded-lg border border-solid border-default-border bg-default-background">
         <CanvasNode
           title="checkout"
           statusTone="live"

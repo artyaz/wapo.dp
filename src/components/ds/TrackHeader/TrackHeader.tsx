@@ -70,7 +70,7 @@ const TrackHeaderRoot = React.forwardRef<HTMLDivElement, TrackHeaderRootProps>(
             </span>
           </div>
           {trackName ? (
-            <span className="grow shrink-0 basis-0 whitespace-nowrap font-body text-[13px] font-[500] leading-[13px] text-default-font">
+            <span className="grow min-w-0 basis-0 truncate font-body text-[13px] font-[500] leading-[13px] text-default-font">
               {trackName}
             </span>
           ) : null}

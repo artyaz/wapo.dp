@@ -40,54 +40,54 @@ const TimeScrubberRoot = React.forwardRef<
     >
       <div className="flex h-12 w-full flex-none items-start relative">
         <div className="flex grow shrink-0 basis-0 items-end justify-between self-stretch gap-[2px]">
-          <div className="flex h-1 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-2 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-1 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-1 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-2 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-5 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-8 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-10 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-12 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-8 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-6 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-4 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-2 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-1 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-1 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-2 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-4 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-6 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-10 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-12 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-10 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-8 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-5 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-2 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-1 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-1 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-2 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-5 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-8 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-10 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-12 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-10 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-6 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-4 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-2 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-1 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-1 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-2 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-4 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-6 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-5 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-1 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-1 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-2 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-1 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-1 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-2 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-3 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-5 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-8 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-10 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-12 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-8 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-6 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-4 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-3 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-2 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-1 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-1 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-2 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-4 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-6 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-10 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-12 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-10 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-8 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-5 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-3 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-2 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-1 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-1 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-2 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-3 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-5 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-8 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-10 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-12 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-10 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-6 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-4 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-3 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-2 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-1 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-1 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-2 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-4 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-6 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-5 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-3 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
+          <div className="flex h-1 flex-1 min-w-0 max-w-[2px] items-start rounded-[1px] bg-neutral-300" />
         </div>
         <div className="flex items-start self-stretch bg-brand-50 absolute left-0 top-0 w-[55%]" />
         <div className="flex items-start self-stretch bg-brand-50 absolute right-0 top-0 w-[15%]" />
@@ -109,8 +109,21 @@ const TimeScrubberRoot = React.forwardRef<
         </div>
       </div>
       <div className="flex w-full items-center justify-end gap-1">
-        <div className="flex items-center rounded-[3px] border border-solid border-brand-primary bg-brand-primary px-2 py-1 cursor-pointer transition-colors text-brand-primary-foreground hover:bg-brand-primary hover:text-brand-primary-foreground">
-          <span className="font-code text-[13px] font-[400] leading-[19px] text-brand-primary-foreground tabular-nums">
+        <div
+          className={SubframeUtils.twClassNames(
+            "flex items-center rounded-[3px] border border-solid border-transparent px-2 py-1 cursor-pointer transition-colors hover:bg-brand-50 hover:text-default-font",
+            {
+              "border border-solid border-brand-primary bg-brand-primary text-brand-primary-foreground hover:bg-brand-primary hover:text-brand-primary-foreground":
+                activeRange === "1-d",
+            }
+          )}
+        >
+          <span
+            className={SubframeUtils.twClassNames(
+              "font-code text-[13px] font-[400] leading-[19px] text-neutral-500 tabular-nums",
+              { "text-brand-primary-foreground": activeRange === "1-d" }
+            )}
+          >
             1D
           </span>
         </div>

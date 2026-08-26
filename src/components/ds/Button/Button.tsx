@@ -65,15 +65,22 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
         className={SubframeUtils.twClassNames(
           "group/d55c3903 flex h-10 cursor-pointer items-center justify-center gap-2 rounded-[3px] border-2 border-solid border-brand-primary bg-brand-primary px-[18px] py-3 text-left w-fit hover:bg-neutral-800 hover:border-neutral-800 active:bg-neutral-700 active:border-neutral-700 focus-within:border-neutral-600 disabled:cursor-default disabled:opacity-40 disabled:pointer-events-none",
           {
-            "px-0 py-0 aspect-square": iconOnly,
             "h-[46px] px-[22px] py-3.5": size === "large",
             "h-8 px-3.5 py-2.5": size === "small",
+            "gap-2.5": loading,
             "border-2 border-solid border-destructive-500 bg-panel hover:bg-destructive-50 hover:border-destructive-500 active:bg-destructive-100 active:border-destructive-600 focus-within:border-destructive-600":
               variant === "danger",
             "border-2 border-solid border-transparent bg-transparent hover:bg-transparent hover:border-transparent active:bg-neutral-100":
               variant === "ghost",
             "border-2 border-solid border-default-border bg-panel hover:bg-neutral-100 hover:border-default-border active:bg-neutral-200":
               variant === "secondary",
+            // icon-only: reset padding AFTER the size branches so it wins the
+            // merge, and pin an explicit square width per size (aspect-square
+            // alone is unreliable under w-fit shrink-to-fit sizing).
+            "px-0 py-0 aspect-square": iconOnly,
+            "w-10": iconOnly && size === "medium",
+            "w-8": iconOnly && size === "small",
+            "w-[46px]": iconOnly && size === "large",
           },
           className
         )}
@@ -100,6 +107,8 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
               {
                 "text-[19px] leading-[19px]": size === "large",
                 "text-caption font-caption": size === "small",
+                // keep the glyph box exactly the glyph: centers icon-only marks
+                "flex items-center justify-center leading-none": iconOnly,
                 "text-destructive-500": variant === "danger",
                 "text-neutral-500 group-hover/d55c3903:text-default-font":
                   variant === "ghost",

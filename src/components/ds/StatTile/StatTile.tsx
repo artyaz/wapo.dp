@@ -48,7 +48,7 @@ const StatTileRoot = React.forwardRef<HTMLDivElement, StatTileRootProps>(
             {label}
           </span>
         ) : null}
-        <div className="flex w-full gap-2 items-baseline">
+        <div className="flex w-full flex-wrap gap-2 items-baseline">
           {value ? (
             <span
               className={SubframeUtils.twClassNames(
@@ -62,7 +62,7 @@ const StatTileRoot = React.forwardRef<HTMLDivElement, StatTileRootProps>(
           {delta ? (
             <span
               className={SubframeUtils.twClassNames(
-                "font-code text-[13px] font-[500] leading-[20px] text-neutral-600 inline-flex items-center gap-1 rounded-sm px-1.5 py-[2px] tabular-nums bg-neutral-100",
+                "font-code text-[13px] font-[500] leading-[20px] text-neutral-600 inline-flex items-center gap-1 whitespace-nowrap rounded-sm px-1.5 py-[2px] tabular-nums bg-neutral-100",
                 {
                   "text-destructive-700 bg-destructive-100":
                     sign === "negative",

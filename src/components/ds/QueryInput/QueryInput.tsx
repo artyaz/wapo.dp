@@ -33,7 +33,7 @@ const QueryInputRoot = React.forwardRef<HTMLDivElement, QueryInputRootProps>(
             FOCUSED
           </span>
           <div className="flex w-full overflow-hidden rounded-[3px] border-2 border-solid border-neutral-500 bg-panel items-stretch">
-            <div className="flex flex-wrap items-start px-3 py-2 flex-1">
+            <div className="flex flex-wrap items-baseline px-3 py-2 flex-1">
               <span className="text-code font-code text-neutral-500">rate</span>
               <span className="text-code font-code text-default-font">
                 (errors_total{" "}
