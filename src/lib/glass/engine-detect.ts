@@ -170,7 +170,7 @@ export interface MaterialRampEntry {
   tint: number;
   /** WebGL refraction strength on liquidGL's 0–1 scale */
   strength: number;
-  /** base displacement scale (B channel); R = ×1.25, G = ×0.83 */
+  /** base displacement scale (B channel); R = ×1.02, G = ×0.98 (subtle aberration per doctrine) */
   displacement: number;
 }
 
@@ -181,8 +181,14 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
   thick: { blur: 56, saturate: 1.65, tint: 72, strength: 0.85, displacement: 16 },
 };
 
-/** Chromatic aberration multipliers per color channel (spec §4). */
-export const CHROMATIC = { r: 1.25, g: 0.83, b: 1.0 } as const;
+/**
+ * Chromatic aberration multipliers per color channel (spec §4).
+ *
+ * Tuned 1.25/0.83 → 1.02/0.98 after visual audit: the original spread read
+ * as neon green/magenta rim fringing on displacement specimens, violating
+ * the monochrome doctrine. The aberration now stays a barely-there rim tint.
+ */
+export const CHROMATIC = { r: 1.02, g: 0.98, b: 1.0 } as const;
 
 /** Intensity forks — base B-channel displacement scale per fork. */
 export const INTENSITY_BASE_SCALE: Record<RefractionIntensity, number> = {

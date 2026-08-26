@@ -70,9 +70,9 @@ export function DemoStage({
               <p
                 key={i}
                 className="truncate text-[12px] leading-[1.6] text-default-font/70"
+                title="Specimen line"
               >
-                The quick brown fox jumps over the lazy dog — specimen line{" "}
-                {String(i + 1).padStart(2, "0")}
+                The quick brown fox jumps specimen {String(i + 1).padStart(2, "0")}
               </p>
             ))}
           </div>
@@ -80,7 +80,7 @@ export function DemoStage({
       ) : null}
 
       {children ? (
-        <div className="relative flex items-center justify-center p-6">
+        <div className="relative flex w-full items-center justify-center p-6">
           {children}
         </div>
       ) : null}

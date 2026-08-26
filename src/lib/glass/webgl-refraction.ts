@@ -138,12 +138,13 @@ void main() {
   float profile = pow(1.0 - depth, 2.0);              // strongest at the edge
   profile *= profile > 0.001 ? 1.0 : 0.0;
 
-  // Refraction offsets per channel (chromatic aberration).
+  // Refraction offsets per channel (chromatic aberration — subtle per doctrine;
+  // mirrors CHROMATIC 1.02/0.98 in engine-detect.ts so both tiers match).
   vec2 uv = frag / uRes;
   float amt = uStrength * profile * uBezel * 0.9;
   vec2 off = inward * amt / uRes;
-  vec2 offR = off * 1.25;
-  vec2 offG = off * 0.83;
+  vec2 offR = off * 1.02;
+  vec2 offG = off * 0.98;
   vec2 offB = off * 1.00;
 
   // Multi-tap blur approximation of the material blur (scaled down for GL).

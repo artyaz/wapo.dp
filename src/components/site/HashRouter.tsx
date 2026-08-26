@@ -14,9 +14,12 @@ export interface Route {
   segments: string[];
 }
 
+/** The route SSR always renders — also the pre-hydration client default. */
+const SSR_ROUTE: Route = { path: "/", segments: [] };
+
 function parse(): Route {
   if (typeof window === "undefined") {
-    return { path: "/", segments: [] };
+    return SSR_ROUTE;
   }
   const raw = window.location.hash.replace(/^#/, "") || "/";
   const path = raw.startsWith("/") ? raw : `/${raw}`;
@@ -24,11 +27,21 @@ function parse(): Route {
   return { path, segments };
 }
 
+/**
+ * Hydration-safe route hook.
+ *
+ * The initial state is ALWAYS the SSR route ("/") — never `parse()` — so the
+ * first client render matches the server markup exactly (no attribute
+ * mismatch on nav active states, no React hydration error). The real hash
+ * route is adopted in the mount effect, one commit later, together with the
+ * Router's own `mounted` gate in page.tsx.
+ */
 export function useRoute(): Route {
-  const [route, setRoute] = React.useState<Route>(parse);
+  const [route, setRoute] = React.useState<Route>(SSR_ROUTE);
 
   React.useEffect(() => {
     const onChange = () => setRoute(parse());
+    onChange(); // adopt the real (possibly deep-linked) route after mount
     window.addEventListener("hashchange", onChange);
     return () => window.removeEventListener("hashchange", onChange);
   }, []);
