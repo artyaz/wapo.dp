@@ -579,11 +579,11 @@ function LiveProof() {
             On Chromium you should see the letters bend near the edges of the
             card — at this Regular · strong setting the ray-traced displacement
             peaks past 60px along the bezel. Grab the glass anywhere and pull:
-            the surface deforms elastically toward the pointer — it stretches
-            along the pull, at whatever angle you pull, and squashes across
-            it; only the side you pull moves, and it never quite reaches the
-            cursor — and the bend intensifies while it is deformed, then
-            springs back with an overshooting jelly settle. Content rides along purely
+            the surface grows toward the pointer, at whatever angle you pull;
+            only the side you pull moves, it stays flat in 2D (no shear, so
+            no tilt), and it never quite reaches the cursor — and the bend
+            intensifies while it is deformed, then springs back with a soft
+            overshooting settle. Content rides along purely
             visually; layout never moves. Other engines show the WebGL/base
             tier: the same material, negotiated without the SVG lens.
           </p>

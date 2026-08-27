@@ -62,21 +62,22 @@ import {
  *                rest (0, 4, 9, .16, .20) → held (4, 16, 24, .22, .27)
  *
  * Stretch (the ONE adaptation, built from the magnifier's math): hold the
- * surface and pull — it deforms along the pointer direction, whatever that
- * direction is (right, left, diagonal, anything between), elongating toward
- * the cursor and squashing across it (floor 0.7). The far support point
- * stays put, so the deformation is one-sided — it is never mirrored to the
- * opposite edge, and there is no dominant axis to flip between. Travel
- * saturates through tanh against an elliptical budget (~1cm or 22% of the
- * pulled extent, scaled per material), so the material has mass and never
- * reaches the cursor. Release springs it back with overshoot (framer
- * bounce, per material — thicker glass wobbles less).
+ * surface and pull — it grows toward the pointer, whatever direction that
+ * is (right, left, diagonal, anything between). The far support point stays
+ * put, so the deformation is one-sided — never mirrored to the opposite
+ * edge, and no dominant axis to flip between. Travel saturates through tanh
+ * against an elliptical budget (~1cm or 22% of the pulled axis, scaled per
+ * material), so the material has mass and never reaches the cursor.
+ * Release springs it back with overshoot (framer bounce, per material —
+ * thicker glass wobbles less).
  *
- * The deformation is one matrix — R(t)·diag(elongate, squash)·R(-t) about
- * the far support point — written straight onto the root: layout, DOM
- * geometry and interactive children never move; the content stretches
- * visually with the glass because the whole subtree transforms together.
- * No cursor change; interactive descendants opt out automatically.
+ * The deformation is one matrix — scaleX/scaleY plus a translation that
+ * moves the fixed point to the far side — written straight onto the root.
+ * Strictly axis-aligned: no shear, because a sheared rectangle reads as a
+ * tilt in depth. Layout, DOM geometry and interactive children never move;
+ * the content stretches visually with the glass because the whole subtree
+ * transforms together. No cursor change; interactive descendants opt out
+ * automatically.
  *
  * Base-background chroma: backdrop-filter always samples the page canvas,
  * and the saturate node would multiply its colour (a warm off-white turns
@@ -158,9 +159,6 @@ const PULL_EXCLUDES =
 /** Pointer travel (px) before the stretch engages — plain clicks stay inert. */
 const PULL_ENGAGE_PX = 3;
 
-/** Cross-axis squash floor — kube's 0.7. */
-const SQUASH_FLOOR = 0.7;
-
 /** Drag-follow spring: the material lags the pointer by its own mass. */
 const PULL_FOLLOW = { type: "spring", stiffness: 340, damping: 30 } as const;
 
@@ -193,18 +191,27 @@ function directionalBudget(
 }
 
 /**
- * The magnifier's squash & stretch, rotated onto the pull axis and anchored
- * on the far side: the surface elongates along the pointer direction by the
- * pulled distance, squashes across it (floor 0.7, kube's), and the support
- * point opposite the pull stays where it was — so the material reaches
- * toward the cursor only, never mirrors the deformation to the other side.
+ * Squash & stretch as a pure axis-aligned 2D scale, anchored on the far
+ * side: each axis grows by its own share of the pull, and the support point
+ * opposite the pointer stays exactly where it was — so the material reaches
+ * toward the cursor only, at any angle, and never mirrors the deformation
+ * to the other side.
  *
- *   M = R(t) · diag(elongate, squash) · R(-t)
+ * There is deliberately no off-diagonal term. A symmetric stretch about a
+ * diagonal axis (R(t)·diag(elongate, squash)·R(-t), the obvious way to
+ * write "elongate along the pull, squash across it") turns the rectangle
+ * into a parallelogram, and the eye reads a parallelogram as a tilt in
+ * depth. scaleX/scaleY plus a translation cannot express that: the surface
+ * stays flat in 2D.
  *
- * is symmetric, so the CSS matrix carries b === c; the translation moves the
- * fixed point from the element centre (transform-origin) out to the far
- * support point. Any pull direction — axis-aligned, diagonal, anything in
- * between — is the same expression, so no axis ever flips.
+ * Dropping the shear also costs the cross-axis squash. Measured over a full
+ * rotation of the pull on chip / toolbar / card / square aspect ratios, any
+ * cross-contraction weight above zero swings the deformed corner away from
+ * the pointer — 24-49 degrees of direction error at weight 0.15, past 80 at
+ * 0.25, because on a wide short box the per-dimension strain of a diagonal
+ * pull is dominated by the short axis. At zero the corner tracks the pull
+ * to within 13 degrees on every shape. Direction fidelity was the ask; the
+ * thinning was decoration inherited from the magnifier.
  */
 function computeStretchTransform(
   pullX: number,
@@ -215,23 +222,20 @@ function computeStretchTransform(
   if (w < 1 || h < 1) return "none";
   const distance = Math.hypot(pullX, pullY);
   if (distance < 0.01) return "none";
-  const directionX = pullX / distance;
-  const directionY = pullY / distance;
-  // the box's own extent along the pull axis — its support width
-  const extent = Math.abs(w * directionX) + Math.abs(h * directionY);
-  const reach = distance / extent;
-  const elongate = 1 + reach;
-  const squash = Math.max(SQUASH_FLOOR, 1 - reach);
-  const m11 = elongate * directionX * directionX + squash * directionY * directionY;
-  const m12 = (elongate - squash) * directionX * directionY;
-  const m22 = squash * directionX * directionX + elongate * directionY * directionY;
-  const originX = -directionX * extent * 0.5;
-  const originY = -directionY * extent * 0.5;
-  const translateX = originX - (m11 * originX + m12 * originY);
-  const translateY = originY - (m12 * originX + m22 * originY);
+  // each axis grows by its own component of the pull, so the pulled corner
+  // travels along the pull vector itself
+  const scaleX = 1 + Math.abs(pullX) / w;
+  const scaleY = 1 + Math.abs(pullY) / h;
+  // anchor on the far side: the fixed point sits on the boundary opposite
+  // the pointer, scaled by the direction cosines so it is smooth through
+  // every angle (at zero pull the transform is the identity regardless)
+  const originX = (-pullX / distance) * w * 0.5;
+  const originY = (-pullY / distance) * h * 0.5;
+  const translateX = originX * (1 - scaleX);
+  const translateY = originY * (1 - scaleY);
   return (
-    `matrix(${m11.toFixed(5)}, ${m12.toFixed(5)}, ${m12.toFixed(5)}, ` +
-    `${m22.toFixed(5)}, ${translateX.toFixed(3)}, ${translateY.toFixed(3)})`
+    `matrix(${scaleX.toFixed(5)}, 0, 0, ${scaleY.toFixed(5)}, ` +
+    `${translateX.toFixed(3)}, ${translateY.toFixed(3)})`
   );
 }
 

@@ -202,7 +202,11 @@ export interface MaterialRampEntry {
    * `bounce`. Thicker glass carries more mass, so it overshoots less.
    */
   bounce: number;
-  /** Release settle duration in seconds — framer's spring `duration`. */
+  /**
+   * Release settle duration in seconds — framer's spring `duration`. Longer
+   * duration is what makes the wobble read as soft rather than snappy: the
+   * overshoot amplitude is `bounce`, the speed of it is this.
+   */
   settle: number;
 }
 
@@ -225,8 +229,8 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     tint: 5,
     strength: 0.35,
     stretch: 0.7,
-    bounce: 0.5,
-    settle: 0.34,
+    bounce: 0.42,
+    settle: 0.6,
   },
   thin: {
     refraction: 0.875,
@@ -238,8 +242,8 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     tint: 5,
     strength: 0.5,
     stretch: 0.85,
-    bounce: 0.45,
-    settle: 0.38,
+    bounce: 0.38,
+    settle: 0.66,
   },
   regular: {
     refraction: 1,
@@ -251,8 +255,8 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     tint: 5,
     strength: 0.65,
     stretch: 1,
-    bounce: 0.42,
-    settle: 0.42,
+    bounce: 0.36,
+    settle: 0.72,
   },
   thick: {
     refraction: 1.25,
@@ -264,8 +268,8 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     tint: 6,
     strength: 0.85,
     stretch: 1.3,
-    bounce: 0.34,
-    settle: 0.5,
+    bounce: 0.3,
+    settle: 0.86,
   },
 };
 
