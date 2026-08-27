@@ -193,9 +193,15 @@ export interface MaterialRampEntry {
    */
   saturate: number;
   /**
-   * Universal base tier: backdrop-filter blur radius in px. Without this the
-   * fallback carries no frost at all and reads as a colour wash rather than
-   * glass. Scaled per level toward the documented blur-2xl register.
+   * Universal base tier: backdrop-filter blur radius in px.
+   *
+   * Deliberately small (2..10). The reference construction frosts at
+   * feGaussianBlur stdDeviation 0..1 — almost nothing — because the effect is
+   * supposed to come from refraction, not frost. With no blur at all the
+   * fallback reads as a colour wash and not as glass; at the blur-2xl
+   * register (40px) it reads as an opaque frosted panel and the backdrop
+   * behind the surface is destroyed. These values keep the backdrop legible
+   * through the glass, which is the liquid-glass read.
    */
   cssBlur: number;
   /** Universal base tier: backdrop-filter saturate (the DS canon, 1.5). */
@@ -241,7 +247,7 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     saturate: 4,
     specularOpacity: 0.4,
     tint: 5,
-    cssBlur: 8,
+    cssBlur: 2,
     cssSaturate: 1.5,
     strength: 0.35,
     stretch: 0.7,
@@ -256,7 +262,7 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     saturate: 4,
     specularOpacity: 0.2,
     tint: 5,
-    cssBlur: 16,
+    cssBlur: 4,
     cssSaturate: 1.5,
     strength: 0.5,
     stretch: 0.85,
@@ -271,7 +277,7 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     saturate: 9,
     specularOpacity: 0.5,
     tint: 5,
-    cssBlur: 24,
+    cssBlur: 6,
     cssSaturate: 1.5,
     strength: 0.65,
     stretch: 1,
@@ -286,7 +292,7 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     saturate: 4,
     specularOpacity: 0.4,
     tint: 6,
-    cssBlur: 40,
+    cssBlur: 10,
     cssSaturate: 1.5,
     strength: 0.85,
     stretch: 1.3,

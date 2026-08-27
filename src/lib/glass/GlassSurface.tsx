@@ -88,8 +88,10 @@ import {
  *
  * Non-Chromium tiers keep their negotiated fallbacks: WebGL refraction on
  * Safari/Firefox when there is a backdrop image to refract, and as the
- * universal base a real frost — blur(cssBlur) saturate(1.5) plus tint,
- * hairline and the spring shadow. The base tier must NOT reuse the ramp's
+ * universal base a light frost — blur(cssBlur, 2..10px) saturate(1.5) plus
+ * tint, hairline and the spring shadow. The blur stays small on purpose: the
+ * backdrop must remain legible through the glass, the way it is through the
+ * displacement tier, whose own frost is stdDeviation 0..1. The base tier must NOT reuse the ramp's
  * in-filter saturate (4..9): that value is composited through the rim mask
  * inside the displacement chain, and applied to a whole surface it washes
  * the page gold instead of frosting it.
