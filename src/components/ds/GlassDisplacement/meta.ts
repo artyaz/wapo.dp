@@ -34,6 +34,27 @@ export default defineMeta({
       type: "string",
       description: "Merged onto the outer sizing shell (height/width go here).",
     },
+    {
+      name: "material",
+      type: '"ultrathin" | "thin" | "regular" | "thick"',
+      default: '"regular"',
+      description:
+        "Material thickness. Picks the whole shipped constant set for the level — refraction level, maxDisplacement, bezel width, in-filter frost, saturation, specular opacity and stretch allowance.",
+    },
+    {
+      name: "stretchable",
+      type: "boolean",
+      default: "true",
+      description:
+        "Elastic pull. Grab and drag: the surface stretches one-sided toward the pointer at any angle, capped by the material's budget, and springs back on release.",
+    },
+    {
+      name: "bounce",
+      type: "number",
+      default: "material default",
+      description:
+        "Release overshoot, 0 (dead stop) to 0.9 (very jelly). Defaults to the material's own mass — thicker glass wobbles less.",
+    },
   ],
   status: "stable",
   sourceRef: "Subframe GlassDisplacement_d49325d3-448a-46a4-99dc-15884e83bcf0",

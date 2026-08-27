@@ -16,7 +16,7 @@
 
 import React from "react";
 import * as SubframeUtils from "@/lib/subframe/utils";
-import { GlassSurface } from "@/lib/glass";
+import { GlassSurface, type GlassMaterialControls } from "@/lib/glass";
 
 export interface ActionProps extends React.HTMLAttributes<HTMLDivElement> {
   glyph?: React.ReactNode;
@@ -96,7 +96,8 @@ const Rule = React.forwardRef<HTMLDivElement, RuleProps>(function Rule(
 });
 
 export interface FloatingToolbarRootProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends React.HTMLAttributes<HTMLDivElement>,
+    GlassMaterialControls {
   children?: React.ReactNode;
   className?: string;
 }
@@ -105,7 +106,15 @@ const FloatingToolbarRoot = React.forwardRef<
   HTMLDivElement,
   FloatingToolbarRootProps
 >(function FloatingToolbarRoot(
-  { children, className, ...otherProps }: FloatingToolbarRootProps,
+  {
+    children,
+    className,
+    material,
+    intensity,
+    stretchable,
+    bounce,
+    ...otherProps
+  }: FloatingToolbarRootProps,
   ref
 ) {
   return (
@@ -113,6 +122,10 @@ const FloatingToolbarRoot = React.forwardRef<
     <GlassSurface
       shape="free"
       radius={22}
+      material={material}
+      intensity={intensity}
+      stretchable={stretchable}
+      bounce={bounce}
       className={SubframeUtils.twClassNames(
         "flex w-max items-center gap-1 px-2 py-1.5 relative max-w-full min-w-0",
         className

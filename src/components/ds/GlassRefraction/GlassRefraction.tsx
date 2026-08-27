@@ -16,12 +16,13 @@ import {
   useGlassMaterial,
   useGlassRuntime,
   type GlassStrategy,
-  type MaterialLevel,
   type GlassShape,
+  type GlassMaterialControls,
 } from "@/lib/glass";
 
 export interface GlassRefractionRootProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends React.HTMLAttributes<HTMLDivElement>,
+    GlassMaterialControls {
   /**
    * Accepted for API parity with the Subframe source only — it is ignored.
    * The rendered tier is always the runtime-negotiated strategy
@@ -29,7 +30,6 @@ export interface GlassRefractionRootProps
    * otherwise the backdrop-filter base).
    */
   strategy?: GlassStrategy;
-  material?: MaterialLevel;
   shape?: GlassShape;
   children?: React.ReactNode;
   className?: string;
@@ -43,6 +43,9 @@ const GlassRefractionRoot = React.forwardRef<
     strategy: _strategy,
     material: materialProp,
     shape = "capsule",
+    intensity,
+    stretchable,
+    bounce,
     children,
     className,
     ...otherProps
@@ -76,6 +79,9 @@ const GlassRefractionRoot = React.forwardRef<
         <GlassSurfaceSubtle
           material={material}
           shape={shape}
+          intensity={intensity}
+          stretchable={stretchable}
+          bounce={bounce}
           className="h-12 w-[85%] max-sm:h-7 max-sm:w-[80%]"
         >
           {children}

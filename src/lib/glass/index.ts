@@ -1,12 +1,17 @@
 export { GlassRuntime } from "./GlassRuntime";
 export { GlassSurface } from "./GlassSurface";
+export type {
+  GlassSurfaceProps,
+  GlassMaterialControls,
+} from "./GlassSurface";
 export { GlassFilters } from "./GlassFilters";
 export {
   useGlassMaterial,
   GlassMaterialContext,
   type GlassMaterialContextValue,
 } from "./glass-store";
-export { useGlassRuntime } from "./glass-store";
+export { useGlassRuntime, useBaseChroma, baseChromaOffsets } from "./glass-store";
+export type { BaseChromaOffsets } from "./glass-store";
 export {
   negotiateStrategy,
   isChromium,

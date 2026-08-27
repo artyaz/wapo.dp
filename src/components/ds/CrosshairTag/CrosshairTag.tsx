@@ -9,10 +9,11 @@
 
 import React from "react";
 import * as SubframeUtils from "@/lib/subframe/utils";
-import { GlassSurface } from "@/lib/glass";
+import { GlassSurface, type GlassMaterialControls } from "@/lib/glass";
 
 export interface CrosshairTagRootProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends React.HTMLAttributes<HTMLDivElement>,
+    GlassMaterialControls {
   value?: React.ReactNode;
   glyph?: React.ReactNode;
   timestamp?: React.ReactNode;
@@ -38,6 +39,10 @@ const CrosshairTagRoot = React.forwardRef<
     timestamp,
     crosshairPosition,
     className,
+    material = "thick",
+    intensity,
+    stretchable = false,
+    bounce,
     ...otherProps
   }: CrosshairTagRootProps,
   ref
@@ -81,10 +86,12 @@ const CrosshairTagRoot = React.forwardRef<
       <GlassSurface
         shape="free"
         radius={10}
-        material="thick"
+        material={material}
+        intensity={intensity}
+        bounce={bounce}
         className="flex min-w-[96px] whitespace-nowrap flex-col items-start gap-0.5 px-3 py-2 absolute left-[62%] top-[26px] -translate-x-1/2"
         style={anchorStyle}
-        stretchable={false}
+        stretchable={stretchable}
       >
         <div className="flex w-full gap-1 items-baseline relative">
           {value ? (

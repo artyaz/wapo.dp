@@ -11,11 +11,12 @@
 
 import React from "react";
 import * as SubframeUtils from "@/lib/subframe/utils";
-import { GlassSurface } from "@/lib/glass";
+import { GlassSurface, type GlassMaterialControls } from "@/lib/glass";
 import { StatusBadge } from "@/components/ds/StatusBadge";
 
 export interface PlayerBarRootProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends React.HTMLAttributes<HTMLDivElement>,
+    GlassMaterialControls {
   tone?: "live" | "idle";
   position?: React.ReactNode;
   excerpt?: React.ReactNode;
@@ -37,6 +38,10 @@ const PlayerBarRoot = React.forwardRef<HTMLDivElement, PlayerBarRootProps>(
       previousDisabled = false,
       nextDisabled = false,
       className,
+      material,
+      intensity,
+      stretchable,
+      bounce,
       ...otherProps
     }: PlayerBarRootProps,
     ref
@@ -45,6 +50,10 @@ const PlayerBarRoot = React.forwardRef<HTMLDivElement, PlayerBarRootProps>(
       <GlassSurface
         shape="free"
         radius={28}
+        material={material}
+        intensity={intensity}
+        stretchable={stretchable}
+        bounce={bounce}
         className={SubframeUtils.twClassNames(
           "group/f240b0b5 flex w-full max-w-[576px] flex-col items-start gap-2 px-[18px] py-3.5 relative",
           className

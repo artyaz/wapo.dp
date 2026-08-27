@@ -580,9 +580,10 @@ function LiveProof() {
             card — at this Regular · strong setting the ray-traced displacement
             peaks past 60px along the bezel. Grab the glass anywhere and pull:
             the surface deforms elastically toward the pointer — it stretches
-            along the pull and squashes across it, never quite reaching the
+            along the pull, at whatever angle you pull, and squashes across
+            it; only the side you pull moves, and it never quite reaches the
             cursor — and the bend intensifies while it is deformed, then
-            springs back with a jelly settle. Content rides along purely
+            springs back with an overshooting jelly settle. Content rides along purely
             visually; layout never moves. Other engines show the WebGL/base
             tier: the same material, negotiated without the SVG lens.
           </p>

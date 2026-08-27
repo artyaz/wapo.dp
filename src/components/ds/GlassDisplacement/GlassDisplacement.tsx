@@ -14,11 +14,12 @@
 import React from "react";
 import * as SubframeUtils from "@/lib/subframe/utils";
 import { GlassSurfaceSubtle } from "@/components/ds/GlassDisplacement/GlassSurfaceSubtle";
+import type { GlassMaterialControls } from "@/lib/glass";
 
 export interface GlassDisplacementRootProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends React.HTMLAttributes<HTMLDivElement>,
+    GlassMaterialControls {
   radius?: "sm" | "md" | "lg" | "pill";
-  intensity?: "subtle" | "medium" | "strong";
   children?: React.ReactNode;
   className?: string;
 }
@@ -46,6 +47,9 @@ const GlassDisplacementRoot = React.forwardRef<
   {
     radius = "lg",
     intensity = "medium",
+    material = "regular",
+    stretchable,
+    bounce,
     children,
     className,
     ...otherProps
@@ -71,10 +75,12 @@ const GlassDisplacementRoot = React.forwardRef<
           multipliers), WebGL refraction on Safari/Firefox, and the
           backdrop-filter base everywhere else. */}
       <GlassSurfaceSubtle
-        material="regular"
+        material={material}
         shape="free"
         radius={RADIUS_PX[radius]}
         intensity={intensity}
+        stretchable={stretchable}
+        bounce={bounce}
         className="h-full w-full"
       >
         {children}

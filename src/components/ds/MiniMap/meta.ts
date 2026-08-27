@@ -51,6 +51,34 @@ export default defineMeta({
       description:
         "Geometry slot kept from the Subframe interface — not rendered; size blocks with style or className.",
     },
+    {
+      name: "material",
+      type: '"ultrathin" | "thin" | "regular" | "thick"',
+      default: "inherited",
+      description:
+        "Material thickness. Picks the whole shipped constant set for the level — refraction level, maxDisplacement, bezel width, in-filter frost, saturation, specular opacity and stretch allowance.",
+    },
+    {
+      name: "intensity",
+      type: '"subtle" | "medium" | "strong"',
+      default: '"medium"',
+      description:
+        "Refraction fork — multiplies the level's refraction (0.55 / 1.0 / 1.6) and so the feDisplacementMap scale.",
+    },
+    {
+      name: "stretchable",
+      type: "boolean",
+      default: "true",
+      description:
+        "Elastic pull. Grab and drag: the surface stretches one-sided toward the pointer at any angle, capped by the material's budget, and springs back on release.",
+    },
+    {
+      name: "bounce",
+      type: "number",
+      default: "material default",
+      description:
+        "Release overshoot, 0 (dead stop) to 0.9 (very jelly). Defaults to the material's own mass — thicker glass wobbles less.",
+    },
   ],
   subComponents: ["ContentBlock", "ViewportFrame"],
   status: "stable",

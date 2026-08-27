@@ -8,7 +8,7 @@
 
 import React from "react";
 import * as SubframeUtils from "@/lib/subframe/utils";
-import { GlassSurface } from "@/lib/glass";
+import { GlassSurface, type GlassMaterialControls } from "@/lib/glass";
 
 export interface ContentBlockProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -60,7 +60,9 @@ const ViewportFrame = React.forwardRef<HTMLDivElement, ViewportFrameProps>(
   }
 );
 
-export interface MiniMapRootProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface MiniMapRootProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    GlassMaterialControls {
   showGrid?: boolean;
   children?: React.ReactNode;
   className?: string;
@@ -68,12 +70,25 @@ export interface MiniMapRootProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const MiniMapRoot = React.forwardRef<HTMLDivElement, MiniMapRootProps>(
   function MiniMapRoot(
-    { showGrid = false, children, className, ...otherProps }: MiniMapRootProps,
+    {
+      showGrid = false,
+      children,
+      className,
+      material,
+      intensity,
+      stretchable,
+      bounce,
+      ...otherProps
+    }: MiniMapRootProps,
     ref
   ) {
     return (
       <GlassSurface
         shape="card"
+        material={material}
+        intensity={intensity}
+        stretchable={stretchable}
+        bounce={bounce}
         className={SubframeUtils.twClassNames(
           "group/4eeb08ac flex h-[100px] w-40 items-start overflow-hidden group/minimap relative",
           className

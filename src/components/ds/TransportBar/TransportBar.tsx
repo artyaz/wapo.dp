@@ -9,10 +9,11 @@
 
 import React from "react";
 import * as SubframeUtils from "@/lib/subframe/utils";
-import { GlassSurface } from "@/lib/glass";
+import { GlassSurface, type GlassMaterialControls } from "@/lib/glass";
 
 export interface TransportBarRootProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends React.HTMLAttributes<HTMLDivElement>,
+    GlassMaterialControls {
   currentTime?: React.ReactNode;
   totalTime?: React.ReactNode;
   speed?: React.ReactNode;
@@ -34,6 +35,10 @@ const TransportBarRoot = React.forwardRef<
     skipBackDisabled = false,
     skipForwardDisabled = false,
     className,
+    material,
+    intensity,
+    stretchable,
+    bounce,
     ...otherProps
   }: TransportBarRootProps,
   ref
@@ -42,6 +47,10 @@ const TransportBarRoot = React.forwardRef<
     <GlassSurface
       shape="free"
       radius={24}
+      material={material}
+      intensity={intensity}
+      stretchable={stretchable}
+      bounce={bounce}
       className={SubframeUtils.twClassNames(
         "group/4d642c3c min-h-[76px] py-2 items-center gap-2 sm:gap-2.5 px-4 sm:px-6 inline-flex w-fit max-w-full transition-colors duration-150 relative",
         className

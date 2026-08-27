@@ -9,7 +9,7 @@
 
 import React from "react";
 import * as SubframeUtils from "@/lib/subframe/utils";
-import { GlassSurface } from "@/lib/glass";
+import { GlassSurface, type GlassMaterialControls } from "@/lib/glass";
 
 export interface ActionProps extends React.HTMLAttributes<HTMLDivElement> {
   glyph?: React.ReactNode;
@@ -89,14 +89,23 @@ const Rule = React.forwardRef<HTMLDivElement, RuleProps>(function Rule(
 });
 
 export interface GlassChipRootProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends React.HTMLAttributes<HTMLDivElement>,
+    GlassMaterialControls {
   children?: React.ReactNode;
   className?: string;
 }
 
 const GlassChipRoot = React.forwardRef<HTMLDivElement, GlassChipRootProps>(
   function GlassChipRoot(
-    { children, className, ...otherProps }: GlassChipRootProps,
+    {
+      children,
+      className,
+      material = "regular",
+      intensity,
+      stretchable,
+      bounce,
+      ...otherProps
+    }: GlassChipRootProps,
     ref
   ) {
     // The glass material (refraction, progressive blur, specular, rim) now
@@ -105,7 +114,10 @@ const GlassChipRoot = React.forwardRef<HTMLDivElement, GlassChipRootProps>(
     return (
       <GlassSurface
         shape="capsule"
-        material="regular"
+        material={material}
+        intensity={intensity}
+        stretchable={stretchable}
+        bounce={bounce}
         className={SubframeUtils.twClassNames(
           "items-center gap-1 px-2 py-1.5 relative inline-flex max-w-full min-w-0",
           className

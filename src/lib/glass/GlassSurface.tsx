@@ -2,6 +2,7 @@
 
 import React from "react";
 import {
+  animate,
   motion,
   useMotionValue,
   useSpring,
@@ -20,6 +21,7 @@ import {
 import {
   useGlassRuntime,
   useGlassMaterial,
+  useBaseChroma,
   GlassMaterialContext,
   type GlassMaterialContextValue,
 } from "./glass-store";
@@ -60,14 +62,27 @@ import {
  *                rest (0, 4, 9, .16, .20) → held (4, 16, 24, .22, .27)
  *
  * Stretch (the ONE adaptation, built from the magnifier's math): hold the
- * surface and pull — it deforms with saturating resistance along the
- * dominant axis (one axis elongates, the other squashes, floor 0.7,
- * area-preserving like scaleX = base + (1 − scaleY)), capped at ~1cm or
- * 22% of the axis, then springs back on the same {340, 30} springs with
- * an underdamped jelly settle. Pure scaleX/scaleY on the root: layout,
- * DOM geometry and interactive children never move; the content stretches
+ * surface and pull — it deforms along the pointer direction, whatever that
+ * direction is (right, left, diagonal, anything between), elongating toward
+ * the cursor and squashing across it (floor 0.7). The far support point
+ * stays put, so the deformation is one-sided — it is never mirrored to the
+ * opposite edge, and there is no dominant axis to flip between. Travel
+ * saturates through tanh against an elliptical budget (~1cm or 22% of the
+ * pulled extent, scaled per material), so the material has mass and never
+ * reaches the cursor. Release springs it back with overshoot (framer
+ * bounce, per material — thicker glass wobbles less).
+ *
+ * The deformation is one matrix — R(t)·diag(elongate, squash)·R(-t) about
+ * the far support point — written straight onto the root: layout, DOM
+ * geometry and interactive children never move; the content stretches
  * visually with the glass because the whole subtree transforms together.
  * No cursor change; interactive descendants opt out automatically.
+ *
+ * Base-background chroma: backdrop-filter always samples the page canvas,
+ * and the saturate node would multiply its colour (a warm off-white turns
+ * the rim yellow), so the chain opens with a feColorMatrix that puts the
+ * base colour on its own luma. Surrounding material still colours the
+ * glass; the page's own background no longer can.
  *
  * Non-Chromium tiers keep their negotiated fallbacks (WebGL refraction on
  * Safari/Firefox, saturate + tint + hairline as the universal base).
@@ -93,13 +108,31 @@ export interface GlassSurfaceProps
    * springs back on release — purely visual, no layout effects.
    */
   stretchable?: boolean;
+  /**
+   * Release overshoot on the elastic pull: 0 stops dead, 0.9 is very jelly.
+   * Defaults to the material's own mass (thicker glass bounces less).
+   */
+  bounce?: number;
   as?: "div" | "header" | "nav" | "section" | "aside" | "footer";
   /** React 19 ref prop — merged with the internal root ref */
   ref?: React.Ref<HTMLDivElement>;
 }
 
+/**
+ * The material configuration a component re-exposes when it wraps a glass
+ * surface: thickness (the material level), the refraction fork, and the
+ * elastic-pull knobs. Components extend their props with this and forward
+ * the four values straight through, so the material stays configurable from
+ * the outside without every wrapper inventing its own vocabulary. Shape and
+ * radius stay out — those belong to each component's own layout language.
+ */
+export type GlassMaterialControls = Pick<
+  GlassSurfaceProps,
+  "material" | "intensity" | "stretchable" | "bounce"
+>;
+
 /* ------------------------------------------------------------------ */
-/* Motion tag lookup — the root carries scaleX/scaleY directly        */
+/* Motion tag lookup — the root carries the stretch matrix directly   */
 /* ------------------------------------------------------------------ */
 
 const MOTION_TAGS = {
@@ -112,7 +145,7 @@ const MOTION_TAGS = {
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* Elastic pull — saturating offset + dominant-axis squash & stretch  */
+/* Elastic pull — saturating offset + one-sided directional stretch   */
 /* ------------------------------------------------------------------ */
 
 /** Interactive descendants that must never start a pull gesture. */
@@ -125,6 +158,12 @@ const PULL_EXCLUDES =
 /** Pointer travel (px) before the stretch engages — plain clicks stay inert. */
 const PULL_ENGAGE_PX = 3;
 
+/** Cross-axis squash floor — kube's 0.7. */
+const SQUASH_FLOOR = 0.7;
+
+/** Drag-follow spring: the material lags the pointer by its own mass. */
+const PULL_FOLLOW = { type: "spring", stiffness: 340, damping: 30 } as const;
+
 function reducedMotion(): boolean {
   return (
     typeof window !== "undefined" &&
@@ -133,32 +172,67 @@ function reducedMotion(): boolean {
   );
 }
 
-/** Per-axis saturating resistance: offset asymptotically reaches budget. */
+/** Saturating resistance along the pull: travel asymptotically reaches budget. */
 function saturatePull(delta: number, budget: number): number {
   return budget * Math.tanh(delta / budget);
 }
 
 /**
- * The magnifier's squash & stretch, driven by the pull offset instead of
- * drag velocity: the dominant axis (larger normalized pull) elongates
- * while the cross axis squashes — area-preserving, squash floored at
- * kube's 0.7 — pure 2D scale, never a rotation or translation.
+ * The pull budget in an arbitrary direction — the radius of the ellipse
+ * whose semi-axes are the per-axis budgets. The cap therefore rotates
+ * continuously with the pointer instead of switching between two values.
  */
-function computeStretchScales(
+function directionalBudget(
+  directionX: number,
+  directionY: number,
+  budgetX: number,
+  budgetY: number
+): number {
+  const norm = Math.hypot(directionX / budgetX, directionY / budgetY);
+  return norm > 1e-6 ? 1 / norm : Math.min(budgetX, budgetY);
+}
+
+/**
+ * The magnifier's squash & stretch, rotated onto the pull axis and anchored
+ * on the far side: the surface elongates along the pointer direction by the
+ * pulled distance, squashes across it (floor 0.7, kube's), and the support
+ * point opposite the pull stays where it was — so the material reaches
+ * toward the cursor only, never mirrors the deformation to the other side.
+ *
+ *   M = R(t) · diag(elongate, squash) · R(-t)
+ *
+ * is symmetric, so the CSS matrix carries b === c; the translation moves the
+ * fixed point from the element centre (transform-origin) out to the far
+ * support point. Any pull direction — axis-aligned, diagonal, anything in
+ * between — is the same expression, so no axis ever flips.
+ */
+function computeStretchTransform(
   pullX: number,
   pullY: number,
   w: number,
   h: number
-): { scaleX: number; scaleY: number } {
-  if (w < 1 || h < 1) return { scaleX: 1, scaleY: 1 };
-  const qx = Math.abs(pullX) / w;
-  const qy = Math.abs(pullY) / h;
-  const dominant = Math.max(qx, qy);
-  const elongate = 1 + dominant;
-  const squash = Math.max(0.7, 1 - dominant);
-  return qx >= qy
-    ? { scaleX: elongate, scaleY: squash }
-    : { scaleX: squash, scaleY: elongate };
+): string {
+  if (w < 1 || h < 1) return "none";
+  const distance = Math.hypot(pullX, pullY);
+  if (distance < 0.01) return "none";
+  const directionX = pullX / distance;
+  const directionY = pullY / distance;
+  // the box's own extent along the pull axis — its support width
+  const extent = Math.abs(w * directionX) + Math.abs(h * directionY);
+  const reach = distance / extent;
+  const elongate = 1 + reach;
+  const squash = Math.max(SQUASH_FLOOR, 1 - reach);
+  const m11 = elongate * directionX * directionX + squash * directionY * directionY;
+  const m12 = (elongate - squash) * directionX * directionY;
+  const m22 = squash * directionX * directionX + elongate * directionY * directionY;
+  const originX = -directionX * extent * 0.5;
+  const originY = -directionY * extent * 0.5;
+  const translateX = originX - (m11 * originX + m12 * originY);
+  const translateY = originY - (m12 * originX + m22 * originY);
+  return (
+    `matrix(${m11.toFixed(5)}, ${m12.toFixed(5)}, ${m12.toFixed(5)}, ` +
+    `${m22.toFixed(5)}, ${translateX.toFixed(3)}, ${translateY.toFixed(3)})`
+  );
 }
 
 interface PullState {
@@ -182,6 +256,7 @@ export function GlassSurface({
   webglMode = "edge",
   backdrop,
   stretchable = true,
+  bounce,
   as = "div",
   className,
   style,
@@ -196,6 +271,7 @@ export function GlassSurface({
   const material = materialProp ?? ctx.level;
 
   const strategy = useGlassRuntime((s) => s.strategy);
+  const baseChroma = useBaseChroma();
 
   const rootRef = React.useRef<HTMLDivElement>(null);
   const setRootRef = React.useCallback(
@@ -339,7 +415,7 @@ export function GlassSurface({
   );
 
   /* ------------------------------------------------------------------ */
-  /* Elastic pull — the magnifier's springs on a budget-capped offset    */
+  /* Elastic pull — directional stretch on a budget-capped offset        */
   /* ------------------------------------------------------------------ */
 
   const pullRef = React.useRef<PullState | null>(null);
@@ -348,8 +424,9 @@ export function GlassSurface({
   );
   const [stretching, setStretching] = React.useState(false);
 
-  // Dimensions + per-axis budgets, kept in a ref so the motion-value
-  // transforms never go stale between renders.
+  // Dimensions + the pull-budget ellipse semi-axes, kept in a ref so the
+  // motion-value transforms never go stale between renders. Layout geometry
+  // is transform-independent, so the stretch can never feed back into it.
   const dimsRef = React.useRef({ w: 0, h: 0, bx: 1, by: 1 });
   React.useEffect(() => {
     if (!geo) return;
@@ -366,23 +443,43 @@ export function GlassSurface({
     };
   }, [geo, ramp.stretch]);
 
+  // The pull offset itself is the animated quantity: the follow spring
+  // carries it while dragging, the release spring bounces it back to zero.
   const pullX = useMotionValue(0);
   const pullY = useMotionValue(0);
-  const pullXS = useSpring(pullX, { stiffness: 340, damping: 30 });
-  const pullYS = useSpring(pullY, { stiffness: 340, damping: 30 });
 
-  const scaleX = useTransform(
-    [pullXS, pullYS],
-    (values: number[]) =>
-      computeStretchScales(values[0], values[1], dimsRef.current.w, dimsRef.current.h)
-        .scaleX
+  const stretchTransform = useTransform([pullX, pullY], (values: number[]) =>
+    computeStretchTransform(
+      values[0],
+      values[1],
+      dimsRef.current.w,
+      dimsRef.current.h
+    )
   );
-  const scaleY = useTransform(
-    [pullXS, pullYS],
-    (values: number[]) =>
-      computeStretchScales(values[0], values[1], dimsRef.current.w, dimsRef.current.h)
-        .scaleY
-  );
+
+  // framer-motion composes its transform props in a fixed order and cannot
+  // express rotate·scale·rotate, so the matrix goes straight onto the node —
+  // the same escape hatch the feDisplacementMap scale uses below. No
+  // transform prop is passed in `style`, so nothing else writes it.
+  React.useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    const write = (value: string) => {
+      el.style.transform = value;
+    };
+    write(stretchTransform.get());
+    return stretchTransform.on("change", write);
+  }, [stretchTransform]);
+
+  const springBack = React.useCallback(() => {
+    const release = {
+      type: "spring" as const,
+      duration: ramp.settle,
+      bounce: Math.max(0, Math.min(0.9, bounce ?? ramp.bounce)),
+    };
+    animate(pullX, 0, { ...release, velocity: pullX.getVelocity() });
+    animate(pullY, 0, { ...release, velocity: pullY.getVelocity() });
+  }, [bounce, ramp.bounce, ramp.settle, pullX, pullY]);
 
   const handlePointerDown = React.useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
@@ -443,11 +540,31 @@ export function GlassSurface({
         p.engaged = true;
       }
 
-      // Saturating resistance per axis — the glass has its own
-      // stretchability and never reaches the pointer.
-      const { bx, by } = dimsRef.current;
-      pullX.set(saturatePull(dx, bx));
-      pullY.set(saturatePull(dy, by));
+      // Saturating resistance along the pull direction — the glass has its
+      // own stretchability and never reaches the pointer. Direction is kept
+      // exactly, so the deformation follows the cursor at any angle.
+      const distance = Math.hypot(dx, dy);
+      let targetX = 0;
+      let targetY = 0;
+      if (distance > 1e-4) {
+        const { bx, by } = dimsRef.current;
+        const directionX = dx / distance;
+        const directionY = dy / distance;
+        const pulled = saturatePull(
+          distance,
+          directionalBudget(directionX, directionY, bx, by)
+        );
+        targetX = directionX * pulled;
+        targetY = directionY * pulled;
+      }
+      animate(pullX, targetX, {
+        ...PULL_FOLLOW,
+        velocity: pullX.getVelocity(),
+      });
+      animate(pullY, targetY, {
+        ...PULL_FOLLOW,
+        velocity: pullY.getVelocity(),
+      });
     },
     [onPointerMove, pullX, pullY]
   );
@@ -469,17 +586,17 @@ export function GlassSurface({
       }
       el.style.touchAction = "";
 
-      // Elastic snap-back: the {340, 30} springs return the pull offset to
-      // zero — the underdamped jelly settle comes free.
-      pullX.set(0);
-      pullY.set(0);
+      // Elastic snap-back with overshoot: the release spring carries the
+      // pull offset through zero and back, so the material wobbles out its
+      // momentum instead of stopping dead.
+      springBack();
       if (willChangeTimer.current) clearTimeout(willChangeTimer.current);
       willChangeTimer.current = setTimeout(() => {
         el.style.willChange = "";
         willChangeTimer.current = null;
-      }, 450);
+      }, ramp.settle * 1000 + 400);
     },
-    [onPointerUp, pullX, pullY]
+    [onPointerUp, springBack, ramp.settle]
   );
 
   const handlePointerCancel = React.useCallback(
@@ -498,22 +615,25 @@ export function GlassSurface({
         /* pointer already released */
       }
       el.style.touchAction = "";
-      el.style.willChange = "";
-      if (willChangeTimer.current) {
-        clearTimeout(willChangeTimer.current);
+      // A cancelled gesture settles on the same spring — an interrupted
+      // pull must not snap the material back in one frame.
+      springBack();
+      if (willChangeTimer.current) clearTimeout(willChangeTimer.current);
+      willChangeTimer.current = setTimeout(() => {
+        el.style.willChange = "";
         willChangeTimer.current = null;
-      }
-      pullX.set(0);
-      pullY.set(0);
+      }, ramp.settle * 1000 + 400);
     },
-    [onPointerCancel, pullX, pullY]
+    [onPointerCancel, springBack, ramp.settle]
   );
 
   React.useEffect(
     () => () => {
       if (willChangeTimer.current) clearTimeout(willChangeTimer.current);
+      pullX.stop();
+      pullY.stop();
     },
-    []
+    [pullX, pullY]
   );
 
   /* ------------ Safari/Firefox tier: bind the WebGL engine ----------- */
@@ -576,8 +696,6 @@ export function GlassSurface({
       style={{
         borderRadius: cssRadius,
         ...style,
-        scaleX,
-        scaleY,
       }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
@@ -597,9 +715,25 @@ export function GlassSurface({
           >
             <defs>
               <filter id={filterId}>
+                {/* the base page background contributes luminance but no
+                    chroma — otherwise the saturate below multiplies the
+                    canvas colour and the rim band goes yellow */}
+                {baseChroma ? (
+                  <feColorMatrix
+                    in="SourceGraphic"
+                    type="matrix"
+                    values={
+                      `1 0 0 0 ${baseChroma.or.toFixed(6)} ` +
+                      `0 1 0 0 ${baseChroma.og.toFixed(6)} ` +
+                      `0 0 1 0 ${baseChroma.ob.toFixed(6)} ` +
+                      `0 0 0 1 0`
+                    }
+                    result="balanced_source"
+                  />
+                ) : null}
                 {/* the only frost — kube.io keeps stdDeviation in 0..1 */}
                 <feGaussianBlur
-                  in="SourceGraphic"
+                  in={baseChroma ? "balanced_source" : "SourceGraphic"}
                   stdDeviation={ramp.blur}
                   result="blurred_source"
                 />
