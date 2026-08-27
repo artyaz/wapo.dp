@@ -20,11 +20,20 @@ import type { GlassStrategy, MaterialLevel } from "./engine-detect";
 
 export interface GlassFilterSpec {
   id: string;
-  /** displacement map data-url */
-  mapUrl: string;
-  scaleR: number;
-  scaleG: number;
-  scaleB: number;
+  /** element border-box width the filter is sized to (px) */
+  width: number;
+  /** element border-box height the filter is sized to (px) */
+  height: number;
+  /** displacement map data-url (R = X, G = Y, neutral 128) */
+  displacementUrl: string;
+  /** specular rim map data-url (grayscale) */
+  specularUrl: string;
+  /** feDisplacementMap scale — physical maximum displacement in px */
+  scale: number;
+  /** specular highlight opacity inside the filter */
+  specularOpacity: number;
+  /** material saturation percent, folded in via feColorMatrix */
+  saturate: number;
 }
 
 interface GlassRuntimeState {

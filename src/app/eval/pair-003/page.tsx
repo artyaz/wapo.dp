@@ -2,7 +2,7 @@
 
 import React from "react";
 import { EvalShell } from "@/eval/EvalShell";
-import { ReasoningLog } from "@/components/ds/ReasoningLog";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 import { InlineChips } from "@/components/ds/InlineChips";
 import {
   InputGroup,
@@ -280,20 +280,35 @@ export default function Page() {
             {/* captioning trace */}
             <section className="flex flex-col gap-2">
               <SectionLabel>caption trace · run 4471</SectionLabel>
-              <ReasoningLog showMoreLabel="Show 9 earlier steps">
-                <ReasoningLog.Beat
-                  job="Scan frame & mask dust"
-                  thought="14 specks found; two kept as grain."
-                />
-                <ReasoningLog.Beat
-                  job="Match scene to reference plates"
-                  thought="Gravel matches Daitoku-ji garden."
-                />
-                <ReasoningLog.Beat
-                  job="Draft caption & keywords"
-                  thought="“Morning stillness” + 5 keywords."
-                />
-              </ReasoningLog>
+              {/* ReasoningLog is retired — its beats fold into the single
+                  expanding AgentActivity object (level 2 steps). */}
+              <AgentActivity
+                label="Worked for 3m 51s"
+                defaultOpen
+                steps={[
+                  {
+                    kind: "skill",
+                    summary: "Scan frame & mask dust",
+                    traces: [
+                      { kind: "skill", label: "14 specks found; two kept as grain." },
+                    ],
+                  },
+                  {
+                    kind: "api",
+                    summary: "Match scene to reference plates",
+                    traces: [
+                      { kind: "api", label: "Gravel matches Daitoku-ji garden." },
+                    ],
+                  },
+                  {
+                    kind: "edits",
+                    summary: "Draft caption & keywords",
+                    traces: [
+                      { kind: "skill", label: "“Morning stillness” + 5 keywords." },
+                    ],
+                  },
+                ]}
+              />
             </section>
 
             {/* caption editor */}

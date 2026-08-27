@@ -16,7 +16,7 @@ import React from "react";
 import { EvalShell } from "@/eval/EvalShell";
 import { Separator } from "@/components/ui/separator";
 import { ActivityEvent } from "@/components/ds/ActivityEvent";
-import { ActionTraces } from "@/components/ds/ActionTraces";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 
 const stats = [
   { label: "Events", value: "48.2K" },
@@ -107,8 +107,8 @@ export default function Page() {
               run #482 · 1.4 s
             </span>
           </div>
-          <ActionTraces
-            items={[
+          <AgentActivity.Step
+            traces={[
               { kind: "skill", label: "Loaded skill: metrics/anomaly-scan" },
               { kind: "command", label: "SELECT region, SUM(total) FROM orders" },
               { kind: "api", label: "GET /v1/query?range=24h — 200 (312ms)" },

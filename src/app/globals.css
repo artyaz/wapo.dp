@@ -507,11 +507,14 @@
    arbitrary values — the bundler treats them as module imports)
    ============================================================ */
 
-/* Dual-gradient specular sheen — canonical construction (spec §3) */
+/* Dual-gradient specular sheen — canonical construction (spec §3).
+   First stop softened 0.55 → 0.42: the kube.io filter now contributes its
+   own normal-keyed specular rim, and the two stacked at full strength read
+   as bloom. */
 .praxis-sheen-primary {
   background: linear-gradient(
     160deg,
-    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.42) 0%,
     rgba(255, 255, 255, 0.16) 26%,
     rgba(255, 255, 255, 0.04) 44%,
     rgba(255, 255, 255, 0) 60%

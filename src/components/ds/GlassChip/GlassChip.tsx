@@ -9,6 +9,7 @@
 
 import React from "react";
 import * as SubframeUtils from "@/lib/subframe/utils";
+import { GlassSurface } from "@/lib/glass";
 
 export interface ActionProps extends React.HTMLAttributes<HTMLDivElement> {
   glyph?: React.ReactNode;
@@ -98,23 +99,26 @@ const GlassChipRoot = React.forwardRef<HTMLDivElement, GlassChipRootProps>(
     { children, className, ...otherProps }: GlassChipRootProps,
     ref
   ) {
+    // The glass material (refraction, progressive blur, specular, rim) now
+    // comes from the shared GlassSurface runtime — the kube.io liquid-glass
+    // tier applied by default, stretch handles included.
     return (
-      <div
+      <GlassSurface
+        shape="capsule"
+        material="regular"
         className={SubframeUtils.twClassNames(
-          "items-center gap-1 rounded-[9999px] border border-solid border-[#ffffff33] px-2 py-1.5 shadow-[0px_0px_0px_1px_#ffffff14,inset_0px_1px_0px_0px_#ffffff42,inset_0px_-1px_0px_0px_#ffffff1a] relative inline-flex max-w-full min-w-0 bg-panel/60 backdrop-blur-2xl backdrop-saturate-150",
+          "items-center gap-1 px-2 py-1.5 relative inline-flex max-w-full min-w-0",
           className
         )}
         ref={ref}
         {...otherProps}
       >
-        <div className="flex items-start rounded-[9999px] pointer-events-none absolute inset-0 bg-[linear-gradient(160deg,rgba(255,255,255,0.55)_0%,rgba(255,255,255,0.16)_26%,rgba(255,255,255,0.04)_44%,rgba(255,255,255,0)_60%)]" />
-        <div className="flex items-start rounded-[9999px] pointer-events-none absolute inset-0 bg-[linear-gradient(340deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0.07)_22%,rgba(255,255,255,0)_42%)]" />
         {children ? (
           <div className="flex flex-wrap items-center justify-center gap-1 relative min-w-0">
             {children}
           </div>
         ) : null}
-      </div>
+      </GlassSurface>
     );
   }
 );

@@ -2,8 +2,7 @@
 
 import React from "react";
 import { EvalShell } from "@/eval/EvalShell";
-import { ActionTraces } from "@/components/ds/ActionTraces";
-import { ToolSummaryRow } from "@/components/ds/ToolSummaryRow";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
@@ -185,44 +184,43 @@ export default function Page() {
                 />
                 <CollapsibleContent>
                   <div className="mt-3 flex flex-col gap-2 border-t pt-3">
-                    <ToolSummaryRow
+                    <AgentActivity.Step
                       kind="integration"
-                      traces={
-                        <ActionTraces
-                          items={[
-                            {
-                              kind: "api",
-                              label:
-                                "GET /v1/idp/.well-known/openid-configuration — 200 OK (96 ms)",
-                            },
-                            {
-                              kind: "skill",
-                              label:
-                                "Loaded policy pack: auth/device-posture@2.1",
-                            },
-                            {
-                              kind: "command",
-                              label:
-                                "devicectl posture --strict — 12 checks passed",
-                            },
-                            {
-                              kind: "api",
-                              label:
-                                "POST /v1/session/token — 201 Created (218 ms)",
-                            },
-                          ]}
-                        />
+                      summary={
+                        <>
+                          Resolved your identity provider and ran a device
+                          posture check
+                        </>
                       }
-                    >
-                      Resolved your identity provider and ran a device posture
-                      check
-                    </ToolSummaryRow>
-                    <ToolSummaryRow kind="command">
-                      Ran password policy check — 148 rules passed, 0 failed
-                    </ToolSummaryRow>
-                    <ToolSummaryRow kind="edits">
-                      Updated your last-session record — 2 fields changed
-                    </ToolSummaryRow>
+                      traces={[
+                        {
+                          kind: "api",
+                          label:
+                            "GET /v1/idp/.well-known/openid-configuration — 200 OK (96 ms)",
+                        },
+                        {
+                          kind: "skill",
+                          label: "Loaded policy pack: auth/device-posture@2.1",
+                        },
+                        {
+                          kind: "command",
+                          label:
+                            "devicectl posture --strict — 12 checks passed",
+                        },
+                        {
+                          kind: "api",
+                          label: "POST /v1/session/token — 201 Created (218 ms)",
+                        },
+                      ]}
+                    />
+                    <AgentActivity.Step
+                      kind="command"
+                      summary="Ran password policy check — 148 rules passed, 0 failed"
+                    />
+                    <AgentActivity.Step
+                      kind="edits"
+                      summary="Updated your last-session record — 2 fields changed"
+                    />
                   </div>
                 </CollapsibleContent>
               </Collapsible>

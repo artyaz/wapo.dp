@@ -9,6 +9,7 @@
 
 import React from "react";
 import * as SubframeUtils from "@/lib/subframe/utils";
+import { GlassSurface } from "@/lib/glass";
 
 export interface CrosshairTagRootProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -77,12 +78,14 @@ const CrosshairTagRoot = React.forwardRef<
         className="flex w-px flex-none items-start self-stretch bg-neutral-400 absolute left-[62%] top-0 bottom-0 -translate-x-1/2"
         style={anchorStyle}
       />
-      <div
-        className="flex min-w-[96px] whitespace-nowrap flex-col items-start gap-0.5 rounded-[10px] border border-solid border-[#ffffff33] px-3 py-2 shadow-glass-surface bg-panel/72 backdrop-blur-[56px] backdrop-saturate-[165%] absolute left-[62%] top-[26px] -translate-x-1/2"
+      <GlassSurface
+        shape="free"
+        radius={10}
+        material="thick"
+        className="flex min-w-[96px] whitespace-nowrap flex-col items-start gap-0.5 px-3 py-2 absolute left-[62%] top-[26px] -translate-x-1/2"
         style={anchorStyle}
+        stretchable={false}
       >
-        <div className="flex items-start rounded-[10px] absolute inset-0 pointer-events-none bg-[linear-gradient(160deg,rgba(255,255,255,0.55)_0%,rgba(255,255,255,0.16)_26%,rgba(255,255,255,0.04)_44%,transparent_60%)]" />
-        <div className="flex items-start rounded-[10px] absolute inset-0 pointer-events-none bg-[linear-gradient(340deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0.07)_22%,transparent_42%)]" />
         <div className="flex w-full gap-1 items-baseline relative">
           {value ? (
             <span className="font-code text-[16px] font-[700] leading-[24px] text-default-font tabular-nums">
@@ -101,7 +104,7 @@ const CrosshairTagRoot = React.forwardRef<
           </span>
         ) : null}
         <div className="flex h-[9px] w-[9px] flex-none items-start border-r border-b border-solid border-[#ffffff33] bg-panel/72 absolute -bottom-[5px] left-1/2 -translate-x-1/2 rotate-45" />
-      </div>
+      </GlassSurface>
     </div>
   );
 });

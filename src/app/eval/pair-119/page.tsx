@@ -8,7 +8,7 @@ import { EvalShell } from "@/eval/EvalShell";
 import { cn } from "@/lib/utils";
 import * as SubframeCore from "@/lib/subframe/core";
 
-import { ThoughtHeader } from "@/components/ds/ThoughtHeader";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -135,7 +135,7 @@ export default function Page() {
               رقّع التسميات وأعاد التدقيق للتأكد.
             </p>
             <div className="mt-3 flex flex-col gap-3">
-              <ThoughtHeader
+              <AgentActivity
                 label="عمل الوكيل لمدة 3 دقائق و51 ثانية"
                 defaultOpen
               >
@@ -150,8 +150,8 @@ export default function Page() {
                     يعيد تشغيل التدقيق البصري للتأكد من الإصلاحات
                   </LogLine>
                 </div>
-              </ThoughtHeader>
-              <ThoughtHeader label="تحقّق من التبعيات · 22 ثانية" />
+              </AgentActivity>
+              <AgentActivity label="تحقّق من التبعيات · 22 ثانية" />
             </div>
           </section>
 

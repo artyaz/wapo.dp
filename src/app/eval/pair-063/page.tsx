@@ -3,7 +3,7 @@
 import React from "react";
 import { EvalShell } from "@/eval/EvalShell";
 import { JsonTreeNode } from "@/components/ds/JsonTreeNode";
-import { ReasoningLog } from "@/components/ds/ReasoningLog";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 import {
   MessageScroller,
   MessageScrollerButton,
@@ -89,20 +89,44 @@ export default function Page() {
                         reasoning trace · run 4471
                       </span>
                     </div>
-                    <ReasoningLog showMoreLabel="Show 3 earlier steps">
-                      <ReasoningLog.Beat
-                        job="Fetch gateway payouts for Jan 14"
-                        thought="Found two payouts totalling $1,284.35; both reference settlement batch sb_20250114."
-                      />
-                      <ReasoningLog.Beat
-                        job="Match against the bank statement"
-                        thought="Statement line 88 settled at $1,284.29 — the six-cent shortfall sits entirely inside payout po_2214."
-                      />
-                      <ReasoningLog.Beat
-                        job="Recompute fee rounding"
-                        thought="The gateway rounds fees per transfer, the bank rounds per batch. The gap is a rounding artifact, not a lost transfer."
-                      />
-                    </ReasoningLog>
+                    {/* ReasoningLog retired — beats fold into the single
+                        expanding AgentActivity object. */}
+                    <AgentActivity
+                      label="Worked for 1m 47s"
+                      defaultOpen
+                      steps={[
+                        {
+                          kind: "api",
+                          summary: "Fetch gateway payouts for Jan 14",
+                          traces: [
+                            {
+                              kind: "api",
+                              label: "Found two payouts totalling $1,284.35; both reference settlement batch sb_20250114.",
+                            },
+                          ],
+                        },
+                        {
+                          kind: "command",
+                          summary: "Match against the bank statement",
+                          traces: [
+                            {
+                              kind: "command",
+                              label: "Statement line 88 settled at $1,284.29 — the six-cent shortfall sits entirely inside payout po_2214.",
+                            },
+                          ],
+                        },
+                        {
+                          kind: "skill",
+                          summary: "Recompute fee rounding",
+                          traces: [
+                            {
+                              kind: "skill",
+                              label: "The gateway rounds fees per transfer, the bank rounds per batch. The gap is a rounding artifact, not a lost transfer.",
+                            },
+                          ],
+                        },
+                      ]}
+                    />
                   </MessageScrollerItem>
 
                   {/* 3 · inspected tool result */}

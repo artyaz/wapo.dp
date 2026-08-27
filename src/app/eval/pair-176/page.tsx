@@ -4,7 +4,7 @@ import React from "react";
 
 import { EvalShell } from "@/eval/EvalShell";
 import { PayloadInspector } from "@/components/ds/PayloadInspector";
-import { ActionTraces } from "@/components/ds/ActionTraces";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   ArrowLeftIcon,
@@ -167,8 +167,8 @@ export default function Page() {
                     <SummaryLine icon={<Link2Icon className="size-3.5" />}>
                       Connected to Superblocks and fetched the asset catalog
                     </SummaryLine>
-                    <ActionTraces
-                      items={[
+                    <AgentActivity.Step
+                      traces={[
                         {
                           kind: "api",
                           label:
@@ -187,8 +187,8 @@ export default function Page() {
                     <SummaryLine icon={<WrenchIcon className="size-3.5" />}>
                       Audited token contrast and synced 12 asset updates
                     </SummaryLine>
-                    <ActionTraces
-                      items={[
+                    <AgentActivity.Step
+                      traces={[
                         {
                           kind: "skill",
                           label: "Loaded design skill: charts/palette-audit",

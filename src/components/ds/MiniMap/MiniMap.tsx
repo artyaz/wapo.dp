@@ -8,6 +8,7 @@
 
 import React from "react";
 import * as SubframeUtils from "@/lib/subframe/utils";
+import { GlassSurface } from "@/lib/glass";
 
 export interface ContentBlockProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -71,16 +72,15 @@ const MiniMapRoot = React.forwardRef<HTMLDivElement, MiniMapRootProps>(
     ref
   ) {
     return (
-      <div
+      <GlassSurface
+        shape="card"
         className={SubframeUtils.twClassNames(
-          "group/4eeb08ac flex h-[100px] w-40 items-start overflow-hidden rounded-2xl border border-solid border-[#ffffff33] shadow-glass-surface bg-panel/50 backdrop-blur-[28px] backdrop-saturate-[135%] group/minimap relative",
+          "group/4eeb08ac flex h-[100px] w-40 items-start overflow-hidden group/minimap relative",
           className
         )}
         ref={ref}
         {...otherProps}
       >
-        <div className="flex items-start rounded-2xl pointer-events-none absolute inset-0 bg-[linear-gradient(160deg,rgba(255,255,255,0.55)_0%,rgba(255,255,255,0.16)_26%,rgba(255,255,255,0.04)_44%,transparent_60%)]" />
-        <div className="flex items-start rounded-2xl pointer-events-none absolute inset-0 bg-[linear-gradient(340deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0.07)_22%,transparent_42%)]" />
         <div
           className={SubframeUtils.twClassNames(
             "hidden items-start absolute inset-0 bg-[radial-gradient(circle,_var(--color-default-font)_0.5px,_transparent_0.5px)] bg-[length:10px_10px] opacity-[0.06]",
@@ -90,7 +90,7 @@ const MiniMapRoot = React.forwardRef<HTMLDivElement, MiniMapRootProps>(
         {children ? (
           <div className="flex items-start absolute inset-0">{children}</div>
         ) : null}
-      </div>
+      </GlassSurface>
     );
   }
 );

@@ -12,7 +12,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { ThoughtHeader } from "@/components/ds/ThoughtHeader";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 import {
   ArchiveRestoreIcon,
   FileTextIcon,
@@ -167,7 +167,7 @@ export default function Page() {
                 trailing="2m 52s total"
               />
             </div>
-            <ThoughtHeader label="Searched 4 archives for 2m 14s" defaultOpen>
+            <AgentActivity label="Searched 4 archives for 2m 14s" defaultOpen>
               <div className="flex flex-col gap-2.5">
                 <LogLine state="done">
                   Scanned 1,284 documents for the exact phrase — 0 matches in
@@ -182,9 +182,9 @@ export default function Page() {
                   showing the 3 closest below
                 </LogLine>
               </div>
-            </ThoughtHeader>
+            </AgentActivity>
             <div className="mt-4">
-              <ThoughtHeader label="Recovery sweep of Trash &amp; version history · 38s" />
+              <AgentActivity label="Recovery sweep of Trash &amp; version history · 38s" />
             </div>
           </section>
 

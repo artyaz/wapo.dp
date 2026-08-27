@@ -13,8 +13,7 @@
 
 import React from "react";
 import { JumpToLatest } from "@/components/ds/JumpToLatest";
-import { ToolSummaryRow } from "@/components/ds/ToolSummaryRow";
-import { ActionTraces } from "@/components/ds/ActionTraces";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 
 export default function Demo() {
   return (
@@ -22,23 +21,18 @@ export default function Demo() {
       {/* frame owns the layout; the feed scrolls inside it with a reserved bottom lane */}
       <div className="relative max-h-[280px] overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950/60">
         <div className="flex max-h-[280px] flex-col gap-3 overflow-y-auto p-4 pb-16">
-          <ToolSummaryRow kind="integration">Used Superblocks integration</ToolSummaryRow>
-          <ToolSummaryRow kind="command">Ran 14 shell commands</ToolSummaryRow>
-          <ToolSummaryRow kind="skill">Loaded 2 design skills</ToolSummaryRow>
-          <ToolSummaryRow
+          <AgentActivity.Step kind="integration" summary="Used Superblocks integration" />
+          <AgentActivity.Step kind="command" summary="Ran 14 shell commands" />
+          <AgentActivity.Step kind="skill" summary="Loaded 2 design skills" />
+          <AgentActivity.Step
             kind="command"
-            traces={
-              <ActionTraces
-                items={[
-                  { kind: "command", label: "bunx tsc --noEmit" },
-                  { kind: "command", label: "bunx eslint src --max-warnings 0" },
-                  { kind: "api", label: "POST /v1/screenshots — 200 OK (1.2s)" },
-                ]}
-              />
-            }
-          >
-            Running the verification suite…
-          </ToolSummaryRow>
+            summary="Running the verification suite…"
+            traces={[
+              { kind: "command", label: "bunx tsc --noEmit" },
+              { kind: "command", label: "bunx eslint src --max-warnings 0" },
+              { kind: "api", label: "POST /v1/screenshots — 200 OK (1.2s)" },
+            ]}
+          />
         </div>
 
         {/* floated bottom-right of the transcript frame, over the reserved lane */}

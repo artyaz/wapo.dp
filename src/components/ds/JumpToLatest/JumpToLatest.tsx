@@ -212,13 +212,14 @@ const JumpToLatestRoot = React.forwardRef<
         tabIndex={visible ? undefined : -1}
         style={{ width: size, height: size }}
         className={SubframeUtils.twClassNames(
-          // small circular button — strong surface, subtle border + shadow, ↓ arrow
+          // small circular button — themed monochrome surface: panel inverts
+          // in dark theme (was fixed neutral-700/800 literals, which read as
+          // a blinding light FAB after inversion)
           "relative inline-flex flex-none cursor-pointer items-center justify-center",
-          "rounded-full border border-neutral-700 bg-neutral-800",
-          "text-neutral-300 shadow-[0_2px_10px_rgba(0,0,0,0.45)]",
+          "rounded-full border border-default-border bg-panel text-default-font shadow-default",
           "transition-all duration-200",
-          "hover:border-neutral-600 hover:bg-neutral-700 hover:text-neutral-100",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500",
+          "hover:border-neutral-300 hover:bg-neutral-100 hover:text-default-font",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
           visible
             ? "pointer-events-auto scale-100 opacity-100"
             : "pointer-events-none scale-90 opacity-0",

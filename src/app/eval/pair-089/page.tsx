@@ -2,7 +2,7 @@
 
 import React from "react";
 import { EvalShell } from "@/eval/EvalShell";
-import { ThoughtHeader } from "@/components/ds/ThoughtHeader";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 import { Slider } from "@/components/ui/slider";
 import { Typography } from "@/components/ui/typography";
 import { Label } from "@/components/ui/label";
@@ -195,7 +195,7 @@ export default function Page() {
                   1m 34s total
                 </span>
               </div>
-              <ThoughtHeader label="Prepared this step for 1m 12s" defaultOpen>
+              <AgentActivity label="Prepared this step for 1m 12s" defaultOpen>
                 <div className="flex flex-col gap-2.5">
                   <LogLine state="done">
                     Read your workspace profile — 14 collaborators, 3 connected
@@ -209,9 +209,9 @@ export default function Page() {
                     Waiting on the tuning sliders before applying anything
                   </LogLine>
                 </div>
-              </ThoughtHeader>
+              </AgentActivity>
               <div className="mt-4">
-                <ThoughtHeader label="Verified SSO &amp; role mapping · 22s" />
+                <AgentActivity label="Verified SSO &amp; role mapping · 22s" />
               </div>
             </section>
 

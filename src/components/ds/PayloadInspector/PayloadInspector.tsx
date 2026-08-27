@@ -3,22 +3,24 @@
 /**
  * PayloadInspector — a nested block-level code viewer for raw payloads.
  *
- * Dark rounded container (8px), language identifier label pinned top-left,
+ * Themed rounded container (panel + default-border tokens — was pinned
+ * near-black in both themes), language identifier label pinned top-left,
  * padded monospaced body, and full syntax highlighting: magenta keys, cyan
- * string values, white delimiters. Lets developers inspect payloads and
+ * string values, readable delimiters. Lets developers inspect payloads and
  * configuration structures directly in the chat thread without leaving it.
  *
  * The chromatic syntax palette (magenta/cyan) is an explicit, contained
  * exception to the monochrome doctrine — the same status the docs syntax
- * highlighter holds — scoped strictly to this inspector's code body.
+ * highlighter holds — scoped strictly to this inspector's code body. Each
+ * token pairs a light-theme value with a dark: variant so the palette
+ * survives the panel inversion.
  *
  * Two rendering invariants:
  *  - The code body is inherently LTR: it is isolated with dir="ltr" so RTL
  *    pages never bidi-reorder brackets, commas or indentation.
- *  - The container surface is near-black in BOTH themes (bg-neutral-950 is a
- *    Tailwind default, not a DS token), so the syntax/neutral palette is
- *    pinned to literal values — DS neutral utilities invert in dark theme
- *    and would render the code nearly invisible on this fixed dark surface.
+ *  - The fade/expand affordance derives from the panel token (bg-panel) so
+ *    the "more below" gradient always matches the surface it fades over
+ *    (the old fixed #0a0a0a fade showed an off-color band in dark theme).
  */
 
 import React from "react";
@@ -60,19 +62,17 @@ export interface PayloadInspectorRootProps
 }
 
 /**
- * Token spans for JSON + JSONC/YAML-ish payloads:
- * keys → magenta, strings → cyan, numbers/bools → warm white, punctuation →
- * neutral, comments → dimmed italic.
+ * Token spans for JSON + JSONC/YAML-ish payloads — every color carries a
+ * dark: variant so the palette stays readable on the inverted panel.
+ * keys → magenta, strings → cyan, numbers/bools → ink, punctuation →
+ * muted, comments → dimmed italic.
  */
 function highlightPayload(code: string): React.ReactNode[] {
-  // Pinned literals (not DS neutral tokens): the container is near-black in
-  // both themes while DS neutrals invert in dark theme — tokens would go
-  // dark-on-dark. Values match the light-theme tokens the design used.
-  const KEY = "text-[#d78ad6]";         // magenta keys
-  const STR = "text-[#8ecde0]";         // cyan strings
-  const NUM = "text-[#e9e6df]";         // numbers / booleans / null — near-white
-  const PUNC = "text-[#b3afa3]";        // delimiters — light on the dark body
-  const COMMENT = "text-[#6e6b62] italic";
+  const KEY = "text-[#a626a4] dark:text-[#d78ad6]"; // magenta keys
+  const STR = "text-[#0f766e] dark:text-[#8ecde0]"; // cyan strings
+  const NUM = "text-[#6f42c1] dark:text-[#e9e6df]"; // numbers / booleans / null
+  const PUNC = "text-[#57605f] dark:text-[#b3afa3]"; // delimiters
+  const COMMENT = "text-[#8a9291] italic dark:text-[#6e6b62]";
 
   const spans: Array<{ start: number; end: number; cls: string }> = [];
   const taken: Array<[number, number]> = [];
@@ -172,22 +172,24 @@ const PayloadInspectorRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "relative w-full min-w-0 overflow-hidden rounded-lg bg-neutral-950",
-        "border border-[#2a2926]",
+        // themed panel surface — inverts with the theme (was fixed
+        // bg-neutral-950, which vanished into the dark canvas)
+        "relative w-full min-w-0 overflow-hidden rounded-lg bg-panel",
+        "border border-default-border",
         className
       )}
       ref={ref}
       {...otherProps}
     >
       {/* language identifier label — top left */}
-      <div className="flex items-center gap-2 border-b border-[#2a2926] px-3 py-1.5">
-        <span className="font-code text-[10px] font-medium tracking-[0.12em] text-[#8a877e] lowercase">
+      <div className="flex items-center gap-2 border-b border-default-border px-3 py-1.5">
+        <span className="font-code text-[10px] font-medium tracking-[0.12em] text-muted-foreground lowercase">
           {language}
         </span>
         {filename ? (
           <>
-            <span className="text-[#4c4a43]">·</span>
-            <span className="min-w-0 truncate font-code text-[10px] text-[#6e6b62]">
+            <span className="text-neutral-300">·</span>
+            <span className="min-w-0 truncate font-code text-[10px] text-muted-foreground">
               {filename}
             </span>
           </>
@@ -205,7 +207,7 @@ const PayloadInspectorRoot = React.forwardRef<
         )}
       >
         <pre className="p-3 whitespace-pre-wrap break-words">
-          <code className="font-code text-[12px] leading-[18px] text-[#b3afa3]">
+          <code className="font-code text-[12px] leading-[18px] text-muted-foreground">
             {highlightPayload(code)}
           </code>
         </pre>
@@ -217,9 +219,9 @@ const PayloadInspectorRoot = React.forwardRef<
           type="button"
           aria-label="Show full payload"
           onClick={() => setExpanded(true)}
-          className="absolute inset-x-0 bottom-0 flex h-10 cursor-pointer items-end justify-center pb-1.5 bg-gradient-to-t from-neutral-950 via-neutral-950/70 to-transparent text-[#8a877e] transition-colors hover:text-[#b3afa3] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8a877e]/50"
+          className="absolute inset-x-0 bottom-0 flex h-10 cursor-pointer items-end justify-center pb-1.5 bg-gradient-to-t from-panel via-panel/70 to-transparent text-muted-foreground transition-colors hover:text-default-font focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring/50"
         >
-          <span className="mb-0.5 inline-flex items-center rounded-full border border-[#6e6b62] bg-neutral-950/90 px-2.5 py-1">
+          <span className="mb-0.5 inline-flex items-center rounded-full border border-default-border bg-panel/90 px-2.5 py-1">
             <ChevronIcon />
           </span>
         </button>
@@ -229,7 +231,7 @@ const PayloadInspectorRoot = React.forwardRef<
           type="button"
           aria-label="Collapse payload"
           onClick={() => setExpanded(false)}
-          className="flex h-9 w-full cursor-pointer items-center justify-center border-t border-[#2a2926] text-[#8a877e] transition-colors hover:text-[#b3afa3] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8a877e]/50 focus-visible:ring-inset"
+          className="flex h-9 w-full cursor-pointer items-center justify-center border-t border-default-border text-muted-foreground transition-colors hover:text-default-font focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring/50 focus-visible:ring-inset"
         >
           <ChevronIcon up />
         </button>

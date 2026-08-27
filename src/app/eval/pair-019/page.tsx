@@ -3,7 +3,7 @@
 import React from "react";
 import { EvalShell } from "@/eval/EvalShell";
 import { Sparkline } from "@/components/ds/Sparkline";
-import { ReasoningLog } from "@/components/ds/ReasoningLog";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -90,20 +90,44 @@ export default function Page() {
                 17 steps
               </span>
             </div>
-            <ReasoningLog showMoreLabel="Show 14 earlier steps">
-              <ReasoningLog.Beat
-                job="Collect gateway metrics"
-                thought="Sampled 30 one-minute windows across latency, throughput and errors — no gaps."
-              />
-              <ReasoningLog.Beat
-                job="Compare against baseline"
-                thought="Latency flat within ±0.3ms, throughput up 18%, error rate far below the 0.5% budget."
-              />
-              <ReasoningLog.Beat
-                job="Draft diagnostics summary"
-                thought="No anomalies found — marking run 4471 healthy and ready to share."
-              />
-            </ReasoningLog>
+            {/* ReasoningLog retired — beats fold into the single expanding
+                AgentActivity object. */}
+            <AgentActivity
+              label="Worked for 2m 08s"
+              defaultOpen
+              steps={[
+                {
+                  kind: "command",
+                  summary: "Collect gateway metrics",
+                  traces: [
+                    {
+                      kind: "command",
+                      label: "Sampled 30 one-minute windows across latency, throughput and errors — no gaps.",
+                    },
+                  ],
+                },
+                {
+                  kind: "api",
+                  summary: "Compare against baseline",
+                  traces: [
+                    {
+                      kind: "api",
+                      label: "Latency flat within ±0.3ms, throughput up 18%, error rate far below the 0.5% budget.",
+                    },
+                  ],
+                },
+                {
+                  kind: "edits",
+                  summary: "Draft diagnostics summary",
+                  traces: [
+                    {
+                      kind: "skill",
+                      label: "No anomalies found — marking run 4471 healthy and ready to share.",
+                    },
+                  ],
+                },
+              ]}
+            />
           </section>
 
           {/* Share CTA — the button that opened the report sheet */}

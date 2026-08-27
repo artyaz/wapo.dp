@@ -4,21 +4,33 @@ import React from "react";
 import { useGlassRuntime } from "./glass-store";
 
 /**
- * Page-level SVG filter host — the Chromium tier's actual physics.
+ * Page-level SVG filter host — the Chromium tier's actual physics, built
+ * EXACTLY like the kube.io liquid-glass-css-svg reference:
  *
- * Construction verified in re-review round 2:
+ *   https://kube.io/blog/liquid-glass-css-svg/
+ *
  *  - root <svg> carries colorInterpolationFilters="sRGB"
- *  - every feImage: preserveAspectRatio="none" (no letterbox transparent-map
- *    risk), stretched to the full filter region
- *  - per filter: feImage → 3× (feColorMatrix channel isolation →
- *    feDisplacementMap) → 2× feBlend mode="screen"
- *  - channel isolation matrices keep an identity row per channel and
- *    preserve alpha; disjoint channels recombined via screen are lossless
- *  - the filter is referenced from a SEPARATE backdrop layer carrying only
- *    the bare url(), so an unresolved reference voids only that layer
+ *  - every <feImage> uses ABSOLUTE pixel geometry (x=0 y=0 width=W height=H)
+ *    with preserveAspectRatio="none" — the article's warning: "The
+ *    backdrop-filter dimensions do not adjust automatically to the element
+ *    size, so you need to ensure that your filter images fit the size of
+ *    your elements." Percentage-sourced feImage geometry resolved against
+ *    the wrong viewport in Chrome and voided the whole tier (the
+ *    blur-but-zero-displacement defect).
+ *  - the filter region is pinned with filterUnits="userSpaceOnUse" at the
+ *    element's exact border-box size, so the displacement map and the
+ *    backdrop raster are always 1:1.
+ *  - a SINGLE <feDisplacementMap> reads SourceGraphic (the backdrop) with
+ *    xChannelSelector="R" / yChannelSelector="G" and scale =
+ *    maximumDisplacement — the pre-computed physical maximum, which is how
+ *    the article re-imposes pixel scale on the normalized 8-bit map.
+ *  - the specular rim map rides a second <feImage> and is combined with
+ *    feBlend mode="screen" over the refracted result.
  *
- * Displacement scales: R = base × 1.25, G = base × 0.83, B = base × 1.0 —
- * the chromatic aberration ratio preserved across every fork.
+ * The old three-branch channel-isolation construction (feColorMatrix →
+ * per-channel displacement → screen recombination) is gone — it is not part
+ * of the reference implementation and its recombination could void the
+ * output on semi-transparent backdrops.
  */
 export function GlassFilters() {
   const filters = useGlassRuntime((s) => s.filters);
@@ -29,8 +41,7 @@ export function GlassFilters() {
     <svg
       aria-hidden="true"
       focusable="false"
-      width="0"
-      height="0"
+      colorInterpolationFilters="sRGB"
       style={{
         position: "absolute",
         width: 0,
@@ -53,83 +64,80 @@ function GlassDisplacementFilterDef({
   spec,
 }: {
   id: string;
-  spec: { mapUrl: string; scaleR: number; scaleG: number; scaleB: number };
+  spec: {
+    width: number;
+    height: number;
+    displacementUrl: string;
+    specularUrl: string;
+    /** feDisplacementMap scale — the physical maximum displacement in px */
+    scale: number;
+    /** specular highlight opacity applied inside the filter */
+    specularOpacity: number;
+    /** material saturation percent, folded in via feColorMatrix */
+    saturate: number;
+  };
 }) {
+  const w = Math.max(1, Math.round(spec.width));
+  const h = Math.max(1, Math.round(spec.height));
   return (
     <filter
       id={id}
+      filterUnits="userSpaceOnUse"
       x="0"
       y="0"
-      width="100%"
-      height="100%"
+      width={w}
+      height={h}
       colorInterpolationFilters="sRGB"
     >
+      {/* the displacement map — sized 1:1 to the element (kube.io) */}
       <feImage
-        href={spec.mapUrl}
+        href={spec.displacementUrl}
         x="0"
         y="0"
-        width="100%"
-        height="100%"
+        width={w}
+        height={h}
         preserveAspectRatio="none"
-        result="map"
+        result="displacement_map"
       />
-      {/* Red branch — isolated red channel, strongest displacement */}
-      <feColorMatrix
-        in="SourceGraphic"
-        type="matrix"
-        values="1 0 0 0 0
-                0 0 0 0 0
-                0 0 0 0 0
-                0 0 0 1 0"
-        result="srcR"
-      />
+      {/* single-pass refraction of the backdrop */}
       <feDisplacementMap
-        in="srcR"
-        in2="map"
-        scale={spec.scaleR}
+        in="SourceGraphic"
+        in2="displacement_map"
+        scale={spec.scale}
         xChannelSelector="R"
         yChannelSelector="G"
-        result="dispR"
+        result="displaced"
       />
-      {/* Green branch — weakest displacement */}
+      {/* material saturation — folded into the filter chain so the
+          Chromium tier needs no second backdrop-filter layer */}
       <feColorMatrix
-        in="SourceGraphic"
-        type="matrix"
-        values="0 0 0 0 0
-                0 1 0 0 0
-                0 0 0 0 0
-                0 0 0 1 0"
-        result="srcG"
+        in="displaced"
+        type="saturate"
+        values={String(Math.max(0, spec.saturate) / 100)}
+        result="saturated"
       />
-      <feDisplacementMap
-        in="srcG"
-        in2="map"
-        scale={spec.scaleG}
-        xChannelSelector="R"
-        yChannelSelector="G"
-        result="dispG"
-      />
-      {/* Blue branch — reference displacement */}
-      <feColorMatrix
-        in="SourceGraphic"
-        type="matrix"
-        values="0 0 0 0 0
-                0 0 0 0 0
-                0 0 1 0 0
-                0 0 0 1 0"
-        result="srcB"
-      />
-      <feDisplacementMap
-        in="srcB"
-        in2="map"
-        scale={spec.scaleB}
-        xChannelSelector="R"
-        yChannelSelector="G"
-        result="dispB"
-      />
-      {/* Lossless recombination of disjoint channels */}
-      <feBlend in="dispR" in2="dispG" mode="screen" result="rg" />
-      <feBlend in="rg" in2="dispB" mode="screen" />
+      {/* specular rim — blended over the refracted backdrop (kube.io) */}
+      {spec.specularOpacity > 0 ? (
+        <>
+          <feImage
+            href={spec.specularUrl}
+            x="0"
+            y="0"
+            width={w}
+            height={h}
+            preserveAspectRatio="none"
+            result="specular_map"
+          />
+          <feComponentTransfer in="specular_map" result="specular_scaled">
+            {/* scale the rim brightness (black screens as identity, so the
+                flat interior of the map stays a no-op); alpha untouched */}
+            <feFuncR type="linear" slope={spec.specularOpacity} />
+            <feFuncG type="linear" slope={spec.specularOpacity} />
+            <feFuncB type="linear" slope={spec.specularOpacity} />
+          </feComponentTransfer>
+          <feBlend in="saturated" in2="specular_scaled" mode="screen" />
+        </>
+      ) : null}
     </filter>
   );
 }

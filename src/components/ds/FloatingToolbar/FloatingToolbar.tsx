@@ -16,6 +16,7 @@
 
 import React from "react";
 import * as SubframeUtils from "@/lib/subframe/utils";
+import { GlassSurface } from "@/lib/glass";
 
 export interface ActionProps extends React.HTMLAttributes<HTMLDivElement> {
   glyph?: React.ReactNode;
@@ -108,22 +109,23 @@ const FloatingToolbarRoot = React.forwardRef<
   ref
 ) {
   return (
-    <div
+    // Shared GlassSurface runtime — kube.io liquid glass applied by default.
+    <GlassSurface
+      shape="free"
+      radius={22}
       className={SubframeUtils.twClassNames(
-        "flex w-max items-center gap-1 rounded-[22px] border border-solid border-[#ffffff33] px-2 py-1.5 shadow-glass-surface relative max-w-full min-w-0 bg-panel/50 backdrop-blur-[28px] backdrop-saturate-[135%]",
+        "flex w-max items-center gap-1 px-2 py-1.5 relative max-w-full min-w-0",
         className
       )}
       ref={ref}
       {...otherProps}
     >
-      <div className="flex items-start rounded-[22px] pointer-events-none absolute inset-0 bg-[linear-gradient(160deg,rgba(255,255,255,0.55)_0%,rgba(255,255,255,0.16)_26%,rgba(255,255,255,0.04)_44%,rgba(255,255,255,0)_60%)]" />
-      <div className="flex items-start rounded-[22px] pointer-events-none absolute inset-0 bg-[linear-gradient(340deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0.07)_22%,rgba(255,255,255,0)_42%)]" />
       {children ? (
         <div className="flex flex-wrap items-center justify-center gap-1 relative z-[1] min-w-0">
           {children}
         </div>
       ) : null}
-    </div>
+    </GlassSurface>
   );
 });
 

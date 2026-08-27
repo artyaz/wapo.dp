@@ -31,7 +31,7 @@ import {
 import { EvalShell } from "@/eval/EvalShell";
 import { Spinner } from "@/components/ui/spinner";
 import { Badge } from "@/components/ui/badge";
-import { ThoughtHeader } from "@/components/ds/ThoughtHeader";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 import { TextField } from "@/components/ds/TextField";
 
 /** Contact meta rows rendered under the identity block. */
@@ -165,7 +165,7 @@ export default function Page() {
                 </span>
               </div>
 
-              <ThoughtHeader label="Worked for 1m 12s" defaultOpen>
+              <AgentActivity label="Worked for 1m 12s" defaultOpen>
                 <div className="flex flex-col gap-2.5">
                   <LogLine state="done">
                     Scanned your profile — the About section is empty and
@@ -178,9 +178,9 @@ export default function Page() {
                     Polishing the summary it drafted for your About section
                   </LogLine>
                 </div>
-              </ThoughtHeader>
+              </AgentActivity>
 
-              <ThoughtHeader label="Worked for 22s" />
+              <AgentActivity label="Worked for 22s" />
             </section>
           </aside>
 

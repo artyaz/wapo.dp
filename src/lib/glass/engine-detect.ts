@@ -164,38 +164,55 @@ export function resetStrategyCache(): void {
 /* ------------------------------------------------------------------ */
 
 export interface MaterialRampEntry {
+  /**
+   * PROGRESSIVE BLUR ceiling (px). Blur is edge-only (masked so the center
+   * stays crisp) — the kube.io music-player look. The old global 16–56px
+   * blur frosted the whole surface and read as bloom.
+   */
   blur: number;
+  /** global saturation boost (applied unmasked, keeps content vibrant) */
   saturate: number;
   /** panel tint, percent */
   tint: number;
   /** WebGL refraction strength on liquidGL's 0–1 scale */
   strength: number;
-  /** base displacement scale (B channel); R = ×1.02, G = ×0.98 (subtle aberration per doctrine) */
-  displacement: number;
+  /**
+   * refraction level (kube.io "Refraction Level" parameter) — multiplies
+   * the physical maximum displacement fed to feDisplacementMap.
+   */
+  refraction: number;
+  /** bezel band width in px — how far the refraction reaches inward */
+  bezel: number;
+  /** glass thickness in px (surface height above the background) */
+  thickness: number;
 }
 
 export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
-  ultrathin: { blur: 16, saturate: 1.2, tint: 40, strength: 0.35, displacement: 6 },
-  thin: { blur: 28, saturate: 1.35, tint: 50, strength: 0.5, displacement: 9 },
-  regular: { blur: 40, saturate: 1.5, tint: 60, strength: 0.65, displacement: 12 },
-  thick: { blur: 56, saturate: 1.65, tint: 72, strength: 0.85, displacement: 16 },
+  ultrathin: { blur: 0, saturate: 1.2, tint: 24, strength: 0.35, refraction: 0.7, bezel: 14, thickness: 20 },
+  thin: { blur: 2, saturate: 1.3, tint: 32, strength: 0.5, refraction: 0.9, bezel: 18, thickness: 28 },
+  regular: { blur: 4, saturate: 1.45, tint: 38, strength: 0.65, refraction: 1.0, bezel: 24, thickness: 36 },
+  thick: { blur: 8, saturate: 1.6, tint: 46, strength: 0.85, refraction: 1.15, bezel: 32, thickness: 48 },
 };
 
 /**
  * Chromatic aberration multipliers per color channel (spec §4).
  *
- * Tuned 1.25/0.83 → 1.02/0.98 after visual audit: the original spread read
- * as neon green/magenta rim fringing on displacement specimens, violating
- * the monochrome doctrine. The aberration now stays a barely-there rim tint.
+ * The kube.io reference filter carries NO chromatic aberration — a single
+ * displacement map displaces the backdrop once. Kept as an exported token
+ * for the WebGL tier and docs, but the SVG tier now follows the reference
+ * exactly: one map, one scale, monochrome rim.
  */
-export const CHROMATIC = { r: 1.02, g: 0.98, b: 1.0 } as const;
+export const CHROMATIC = { r: 1.0, g: 1.0, b: 1.0 } as const;
 
-/** Intensity forks — base B-channel displacement scale per fork. */
+/** Intensity forks — refraction level multipliers per fork (kube.io scale). */
 export const INTENSITY_BASE_SCALE: Record<RefractionIntensity, number> = {
-  subtle: 5,
-  medium: 12,
-  strong: 20,
+  subtle: 0.55,
+  medium: 1.0,
+  strong: 1.6,
 };
+
+/** Default specular highlight opacity (kube.io "Specular Opacity" slider). */
+export const SPECULAR_DEFAULTS = { opacity: 0.5, saturation: 6, angle: -60 } as const;
 
 export const SHAPE_RADIUS: Record<GlassShape, number | null> = {
   capsule: 9999,

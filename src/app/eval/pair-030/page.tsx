@@ -16,10 +16,10 @@ import React from "react";
 import { ActivityIcon, HourglassIcon } from "lucide-react";
 
 import { EvalShell } from "@/eval/EvalShell";
-import { ActionTraces } from "@/components/ds/ActionTraces";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 import { MiniMap } from "@/components/ds/MiniMap";
 import { SlaTimer } from "@/components/ds/SlaTimer";
-import { ToolSummaryRow } from "@/components/ds/ToolSummaryRow";
+
 
 /** Runbook outline geometry (percentages) — mirrored 1:1 in the MiniMap. */
 const DOC_LAYOUT = [
@@ -126,122 +126,97 @@ export default function Page() {
               </span>
             </div>
             <div className="mt-3 flex flex-col gap-4">
-              <ToolSummaryRow
+              <AgentActivity.Step
                 kind="skill"
-                traces={
-                  <ActionTraces
-                    items={[
-                      {
-                        kind: "skill",
-                        label: "Loaded runbook skill: incident/edge-failover",
-                      },
-                      {
-                        kind: "command",
-                        label: 'rg -n "BGP flap" runbooks/ --glob "*.md"',
-                      },
-                      {
-                        kind: "api",
-                        label: "GET /v1/incidents/INC-40221 — 200 OK (142ms)",
-                      },
-                    ]}
-                  />
-                }
-              >
-                Located the latency runbook and pulled the incident record
-              </ToolSummaryRow>
+                summary="Located the latency runbook and pulled the incident record"
+                traces={[
+                  {
+                    kind: "skill",
+                    label: "Loaded runbook skill: incident/edge-failover",
+                  },
+                  {
+                    kind: "command",
+                    label: 'rg -n "BGP flap" runbooks/ --glob "*.md"',
+                  },
+                  {
+                    kind: "api",
+                    label: "GET /v1/incidents/INC-40221 — 200 OK (142ms)",
+                  },
+                ]}
+              />
 
-              <ToolSummaryRow
+              <AgentActivity.Step
                 kind="command"
-                traces={
-                  <ActionTraces
-                    items={[
-                      {
-                        kind: "command",
-                        label: "kubectl -n edge logs deploy/eu-edge-03 --tail=200",
-                      },
-                      {
-                        kind: "command",
-                        label: "hey -z 30s -c 50 https://staging.internal/api",
-                      },
-                      {
-                        kind: "api",
-                        label: "POST /v1/loadtests — 201 Created (6.4s)",
-                      },
-                    ]}
-                  />
-                }
-              >
-                Reproduced the spike against the staging edge
-              </ToolSummaryRow>
+                summary="Reproduced the spike against the staging edge"
+                traces={[
+                  {
+                    kind: "command",
+                    label: "kubectl -n edge logs deploy/eu-edge-03 --tail=200",
+                  },
+                  {
+                    kind: "command",
+                    label: "hey -z 30s -c 50 https://staging.internal/api",
+                  },
+                  {
+                    kind: "api",
+                    label: "POST /v1/loadtests — 201 Created (6.4s)",
+                  },
+                ]}
+              />
 
-              <ToolSummaryRow
+              <AgentActivity.Step
                 kind="edits"
-                traces={
-                  <ActionTraces
-                    items={[
-                      { kind: "skill", label: "Loaded design skill: prose/edit-pass" },
-                      {
-                        kind: "command",
-                        label: "git diff --stat runbooks/edge-failover.md",
-                      },
-                      {
-                        kind: "command",
-                        label: "bunx prettier --check runbooks/ — clean",
-                      },
-                      {
-                        kind: "api",
-                        label: "PATCH /v1/runbooks/edge-failover — 200 OK (89ms)",
-                      },
-                    ]}
-                  />
-                }
-              >
-                Drafted the mitigation section in the runbook
-              </ToolSummaryRow>
+                summary="Drafted the mitigation section in the runbook"
+                traces={[
+                  { kind: "skill", label: "Loaded design skill: prose/edit-pass" },
+                  {
+                    kind: "command",
+                    label: "git diff --stat runbooks/edge-failover.md",
+                  },
+                  {
+                    kind: "command",
+                    label: "bunx prettier --check runbooks/ — clean",
+                  },
+                  {
+                    kind: "api",
+                    label: "PATCH /v1/runbooks/edge-failover — 200 OK (89ms)",
+                  },
+                ]}
+              />
 
-              <ToolSummaryRow
+              <AgentActivity.Step
                 kind="integration"
-                traces={
-                  <ActionTraces
-                    items={[
-                      {
-                        kind: "api",
-                        label: "POST /v1/jira/issues — 201 Created (310ms)",
-                      },
-                      {
-                        kind: "api",
-                        label: "POST /v1/pager/acknowledge — 202 Accepted (210ms)",
-                      },
-                    ]}
-                  />
-                }
-              >
-                Synced the timeline to Jira and paged the on-call
-              </ToolSummaryRow>
+                summary="Synced the timeline to Jira and paged the on-call"
+                traces={[
+                  {
+                    kind: "api",
+                    label: "POST /v1/jira/issues — 201 Created (310ms)",
+                  },
+                  {
+                    kind: "api",
+                    label: "POST /v1/pager/acknowledge — 202 Accepted (210ms)",
+                  },
+                ]}
+              />
 
-              <ToolSummaryRow
+              <AgentActivity.Step
                 kind="api"
-                traces={
-                  <ActionTraces
-                    items={[
-                      {
-                        kind: "api",
-                        label: "GET /v1/statuspage/incidents — 200 OK (98ms)",
-                      },
-                      {
-                        kind: "command",
-                        label: 'rg -n "maintenance" statuspage/templates/',
-                      },
-                      {
-                        kind: "skill",
-                        label: "Loaded design skill: comms/status-update",
-                      },
-                    ]}
-                  />
-                }
-              >
-                Checked the status page before publishing
-              </ToolSummaryRow>
+                summary="Checked the status page before publishing"
+                traces={[
+                  {
+                    kind: "api",
+                    label: "GET /v1/statuspage/incidents — 200 OK (98ms)",
+                  },
+                  {
+                    kind: "command",
+                    label: 'rg -n "maintenance" statuspage/templates/',
+                  },
+                  {
+                    kind: "skill",
+                    label: "Loaded design skill: comms/status-update",
+                  },
+                ]}
+              />
             </div>
 
             <div className="mt-auto flex items-center gap-2 rounded-md border border-dashed border-default-border px-3 py-2.5">

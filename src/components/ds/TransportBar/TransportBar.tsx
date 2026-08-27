@@ -9,6 +9,7 @@
 
 import React from "react";
 import * as SubframeUtils from "@/lib/subframe/utils";
+import { GlassSurface } from "@/lib/glass";
 
 export interface TransportBarRootProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -38,16 +39,16 @@ const TransportBarRoot = React.forwardRef<
   ref
 ) {
   return (
-    <div
+    <GlassSurface
+      shape="free"
+      radius={24}
       className={SubframeUtils.twClassNames(
-        "group/4d642c3c min-h-[76px] py-2 items-center gap-2 sm:gap-2.5 rounded-3xl border border-solid border-[#ffffff33] px-4 sm:px-6 shadow-glass-surface bg-panel/60 backdrop-blur-[40px] backdrop-saturate-[150%] inline-flex w-fit max-w-full transition-colors duration-150 relative focus-within:border-neutral-600",
+        "group/4d642c3c min-h-[76px] py-2 items-center gap-2 sm:gap-2.5 px-4 sm:px-6 inline-flex w-fit max-w-full transition-colors duration-150 relative",
         className
       )}
       ref={ref}
       {...otherProps}
     >
-      <div className="flex items-start rounded-3xl absolute inset-0 pointer-events-none bg-[linear-gradient(160deg,rgba(255,255,255,0.55)_0%,rgba(255,255,255,0.16)_26%,rgba(255,255,255,0.04)_44%,transparent_60%)]" />
-      <div className="flex items-start rounded-3xl absolute inset-0 pointer-events-none bg-[linear-gradient(340deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0.07)_22%,transparent_42%)]" />
       <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 relative z-[1]">
         <div
           className={SubframeUtils.twClassNames(
@@ -120,7 +121,7 @@ const TransportBarRoot = React.forwardRef<
           </span>
         </div>
       </div>
-    </div>
+    </GlassSurface>
   );
 });
 

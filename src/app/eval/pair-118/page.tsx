@@ -32,8 +32,7 @@ import {
 import { EvalShell } from "@/eval/EvalShell";
 import { Card } from "@/components/ds/Card";
 import { WaveformStrip } from "@/components/ds/WaveformStrip";
-import { ToolSummaryRow } from "@/components/ds/ToolSummaryRow";
-import { ActionTraces } from "@/components/ds/ActionTraces";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 
 /* ---- small building blocks ------------------------------------------- */
 
@@ -318,38 +317,36 @@ export default function Page() {
                   </>
                 }
               >
-                <ToolSummaryRow
+                <AgentActivity.Step
                   kind="integration"
-                  traces={
-                    <ActionTraces
-                      items={[
-                        {
-                          kind: "api",
-                          label: "GET /v1/orders/VO-2847 — 200 OK (214 ms)",
-                        },
-                        {
-                          kind: "command",
-                          label: "ffmpeg -i take-03.wav -af loudnorm=I=-16 master.wav",
-                        },
-                        {
-                          kind: "skill",
-                          label: "Loaded licensing skill: NA broadcast rates 2025",
-                        },
-                      ]}
-                    />
-                  }
-                >
-                  Prepared order VO-2847 with the Verbatim production suite
-                </ToolSummaryRow>
-                <ToolSummaryRow kind="api">
-                  Verified Visa •••• 4242 with Stripe — payment intent created
-                </ToolSummaryRow>
-                <ToolSummaryRow kind="skill">
-                  Applied promo VOICE10 — $28.00 off the brand read
-                </ToolSummaryRow>
-                <ToolSummaryRow kind="command">
-                  Ran the fraud pre-check — 0 risk signals found
-                </ToolSummaryRow>
+                  summary="Prepared order VO-2847 with the Verbatim production suite"
+                  traces={[
+                    {
+                      kind: "api",
+                      label: "GET /v1/orders/VO-2847 — 200 OK (214 ms)",
+                    },
+                    {
+                      kind: "command",
+                      label: "ffmpeg -i take-03.wav -af loudnorm=I=-16 master.wav",
+                    },
+                    {
+                      kind: "skill",
+                      label: "Loaded licensing skill: NA broadcast rates 2025",
+                    },
+                  ]}
+                />
+                <AgentActivity.Step
+                  kind="api"
+                  summary="Verified Visa •••• 4242 with Stripe — payment intent created"
+                />
+                <AgentActivity.Step
+                  kind="skill"
+                  summary="Applied promo VOICE10 — $28.00 off the brand read"
+                />
+                <AgentActivity.Step
+                  kind="command"
+                  summary="Ran the fraud pre-check — 0 risk signals found"
+                />
               </Card>
             </div>
           </div>

@@ -43,7 +43,9 @@ const Content = React.forwardRef<HTMLDivElement, ContentProps>(function Content(
           // reading surface on phones.
           // border-s: the hairline seam sits on the edge facing the page in
           // both directions (left in LTR, right in RTL).
-          "flex h-full max-w-full flex-col items-start overflow-y-auto border-s border-solid border-[#e5e5e5] bg-[#ffffff] mobile:w-full",
+          // Themed tokens (was hardcoded #ffffff/#e5e5e5 — the sheet stayed
+          // blinding white in dark theme); panel inverts to rgb(21 21 19).
+          "flex h-full max-w-full flex-col items-start overflow-y-auto border-s border-solid border-default-border bg-panel mobile:w-full",
           className
         )}
         ref={ref}
@@ -74,7 +76,9 @@ const DrawerRoot = React.forwardRef<HTMLDivElement, DrawerRootProps>(
             // relative + z-50: the scrim must own a stacking context above any
             // adjacent absolutely-positioned content — otherwise positioned
             // siblings paint over the scrim AND the (opaque) sheet panel.
-            "relative z-50 flex h-full w-full flex-col items-end justify-center gap-2 bg-[#00000066]",
+            // Scrim stays black/40 in both themes (a scrim darkens what it
+            // covers — that is its semantics in either theme).
+            "relative z-50 flex h-full w-full flex-col items-end justify-center gap-2 bg-black/40",
             className
           )}
           ref={ref}

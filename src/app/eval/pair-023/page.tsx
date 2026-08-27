@@ -2,8 +2,7 @@
 
 import React from "react";
 import { EvalShell } from "@/eval/EvalShell";
-import { ToolSummaryRow } from "@/components/ds/ToolSummaryRow";
-import { ActionTraces } from "@/components/ds/ActionTraces";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 import { AssetCard } from "@/components/ds/AssetCard";
 import {
   Breadcrumb,
@@ -146,50 +145,41 @@ export default function Page() {
             </div>
             <div className="flex flex-col divide-y divide-default-border border-t border-default-border">
               <div className="pb-2 pt-2">
-                <ToolSummaryRow
+                <AgentActivity.Step
                   kind="integration"
-                  traces={
-                    <ActionTraces
-                      items={[
-                        {
-                          kind: "api",
-                          label: "GET /v1/field-kit/sessions/88 — 200 OK (214ms)",
-                        },
-                        {
-                          kind: "command",
-                          label: 'rsync -av field-kit:/tape/ "S2E12/media/" --progress',
-                        },
-                        {
-                          kind: "skill",
-                          label: "Loaded ingest skill: broadcast safe-copy checklist",
-                        },
-                      ]}
-                    />
+                  summary={
+                    <>
+                      Used Field Kit integration, mounted the tape drive, copied
+                      6 assets
+                    </>
                   }
-                >
-                  Used Field Kit integration, mounted the tape drive, copied 6
-                  assets
-                </ToolSummaryRow>
+                  traces={[
+                    {
+                      kind: "api",
+                      label: "GET /v1/field-kit/sessions/88 — 200 OK (214ms)",
+                    },
+                    {
+                      kind: "command",
+                      label: 'rsync -av field-kit:/tape/ "S2E12/media/" --progress',
+                    },
+                    {
+                      kind: "skill",
+                      label: "Loaded ingest skill: broadcast safe-copy checklist",
+                    },
+                  ]}
+                />
               </div>
               <div className="py-2">
-                <ToolSummaryRow kind="api">
-                  POST /v1/library/assets — 201 Created (6×)
-                </ToolSummaryRow>
+                <AgentActivity.Step kind="api" summary="POST /v1/library/assets — 201 Created (6×)" />
               </div>
               <div className="py-2">
-                <ToolSummaryRow kind="skill">
-                  Applied Loudness skill: EBU R128 normalize to −16 LUFS
-                </ToolSummaryRow>
+                <AgentActivity.Step kind="skill" summary="Applied Loudness skill: EBU R128 normalize to −16 LUFS" />
               </div>
               <div className="py-2">
-                <ToolSummaryRow kind="edits">
-                  Wrote waveform cache for 2 audio assets
-                </ToolSummaryRow>
+                <AgentActivity.Step kind="edits" summary="Wrote waveform cache for 2 audio assets" />
               </div>
               <div className="pt-2">
-                <ToolSummaryRow kind="command">
-                  Ran ffprobe over 6 files — 6 probed, 0 failed
-                </ToolSummaryRow>
+                <AgentActivity.Step kind="command" summary="Ran ffprobe over 6 files — 6 probed, 0 failed" />
               </div>
             </div>
           </aside>

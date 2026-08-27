@@ -6,7 +6,7 @@ import { Sparkles } from "lucide-react";
 import { EvalShell } from "@/eval/EvalShell";
 import { AssistantMessage } from "@/components/ds/AssistantMessage";
 import { Sheet } from "@/components/ds/Sheet";
-import { ActionTraces } from "@/components/ds/ActionTraces";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 import * as SubframeCore from "@/lib/subframe/core";
 
 /**
@@ -81,8 +81,8 @@ export default function Page() {
             <SubframeCore.Dialog.Title className="w-full text-body-medium text-default-font">
               Run details · 3 actions
             </SubframeCore.Dialog.Title>
-            <ActionTraces
-              items={[
+            <AgentActivity.Step
+              traces={[
                 { kind: "skill", label: "load skill charts/contrast-audit" },
                 { kind: "command", label: "rg -n contrast src/components/ds" },
                 { kind: "api", label: "POST /v1/reports — 201 (412ms)" },

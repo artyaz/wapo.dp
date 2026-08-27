@@ -11,6 +11,7 @@
 
 import React from "react";
 import * as SubframeUtils from "@/lib/subframe/utils";
+import { GlassSurface } from "@/lib/glass";
 import { StatusBadge } from "@/components/ds/StatusBadge";
 
 export interface PlayerBarRootProps
@@ -41,16 +42,16 @@ const PlayerBarRoot = React.forwardRef<HTMLDivElement, PlayerBarRootProps>(
     ref
   ) {
     return (
-      <div
+      <GlassSurface
+        shape="free"
+        radius={28}
         className={SubframeUtils.twClassNames(
-          "group/f240b0b5 flex w-full max-w-[576px] flex-col items-start gap-2 rounded-[28px] border border-solid border-[#ffffff33] px-[18px] py-3.5 shadow-glass-surface bg-panel/60 backdrop-blur-[40px] backdrop-saturate-[150%] relative",
+          "group/f240b0b5 flex w-full max-w-[576px] flex-col items-start gap-2 px-[18px] py-3.5 relative",
           className
         )}
         ref={ref}
         {...otherProps}
       >
-        <div className="flex items-start rounded-[28px] absolute inset-0 pointer-events-none bg-[linear-gradient(160deg,rgba(255,255,255,0.55)_0%,rgba(255,255,255,0.16)_26%,rgba(255,255,255,0.04)_44%,transparent_60%)]" />
-        <div className="flex items-start rounded-[28px] absolute inset-0 pointer-events-none bg-[linear-gradient(340deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0.07)_22%,transparent_42%)]" />
         <div className="flex w-full flex-col items-start gap-2 relative z-[1]">
           <div className="flex w-full items-center gap-2.5">
             <StatusBadge tone="live">Live</StatusBadge>
@@ -189,7 +190,7 @@ const PlayerBarRoot = React.forwardRef<HTMLDivElement, PlayerBarRootProps>(
             </span>
           ) : null}
         </div>
-      </div>
+      </GlassSurface>
     );
   }
 );

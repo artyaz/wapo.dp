@@ -50,9 +50,12 @@ const UserMessageRoot = React.forwardRef<HTMLDivElement, UserMessageRootProps>(
           // (and RTL prompts render correctly under LTR ones)
           dir="auto"
           className={SubframeUtils.twClassNames(
-            // dark-slate pill over the near-black canvas; the flattened
-            // bottom-right corner anchors it to the user's edge
-            "rounded-[18px] rounded-br-[8px] bg-neutral-800 text-neutral-100",
+            // quiet inset bubble on the user's edge; neutral-200 is the DS
+            // token that stays soft after inversion — light gray in light
+            // theme, subtle dark elevation in dark theme (the old fixed
+            // neutral-800 inverted to a blinding near-white bubble on the
+            // near-black canvas). default-font keeps the ink readable in both.
+            "rounded-[18px] rounded-br-[8px] bg-neutral-200 text-default-font",
             "w-fit min-w-0 whitespace-pre-wrap break-words",
             maxWidthClass,
             density === "compact"

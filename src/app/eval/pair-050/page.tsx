@@ -3,7 +3,7 @@
 import React from "react";
 import { EvalShell } from "@/eval/EvalShell";
 import { AtmosphereScrim } from "@/components/ds/AtmosphereScrim";
-import { ReasoningLog } from "@/components/ds/ReasoningLog";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 import { StatusBadge } from "@/components/ds/StatusBadge";
 import {
   ArrowUpIcon,
@@ -191,44 +191,85 @@ export default function Page() {
             {/* Transcript — trailing steps defocus under the scrim */}
             <div className="relative min-h-0 flex-1 overflow-hidden">
               <div className="absolute inset-x-0 bottom-0 z-0 px-8 pb-8">
-                <ReasoningLog
-                  showMoreLabel="Show 14 earlier steps"
+                {/* ReasoningLog retired — beats fold into the single
+                    expanding AgentActivity object. */}
+                <AgentActivity
+                  label="Worked for 4m 12s"
+                  defaultOpen
                   className="w-full max-w-[780px]"
-                >
-                  <ReasoningLog.Beat
-                    job="Parse brief request"
-                    thought="Resolved to two constraints: enterprise tier, deals expected to close in Q3."
-                  />
-                  <ReasoningLog.Beat
-                    job="Retrieve workspace index"
-                    thought="Loaded 3 of 12 candidate documents; two superseded by later revisions."
-                  />
-                  <ReasoningLog.Beat
-                    job="Cross-check CRM pipeline"
-                    thought="Matched 9 enterprise deals worth $4.2M; 3 slipped past their close date, all citing procurement holds."
-                  />
-                  <ReasoningLog.Beat
-                    job="Read procurement threads"
-                    thought="Hold notices confirmed for Northwind Freight and Atlas Media; Halden Systems cites a security review."
-                  />
-                  <ReasoningLog.Beat
-                    job="Estimate revenue impact"
-                    thought="Slipped deals push $1.1M from Q3 into Q4 at current stage durations."
-                  />
-                  <ReasoningLog.Beat
-                    job="Draft citation set"
-                    thought="Chose passages 04, 09 and 11 — closest to the question with no overlap."
-                  />
-                  <ReasoningLog.Beat
-                    job="Reconcile finance export"
-                    thought="Pipeline totals match to within 0.3%; kept the CRM figure as the source of truth."
-                  />
-                  <ReasoningLog.Beat
-                    job="Compose summary"
-                    inflight
-                    thought="Drafting the three-sentence brief with inline citations…"
-                  />
-                </ReasoningLog>
+                  steps={[
+                    {
+                      kind: "skill",
+                      summary: "Parse brief request",
+                      traces: [
+                        {
+                          kind: "skill",
+                          label: "Resolved to two constraints: enterprise tier, deals expected to close in Q3.",
+                        },
+                      ],
+                    },
+                    {
+                      kind: "api",
+                      summary: "Retrieve workspace index",
+                      traces: [
+                        {
+                          kind: "api",
+                          label: "Loaded 3 of 12 candidate documents; two superseded by later revisions.",
+                        },
+                      ],
+                    },
+                    {
+                      kind: "command",
+                      summary: "Cross-check CRM pipeline",
+                      traces: [
+                        {
+                          kind: "command",
+                          label: "Matched 9 enterprise deals worth $4.2M; 3 slipped past their close date, all citing procurement holds.",
+                        },
+                      ],
+                    },
+                    {
+                      kind: "api",
+                      summary: "Read procurement threads",
+                      traces: [
+                        {
+                          kind: "api",
+                          label: "Hold notices confirmed for Northwind Freight and Atlas Media; Halden Systems cites a security review.",
+                        },
+                      ],
+                    },
+                    {
+                      kind: "command",
+                      summary: "Estimate revenue impact",
+                      traces: [
+                        {
+                          kind: "command",
+                          label: "Slipped deals push $1.1M from Q3 into Q4 at current stage durations.",
+                        },
+                      ],
+                    },
+                    {
+                      kind: "edits",
+                      summary: "Draft citation set",
+                      traces: [
+                        {
+                          kind: "skill",
+                          label: "Chose passages 04, 09 and 11 — closest to the question with no overlap.",
+                        },
+                      ],
+                    },
+                    {
+                      kind: "command",
+                      summary: "Reconcile finance export",
+                      traces: [
+                        {
+                          kind: "command",
+                          label: "Pipeline totals match to within 0.3%; kept the CRM figure as the source of truth.",
+                        },
+                      ],
+                    },
+                  ]}
+                />
               </div>
 
               <AtmosphereScrim />

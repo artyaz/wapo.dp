@@ -14,8 +14,7 @@ import { Hexagon, ShieldCheck } from "lucide-react";
 import { EvalShell } from "@/eval/EvalShell";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ToolSummaryRow } from "@/components/ds/ToolSummaryRow";
-import { ActionTraces } from "@/components/ds/ActionTraces";
+import { AgentActivity } from "@/components/ds/AgentActivity";
 
 export default function Page() {
   return (
@@ -135,37 +134,35 @@ export default function Page() {
               </p>
 
               <div className="mt-1.5 flex flex-col">
-                <ToolSummaryRow
+                <AgentActivity.Step
                   kind="integration"
-                  traces={
-                    <ActionTraces
-                      items={[
-                        {
-                          kind: "api",
-                          label: "GET /v1/auth/session-policy — 200 OK (118ms)",
-                        },
-                        {
-                          kind: "command",
-                          label: "ssoctl verify --idp okta --silent",
-                        },
-                      ]}
-                    />
-                  }
-                >
-                  Verified SSO identity and fetched your workspace sign-in policy
-                </ToolSummaryRow>
+                  summary="Verified SSO identity and fetched your workspace sign-in policy"
+                  traces={[
+                    {
+                      kind: "api",
+                      label: "GET /v1/auth/session-policy — 200 OK (118ms)",
+                    },
+                    {
+                      kind: "command",
+                      label: "ssoctl verify --idp okta --silent",
+                    },
+                  ]}
+                />
 
-                <ToolSummaryRow kind="api">
-                  Checked trusted devices — 1 new device in Lisbon, PT
-                </ToolSummaryRow>
+                <AgentActivity.Step
+                  kind="api"
+                  summary="Checked trusted devices — 1 new device in Lisbon, PT"
+                />
 
-                <ToolSummaryRow kind="command">
-                  Ran login anomaly scan — 0 suspicious attempts in 30 days
-                </ToolSummaryRow>
+                <AgentActivity.Step
+                  kind="command"
+                  summary="Ran login anomaly scan — 0 suspicious attempts in 30 days"
+                />
 
-                <ToolSummaryRow kind="skill">
-                  Loaded security skill: phishing heuristics v3
-                </ToolSummaryRow>
+                <AgentActivity.Step
+                  kind="skill"
+                  summary="Loaded security skill: phishing heuristics v3"
+                />
               </div>
 
               <p className="border-t border-neutral-100 pt-3 text-xs text-neutral-400">

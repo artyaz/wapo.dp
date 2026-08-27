@@ -19,7 +19,6 @@ import { StrategyBadge } from "@/components/site/StrategyBadge";
 import { Labeled, Note, Token } from "@/components/site/DocPage";
 import {
   GlassSurface,
-  CHROMATIC,
   INTENSITY_BASE_SCALE,
   generateDisplacementMap,
   probeField,
@@ -48,27 +47,33 @@ function Intro() {
         sideways, and the direction of that pull is the entire optical effect.
       </p>
       <p>
-        The convention is fixed. The interior is <Token>#7f7f7f</Token> — 127.5
-        on both channels, the exact middle of the range. Along the left edge
-        the map goes <Token>#ff7f7f</Token> (+X), along the right{" "}
-        <Token>#007f7f</Token> (−X), along the top <Token>#7fff7f</Token> (+Y)
-        and along the bottom <Token>#7f007f</Token> (−Y). Read through the
-        formula, all four edges sample from deeper inside the surface, so the
-        backdrop compresses toward the boundary — inward compression on all
-        four edges, a convex lens.
+        The convention is fixed (kube.io encoding): the interior is{" "}
+        <Token>#808080</Token> — 128 on both channels, the neutral value.
+        Vectors are normalized to unit length and stored as{" "}
+        <span className="font-medium text-default-font">
+          R = 128 + x·127, G = 128 + y·127
+        </span>
+        . Along the left edge the map points +X, along the right −X, along the
+        top +Y and along the bottom −Y. Read through the formula, all four
+        edges sample from deeper inside the surface, so the backdrop compresses
+        toward the boundary — inward compression on all four edges, a convex
+        lens. Because the vectors are normalized against the maximum
+        displacement, that maximum is re-imposed directly as the{" "}
+        <Token>feDisplacementMap scale</Token> — the map stores directions and
+        unit magnitudes, the scale stores pixels.
       </p>
       <p>
-        Two review findings shaped the generator. The Subframe export shipped
-        one fixed 200×200 map baked at rx-24 and stretched it over every
-        surface regardless of size or radius — wrong geometry everywhere except
-        the one element it was baked for (R2). And its field was assembled from
-        per-edge strips, so at the corners one axis simply overwrote the other
-        instead of blending into a diagonal (R1). The runtime instead evaluates
-        a rounded-rect signed distance function: the inward normal comes from
-        the SDF gradient, so corners receive true radial vectors and edges
-        receive true normals. Maps are generated at runtime, per element — at
-        that element&apos;s measured size and border radius, when it mounts —
-        and cached by geometry key.
+        The magnitudes are not a smoothstep guess — they are ray-traced. For
+        each distance from the border, a vertical ray enters the glass surface
+        (a convex squircle cross-section, Apple&apos;s profile), refracts via
+        Snell–Descartes (n(air) = 1, n(glass) = 1.5) and lands on the background
+        plane; the displacement is the gap between entry and landing. The field
+        is pre-calculated once along the bezel radius — 127 samples, matching
+        the 8-bit channel resolution — and rotated around the boundary by the
+        SDF gradient, so corners receive true radial vectors and edges receive
+        true normals. Maps are generated at runtime, per element — at that
+        element&apos;s measured size and border radius, when it mounts — and
+        cached by geometry key.
       </p>
     </div>
   );
@@ -79,11 +84,11 @@ function Intro() {
 /* ------------------------------------------------------------------ */
 
 const ENCODING_ROWS = [
-  { hex: "#7f7f7f", where: "interior", meaning: "127.5 · 127.5 — neutral, samples dead-on" },
-  { hex: "#ff7f7f", where: "left edge", meaning: "+X — samples from further right" },
-  { hex: "#007f7f", where: "right edge", meaning: "−X — samples from further left" },
-  { hex: "#7fff7f", where: "top edge", meaning: "+Y — samples from below" },
-  { hex: "#7f007f", where: "bottom edge", meaning: "−Y — samples from above" },
+  { hex: "#808080", where: "interior", meaning: "128 · 128 — neutral, samples dead-on" },
+  { hex: "#ff8080", where: "left edge", meaning: "+X — samples from further right" },
+  { hex: "#008080", where: "right edge", meaning: "−X — samples from further left" },
+  { hex: "#80ff80", where: "top edge", meaning: "+Y — samples from below" },
+  { hex: "#800080", where: "bottom edge", meaning: "−Y — samples from above" },
 ] as const;
 
 function MapEncoding() {
@@ -353,95 +358,87 @@ function MapVisualizer() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Chromatic aberration                                                */
+/* The filter — kube.io construction                                   */
 /* ------------------------------------------------------------------ */
 
 const INTENSITIES: RefractionIntensity[] = ["subtle", "medium", "strong"];
 
-const FILTER_CODE = `<filter id="glass-dsp-3c91a7" x="0" y="0" width="100%" height="100%"
-        color-interpolation-filters="sRGB">
+const FILTER_CODE = `<!-- exactly the kube.io construction:
+     https://kube.io/blog/liquid-glass-css-svg/ -->
+<filter id="glass-dsp-…" filterUnits="userSpaceOnUse"
+        x="0" y="0" width="320" height="120"
+        colorInterpolationFilters="sRGB">
 
-  <!-- the map: generated at runtime for this element's measured
-       size and border radius, stretched to the full filter region -->
-  <feImage href="data:image/png;base64,…" result="map" x="0" y="0"
-           width="100%" height="100%" preserveAspectRatio="none" />
+  <!-- the map: ray-traced refraction, generated at runtime for this
+       element's measured size, in ABSOLUTE px — percentage geometry
+       resolves against the wrong viewport and voids the tier -->
+  <feImage href="data:image/png;base64,…" result="displacement_map"
+           x="0" y="0" width="320" height="120"
+           preserveAspectRatio="none" />
 
-  <!-- red branch — isolated R channel, displaced ×1.25 of base -->
-  <feColorMatrix in="SourceGraphic" type="matrix" result="srcR"
-                 values="1 0 0 0 0
-                         0 0 0 0 0
-                         0 0 0 0 0
-                         0 0 0 1 0" />
-  <feDisplacementMap in="srcR" in2="map" scale="15"
-                     xChannelSelector="R" yChannelSelector="G" result="dispR" />
+  <!-- one refraction pass: scale IS the physical maximum
+       displacement that the normalized map was divided by -->
+  <feDisplacementMap in="SourceGraphic" in2="displacement_map"
+                     scale="41" xChannelSelector="R"
+                     yChannelSelector="G" result="displaced" />
 
-  <!-- green branch — isolated G channel, displaced ×0.83 of base -->
-  <feColorMatrix in="SourceGraphic" type="matrix" result="srcG"
-                 values="0 0 0 0 0
-                         0 1 0 0 0
-                         0 0 0 0 0
-                         0 0 0 1 0" />
-  <feDisplacementMap in="srcG" in2="map" scale="10"
-                     xChannelSelector="R" yChannelSelector="G" result="dispG" />
+  <!-- material saturation, folded into the chain -->
+  <feColorMatrix in="displaced" type="saturate"
+                 values="1.45" result="saturated" />
 
-  <!-- blue branch — isolated B channel, the reference displacement -->
-  <feColorMatrix in="SourceGraphic" type="matrix" result="srcB"
-                 values="0 0 0 0 0
-                         0 0 0 0 0
-                         0 0 1 0 0
-                         0 0 0 1 0" />
-  <feDisplacementMap in="srcB" in2="map" scale="12"
-                     xChannelSelector="R" yChannelSelector="G" result="dispB" />
-
-  <!-- recombination — disjoint channels, screen is exact -->
-  <feBlend in="dispR" in2="dispG" mode="screen" result="rg" />
-  <feBlend in="rg" in2="dispB" mode="screen" />
+  <!-- specular rim — brightness keyed to the surface normal vs a
+       fixed light direction, screened over the refraction -->
+  <feImage href="data:image/png;base64,…" result="specular_map"
+           x="0" y="0" width="320" height="120"
+           preserveAspectRatio="none" />
+  <feComponentTransfer in="specular_map" result="specular_scaled">
+    <feFuncR type="linear" slope="0.5" />
+    <feFuncG type="linear" slope="0.5" />
+    <feFuncB type="linear" slope="0.5" />
+  </feComponentTransfer>
+  <feBlend in="saturated" in2="specular_scaled" mode="screen" />
 </filter>`;
 
 function ChromaticAberration() {
   // Derived from the live constants, not hardcoded prose: Regular material,
-  // where the ramp multiplier (displacement / 12) is exactly 1.
+  // where the ramp refraction multiplier is exactly 1.
   const forks = INTENSITIES.map((name) => {
-    const base = INTENSITY_BASE_SCALE[name];
+    const level = INTENSITY_BASE_SCALE[name];
     return {
       name,
-      base,
-      r: Math.round(base * CHROMATIC.r),
-      g: Math.round(base * CHROMATIC.g),
-      b: Math.round(base * CHROMATIC.b),
+      level,
+      scale: Math.round(41 * level),
     };
   });
 
   return (
-    <Labeled label="Chromatic aberration · three branches">
+    <Labeled label="The filter · kube.io construction">
       <div className="flex flex-col gap-4">
         <div className="flex max-w-2xl flex-col gap-4 text-body text-neutral-600 dark:text-neutral-500">
           <p>
-            A single-scale displacement would be an achromatic lens —
-            geometrically consistent and visually inert. Real glass disperses:
-            its refractive index differs per wavelength, so the rim fringes
-            into color. The filter reproduces this by splitting the backdrop
-            into three isolated channel branches. Each branch passes through a{" "}
-            <Token>feColorMatrix</Token> carrying one identity row — the red
-            branch keeps R and zeroes G and B, and so on, alpha preserved — and
-            each branch is displaced at its own scale: red at ×1.25 of the
-            base, green at ×0.83, blue at ×1.00. The slight disagreement
-            between branches lands as a one-to-two-pixel chromatic fringe along
-            the bezel, which is what makes the edge read as thick glass rather
-            than as a warp filter.
+            The Chromium tier is built exactly like the{" "}
+            <Token>kube.io</Token> reference: one{" "}
+            <Token>feImage</Token> displacement map sized in absolute pixels
+            to the element, one <Token>feDisplacementMap</Token> over
+            SourceGraphic, and a specular rim map blended in with{" "}
+            <Token>feBlend mode=&quot;screen&quot;</Token>. The old three-branch
+            channel-isolation construction (red/green/blue displaced at
+            different scales, screen-recombined) is retired: it was never part
+            of the reference, its recombination could void the output on
+            semi-transparent backdrops, and the fringe it produced read as
+            neon rim noise rather than dispersion.
           </p>
           <p>
-            Recombination uses <Token>feBlend mode=&quot;screen&quot;</Token>,
-            and for disjoint channels screen is exact rather than approximate:
-            every branch is zero in the other two channels, and screen(x, 0) =
-            x, so each branch restores its own channel bit-for-bit — no
-            clamping loss, no color drift. The only thing that differs between
-            branches is where each channel was sampled. The root filter pins{" "}
-            <Token>color-interpolation-filters=&quot;sRGB&quot;</Token> because
-            the map&apos;s channels are coordinates, not color: under the
-            default linearRGB conversion the neutral point would drift away
-            from 127.5 and the whole field would warp before{" "}
-            <Token>feDisplacementMap</Token> ever read a value.
+            The two numbers that matter stay physical. The map&apos;s vectors
+            are <span className="font-medium text-default-font">normalized</span>{" "}
+            against the maximum ray-traced displacement, and that maximum is
+            re-imposed verbatim as the filter&apos;s{" "}
+            <Token>scale</Token> — so the 8-bit map stores unit vectors while
+            the scale carries pixels. The intensity forks and the material
+            ramp multiply that scale (kube.io&apos;s “Refraction Level”
+            slider), and pulling the surface with the stretch handles boosts
+            it live, which is why a stretched lens bends harder — the same
+            behavior as the article&apos;s magnifying glass.
           </p>
         </div>
 
@@ -451,10 +448,8 @@ function ChromaticAberration() {
               <tr className="border-b border-default-border">
                 {[
                   "intensity",
-                  "base",
-                  "R · ×1.25",
-                  "G · ×0.83",
-                  "B · ×1.00",
+                  "refraction level",
+                  "scale (regular)",
                 ].map((h) => (
                   <th
                     key={h}
@@ -472,16 +467,10 @@ function ChromaticAberration() {
                     {f.name}
                   </td>
                   <td className="px-5 py-2.5 font-code text-[12px] text-neutral-500 tabular-nums">
-                    {f.base}
+                    ×{f.level.toFixed(2)}
                   </td>
                   <td className="px-5 py-2.5 font-code text-[12px] text-default-font tabular-nums">
-                    {f.r}
-                  </td>
-                  <td className="px-5 py-2.5 font-code text-[12px] text-default-font tabular-nums">
-                    {f.g}
-                  </td>
-                  <td className="px-5 py-2.5 font-code text-[12px] text-default-font tabular-nums">
-                    {f.b}
+                    {f.scale}px
                   </td>
                 </tr>
               ))}
@@ -490,14 +479,14 @@ function ChromaticAberration() {
         </div>
 
         <p className="max-w-2xl text-caption text-neutral-500 dark:text-neutral-500">
-          Regular material shown — the fork&apos;s base also scales by the
-          material ramp (displacement 6 / 9 / 12 / 16 over the Regular anchor
-          of 12), so Thick · strong tops out at R 33 · G 22 · B 27.
+          Regular material shown with a 41px maximum — the scale also rides the
+          material ramp (0.7 / 0.9 / 1.0 / 1.15 over ultrathin → thick), so
+          Thick · strong tops out well past 70px of edge bend.
         </p>
 
         <CodeBlock
           code={FILTER_CODE}
-          filename="GlassFilters.tsx · filter def — Regular · medium (R 15 / G 10 / B 12)"
+          filename="GlassFilters.tsx · filter def — regular · medium"
         />
       </div>
     </Labeled>
@@ -534,14 +523,13 @@ function SeparateLayers() {
           <p>
             So the displacement layer carries only the bare url() — one
             function, one token, nothing to take down with it — while the
-            frost lives on its own layer beneath. If the reference ever fails,
-            that layer voids itself and the surface degrades to the blur tier
-            instead of to nothing. The blur kept underneath is deliberately
-            low — 3px, inside review R4&apos;s 2–4px band — because displacing
-            already-40px-blurred content mutes the lens: the letters are
-            smeared before they can bend. Three pixels frosts the backdrop
-            just enough to read as glass while leaving it sharp enough to
-            bend.
+            frost lives on its own masked layer beneath. If the reference ever
+            fails, that layer voids itself and the surface degrades to the
+            blur tier instead of to nothing. The frost is now PROGRESSIVE:
+            masked to the bezel band (a smoothstep ramp from the same SDF as
+            the displacement map), so the center of the surface stays crisp
+            and only the bent edges take frost — the old global 40px blur is
+            what made the material read as bloom.
           </p>
         </div>
 
@@ -587,10 +575,11 @@ function LiveProof() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="max-w-xl text-caption text-neutral-500 dark:text-neutral-500">
             On Chromium you should see the letters bend near the edges of the
-            card — at this Regular · strong setting the red channel is
-            displaced 25px against blue&apos;s 20px, and the fringe is what
-            does the bending. Other engines show the WebGL/base tier: the same
-            material, negotiated without the SVG lens.
+            card — at this Regular · strong setting the ray-traced displacement
+            peaks past 60px along the bezel. Grab an edge and pull: the glass
+            stretches and the bend intensifies, then springs back. Other
+            engines show the WebGL/base tier: the same material, negotiated
+            without the SVG lens.
           </p>
           <StrategyBadge active />
         </div>
