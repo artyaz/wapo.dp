@@ -120,7 +120,14 @@ interface GlassRuntimeState {
   filters: Record<string, GlassFilterSpec>;
   /** null until probed, or when the base background carries no chroma */
   baseChroma: BaseChromaOffsets | null;
+  /**
+   * Whether the WebGL tier found a backdrop image to refract. null before any
+   * surface reports in. false is the important state: the tier is live but the
+   * shader has nothing to bend, so every refraction control is inert.
+   */
+  webglTexture: boolean | null;
   setStrategy: (strategy: GlassStrategy) => void;
+  setWebglTexture: (found: boolean) => void;
   setBaseChroma: (offsets: BaseChromaOffsets | null) => void;
   registerFilter: (key: string, spec: GlassFilterSpec) => void;
   unregisterFilter: (key: string) => void;
@@ -131,7 +138,9 @@ export const useGlassRuntime = create<GlassRuntimeState>((set) => ({
   negotiated: false,
   filters: {},
   baseChroma: null,
+  webglTexture: null,
   setStrategy: (strategy) => set({ strategy, negotiated: true }),
+  setWebglTexture: (webglTexture) => set({ webglTexture }),
   setBaseChroma: (baseChroma) => set({ baseChroma }),
   registerFilter: (key, spec) =>
     set((state) => {

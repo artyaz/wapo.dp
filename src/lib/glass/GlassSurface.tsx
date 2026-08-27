@@ -714,7 +714,10 @@ export function GlassSurface({
         mode: webglMode,
         backdrop,
         params: refractionRef.current,
-        onBackdropReady: setWebglTextured,
+        onBackdropReady: (found) => {
+          setWebglTextured(found);
+          useGlassRuntime.getState().setWebglTexture(found);
+        },
       });
       webglHandle.current = handle;
     } catch {

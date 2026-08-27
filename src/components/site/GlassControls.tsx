@@ -129,6 +129,7 @@ function Slider({
 
 export function GlassControls({ children }: { children: React.ReactNode }) {
   const strategy = useGlassRuntime((state) => state.strategy);
+  const webglTexture = useGlassRuntime((state) => state.webglTexture);
   const [open, setOpen] = React.useState(false);
   const [level, setLevel] = React.useState<MaterialLevel>("regular");
   const [intensity, setIntensity] = React.useState<RefractionIntensity>("medium");
@@ -161,9 +162,16 @@ export function GlassControls({ children }: { children: React.ReactNode }) {
   const setRefractionField = (key: keyof RefractionParams, value: number) =>
     setRefraction((previous) => ({ ...previous, [key]: value }));
 
-  const liveTier = TIER_LABEL[strategy] ?? strategy;
-  const refractionLive = strategy === "webgl-refraction";
+  const baseTier = TIER_LABEL[strategy] ?? strategy;
+  // The WebGL tier being live is not the same as it having anything to
+  // refract: with no backdrop image the shader draws nothing and the CSS
+  // material carries the surface. Say so, or a dead slider looks broken.
+  const refractionLive = strategy === "webgl-refraction" && webglTexture === true;
   const intensityLive = strategy === "svg-displacement";
+  const liveTier =
+    strategy === "webgl-refraction" && webglTexture === false
+      ? "webgl · no backdrop image, showing base frost"
+      : baseTier;
 
   return (
     <div className="flex flex-col gap-3">
@@ -270,9 +278,9 @@ export function GlassControls({ children }: { children: React.ReactNode }) {
               ))}
               {!refractionLive ? (
                 <p className="text-[11px] text-neutral-500">
-                  These are the shader&apos;s own controls. They need the WebGL
-                  tier and a backdrop image to refract; on this engine the
-                  surface is rendering the {liveTier}.
+                  {strategy === "webgl-refraction" && webglTexture === false
+                    ? "The WebGL tier is live but found no background image to refract, so these do nothing here. WebGL cannot sample live DOM in any browser — the shader needs an image (backdrop.imageUrl, or a background-image on an ancestor; CSS gradients do not count). Frost and saturate on the left are what this surface is actually showing."
+                    : "These are the shader's own controls. They need the WebGL tier and a backdrop image to refract; this surface is on the " + baseTier + "."}
                 </p>
               ) : null}
             </div>
