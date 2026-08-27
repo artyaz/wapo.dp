@@ -76,6 +76,13 @@ export default defineMeta({
       description:
         "{ imageUrl, element, base } — the image the WebGL shader refracts and the element whose box acts as its viewport. Left empty, the engine walks up to the nearest ancestor with a background-image; CSS gradients are not images and are not discoverable.",
     },
+    {
+      name: "finish",
+      type: "GlassFinish",
+      default: "sheen .5 · light 160 · rim .5 · tint per level",
+      description:
+        "The lighting on top of the material, on every tier — paint, not a filter, so no texture or engine negotiation is involved. sheen: dual specular gradient strength. lightAngle: rotates both gradients so the highlight can sit on any corner. rim: the crisp 1px highlights that read as corner lighting. tint: white overlay alpha. inner: the inset vignette. shadow: the outer drop shadow.",
+    },
   ],
   status: "stable",
   sourceRef: "Subframe GlassDisplacement_d49325d3-448a-46a4-99dc-15884e83bcf0",

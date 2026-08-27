@@ -159,6 +159,46 @@ export function resetStrategyCache(): void {
   webglProbe = null;
 }
 
+/**
+ * The material's lighting, independent of which refraction tier is live.
+ *
+ * These are the parts of the look that are pure paint — gradients, rim
+ * highlights, tint and shadow — so they render identically on the Chromium
+ * displacement tier, the WebGL tier and the universal frost. Every value is
+ * a plain number, so they can be driven from a control panel.
+ */
+export interface GlassFinish {
+  /** dual specular sheen strength, 0 (none) .. 1 */
+  sheen?: number;
+  /** where the light comes from, in degrees — rotates both sheen gradients */
+  lightAngle?: number;
+  /** crisp 1px rim highlight strength, 0 .. 1 — the corner lighting */
+  rim?: number;
+  /** white tint alpha over the surface, 0 .. 1 */
+  tint?: number;
+  /** inset vignette strength, 0 .. 1 (the kube magnifier's inner shading) */
+  inner?: number;
+  /** outer drop shadow strength, 0 .. 1 */
+  shadow?: number;
+}
+
+/** Resolved finish — the ramp's own values with any overrides applied. */
+export interface ResolvedFinish {
+  sheen: number;
+  lightAngle: number;
+  rim: number;
+  tint: number;
+  inner: number;
+  shadow: number;
+}
+
+/**
+ * Sheen defaults: 160deg is the DS's documented key-light direction, and the
+ * gradient stops are the ones the side-by-side picked (candidate D's sheen
+ * over candidate C's progressive blur).
+ */
+export const FINISH_DEFAULTS = { sheen: 0.5, lightAngle: 160, rim: 0.5, inner: 1, shadow: 1 } as const;
+
 /* ------------------------------------------------------------------ */
 /* Material ramp — kube.io's shipped component constants, verbatim     */
 /* ------------------------------------------------------------------ */

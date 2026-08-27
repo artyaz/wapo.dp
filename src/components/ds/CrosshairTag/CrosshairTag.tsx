@@ -45,6 +45,7 @@ const CrosshairTagRoot = React.forwardRef<
     bounce,
     refraction,
     frost,
+    finish,
     backdrop,
     ...otherProps
   }: CrosshairTagRootProps,
@@ -94,6 +95,7 @@ const CrosshairTagRoot = React.forwardRef<
         bounce={bounce}
         refraction={refraction}
         frost={frost}
+        finish={finish}
         backdrop={backdrop}
         className="flex min-w-[96px] whitespace-nowrap flex-col items-start gap-0.5 px-3 py-2 absolute left-[62%] top-[26px] -translate-x-1/2"
         style={anchorStyle}

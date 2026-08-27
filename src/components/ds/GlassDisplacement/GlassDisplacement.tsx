@@ -52,6 +52,7 @@ const GlassDisplacementRoot = React.forwardRef<
     bounce,
     refraction,
     frost,
+    finish,
     backdrop,
     children,
     className,
@@ -86,6 +87,7 @@ const GlassDisplacementRoot = React.forwardRef<
         bounce={bounce}
         refraction={refraction}
         frost={frost}
+        finish={finish}
         backdrop={backdrop}
         className="h-full w-full"
       >

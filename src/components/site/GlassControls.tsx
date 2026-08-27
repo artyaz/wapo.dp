@@ -19,33 +19,35 @@ import React from "react";
 import { twClassNames } from "@/lib/subframe/utils";
 import {
   GlassOverrideContext,
+  FINISH_DEFAULTS,
   MATERIAL_RAMP,
-  MATERIAL_PARAMS,
   useGlassRuntime,
   type GlassOverrides,
   type MaterialLevel,
   type RefractionIntensity,
-  type RefractionParams,
+  type ResolvedFinish,
 } from "@/lib/glass";
 
 const LEVELS: MaterialLevel[] = ["ultrathin", "thin", "regular", "thick"];
 const INTENSITIES: RefractionIntensity[] = ["subtle", "medium", "strong"];
 
-/** Slider definitions for the WebGL control set — the reference's own ranges. */
-const REFRACTION_SLIDERS: Array<{
-  key: keyof RefractionParams;
+/**
+ * The finish knobs. These are paint, not filters, so every one of them bites
+ * on every tier — no texture, no WebGL, no engine negotiation involved.
+ */
+const FINISH_SLIDERS: Array<{
+  key: keyof ResolvedFinish;
   label: string;
   min: number;
   max: number;
   step: number;
 }> = [
-  { key: "thickness", label: "thickness", min: 10, max: 200, step: 1 },
-  { key: "bezel", label: "bezel", min: 2, max: 60, step: 1 },
-  { key: "ior", label: "ior", min: 1, max: 3, step: 0.05 },
-  { key: "blur", label: "blur", min: 0, max: 12, step: 0.5 },
-  { key: "specular", label: "specular", min: 0, max: 1, step: 0.05 },
-  { key: "tint", label: "tint", min: 0, max: 0.4, step: 0.01 },
-  { key: "shadow", label: "shadow", min: 0, max: 1, step: 0.05 },
+  { key: "sheen", label: "sheen", min: 0, max: 1, step: 0.02 },
+  { key: "lightAngle", label: "light", min: 0, max: 360, step: 5 },
+  { key: "rim", label: "rim", min: 0, max: 1, step: 0.02 },
+  { key: "tint", label: "tint", min: 0, max: 0.3, step: 0.01 },
+  { key: "inner", label: "inner", min: 0, max: 1.6, step: 0.05 },
+  { key: "shadow", label: "shadow", min: 0, max: 2, step: 0.05 },
 ];
 
 const TIER_LABEL: Record<string, string> = {
@@ -139,8 +141,9 @@ export function GlassControls({ children }: { children: React.ReactNode }) {
     blur: MATERIAL_RAMP.regular.cssBlur,
     saturate: MATERIAL_RAMP.regular.cssSaturate,
   });
-  const [refraction, setRefraction] = React.useState<RefractionParams>({
-    ...MATERIAL_PARAMS.regular,
+  const [finish, setFinish] = React.useState<ResolvedFinish>({
+    ...FINISH_DEFAULTS,
+    tint: MATERIAL_RAMP.regular.tint / 100,
   });
 
   /** Thickness carries its own constant set, so switching it reloads the sliders. */
@@ -151,26 +154,25 @@ export function GlassControls({ children }: { children: React.ReactNode }) {
       blur: MATERIAL_RAMP[next].cssBlur,
       saturate: MATERIAL_RAMP[next].cssSaturate,
     });
-    setRefraction({ ...MATERIAL_PARAMS[next] });
+    setFinish({ ...FINISH_DEFAULTS, tint: MATERIAL_RAMP[next].tint / 100 });
   }, []);
 
   const overrides = React.useMemo<GlassOverrides>(
-    () => ({ material: level, intensity, refraction, frost, bounce, stretchable }),
-    [level, intensity, refraction, frost, bounce, stretchable]
+    () => ({ material: level, intensity, finish, frost, bounce, stretchable }),
+    [level, intensity, finish, frost, bounce, stretchable]
   );
 
-  const setRefractionField = (key: keyof RefractionParams, value: number) =>
-    setRefraction((previous) => ({ ...previous, [key]: value }));
+  const setFinishField = (key: keyof ResolvedFinish, value: number) =>
+    setFinish((previous) => ({ ...previous, [key]: value }));
 
   const baseTier = TIER_LABEL[strategy] ?? strategy;
+  const intensityLive = strategy === "svg-displacement";
   // The WebGL tier being live is not the same as it having anything to
   // refract: with no backdrop image the shader draws nothing and the CSS
-  // material carries the surface. Say so, or a dead slider looks broken.
-  const refractionLive = strategy === "webgl-refraction" && webglTexture === true;
-  const intensityLive = strategy === "svg-displacement";
+  // material carries the surface.
   const liveTier =
     strategy === "webgl-refraction" && webglTexture === false
-      ? "webgl · no backdrop image, showing base frost"
+      ? "webgl · no image, showing frost"
       : baseTier;
 
   return (
@@ -263,26 +265,24 @@ export function GlassControls({ children }: { children: React.ReactNode }) {
 
             <div className="flex flex-col gap-2.5">
               <span className="font-code text-[10px] tracking-[0.1em] text-neutral-400 uppercase">
-                refraction · webgl
+                finish · every tier
               </span>
-              {REFRACTION_SLIDERS.map((slider) => (
+              {FINISH_SLIDERS.map((slider) => (
                 <Slider
                   key={slider.key}
                   label={slider.label}
                   min={slider.min}
                   max={slider.max}
                   step={slider.step}
-                  value={refraction[slider.key]}
-                  onChange={(value) => setRefractionField(slider.key, value)}
+                  value={finish[slider.key]}
+                  onChange={(value) => setFinishField(slider.key, value)}
                 />
               ))}
-              {!refractionLive ? (
-                <p className="text-[11px] text-neutral-500">
-                  {strategy === "webgl-refraction" && webglTexture === false
-                    ? "The WebGL tier is live but found no background image to refract, so these do nothing here. WebGL cannot sample live DOM in any browser — the shader needs an image (backdrop.imageUrl, or a background-image on an ancestor; CSS gradients do not count). Frost and saturate on the left are what this surface is actually showing."
-                    : "These are the shader's own controls. They need the WebGL tier and a backdrop image to refract; this surface is on the " + baseTier + "."}
-                </p>
-              ) : null}
+              <p className="text-[11px] text-neutral-500">
+                Sheen, rim, tint, inner shading and shadow are paint, so they
+                bite on every tier. Light rotates both sheen gradients, so the
+                highlight can sit on any corner.
+              </p>
             </div>
           </div>
         ) : null}

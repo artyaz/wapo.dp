@@ -35,6 +35,7 @@ export {
   type GlassShape,
   type RefractionIntensity,
   type MaterialRampEntry,
+  type GlassFinish,
 } from "./engine-detect";
 export {
   generateDisplacementMap,

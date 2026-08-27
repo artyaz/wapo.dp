@@ -115,6 +115,7 @@ const FloatingToolbarRoot = React.forwardRef<
     bounce,
     refraction,
     frost,
+    finish,
     backdrop,
     ...otherProps
   }: FloatingToolbarRootProps,
@@ -131,6 +132,7 @@ const FloatingToolbarRoot = React.forwardRef<
       bounce={bounce}
       refraction={refraction}
       frost={frost}
+      finish={finish}
       backdrop={backdrop}
       className={SubframeUtils.twClassNames(
         "flex w-max items-center gap-1 px-2 py-1.5 relative max-w-full min-w-0",

@@ -5,6 +5,7 @@ import type {
   GlassStrategy,
   MaterialLevel,
   RefractionIntensity,
+  GlassFinish,
 } from "./engine-detect";
 import type { RefractionParams } from "./webgl-refraction";
 
@@ -206,6 +207,7 @@ export interface GlassOverrides {
   intensity?: RefractionIntensity;
   refraction?: Partial<RefractionParams>;
   frost?: { blur?: number; saturate?: number };
+  finish?: GlassFinish;
   bounce?: number;
   stretchable?: boolean;
 }

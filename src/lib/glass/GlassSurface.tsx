@@ -14,6 +14,9 @@ import {
   SHAPE_RADIUS,
   INTENSITY_BASE_SCALE,
   STRETCH_BUDGET,
+  FINISH_DEFAULTS,
+  type GlassFinish,
+  type ResolvedFinish,
   type MaterialLevel,
   type GlassShape,
   type RefractionIntensity,
@@ -27,6 +30,8 @@ import {
   type GlassMaterialContextValue,
 } from "./glass-store";
 import { generateDisplacementMaps } from "./displacement-map";
+
+export type { GlassFinish };
 import {
   createLiquidGlass,
   type LiquidGlassHandle,
@@ -132,6 +137,13 @@ export interface GlassSurfaceProps
    */
   frost?: { blur?: number; saturate?: number };
   /**
+   * The lighting on top of the material, on every tier. Real knobs, no
+   * texture involved: the dual specular sheen and its direction, the crisp
+   * 1px rim highlights that read as corner lighting, the white tint, the
+   * inset vignette, and the outer drop shadow.
+   */
+  finish?: GlassFinish;
+  /**
    * Elastic pull-to-stretch interaction (default true). Grab the surface and
    * drag: it deforms toward the pointer with saturating resistance and
    * springs back on release — purely visual, no layout effects.
@@ -175,6 +187,7 @@ export type GlassMaterialControls = Pick<
   | "intensity"
   | "refraction"
   | "frost"
+  | "finish"
   | "backdrop"
   | "stretchable"
   | "bounce"
@@ -319,6 +332,7 @@ export function GlassSurface({
   backdrop,
   refraction: refractionProp,
   frost: frostProp,
+  finish: finishProp,
   stretchable: stretchableProp = true,
   bounce: bounceProp,
   as = "div",
@@ -339,6 +353,7 @@ export function GlassSurface({
   const intensity = overrides.intensity ?? intensityProp;
   const refraction = overrides.refraction ?? refractionProp;
   const frost = overrides.frost ?? frostProp;
+  const finishOverride = overrides.finish ?? finishProp;
   const bounce = overrides.bounce ?? bounceProp;
   const stretchable = overrides.stretchable ?? stretchableProp;
 
@@ -363,6 +378,36 @@ export function GlassSurface({
     shape === "free" ? (radiusProp ?? 0) : (SHAPE_RADIUS[shape] ?? 0);
   const cssRadius = shape === "capsule" ? "9999px" : `${shapeRadius}px`;
   const ramp = MATERIAL_RAMP[material];
+
+  // The finish is pure paint, so it resolves the same way on every tier.
+  const finish: ResolvedFinish = {
+    sheen: finishOverride?.sheen ?? FINISH_DEFAULTS.sheen,
+    lightAngle: finishOverride?.lightAngle ?? FINISH_DEFAULTS.lightAngle,
+    rim: finishOverride?.rim ?? FINISH_DEFAULTS.rim,
+    tint: finishOverride?.tint ?? ramp.tint / 100,
+    inner: finishOverride?.inner ?? FINISH_DEFAULTS.inner,
+    shadow: finishOverride?.shadow ?? FINISH_DEFAULTS.shadow,
+  };
+  const finishRef = React.useRef(finish);
+  finishRef.current = finish;
+
+  /**
+   * Dual specular sheen — candidate D's gradients, rotated by lightAngle so
+   * the highlight can be moved to any corner. The counter-gradient sits
+   * opposite and carries the bounce light.
+   */
+  const sheenBackground =
+    finish.sheen > 0
+      ? `linear-gradient(${finish.lightAngle}deg, ` +
+        `rgba(255,255,255,${(0.42 * finish.sheen).toFixed(3)}) 0%, ` +
+        `rgba(255,255,255,${(0.1 * finish.sheen).toFixed(3)}) 26%, ` +
+        `rgba(255,255,255,0) 52%), ` +
+        `linear-gradient(${finish.lightAngle + 180}deg, ` +
+        `rgba(255,255,255,${(0.24 * finish.sheen).toFixed(3)}) 0%, ` +
+        `rgba(255,255,255,${(0.06 * finish.sheen).toFixed(3)}) 22%, ` +
+        `rgba(255,255,255,0) 44%)`
+      : undefined;
+  const tintColor = `rgba(255,255,255,${finish.tint})`;
 
   const activeStrategy = glass ? strategy : "backdrop-filter";
   const isSvg = activeStrategy === "svg-displacement";
@@ -478,14 +523,27 @@ export function GlassSurface({
     insetAlphaTarget,
   ]);
 
+  // The transform only re-runs when one of its inputs changes, so a finish
+  // slider needs a motion value of its own or the shadow would not repaint
+  // until the next hover.
+  const finishNonce = useMotionValue(0);
+  React.useEffect(() => {
+    finishNonce.set(finishNonce.get() + 1);
+  }, [finishNonce, finish.rim, finish.inner, finish.shadow]);
+
   const boxShadow = useTransform(
-    [shadowX, shadowY, shadowBlur, shadowAlpha, insetAlpha],
+    [shadowX, shadowY, shadowBlur, shadowAlpha, insetAlpha, finishNonce],
     (values: number[]) => {
       const [x, y, blur, alpha, inset] = values;
+      const { inner, shadow, rim } = finishRef.current;
       return (
-        `${x}px ${y}px ${blur}px rgba(0,0,0,${alpha}), ` +
-        `inset ${x / 2}px ${y / 2}px 24px rgba(0,0,0,${inset}), ` +
-        `inset ${-x / 2}px ${-y / 2}px 24px rgba(255,255,255,${inset})`
+        `${x}px ${y}px ${blur}px rgba(0,0,0,${(alpha * shadow).toFixed(4)}), ` +
+        `inset ${x / 2}px ${y / 2}px 24px rgba(0,0,0,${(inset * inner).toFixed(4)}), ` +
+        `inset ${-x / 2}px ${-y / 2}px 24px rgba(255,255,255,${(inset * inner).toFixed(4)}), ` +
+        // the crisp 1px rims — the corner lighting that makes an edge read as
+        // a lit bevel rather than as a border
+        `inset 0 1px 0 0 rgba(255,255,255,${(0.5 * rim).toFixed(3)}), ` +
+        `inset 0 -1px 0 0 rgba(255,255,255,${(0.22 * rim).toFixed(3)})`
       );
     }
   );
@@ -909,11 +967,13 @@ export function GlassSurface({
               hairline, the magnifying-glass markup verbatim */}
           <motion.div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-white/5 ring-1 ring-black/10 dark:ring-white/10"
+            className="pointer-events-none absolute inset-0 ring-1 ring-black/10 dark:ring-white/10"
             style={{
               borderRadius: cssRadius,
               backdropFilter: `url(#${filterId})`,
               WebkitBackdropFilter: `url(#${filterId})`,
+              backgroundColor: tintColor,
+              backgroundImage: sheenBackground,
               boxShadow,
               zIndex: 0,
             }}
@@ -963,12 +1023,15 @@ export function GlassSurface({
               zIndex: 0,
             }}
           />
-          {/* tint, hairline and the spring shadow ride on top, unblurred */}
+          {/* tint, sheen, hairline and the spring shadow ride on top,
+              unblurred — the finish is paint, not a filter */}
           <motion.div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-white/5 ring-1 ring-black/10 dark:ring-white/10"
+            className="pointer-events-none absolute inset-0 ring-1 ring-black/10 dark:ring-white/10"
             style={{
               borderRadius: cssRadius,
+              backgroundColor: tintColor,
+              backgroundImage: sheenBackground,
               boxShadow,
               zIndex: 0,
             }}
