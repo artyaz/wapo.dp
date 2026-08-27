@@ -1,7 +1,12 @@
 "use client";
 
 import { create } from "zustand";
-import type { GlassStrategy, MaterialLevel } from "./engine-detect";
+import type {
+  GlassStrategy,
+  MaterialLevel,
+  RefractionIntensity,
+} from "./engine-detect";
+import type { RefractionParams } from "./webgl-refraction";
 
 /**
  * Global glass runtime state.
@@ -170,6 +175,36 @@ export const GlassMaterialContext = createContext<GlassMaterialContextValue>({
 
 export function useGlassMaterial(): GlassMaterialContextValue {
   return useContext(GlassMaterialContext);
+}
+
+/* ------------------------------------------------------------------ */
+/* Live overrides — the docs preview's control panel                   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Material settings pushed in from OUTSIDE the component tree, for tuning a
+ * surface live without editing its props. Unlike the material context, these
+ * WIN over a component's own props: the point is to override what a laid
+ * object hardcodes (GlassChip's material="regular", CrosshairTag's
+ * stretchable={false}) while dragging a slider.
+ *
+ * Only the docs component preview mounts this, so nothing in the app is
+ * quietly overridden. Every field is optional and unset fields fall through
+ * to the component's props, then to the material level's own constants.
+ */
+export interface GlassOverrides {
+  material?: MaterialLevel;
+  intensity?: RefractionIntensity;
+  refraction?: Partial<RefractionParams>;
+  frost?: { blur?: number; saturate?: number };
+  bounce?: number;
+  stretchable?: boolean;
+}
+
+export const GlassOverrideContext = createContext<GlassOverrides>({});
+
+export function useGlassOverrides(): GlassOverrides {
+  return useContext(GlassOverrideContext);
 }
 
 /* ------------------------------------------------------------------ */

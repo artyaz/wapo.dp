@@ -10,6 +10,7 @@ import { twClassNames } from "@/lib/subframe/utils";
 import { CodeBlock } from "./CodeBlock";
 import { PropTable } from "./PropTable";
 import { DemoStage, type DemoStageVariant } from "./DemoStage";
+import { GlassControls } from "./GlassControls";
 import type { PropDoc } from "@/lib/docs/types";
 
 type Tab = "preview" | "code" | "props";
@@ -25,6 +26,12 @@ export interface ComponentPreviewProps {
   dark?: boolean;
   /** transparent background for in-flow components */
   frame?: "stage" | "plain" | "none";
+  /**
+   * Mount the live Liquid Glass panel above the preview. Every GlassSurface
+   * rendered inside takes the panel's values over its own props, so the
+   * material can be tuned without editing the demo.
+   */
+  glassControls?: boolean;
   children: React.ReactNode;
   className?: string;
 }
@@ -37,6 +44,7 @@ export function ComponentPreview({
   stageHeight = "h-64",
   dark = false,
   frame = "stage",
+  glassControls = false,
   children,
   className,
 }: ComponentPreviewProps) {
@@ -47,6 +55,23 @@ export function ComponentPreview({
     { id: "code", label: "Code", disabled: !source },
     { id: "props", label: "Props", disabled: !props || props.length === 0 },
   ];
+
+  const framedPreview =
+    frame === "stage" ? (
+      <DemoStage
+        variant={stage === false ? "plain" : stage}
+        height={stageHeight}
+        dark={dark}
+      >
+        {children}
+      </DemoStage>
+    ) : frame === "plain" ? (
+      <div className="rounded-lg border border-default-border bg-default-background p-6">
+        {children}
+      </div>
+    ) : (
+      children
+    );
 
   return (
     <div className={twClassNames("w-full", className)}>
@@ -78,16 +103,10 @@ export function ComponentPreview({
       </div>
 
       {tab === "preview" ? (
-        frame === "stage" ? (
-          <DemoStage variant={stage === false ? "plain" : stage} height={stageHeight} dark={dark}>
-            {children}
-          </DemoStage>
-        ) : frame === "plain" ? (
-          <div className="rounded-lg border border-default-border bg-default-background p-6">
-            {children}
-          </div>
+        glassControls ? (
+          <GlassControls>{framedPreview}</GlassControls>
         ) : (
-          children
+          framedPreview
         )
       ) : null}
 

@@ -22,6 +22,7 @@ import {
   useGlassRuntime,
   useGlassMaterial,
   useBaseChroma,
+  useGlassOverrides,
   GlassMaterialContext,
   type GlassMaterialContextValue,
 } from "./glass-store";
@@ -297,14 +298,14 @@ export function GlassSurface({
   material: materialProp,
   shape = "capsule",
   radius: radiusProp,
-  intensity = "medium",
+  intensity: intensityProp = "medium",
   glass = true,
   webglMode = "edge",
   backdrop,
-  refraction,
-  frost,
-  stretchable = true,
-  bounce,
+  refraction: refractionProp,
+  frost: frostProp,
+  stretchable: stretchableProp = true,
+  bounce: bounceProp,
   as = "div",
   className,
   style,
@@ -316,7 +317,15 @@ export function GlassSurface({
   ...otherProps
 }: GlassSurfaceProps) {
   const ctx = React.useContext(GlassMaterialContext);
-  const material = materialProp ?? ctx.level;
+  // Live overrides from the docs control panel win over the component's own
+  // props; unset fields fall through to props, then to the material level.
+  const overrides = useGlassOverrides();
+  const material = overrides.material ?? materialProp ?? ctx.level;
+  const intensity = overrides.intensity ?? intensityProp;
+  const refraction = overrides.refraction ?? refractionProp;
+  const frost = overrides.frost ?? frostProp;
+  const bounce = overrides.bounce ?? bounceProp;
+  const stretchable = overrides.stretchable ?? stretchableProp;
 
   const strategy = useGlassRuntime((s) => s.strategy);
   const baseChroma = useBaseChroma();

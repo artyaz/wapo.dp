@@ -215,7 +215,14 @@ export function ComponentDetailView({ slug }: { slug: string }) {
 
   const categoryName = CATEGORY_NAMES[meta.category];
   const subComponents = meta.subComponents ?? [];
+
   const staged = STAGED_CATEGORIES.has(meta.category);
+  // Glass components get the live material panel: their whole point is the
+  // material, and which tier is live decides which knob does anything.
+  const usesGlass =
+    meta.category === "glass-primitives" ||
+    meta.category === "laid-objects" ||
+    (meta.tags?.includes("glass") ?? false);
 
   const importLine = `import { ${meta.name} } from "@/components/ds/${meta.name}";`;
   const trimmedSource = demoSource.trim();
@@ -315,6 +322,7 @@ export function ComponentDetailView({ slug }: { slug: string }) {
             stage={staged ? "text" : false}
             stageHeight="h-80"
             frame={staged ? "stage" : "plain"}
+            glassControls={usesGlass}
           >
             <DemoErrorBoundary key={slug}>
               {Demo ? <Demo /> : <DemoUnavailable />}

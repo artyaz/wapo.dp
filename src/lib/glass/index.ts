@@ -10,8 +10,14 @@ export {
   GlassMaterialContext,
   type GlassMaterialContextValue,
 } from "./glass-store";
-export { useGlassRuntime, useBaseChroma, baseChromaOffsets } from "./glass-store";
-export type { BaseChromaOffsets } from "./glass-store";
+export {
+  useGlassRuntime,
+  useBaseChroma,
+  baseChromaOffsets,
+  GlassOverrideContext,
+  useGlassOverrides,
+} from "./glass-store";
+export type { BaseChromaOffsets, GlassOverrides } from "./glass-store";
 export {
   negotiateStrategy,
   isChromium,
