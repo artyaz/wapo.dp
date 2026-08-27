@@ -89,13 +89,17 @@ import {
  *
  * Non-Chromium tiers keep their negotiated fallbacks: WebGL refraction on
  * Safari/Firefox when there is a backdrop image to refract, and as the
- * universal base a light frost — blur(cssBlur, 2..10px) saturate(1.5) plus
- * tint, hairline and the spring shadow. The blur stays small on purpose: the
- * backdrop must remain legible through the glass, the way it is through the
- * displacement tier, whose own frost is stdDeviation 0..1. The base tier must NOT reuse the ramp's
- * in-filter saturate (4..9): that value is composited through the rim mask
- * inside the displacement chain, and applied to a whole surface it washes
- * the page gold instead of frosting it.
+ * universal base a PROGRESSIVE frost: three stacked backdrop-filter layers,
+ * core blur = rim x 0.1, mid = rim x 0.4, rim = cssBlur (5..14px), the mid
+ * and rim bands faded in by radial masks. A single uniform blur reads as a
+ * frosted card; the rising gradient reads as the backdrop bending into the
+ * edge, which is the closest an engine without displacement can get over
+ * live DOM. Saturate applies to the rim band only.
+ *
+ * The base tier must NOT reuse the ramp's in-filter saturate (4..9): that
+ * value is composited through the rim mask inside the displacement chain,
+ * and applied to a whole surface it washes the page gold instead of
+ * frosting it.
  */
 
 export interface GlassSurfaceProps
@@ -119,11 +123,12 @@ export interface GlassSurfaceProps
    */
   refraction?: Partial<RefractionParams>;
   /**
-   * Universal base-tier overrides — the frost that renders when no
-   * displacement or refraction tier is live. Defaults to the material level's
-   * cssBlur / cssSaturate. This is the only optical knob that bites on EVERY
-   * tier's fallback, so it is the one to reach for when the surface is not on
-   * Chromium and has no backdrop image.
+   * Universal base-tier overrides. `blur` is the RIM radius of the
+   * progressive frost — the core and mid bands derive from it at 0.1x and
+   * 0.4x — and `saturate` applies to the rim band only. Defaults to the
+   * material level's cssBlur / cssSaturate. This is the only optical knob
+   * that bites on EVERY tier's fallback, so it is the one to reach for when
+   * the surface is not on Chromium and has no backdrop image.
    */
   frost?: { blur?: number; saturate?: number };
   /**
@@ -201,6 +206,16 @@ const PULL_EXCLUDES =
 
 /** Pointer travel (px) before the stretch engages — plain clicks stay inert. */
 const PULL_ENGAGE_PX = 3;
+
+/**
+ * Progressive-blur band masks. `closest-side` makes the gradient an ellipse
+ * matching the surface's own proportions, so a wide capsule gets a wide band
+ * and a square gets a round one — the band tracks the shape for free.
+ */
+const FROST_MASK_MID =
+  "radial-gradient(closest-side, transparent 55%, black 85%)";
+const FROST_MASK_RIM =
+  "radial-gradient(closest-side, transparent 78%, black 98%)";
 
 /** Drag-follow spring: the material lags the pointer by its own mass. */
 const PULL_FOLLOW = { type: "spring", stiffness: 340, damping: 30 } as const;
@@ -762,9 +777,14 @@ export function GlassSurface({
   // The universal base tier is real frost: blur plus a modest saturate. The
   // ramp's `saturate` (4..9) belongs inside the displacement chain, masked to
   // the rim — as a plain full-surface backdrop-filter it washes the page gold.
-  const frostBlur = frost?.blur ?? ramp.cssBlur;
+  // Progressive blur: the knob is the RIM radius, and the mid/core bands are
+  // fixed fractions of it (the 1 / 4 / 10 shape that read as glass rather
+  // than as a frosted card). Saturate lands on the rim layer only, so a warm
+  // page cannot be washed through the whole surface.
+  const frostRim = frost?.blur ?? ramp.cssBlur;
+  const frostMid = frostRim * 0.4;
+  const frostCore = frostRim * 0.1;
   const frostSaturate = frost?.saturate ?? ramp.cssSaturate;
-  const baseFilter = `blur(${frostBlur}px) saturate(${frostSaturate})`;
 
   return (
     <MotionTag
@@ -902,19 +922,58 @@ export function GlassSurface({
       ) : null}
 
       {/* Non-Chromium tiers: the url() form would void the whole
-          declaration, so the fallback layers stay separate. */}
+          declaration, so the fallback layers stay separate. Progressive
+          blur — three stacked backdrop-filter layers, sharp core, blur
+          rising toward the rim. The gradient masks fade each layer in, so
+          the backdrop reads as bending into the edge instead of sitting
+          behind a uniform frosted card. */}
       {!isSvg && !webglFull ? (
-        <motion.div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-white/5 ring-1 ring-black/10 dark:ring-white/10"
-          style={{
-            borderRadius: cssRadius,
-            backdropFilter: baseFilter,
-            WebkitBackdropFilter: baseFilter,
-            boxShadow,
-            zIndex: 0,
-          }}
-        />
+        <>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+            style={{
+              borderRadius: cssRadius,
+              backdropFilter: `blur(${frostCore}px)`,
+              WebkitBackdropFilter: `blur(${frostCore}px)`,
+              zIndex: 0,
+            }}
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+            style={{
+              borderRadius: cssRadius,
+              backdropFilter: `blur(${frostMid}px)`,
+              WebkitBackdropFilter: `blur(${frostMid}px)`,
+              maskImage: FROST_MASK_MID,
+              WebkitMaskImage: FROST_MASK_MID,
+              zIndex: 0,
+            }}
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+            style={{
+              borderRadius: cssRadius,
+              backdropFilter: `blur(${frostRim}px) saturate(${frostSaturate})`,
+              WebkitBackdropFilter: `blur(${frostRim}px) saturate(${frostSaturate})`,
+              maskImage: FROST_MASK_RIM,
+              WebkitMaskImage: FROST_MASK_RIM,
+              zIndex: 0,
+            }}
+          />
+          {/* tint, hairline and the spring shadow ride on top, unblurred */}
+          <motion.div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-white/5 ring-1 ring-black/10 dark:ring-white/10"
+            style={{
+              borderRadius: cssRadius,
+              boxShadow,
+              zIndex: 0,
+            }}
+          />
+        </>
       ) : null}
 
       {/* Content sits above every layer, crisp. It stretches visually

@@ -79,7 +79,7 @@ export default defineMeta({
       type: "{ blur?: number; saturate?: number }",
       default: "per material level (2..10px, 1.5)",
       description:
-        "Universal base-tier optics: the backdrop-filter blur radius and saturate that render when neither the Chromium displacement tier nor a WebGL backdrop image is available. The only optical knob that bites on every tier's fallback.",
+        "Universal base-tier optics. blur is the RIM radius of the progressive frost — three stacked backdrop-filter bands at 0.1x / 0.4x / 1x of it, so the centre stays legible while the edge goes soft — and saturate lands on the rim band only. Renders when neither the Chromium displacement tier nor a WebGL backdrop image is available, and is the only optical knob that bites on every tier's fallback.",
     },
     {
       name: "backdrop",

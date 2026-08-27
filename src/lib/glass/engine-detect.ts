@@ -193,18 +193,17 @@ export interface MaterialRampEntry {
    */
   saturate: number;
   /**
-   * Universal base tier: backdrop-filter blur radius in px.
+   * Universal base tier: the RIM blur radius in px of the progressive frost.
    *
-   * Deliberately small (2..10). The reference construction frosts at
-   * feGaussianBlur stdDeviation 0..1 — almost nothing — because the effect is
-   * supposed to come from refraction, not frost. With no blur at all the
-   * fallback reads as a colour wash and not as glass; at the blur-2xl
-   * register (40px) it reads as an opaque frosted panel and the backdrop
-   * behind the surface is destroyed. These values keep the backdrop legible
-   * through the glass, which is the liquid-glass read.
+   * The base layer is three stacked backdrop-filter bands — core at 0.1x this
+   * value, mid at 0.4x, rim at 1x — so the centre stays legible while the
+   * edge goes soft. That gradient is what reads as glass: a single uniform
+   * blur at any radius reads as a frosted card, and a large uniform blur
+   * destroys the backdrop entirely. Because the core stays sharp the rim can
+   * afford to be wide (5..14) where a flat blur could not.
    */
   cssBlur: number;
-  /** Universal base tier: backdrop-filter saturate (the DS canon, 1.5). */
+  /** Universal base tier: saturate on the RIM band only (the DS canon, 1.5). */
   cssSaturate: number;
   /** feFuncA slope — specular rim opacity (kube 0.2..0.5) */
   specularOpacity: number;
@@ -247,7 +246,7 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     saturate: 4,
     specularOpacity: 0.4,
     tint: 5,
-    cssBlur: 2,
+    cssBlur: 5,
     cssSaturate: 1.5,
     strength: 0.35,
     stretch: 0.7,
@@ -262,7 +261,7 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     saturate: 4,
     specularOpacity: 0.2,
     tint: 5,
-    cssBlur: 4,
+    cssBlur: 7,
     cssSaturate: 1.5,
     strength: 0.5,
     stretch: 0.85,
@@ -277,7 +276,7 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     saturate: 9,
     specularOpacity: 0.5,
     tint: 5,
-    cssBlur: 6,
+    cssBlur: 10,
     cssSaturate: 1.5,
     strength: 0.65,
     stretch: 1,
@@ -292,7 +291,7 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     saturate: 4,
     specularOpacity: 0.4,
     tint: 6,
-    cssBlur: 10,
+    cssBlur: 14,
     cssSaturate: 1.5,
     strength: 0.85,
     stretch: 1.3,
