@@ -436,7 +436,7 @@ function ChromaticAberration() {
             <Token>scale</Token> — so the 8-bit map stores unit vectors while
             the scale carries pixels. The intensity forks and the material
             ramp multiply that scale (kube.io&apos;s “Refraction Level”
-            slider), and pulling the surface with the stretch handles boosts
+            slider), and pulling the surface boosts
             it live, which is why a stretched lens bends harder — the same
             behavior as the article&apos;s magnifying glass.
           </p>
@@ -576,10 +576,13 @@ function LiveProof() {
           <p className="max-w-xl text-caption text-neutral-500 dark:text-neutral-500">
             On Chromium you should see the letters bend near the edges of the
             card — at this Regular · strong setting the ray-traced displacement
-            peaks past 60px along the bezel. Grab an edge and pull: the glass
-            stretches and the bend intensifies, then springs back. Other
-            engines show the WebGL/base tier: the same material, negotiated
-            without the SVG lens.
+            peaks past 60px along the bezel. Grab the glass anywhere and pull:
+            the surface deforms elastically toward the pointer — it stretches
+            along the pull and squashes across it, never quite reaching the
+            cursor — and the bend intensifies while it is deformed, then
+            springs back with a jelly settle. Content rides along purely
+            visually; layout never moves. Other engines show the WebGL/base
+            tier: the same material, negotiated without the SVG lens.
           </p>
           <StrategyBadge active />
         </div>

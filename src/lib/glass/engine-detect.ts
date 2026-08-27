@@ -189,9 +189,9 @@ export interface MaterialRampEntry {
 
 export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
   ultrathin: { blur: 0, saturate: 1.2, tint: 24, strength: 0.35, refraction: 0.7, bezel: 14, thickness: 20 },
-  thin: { blur: 2, saturate: 1.3, tint: 32, strength: 0.5, refraction: 0.9, bezel: 18, thickness: 28 },
-  regular: { blur: 4, saturate: 1.45, tint: 38, strength: 0.65, refraction: 1.0, bezel: 24, thickness: 36 },
-  thick: { blur: 8, saturate: 1.6, tint: 46, strength: 0.85, refraction: 1.15, bezel: 32, thickness: 48 },
+  thin: { blur: 1.5, saturate: 1.3, tint: 32, strength: 0.5, refraction: 0.9, bezel: 18, thickness: 28 },
+  regular: { blur: 3, saturate: 1.45, tint: 38, strength: 0.65, refraction: 1.0, bezel: 24, thickness: 36 },
+  thick: { blur: 6, saturate: 1.6, tint: 46, strength: 0.85, refraction: 1.15, bezel: 32, thickness: 48 },
 };
 
 /**

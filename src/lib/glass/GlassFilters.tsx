@@ -17,9 +17,13 @@ import { useGlassRuntime } from "./glass-store";
  *    your elements." Percentage-sourced feImage geometry resolved against
  *    the wrong viewport in Chrome and voided the whole tier (the
  *    blur-but-zero-displacement defect).
- *  - the filter region is pinned with filterUnits="userSpaceOnUse" at the
- *    element's exact border-box size, so the displacement map and the
- *    backdrop raster are always 1:1.
+ *  - the filter region is pinned with filterUnits="userSpaceOnUse" slightly
+ *    LARGER than the element's border-box (2px bleed each side): elements
+ *    with fractional layout sizes (e.g. 200.4px) round their registered
+ *    geometry to integers, and a filter region smaller than the element
+ *    leaves an unfiltered strip that reads as a translucent box hugging the
+ *    container. The bleed guarantees coverage; the layer's own rounded
+ *    bounds clip the output visually.
  *  - a SINGLE <feDisplacementMap> reads SourceGraphic (the backdrop) with
  *    xChannelSelector="R" / yChannelSelector="G" and scale =
  *    maximumDisplacement — the pre-computed physical maximum, which is how
@@ -79,14 +83,17 @@ function GlassDisplacementFilterDef({
 }) {
   const w = Math.max(1, Math.round(spec.width));
   const h = Math.max(1, Math.round(spec.height));
+  // 2px bleed around the element box (see header note — fractional layout
+  // sizes must never leave an unfiltered strip at the filter's edge).
+  const bleed = 2;
   return (
     <filter
       id={id}
       filterUnits="userSpaceOnUse"
-      x="0"
-      y="0"
-      width={w}
-      height={h}
+      x={-bleed}
+      y={-bleed}
+      width={w + bleed * 2}
+      height={h + bleed * 2}
       colorInterpolationFilters="sRGB"
     >
       {/* the displacement map — sized 1:1 to the element (kube.io) */}

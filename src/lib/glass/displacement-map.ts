@@ -48,6 +48,15 @@ export interface DisplacementMapSpec {
   profile?: SurfaceProfile;
   /** long-side resolution cap for the generated bitmap */
   maxResolution?: number;
+  /**
+   * PROGRESSIVE BLUR ceiling (CSS px) — distributed across a stack of
+   * masked blur layers (kube.io "Progressive Blur" construction), not one
+   * fat alpha-faded layer. Alpha-fading a single blur never reduces the blur
+   * RADIUS, it just makes it semi-transparent — which reads as haze/bloom.
+   * A stack of small radii with shrinking masks compounds into a true frost
+   * gradient: each layer adds a little more blur toward the outer edge.
+   */
+  blur?: number;
   /** specular highlight parameters (kube.io "Specular Highlight" section) */
   specular?: {
     /** fixed light direction angle in degrees (0 = +X, CCW) */
@@ -228,19 +237,55 @@ function sdRoundedRect(px: number, py: number, bx: number, by: number, r: number
 /* Map generation                                                      */
 /* ------------------------------------------------------------------ */
 
+export interface BlurStackLayer {
+  /** CSS blur radius for this layer (px, full-resolution) */
+  radius: number;
+  /** mask data URL — alpha 1 across this layer's frost span, smoothstep
+   * tail at its inner boundary, 0 elsewhere (RGB white) */
+  maskUrl: string;
+}
+
 export interface GeneratedMaps {
   /** displacement map data URL (R = X, G = Y, neutral 128) */
   displacementUrl: string;
   /** specular rim map data URL (grayscale highlight, black elsewhere) */
   specularUrl: string;
-  /**
-   * progressive-blur mask data URL: the bezel band ramp lives in the ALPHA
-   * channel (opaque at the edge → transparent at the bezel end), RGB white.
-   * Alpha-based so both mask-image and -webkit-mask-image read the ramp.
-   */
-  blurMaskUrl: string;
+  /** stacked progressive-blur layers — outermost-biased frost gradient */
+  blurStack: BlurStackLayer[];
   /** the scale to feed feDisplacementMap (max displacement in px) */
   maximumDisplacement: number;
+}
+
+/**
+ * Layer geometry for the progressive-blur stack. Coverage is measured from
+ * the OUTER edge inward, as a fraction of the bezel band; each layer's mask
+ * is opaque across its span and fades over a short tail at the inner end —
+ * short tails keep the frost crisp instead of a long haze gradient.
+ */
+const BLUR_STACK_PLAN = [
+  { coverage: 1.0, radiusFraction: 0.32, tail: 0.3 },
+  { coverage: 0.58, radiusFraction: 0.44, tail: 0.3 },
+  { coverage: 0.3, radiusFraction: 0.6, tail: 0.35 },
+] as const;
+
+/**
+ * Resolves the frost ceiling into concrete layer radii. Small ceilings
+ * collapse to fewer layers — one blur(0.8px) layer frosts nothing useful.
+ */
+export function planBlurStack(blurPx: number): Array<{
+  radius: number;
+  coverage: number;
+  tail: number;
+}> {
+  if (!(blurPx > 0.75)) return [];
+  if (blurPx < 2.5) {
+    return [{ radius: blurPx * 0.7, coverage: 1, tail: 0.3 }];
+  }
+  return BLUR_STACK_PLAN.map((l) => ({
+    radius: blurPx * l.radiusFraction,
+    coverage: l.coverage,
+    tail: l.tail,
+  })).filter((l) => l.radius >= 0.5);
 }
 
 const mapCache = new Map<string, GeneratedMaps>();
@@ -252,7 +297,9 @@ export function displacementMapKey(spec: DisplacementMapSpec): string {
   const profile = spec.profile ?? "convex-squircle";
   return `${Math.round(spec.width)}x${Math.round(spec.height)}r${Math.round(
     spec.radius
-  )}b${Math.round(bezel)}t${Math.round(thickness)}n${ior}p${profile}`;
+  )}b${Math.round(bezel)}t${Math.round(thickness)}n${ior}p${profile}bl${
+    spec.blur ?? 0
+  }`;
 }
 
 /**
@@ -303,10 +350,10 @@ export function generateDisplacementMaps(spec: DisplacementMapSpec): GeneratedMa
 
   const dispImg = ctx.createImageData(w, h);
   const specImg = ctx.createImageData(w, h);
-  const maskImg = ctx.createImageData(w, h);
+  const blurPlan = planBlurStack(spec.blur ?? 0);
+  const blurImgs = blurPlan.map(() => ctx.createImageData(w, h));
   const dData = dispImg.data;
   const sData = specImg.data;
-  const mData = maskImg.data;
 
   const cx = w / 2;
   const cy = h / 2;
@@ -387,40 +434,51 @@ export function generateDisplacementMaps(spec: DisplacementMapSpec): GeneratedMa
       sData[i + 2] = c;
       sData[i + 3] = 255;
 
-      // Progressive-blur mask: smoothstep ramp over the bezel band — full
-      // strength at the outer edge, zero at the bezel end, so the frost
-      // ramps exactly where the refraction bends (kube.io music player's
-      // "Progressive Blur"). Carried in ALPHA; RGB stays white.
-      let blurT: number;
-      if (depth >= bz) {
-        blurT = 0;
-      } else {
-        const u = depth / bz; // 0 at edge → 1 at bezel end
-        const sm = u * u * (3 - 2 * u);
-        blurT = 1 - sm;
-      }
-      const m = Math.round(Math.max(0, Math.min(1, blurT)) * 255);
-      mData[i] = 255;
-      mData[i + 1] = 255;
-      mData[i + 2] = 255;
-      mData[i + 3] = m;
+      // Progressive-blur stack (kube.io): N layers, each opaque across its
+      // own frost span (measured from the outer edge inward) with a short
+      // smoothstep tail. Stacked small radii compound toward the edge into a
+      // real frost gradient — a single alpha-faded blur would read as bloom.
+      blurPlan.forEach((layer, li) => {
+        const span = bz * layer.coverage;
+        const tail = span * layer.tail;
+        let a: number;
+        if (depth >= span) {
+          a = 0;
+        } else if (depth >= span - tail && tail > 0) {
+          const u = (span - depth) / tail; // 1 at tail start → 0 at span
+          a = u * u * (3 - 2 * u);
+        } else {
+          a = 1;
+        }
+        const m = Math.round(Math.max(0, Math.min(1, a)) * 255);
+        const mData = blurImgs[li].data;
+        mData[i] = 255;
+        mData[i + 1] = 255;
+        mData[i + 2] = 255;
+        mData[i + 3] = m;
+      });
     }
   }
 
-  // Paint all three maps from one canvas (three passes, three ImageDatas)
+  // Paint all maps from one canvas (one pass per ImageData)
   ctx.putImageData(dispImg, 0, 0);
   const displacementUrl = canvas.toDataURL("image/png");
   ctx.putImageData(specImg, 0, 0);
   const specularUrl = canvas.toDataURL("image/png");
-  ctx.putImageData(maskImg, 0, 0);
-  const blurMaskUrl = canvas.toDataURL("image/png");
+  const blurStack: BlurStackLayer[] = [];
+  for (let li = 0; li < blurPlan.length; li++) {
+    ctx.putImageData(blurImgs[li], 0, 0);
+    const url = canvas.toDataURL("image/png");
+    if (!url) return null;
+    blurStack.push({ radius: blurPlan[li].radius, maskUrl: url });
+  }
 
-  if (!displacementUrl || !specularUrl || !blurMaskUrl) return null;
+  if (!displacementUrl || !specularUrl) return null;
 
   const maps: GeneratedMaps = {
     displacementUrl,
     specularUrl,
-    blurMaskUrl,
+    blurStack,
     maximumDisplacement: Math.round(field.maximumDisplacement / scale),
   };
   if (mapCache.size > 48) mapCache.clear(); // transient stretch sizes don't grow it unbounded

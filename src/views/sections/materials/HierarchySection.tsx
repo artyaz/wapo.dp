@@ -58,17 +58,20 @@ export function HierarchySection() {
           tier.
         </p>
         <p className="max-w-2xl text-body text-neutral-600 dark:text-neutral-500">
-          The ramp is arithmetic and anchored in the middle. Regular is{" "}
-          <Token>blur 40px</Token> · <Token>saturate 150%</Token> ·{" "}
-          <Token>panel/60</Token> — anchored there not by taste but because
-          GlassChip and the toolbar family (FloatingToolbar, TransportBar,
-          PlayerBar) already shipped exactly those values, so the canonical
-          capsule needed zero churn when the ramp was formalized around it.
-          From that anchor the numbers step evenly: blur climbs 16 → 28 → 40
-          → 56px, saturation rises in constant 15-point steps from 120% to
-          165%, and the panel tint thickens from 40% to 72%. Each step is
-          small enough that adjacent levels still read as the same
-          substance, and large enough to be felt without a side-by-side.
+          The ramp is arithmetic and anchored in the middle, and since the
+          kube.io rewrite it carries the material primarily through{" "}
+          <Token>refraction</Token> rather than frost: a surface profile
+          (bezel width, glass thickness, IOR 1.5) drives the displacement
+          field, while the frost ceiling stays deliberately small — blur
+          climbs 0 → 1.5 → 3 → 6px, and even that is distributed across a{" "}
+          <Token>stacked progressive blur</Token> (three masked layers of
+          small radii, each frost span nested tighter toward the edge) so the
+          bend at the bezel never washes out into haze. Saturation rises
+          120% → 160%, the panel tint thickens from 24% to 46%, and the
+          refraction level steps 0.7 → 1.15× the physical maximum
+          displacement. Each step is small enough that adjacent levels still
+          read as the same substance, and large enough to be felt without a
+          side-by-side.
         </p>
         <p className="max-w-2xl text-body text-neutral-600 dark:text-neutral-500">
           Each level has one job. UltraThin is the scrim hint — glass that

@@ -52,23 +52,34 @@ import {
  * backdrop-filter layers sample the page content itself, not the tint:
  *
  *   1. refraction layer   — url(#filter), Chromium tier
- *   2. progressive blur   — masked blur layer: the mask is generated from the
- *                           same rounded-rect SDF as the displacement map, so
- *                           frost ramps up exactly along the bezel band and
- *                           the center stays crisp (kills the old global-blur
- *                           bloom)
+ *   2. progressive blur   — STACKED masked blur layers (kube.io "Progressive
+ *                           Blur"): each layer is a small blur radius masked
+ *                           to a shrinking span of the bezel band, so the
+ *                           frost compounds toward the edge into a crisp
+ *                           gradient instead of one fat alpha-faded blur
+ *                           (which reads as bloom). Layers render ONLY when
+ *                           the maps exist — never unmasked.
  *   3. tint layer         — color-mix(panel, tint%) over the refracted content
  *   4. rim                — 20% white border
  *   5. dual sheen         — canonical specular construction
- *   6. stretch handles    — pull-to-stretch interaction (magnifying-glass
- *                           elasticity), default ON for every surface
- *   7. content            — crisp, above every layer
+ *   6. content            — crisp, above every layer
  *
- * Stretch interaction: grab any edge of the surface and pull — the glass
- * stretches like liquid (real resize, so the displacement map regenerates
- * for the stretched geometry and the refraction intensifies along the pull),
- * then springs back elastically on release. Interior content stays fully
- * interactive; only the outer bezel band is a stretch handle.
+ * Every backdrop-filter layer carries the surface's own border-radius so the
+ * filter's sample region follows the rounded shape — square-cornered filter
+ * layers under a rounded clip leave a translucent fringe (the "half-transparent
+ * box" artifact) along the edges.
+ *
+ * Elastic pull interaction (kube.io magnifying-glass feel): grab the surface
+ * anywhere and drag — the glass follows the pointer with saturating resistance
+ * (it never stretches all the way to the cursor; it has its own
+ * stretchability), elongating along the pull axis and squashing across it,
+ * then springs back with an underdamped jelly wobble on release. The whole
+ * deformation is a pure CSS transform on the root: layout, DOM geometry and
+ * interactive children are completely untouched — buttons inside keep their
+ * positions and keep working — while ALL content (text, icons) stretches
+ * visually with the glass because the entire subtree transforms together.
+ * No cursor is shown for the gesture. Interactive descendants (buttons,
+ * links, inputs…) opt out automatically so their normal behavior wins.
  */
 
 export interface GlassSurfaceProps
@@ -86,12 +97,11 @@ export interface GlassSurfaceProps
   /** procedural backdrop for webgl full mode */
   backdrop?: BackdropSpec;
   /**
-   * Pull-to-stretch interaction (default true). Grab an edge and pull: the
-   * surface stretches with the pointer and springs back on release.
+   * Elastic pull-to-stretch interaction (default true). Grab the surface and
+   * drag: it deforms toward the pointer with saturating resistance and
+   * springs back on release — purely visual, no layout effects.
    */
   stretchable?: boolean;
-  /** maximum stretch factor per axis when pulled (default 1.6) */
-  stretchMax?: number;
   as?: "div" | "header" | "nav" | "section" | "aside" | "footer";
   /** React 19 ref prop — merged with the internal root ref */
   ref?: React.Ref<HTMLDivElement>;
@@ -116,8 +126,8 @@ function reducedMotion(): boolean {
 }
 
 /**
- * Runs an underdamped spring per axis and calls back with normalized
- * progress each frame. Returns a stop function.
+ * Runs an underdamped spring per axis and calls back with values each frame.
+ * Returns a stop function.
  */
 function runSprings(
   axes: SpringState[],
@@ -147,6 +157,60 @@ function runSprings(
 }
 
 /* ------------------------------------------------------------------ */
+/* Elastic pull — saturating offset + directional stretch transform    */
+/* ------------------------------------------------------------------ */
+
+/** Interactive descendants that must never start a pull gesture. */
+const PULL_EXCLUDES =
+  "button, a, input, textarea, select, label, summary, details, " +
+  "[role='button'], [role='slider'], [role='tab'], [role='option'], " +
+  "[role='checkbox'], [role='switch'], [role='menuitem'], " +
+  "[contenteditable=''], [contenteditable='true'], [data-glass-no-stretch]";
+
+/** Saturating resistance: the offset asymptotically approaches maxPull. */
+function saturatePull(delta: number, maxPull: number): number {
+  return maxPull * Math.tanh(delta / maxPull);
+}
+
+/**
+ * Writes the elastic deformation for one pull offset. Purely visual: a
+ * translate toward the pull plus a stretch along the pull axis and a squash
+ * across it (rotate → scale → rotate back keeps the deformation axis-aligned
+ * with the pull direction). Below the subpixel floor the transform clears —
+ * identity costs nothing.
+ */
+function applyPullTransform(
+  el: HTMLElement,
+  ox: number,
+  oy: number,
+  maxPull: number
+): void {
+  const len = Math.hypot(ox, oy);
+  if (len < 0.5) {
+    if (el.style.transform) el.style.transform = "";
+    return;
+  }
+  const t = Math.min(1, len / maxPull);
+  const stretch = 1 + 0.85 * t; // elongation along the pull axis
+  const squash = 1 - 0.32 * t; // counter-squash across it
+  const ang = Math.atan2(oy, ox);
+  el.style.transform =
+    `translate(${ox.toFixed(2)}px, ${oy.toFixed(2)}px) ` +
+    `rotate(${ang.toFixed(4)}rad) ` +
+    `scale(${stretch.toFixed(4)}, ${squash.toFixed(4)}) ` +
+    `rotate(${(-ang).toFixed(4)}rad)`;
+}
+
+interface PullState {
+  pointerId: number;
+  startX: number;
+  startY: number;
+  maxPull: number;
+  ox: number;
+  oy: number;
+}
+
+/* ------------------------------------------------------------------ */
 /* GlassSurface                                                        */
 /* ------------------------------------------------------------------ */
 
@@ -160,11 +224,14 @@ export function GlassSurface({
   webglMode = "edge",
   backdrop,
   stretchable = true,
-  stretchMax = 1.6,
   as = "div",
   className,
   style,
   ref: forwardedRef,
+  onPointerDown,
+  onPointerMove,
+  onPointerUp,
+  onPointerCancel,
   ...otherProps
 }: GlassSurfaceProps) {
   const ctx = React.useContext(GlassMaterialContext);
@@ -208,7 +275,7 @@ export function GlassSurface({
     height: number;
     displacementUrl: string;
     specularUrl: string;
-    blurMaskUrl: string;
+    blurStack: Array<{ radius: number; maskUrl: string }>;
     maximumDisplacement: number;
   } | null>(null);
 
@@ -232,7 +299,7 @@ export function GlassSurface({
   }, [glass]);
 
   /* ------------ generate maps for the measured geometry ------------- */
-  /* Runs on EVERY tier — the progressive-blur mask is universal; only the
+  /* Runs on EVERY tier — the progressive-blur stack is universal; only the
      SVG filter registration below is Chromium-specific. */
   React.useEffect(() => {
     if (!glass || !geo) return;
@@ -245,6 +312,7 @@ export function GlassSurface({
       radius: r,
       bezel: ramp.bezel,
       thickness: ramp.thickness,
+      blur: ramp.blur,
       profile: "convex-squircle" as const,
       specular: {
         angle: SPECULAR_DEFAULTS.angle,
@@ -259,10 +327,10 @@ export function GlassSurface({
       height: h,
       displacementUrl: generated.displacementUrl,
       specularUrl: generated.specularUrl,
-      blurMaskUrl: generated.blurMaskUrl,
+      blurStack: generated.blurStack,
       maximumDisplacement: generated.maximumDisplacement,
     });
-  }, [glass, geo, shape, shapeRadius, ramp.bezel, ramp.thickness]);
+  }, [glass, geo, shape, shapeRadius, ramp.bezel, ramp.thickness, ramp.blur]);
 
   /* ------------ Chromium tier: per-geometry filter registration ------ */
   const registeredKeyRef = React.useRef<string | null>(null);
@@ -270,14 +338,15 @@ export function GlassSurface({
     if (!glass || strategy !== "svg-displacement" || !maps) return;
 
     // kube.io "Refraction Level": the intensity fork and material ramp
-    // multiply the physical maximum, and stretching boosts it further.
+    // multiply the physical maximum, and pulling boosts it further (the
+    // glass lenses harder while it is deformed).
     const scale = Math.max(
       1,
       Math.round(
         maps.maximumDisplacement *
           INTENSITY_BASE_SCALE[intensity] *
           ramp.refraction *
-          (1 + stretchBoost)
+          (1 + 0.6 * stretchBoost)
       )
     );
 
@@ -317,6 +386,7 @@ export function GlassSurface({
     ramp.bezel,
     ramp.thickness,
     ramp.refraction,
+    ramp.saturate,
   ]);
 
   /* ------------ Safari/Firefox tier: bind the WebGL engine ----------- */
@@ -344,176 +414,150 @@ export function GlassSurface({
   }, [glass, strategy, material, webglMode, backdrop]);
 
   /* ------------------------------------------------------------------ */
-  /* Pull-to-stretch (magnifying-glass elasticity)                       */
+  /* Elastic pull (magnifying-glass stretchiness)                        */
   /* ------------------------------------------------------------------ */
 
-  const stretchRef = React.useRef<{
-    pointerId: number;
-    baseW: number;
-    baseH: number;
-    startX: number;
-    startY: number;
-    left: boolean;
-    right: boolean;
-    top: boolean;
-    bottom: boolean;
-    width: number;
-    height: number;
-  } | null>(null);
+  const pullRef = React.useRef<PullState | null>(null);
   const springStopRef = React.useRef<(() => void) | null>(null);
   const [stretching, setStretching] = React.useState(false);
 
-  const beginStretch = React.useCallback(
-    (
-      e: React.PointerEvent<HTMLDivElement>,
-      left: boolean,
-      right: boolean,
-      top: boolean,
-      bottom: boolean
-    ) => {
-      if (!stretchable || !rootRef.current) return;
+  const handlePointerDown = React.useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      onPointerDown?.(e);
+      if (e.defaultPrevented) return;
+      if (!stretchable || e.button !== 0) return;
+      if (pullRef.current) return; // one gesture at a time (multi-touch)
       const el = rootRef.current;
+      if (!el) return;
+
+      const target = e.target as Element | null;
+      if (target?.closest?.(PULL_EXCLUDES)) return;
+      // A nested glass surface owns its own pull gesture.
+      const ownerSurface = target?.closest?.("[data-glass-surface]");
+      if (ownerSurface && ownerSurface !== el) return;
+
       const w = el.offsetWidth;
       const h = el.offsetHeight;
-      if (w < 32 || h < 16) return; // too small to stretch meaningfully
+      if (w < 24 || h < 12) return; // too small to deform meaningfully
 
-      e.preventDefault();
-      (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
+      // Own stretchability: the maximum travel scales with the surface but
+      // is capped — big panels are not infinitely pullable.
+      const maxPull = Math.min(64, Math.max(24, Math.min(w, h) * 0.35));
+
       springStopRef.current?.();
       springStopRef.current = null;
 
-      stretchRef.current = {
+      e.preventDefault(); // no text-selection drag
+      try {
+        el.setPointerCapture(e.pointerId);
+      } catch {
+        /* capture is best-effort */
+      }
+      el.style.touchAction = "none"; // claim the gesture on touch too
+      el.style.willChange = "transform"; // composited for the whole gesture
+
+      pullRef.current = {
         pointerId: e.pointerId,
-        baseW: w,
-        baseH: h,
         startX: e.clientX,
         startY: e.clientY,
-        left,
-        right,
-        top,
-        bottom,
-        width: w,
-        height: h,
+        maxPull,
+        ox: 0,
+        oy: 0,
       };
       setStretching(true);
     },
-    [stretchable]
+    [stretchable, onPointerDown]
   );
 
-  const moveStretch = React.useCallback(
+  const handlePointerMove = React.useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
-      const s = stretchRef.current;
+      onPointerMove?.(e);
+      const p = pullRef.current;
       const el = rootRef.current;
-      if (!s || !el || e.pointerId !== s.pointerId) return;
+      if (!p || !el || e.pointerId !== p.pointerId) return;
 
-      const dx = e.clientX - s.startX;
-      const dy = e.clientY - s.startY;
+      const dx = e.clientX - p.startX;
+      const dy = e.clientY - p.startY;
+      p.ox = saturatePull(dx, p.maxPull);
+      p.oy = saturatePull(dy, p.maxPull);
+      applyPullTransform(el, p.ox, p.oy, p.maxPull);
 
-      const clamp = (v: number, base: number) =>
-        Math.min(base * stretchMax, Math.max(base * 0.8, v));
-
-      // Horizontal: pulling the left edge leftward (dx<0) grows the width;
-      // pulling the right edge rightward (dx>0) grows it. Both edges in
-      // band (small element) → the larger influence wins per axis.
-      let width = s.baseW;
-      if (s.left && s.right) {
-        width = clamp(s.baseW + Math.abs(dx), s.baseW);
-      } else if (s.left) {
-        width = clamp(s.baseW - dx, s.baseW);
-      } else if (s.right) {
-        width = clamp(s.baseW + dx, s.baseW);
-      }
-
-      let height = s.baseH;
-      if (s.top && s.bottom) {
-        height = clamp(s.baseH + Math.abs(dy), s.baseH);
-      } else if (s.top) {
-        height = clamp(s.baseH - dy, s.baseH);
-      } else if (s.bottom) {
-        height = clamp(s.baseH + dy, s.baseH);
-      }
-
-      s.width = width;
-      s.height = height;
-
-      // Anchor the opposite edge: compensate the layout shift caused by the
-      // resize so the grabbed edge follows the pointer one-to-one.
-      const tx = s.left && s.right ? (s.baseW - width) / 2 : s.left ? s.baseW - width : 0;
-      const ty = s.top && s.bottom ? (s.baseH - height) / 2 : s.top ? s.baseH - height : 0;
-
-      el.style.width = `${width}px`;
-      el.style.height = `${height}px`;
-      el.style.translate =
-        tx !== 0 || ty !== 0 ? `${tx}px ${ty}px` : "";
-
-      // refraction intensifies as the glass stretches (quantized so the
-      // filter re-registration happens a handful of times per pull)
-      const boost = (width / s.baseW + height / s.baseH) / 2 - 1;
-      const q = Math.round(Math.max(-0.4, Math.min(0.8, boost)) * 20) / 20;
+      // Refraction intensifies as the glass deforms (quantized so the filter
+      // re-registration happens a handful of times per pull).
+      const t = Math.min(1, Math.hypot(p.ox, p.oy) / p.maxPull);
+      const q = Math.round(t * 5) / 5;
       setStretchBoost((prev) => (prev === q ? prev : q));
     },
-    [stretchMax]
+    [onPointerMove]
   );
 
-  const endStretch = React.useCallback(
+  const endPull = React.useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
-      const s = stretchRef.current;
+      onPointerUp?.(e);
+      const p = pullRef.current;
       const el = rootRef.current;
-      if (!s || !el || e.pointerId !== s.pointerId) return;
-      stretchRef.current = null;
+      if (!p || !el || e.pointerId !== p.pointerId) return;
+
+      pullRef.current = null;
       setStretching(false);
+      setStretchBoost(0);
       try {
-        (e.currentTarget as HTMLDivElement).releasePointerCapture(e.pointerId);
+        el.releasePointerCapture(e.pointerId);
       } catch {
         /* pointer already released */
       }
+      el.style.touchAction = "";
 
-      // elastic snap-back: underdamped spring on width/height/translate
-      const w0 = s.baseW;
-      const h0 = s.baseH;
-      const fromW = s.width;
-      const fromH = s.height;
-      const txFrom = s.left
-        ? s.left && s.right
-          ? (w0 - fromW) / 2
-          : w0 - fromW
-        : 0;
-      const tyFrom = s.top
-        ? s.top && s.bottom
-          ? (h0 - fromH) / 2
-          : h0 - fromH
-        : 0;
-
-      setStretchBoost(0);
-
-      if (reducedMotion() || (fromW === w0 && fromH === h0)) {
-        el.style.width = "";
-        el.style.height = "";
-        el.style.translate = "";
+      const clearGesture = () => {
+        el.style.transform = "";
+        el.style.willChange = "";
+      };
+      if (reducedMotion() || Math.hypot(p.ox, p.oy) < 0.5) {
+        clearGesture();
         return;
       }
 
+      // Elastic snap-back: underdamped spring on the offset — the jelly
+      // wobble comes free because the stretch is derived from the offset.
       const axes: SpringState[] = [
-        { from: fromW, to: w0, v: 0 },
-        { from: fromH, to: h0, v: 0 },
-        { from: txFrom, to: 0, v: 0 },
-        { from: tyFrom, to: 0, v: 0 },
+        { from: p.ox, to: 0, v: 0 },
+        { from: p.oy, to: 0, v: 0 },
       ];
-      springStopRef.current = runSprings(axes, (values, done) => {
-        const [w, h, tx, ty] = values;
-        el.style.width = `${w}px`;
-        el.style.height = `${h}px`;
-        el.style.translate =
-          Math.abs(tx) > 0.1 || Math.abs(ty) > 0.1 ? `${tx}px ${ty}px` : "";
-        if (done) {
-          el.style.width = "";
-          el.style.height = "";
-          el.style.translate = "";
-          springStopRef.current = null;
-        }
-      });
+      springStopRef.current = runSprings(
+        axes,
+        (values, done) => {
+          applyPullTransform(el, values[0], values[1], p.maxPull);
+          if (done) {
+            clearGesture();
+            springStopRef.current = null;
+          }
+        },
+        170,
+        13
+      );
     },
-    []
+    [onPointerUp]
+  );
+
+  const handlePointerCancel = React.useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      onPointerCancel?.(e);
+      const p = pullRef.current;
+      const el = rootRef.current;
+      if (!p || !el || e.pointerId !== p.pointerId) return;
+      pullRef.current = null;
+      setStretching(false);
+      setStretchBoost(0);
+      try {
+        el.releasePointerCapture(e.pointerId);
+      } catch {
+        /* pointer already released */
+      }
+      el.style.touchAction = "";
+      el.style.transform = "";
+      el.style.willChange = "";
+    },
+    [onPointerCancel]
   );
 
   React.useEffect(
@@ -529,38 +573,30 @@ export function GlassSurface({
   const webglFull = isWebgl && webglMode === "full";
   const saturatePct = Math.round(ramp.saturate * 100);
 
-  // Progressive-blur mask: generated from the same rounded-rect SDF as the
-  // displacement map, so the frost ramps up exactly along the bezel band
-  // and the center stays crisp. Only meaningful when there IS a blur.
-  const blurMaskStyle = React.useMemo<
-    React.CSSProperties | undefined
-  >(() => {
-    if (!maps?.blurMaskUrl || ramp.blur <= 0) return undefined;
-    return {
-      maskImage: `url(${maps.blurMaskUrl})`,
-      maskSize: "100% 100%",
-      maskRepeat: "no-repeat",
-      WebkitMaskImage: `url(${maps.blurMaskUrl})`,
-      WebkitMaskSize: "100% 100%",
-      WebkitMaskRepeat: "no-repeat",
-    };
-  }, [maps, ramp.blur]);
-
-  // The masked progressive-blur layer: blur only along the bezel band.
-  // On the Chromium tier it frosts the refracted backdrop; on the fallback
-  // tiers it IS the material. Saturate rides along (the SVG filter carries
-  // its own saturate on Chromium, so it is omitted there).
-  const blurLayerStyle: React.CSSProperties =
-    !glass || activeStrategy === "backdrop-filter" || isSvg
-      ? {
-          backdropFilter: `blur(${ramp.blur}px)`,
-          WebkitBackdropFilter: `blur(${ramp.blur}px)`,
-        }
-      : {
-          // WebGL edge mode: base material beneath the canvas
-          backdropFilter: `blur(${ramp.blur}px) saturate(${saturatePct}%)`,
-          WebkitBackdropFilter: `blur(${ramp.blur}px) saturate(${saturatePct}%)`,
-        };
+  // Stacked progressive blur (kube.io): small radii, shrinking masks, each
+  // layer rounded to the surface shape. Rendered ONLY when the maps exist —
+  // an unmasked blur layer would frost the whole surface (the bloom bug).
+  const blurLayers = React.useMemo(() => {
+    if (!maps || maps.blurStack.length === 0 || !glass || webglFull)
+      return null;
+    return maps.blurStack.map((l) => {
+      const maskUrl = `url(${l.maskUrl})`;
+      return {
+        radius: l.radius,
+        style: {
+          borderRadius: cssRadius,
+          backdropFilter: `blur(${l.radius}px)`,
+          WebkitBackdropFilter: `blur(${l.radius}px)`,
+          maskImage: maskUrl,
+          maskSize: "100% 100%",
+          maskRepeat: "no-repeat",
+          WebkitMaskImage: maskUrl,
+          WebkitMaskSize: "100% 100%",
+          WebkitMaskRepeat: "no-repeat",
+        } as React.CSSProperties,
+      };
+    });
+  }, [maps, glass, webglFull, cssRadius]);
 
   return (
     <Tag
@@ -577,6 +613,10 @@ export function GlassSurface({
         boxShadow: "var(--ds-shadow-glass-specular)",
         ...style,
       }}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={endPull}
+      onPointerCancel={handlePointerCancel}
       {...otherProps}
     >
       {/* Chromium tier: the kube.io refraction filter on its own layer —
@@ -586,13 +626,14 @@ export function GlassSurface({
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
           style={{
+            borderRadius: cssRadius,
             backdropFilter: `url(#${filterId})`,
             WebkitBackdropFilter: `url(#${filterId})`,
           }}
         />
       ) : null}
 
-      {/* progressive blur — masked to the bezel band (kube.io music
+      {/* progressive blur — the stacked frost gradient (kube.io music
           player "Progressive Blur"); saturate applies unmasked on
           non-Chromium tiers where the SVG filter can't carry it */}
       {!webglFull ? (
@@ -602,18 +643,20 @@ export function GlassSurface({
               aria-hidden="true"
               className="pointer-events-none absolute inset-0"
               style={{
+                borderRadius: cssRadius,
                 backdropFilter: `saturate(${saturatePct}%)`,
                 WebkitBackdropFilter: `saturate(${saturatePct}%)`,
               }}
             />
           ) : null}
-          {ramp.blur > 0 ? (
+          {blurLayers?.map((l, i) => (
             <div
+              key={i}
               aria-hidden="true"
               className="pointer-events-none absolute inset-0"
-              style={{ ...blurLayerStyle, ...blurMaskStyle }}
+              style={l.style}
             />
-          ) : null}
+          ))}
         </>
       ) : null}
 
@@ -657,167 +700,13 @@ export function GlassSurface({
         </>
       ) : null}
 
-      {/* content sits above every layer, crisp */}
+      {/* content sits above every layer, crisp. It stretches visually with
+          the glass because the whole subtree transforms together — layout
+          and DOM geometry never move. */}
       {children ? (
         <div className="relative z-10 flex w-full items-center">{children}</div>
       ) : null}
-
-      {/* stretch handles — the outer bezel band only; interior content
-          stays interactive. Pull to stretch, release to spring back. */}
-      {stretchable && !webglFull ? (
-        <StretchHandles
-          band={Math.min(16, Math.max(10, ramp.bezel * 0.75))}
-          radius={cssRadius}
-          onBegin={beginStretch}
-          onMove={moveStretch}
-          onEnd={endStretch}
-        />
-      ) : null}
     </Tag>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* StretchHandles — 8 edge/corner grab zones over the bezel band       */
-/* ------------------------------------------------------------------ */
-
-function StretchHandles({
-  band,
-  radius,
-  onBegin,
-  onMove,
-  onEnd,
-}: {
-  band: number;
-  radius: string;
-  onBegin: (
-    e: React.PointerEvent<HTMLDivElement>,
-    left: boolean,
-    right: boolean,
-    top: boolean,
-    bottom: boolean
-  ) => void;
-  onMove: (e: React.PointerEvent<HTMLDivElement>) => void;
-  onEnd: (e: React.PointerEvent<HTMLDivElement>) => void;
-}) {
-  const handle = (
-    left: boolean,
-    right: boolean,
-    top: boolean,
-    bottom: boolean
-  ): React.HTMLAttributes<HTMLDivElement> => ({
-    onPointerDown: (e) => onBegin(e, left, right, top, bottom),
-    onPointerMove: (e) => onMove(e),
-    onPointerUp: (e) => onEnd(e),
-    onPointerCancel: (e) => onEnd(e),
-  });
-
-  // full cursors: corners get diagonal, edges get straight
-  const cursorFor = (
-    left: boolean,
-    right: boolean,
-    top: boolean,
-    bottom: boolean
-  ) => {
-    const x = left || right ? (left ? "w" : "e") : "";
-    const y = top || bottom ? (top ? "n" : "s") : "";
-    if (x && y) return `${y}${x}-resize` as const;
-    if (x) return `${x}-resize` as const;
-    return `${y}-resize` as const;
-  };
-
-  const zone: React.CSSProperties = {
-    position: "absolute",
-    touchAction: "none",
-    zIndex: 20,
-  };
-
-  return (
-    <>
-      {/* left edge */}
-      <div
-        {...handle(true, false, false, false)}
-        aria-hidden="true"
-        title=""
-        style={{
-          ...zone,
-          left: 0,
-          top: band,
-          bottom: band,
-          width: band,
-          cursor: "ew-resize",
-          borderRadius: `${radius} 0 0 ${radius}`,
-        }}
-      />
-      {/* right edge */}
-      <div
-        {...handle(false, true, false, false)}
-        aria-hidden="true"
-        title=""
-        style={{
-          ...zone,
-          right: 0,
-          top: band,
-          bottom: band,
-          width: band,
-          cursor: "ew-resize",
-          borderRadius: `0 ${radius} ${radius} 0`,
-        }}
-      />
-      {/* top edge */}
-      <div
-        {...handle(false, false, true, false)}
-        aria-hidden="true"
-        title=""
-        style={{
-          ...zone,
-          top: 0,
-          left: band,
-          right: band,
-          height: band,
-          cursor: "ns-resize",
-        }}
-      />
-      {/* bottom edge */}
-      <div
-        {...handle(false, false, false, true)}
-        aria-hidden="true"
-        title=""
-        style={{
-          ...zone,
-          bottom: 0,
-          left: band,
-          right: band,
-          height: band,
-          cursor: "ns-resize",
-        }}
-      />
-      {/* corners */}
-      <div
-        {...handle(true, false, true, false)}
-        aria-hidden="true"
-        title=""
-        style={{ ...zone, left: 0, top: 0, width: band, height: band, cursor: "nwse-resize" }}
-      />
-      <div
-        {...handle(false, true, true, false)}
-        aria-hidden="true"
-        title=""
-        style={{ ...zone, right: 0, top: 0, width: band, height: band, cursor: "nesw-resize" }}
-      />
-      <div
-        {...handle(true, false, false, true)}
-        aria-hidden="true"
-        title=""
-        style={{ ...zone, left: 0, bottom: 0, width: band, height: band, cursor: "nesw-resize" }}
-      />
-      <div
-        {...handle(false, true, false, true)}
-        aria-hidden="true"
-        title=""
-        style={{ ...zone, right: 0, bottom: 0, width: band, height: band, cursor: "nwse-resize" }}
-      />
-    </>
   );
 }
 
