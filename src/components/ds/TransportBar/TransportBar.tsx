@@ -39,6 +39,9 @@ const TransportBarRoot = React.forwardRef<
     intensity,
     stretchable,
     bounce,
+    refraction,
+    frost,
+    backdrop,
     ...otherProps
   }: TransportBarRootProps,
   ref
@@ -51,6 +54,9 @@ const TransportBarRoot = React.forwardRef<
       intensity={intensity}
       stretchable={stretchable}
       bounce={bounce}
+      refraction={refraction}
+      frost={frost}
+      backdrop={backdrop}
       className={SubframeUtils.twClassNames(
         "group/4d642c3c min-h-[76px] py-2 items-center gap-2 sm:gap-2.5 px-4 sm:px-6 inline-flex w-fit max-w-full transition-colors duration-150 relative",
         className

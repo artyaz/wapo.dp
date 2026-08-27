@@ -42,6 +42,9 @@ const PlayerBarRoot = React.forwardRef<HTMLDivElement, PlayerBarRootProps>(
       intensity,
       stretchable,
       bounce,
+      refraction,
+      frost,
+      backdrop,
       ...otherProps
     }: PlayerBarRootProps,
     ref
@@ -54,6 +57,9 @@ const PlayerBarRoot = React.forwardRef<HTMLDivElement, PlayerBarRootProps>(
         intensity={intensity}
         stretchable={stretchable}
         bounce={bounce}
+        refraction={refraction}
+        frost={frost}
+        backdrop={backdrop}
         className={SubframeUtils.twClassNames(
           "group/f240b0b5 flex w-full max-w-[576px] flex-col items-start gap-2 px-[18px] py-3.5 relative",
           className

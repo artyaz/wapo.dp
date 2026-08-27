@@ -43,6 +43,9 @@ const CrosshairTagRoot = React.forwardRef<
     intensity,
     stretchable = false,
     bounce,
+    refraction,
+    frost,
+    backdrop,
     ...otherProps
   }: CrosshairTagRootProps,
   ref
@@ -89,6 +92,9 @@ const CrosshairTagRoot = React.forwardRef<
         material={material}
         intensity={intensity}
         bounce={bounce}
+        refraction={refraction}
+        frost={frost}
+        backdrop={backdrop}
         className="flex min-w-[96px] whitespace-nowrap flex-col items-start gap-0.5 px-3 py-2 absolute left-[62%] top-[26px] -translate-x-1/2"
         style={anchorStyle}
         stretchable={stretchable}

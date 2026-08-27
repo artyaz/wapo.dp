@@ -78,6 +78,9 @@ const MiniMapRoot = React.forwardRef<HTMLDivElement, MiniMapRootProps>(
       intensity,
       stretchable,
       bounce,
+      refraction,
+      frost,
+      backdrop,
       ...otherProps
     }: MiniMapRootProps,
     ref
@@ -89,6 +92,9 @@ const MiniMapRoot = React.forwardRef<HTMLDivElement, MiniMapRootProps>(
         intensity={intensity}
         stretchable={stretchable}
         bounce={bounce}
+        refraction={refraction}
+        frost={frost}
+        backdrop={backdrop}
         className={SubframeUtils.twClassNames(
           "group/4eeb08ac flex h-[100px] w-40 items-start overflow-hidden group/minimap relative",
           className

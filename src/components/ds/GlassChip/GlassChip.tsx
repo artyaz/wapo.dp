@@ -104,6 +104,9 @@ const GlassChipRoot = React.forwardRef<HTMLDivElement, GlassChipRootProps>(
       intensity,
       stretchable,
       bounce,
+      refraction,
+      frost,
+      backdrop,
       ...otherProps
     }: GlassChipRootProps,
     ref
@@ -118,6 +121,9 @@ const GlassChipRoot = React.forwardRef<HTMLDivElement, GlassChipRootProps>(
         intensity={intensity}
         stretchable={stretchable}
         bounce={bounce}
+        refraction={refraction}
+        frost={frost}
+        backdrop={backdrop}
         className={SubframeUtils.twClassNames(
           "items-center gap-1 px-2 py-1.5 relative inline-flex max-w-full min-w-0",
           className

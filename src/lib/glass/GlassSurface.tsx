@@ -118,6 +118,14 @@ export interface GlassSurfaceProps
    */
   refraction?: Partial<RefractionParams>;
   /**
+   * Universal base-tier overrides — the frost that renders when no
+   * displacement or refraction tier is live. Defaults to the material level's
+   * cssBlur / cssSaturate. This is the only optical knob that bites on EVERY
+   * tier's fallback, so it is the one to reach for when the surface is not on
+   * Chromium and has no backdrop image.
+   */
+  frost?: { blur?: number; saturate?: number };
+  /**
    * Elastic pull-to-stretch interaction (default true). Grab the surface and
    * drag: it deforms toward the pointer with saturating resistance and
    * springs back on release — purely visual, no layout effects.
@@ -135,15 +143,35 @@ export interface GlassSurfaceProps
 
 /**
  * The material configuration a component re-exposes when it wraps a glass
- * surface: thickness (the material level), the refraction fork, and the
- * elastic-pull knobs. Components extend their props with this and forward
- * the four values straight through, so the material stays configurable from
- * the outside without every wrapper inventing its own vocabulary. Shape and
- * radius stay out — those belong to each component's own layout language.
+ * surface — everything about the Liquid Glass material that is not layout:
+ *
+ *   material     thickness level, and with it the whole shipped constant set
+ *   intensity    refraction fork (0.55 / 1.0 / 1.6)
+ *   refraction   WebGL optics: thickness, bezel, ior, blur, specular, tint,
+ *                shadow — the reference implementation's own control set
+ *   frost        base-tier blur + saturate, the knob that works on any tier
+ *   backdrop     the image the WebGL shader refracts
+ *   stretchable  elastic pull on/off
+ *   bounce       release overshoot
+ *
+ * Components extend their props with this and forward the values straight
+ * through, so the material stays configurable from the outside without every
+ * wrapper inventing its own vocabulary. Shape and radius stay out — those
+ * belong to each component's own layout language.
+ *
+ * Which knobs actually bite depends on the negotiated tier: `refraction` only
+ * on WebGL (and only with a backdrop image), `intensity` only on the Chromium
+ * displacement tier, `frost` on the universal base.
  */
 export type GlassMaterialControls = Pick<
   GlassSurfaceProps,
-  "material" | "intensity" | "stretchable" | "bounce"
+  | "material"
+  | "intensity"
+  | "refraction"
+  | "frost"
+  | "backdrop"
+  | "stretchable"
+  | "bounce"
 >;
 
 /* ------------------------------------------------------------------ */
@@ -274,6 +302,7 @@ export function GlassSurface({
   webglMode = "edge",
   backdrop,
   refraction,
+  frost,
   stretchable = true,
   bounce,
   as = "div",
@@ -721,7 +750,9 @@ export function GlassSurface({
   // The universal base tier is real frost: blur plus a modest saturate. The
   // ramp's `saturate` (4..9) belongs inside the displacement chain, masked to
   // the rim — as a plain full-surface backdrop-filter it washes the page gold.
-  const baseFilter = `blur(${ramp.cssBlur}px) saturate(${ramp.cssSaturate})`;
+  const frostBlur = frost?.blur ?? ramp.cssBlur;
+  const frostSaturate = frost?.saturate ?? ramp.cssSaturate;
+  const baseFilter = `blur(${frostBlur}px) saturate(${frostSaturate})`;
 
   return (
     <MotionTag

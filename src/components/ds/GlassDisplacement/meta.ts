@@ -55,6 +55,27 @@ export default defineMeta({
       description:
         "Release overshoot, 0 (dead stop) to 0.9 (very jelly). Defaults to the material's own mass — thicker glass wobbles less.",
     },
+    {
+      name: "refraction",
+      type: "Partial<RefractionParams>",
+      default: "per material level",
+      description:
+        "Liquid Glass optics on the WebGL tier — thickness, bezel, ior, blur, specular, tint, shadow, the reference implementation's own control set. Retargets the live shader without rebuilding the GL context. Needs a backdrop image to be visible.",
+    },
+    {
+      name: "frost",
+      type: "{ blur?: number; saturate?: number }",
+      default: "per material level (2..10px, 1.5)",
+      description:
+        "Universal base-tier optics: the backdrop-filter blur radius and saturate that render when neither the Chromium displacement tier nor a WebGL backdrop image is available. The only optical knob that bites on every tier's fallback.",
+    },
+    {
+      name: "backdrop",
+      type: "BackdropSpec",
+      default: "auto-discovered",
+      description:
+        "{ imageUrl, element, base } — the image the WebGL shader refracts and the element whose box acts as its viewport. Left empty, the engine walks up to the nearest ancestor with a background-image; CSS gradients are not images and are not discoverable.",
+    },
   ],
   status: "stable",
   sourceRef: "Subframe GlassDisplacement_d49325d3-448a-46a4-99dc-15884e83bcf0",

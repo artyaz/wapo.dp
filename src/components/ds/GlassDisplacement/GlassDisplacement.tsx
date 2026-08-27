@@ -50,6 +50,9 @@ const GlassDisplacementRoot = React.forwardRef<
     material = "regular",
     stretchable,
     bounce,
+    refraction,
+    frost,
+    backdrop,
     children,
     className,
     ...otherProps
@@ -81,6 +84,9 @@ const GlassDisplacementRoot = React.forwardRef<
         intensity={intensity}
         stretchable={stretchable}
         bounce={bounce}
+        refraction={refraction}
+        frost={frost}
+        backdrop={backdrop}
         className="h-full w-full"
       >
         {children}
