@@ -58,9 +58,11 @@
  * browser. The reference refracts a background IMAGE, which is why it works
  * everywhere. So this engine refracts the nearest ancestor background image
  * (discovered from computed style, or passed explicitly). With no image there
- * is nothing to refract: the shader still renders the bezel optics, specular,
- * tint and shadow over the flat base colour, and the CSS material underneath
- * carries the blur.
+ * is nothing to refract, so the canvas stays hidden and draws nothing at all
+ * — the CSS material underneath IS the material on that page. Painting the
+ * flat base colour instead would put an opaque near-white pill over it.
+ * Note that CSS gradients are not images: a `radial-gradient` backdrop is
+ * not discoverable, so those stages stay on the CSS material.
  */
 
 import type { MaterialLevel } from "./engine-detect";
@@ -429,6 +431,10 @@ export function createLiquidGlass(opts: LiquidGlassOptions): LiquidGlassHandle {
     canvas.style.width = "100%";
     canvas.style.height = "100%";
     canvas.style.pointerEvents = "none";
+    // Hidden until there is a backdrop image. Without one the shader would
+    // paint the flat base colour at full alpha — an opaque near-white pill
+    // over the CSS material, which is exactly wrong.
+    canvas.style.display = "none";
     targetEl.appendChild(canvas);
   }
   const surfaceCanvas: HTMLCanvasElement = canvas;
@@ -533,6 +539,7 @@ export function createLiquidGlass(opts: LiquidGlassOptions): LiquidGlassHandle {
       return;
     }
     textureAspect = image.naturalWidth / image.naturalHeight;
+    surfaceCanvas.style.display = "";
     render();
     opts.onBackdropReady?.(true);
   }
@@ -556,6 +563,12 @@ export function createLiquidGlass(opts: LiquidGlassOptions): LiquidGlassHandle {
 
   function render() {
     if (destroyed) return;
+    // No image behind the surface means there is nothing to refract. Draw
+    // nothing and stay hidden: the CSS material underneath is the material.
+    if (!texture) {
+      surfaceCanvas.style.display = "none";
+      return;
+    }
     const width = Math.max(targetEl.offsetWidth, 1);
     const height = Math.max(targetEl.offsetHeight, 1);
     const dpr = window.devicePixelRatio || 1;
