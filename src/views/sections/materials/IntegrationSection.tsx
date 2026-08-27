@@ -99,14 +99,21 @@ const GLASS_SURFACE_PROPS: PropDoc[] = [
     type: '"full" | "edge"',
     default: '"edge"',
     description:
-      'WebGL tier only. "edge" adds the bevel/refraction band over the live backdrop; "full" hands the whole material to the shader over a procedural backdrop (see backdrop).',
+      'WebGL tier only. "full" hands the whole material to the shader; "edge" keeps the CSS material underneath visible. The shader takes the surface over automatically once it has a backdrop image to refract, so "edge" is only a floor.',
   },
   {
     name: "backdrop",
     type: "BackdropSpec",
-    default: "—",
+    default: "auto-discovered",
     description:
-      'Procedural backdrop for webglMode="full": a base RGB fill plus two radial accents { x, y, radius, color }. Ignored on every other tier.',
+      "WebGL tier only. { imageUrl, element, base } — the image the shader refracts and the element whose box acts as the reference implementation's viewport. Left empty, the engine walks up from the surface to the nearest ancestor carrying a background-image. With no image there is nothing to refract and the CSS material underneath carries the blur.",
+  },
+  {
+    name: "refraction",
+    type: "Partial<RefractionParams>",
+    default: "per material level",
+    description:
+      "WebGL tier only. The reference implementation's own control set: thickness, bezel, ior, blur, specular, tint, shadow. Overrides the material level's parameter set; retargets the live shader without rebuilding the GL context.",
   },
   {
     name: "as",

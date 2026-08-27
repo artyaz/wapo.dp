@@ -30,6 +30,7 @@ import {
   createLiquidGlass,
   type LiquidGlassHandle,
   type BackdropSpec,
+  type RefractionParams,
 } from "./webgl-refraction";
 
 /**
@@ -101,8 +102,14 @@ export interface GlassSurfaceProps
   glass?: boolean;
   /** WebGL tier mode over live content ("edge") or procedural stages ("full") */
   webglMode?: "full" | "edge";
-  /** procedural backdrop for webgl full mode */
+  /** backdrop image source for the WebGL tier (auto-discovered when absent) */
   backdrop?: BackdropSpec;
+  /**
+   * WebGL refraction overrides — thickness, bezel, ior, blur, specular, tint
+   * and shadow, the reference implementation's own control set. Defaults come
+   * from the material level.
+   */
+  refraction?: Partial<RefractionParams>;
   /**
    * Elastic pull-to-stretch interaction (default true). Grab the surface and
    * drag: it deforms toward the pointer with saturating resistance and
@@ -259,6 +266,7 @@ export function GlassSurface({
   glass = true,
   webglMode = "edge",
   backdrop,
+  refraction,
   stretchable = true,
   bounce,
   as = "div",
@@ -299,7 +307,11 @@ export function GlassSurface({
   const activeStrategy = glass ? strategy : "backdrop-filter";
   const isSvg = activeStrategy === "svg-displacement";
   const isWebgl = activeStrategy === "webgl-refraction";
-  const webglFull = isWebgl && webglMode === "full";
+  // The WebGL tier owns the whole surface once it has a backdrop image to
+  // refract; with no image the CSS material underneath stays visible and
+  // carries the blur (there is nothing for the shader to refract).
+  const [webglTextured, setWebglTextured] = React.useState(false);
+  const webglFull = isWebgl && (webglMode === "full" || webglTextured);
 
   /* ------------ measured geometry + generated maps ------------------ */
   const [geo, setGeo] = React.useState<{ w: number; h: number } | null>(null);
@@ -642,6 +654,8 @@ export function GlassSurface({
 
   /* ------------ Safari/Firefox tier: bind the WebGL engine ----------- */
   const webglHandle = React.useRef<LiquidGlassHandle | null>(null);
+  const refractionRef = React.useRef(refraction);
+  refractionRef.current = refraction;
   React.useEffect(() => {
     if (!glass || strategy !== "webgl-refraction") return;
     const el = rootRef.current;
@@ -654,6 +668,8 @@ export function GlassSurface({
         material,
         mode: webglMode,
         backdrop,
+        params: refractionRef.current,
+        onBackdropReady: setWebglTextured,
       });
       webglHandle.current = handle;
     } catch {
@@ -662,8 +678,17 @@ export function GlassSurface({
     return () => {
       handle?.destroy();
       webglHandle.current = null;
+      setWebglTextured(false);
     };
   }, [glass, strategy, material, webglMode, backdrop]);
+
+  // Parameter changes retarget the live engine instead of rebuilding it — an
+  // inline `refraction={{...}}` object must not recreate the GL context.
+  const refractionKey = JSON.stringify(refraction ?? null);
+  React.useEffect(() => {
+    if (refraction) webglHandle.current?.setParams(refraction);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refractionKey]);
 
   /* ------------ animated feDisplacementMap scale --------------------- */
   // framer-motion treats a `scale` prop as a transform, so the attribute is

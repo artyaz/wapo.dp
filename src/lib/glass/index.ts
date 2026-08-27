@@ -39,8 +39,11 @@ export {
 export {
   createLiquidGlass,
   DEFAULT_BACKDROP,
+  REFERENCE_PARAMS,
+  MATERIAL_PARAMS,
   type LiquidGlassHandle,
   type LiquidGlassOptions,
   type WebGLMode,
   type BackdropSpec,
+  type RefractionParams,
 } from "./webgl-refraction";
