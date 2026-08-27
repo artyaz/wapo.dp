@@ -86,8 +86,13 @@ import {
  * base colour on its own luma. Surrounding material still colours the
  * glass; the page's own background no longer can.
  *
- * Non-Chromium tiers keep their negotiated fallbacks (WebGL refraction on
- * Safari/Firefox, saturate + tint + hairline as the universal base).
+ * Non-Chromium tiers keep their negotiated fallbacks: WebGL refraction on
+ * Safari/Firefox when there is a backdrop image to refract, and as the
+ * universal base a real frost — blur(cssBlur) saturate(1.5) plus tint,
+ * hairline and the spring shadow. The base tier must NOT reuse the ramp's
+ * in-filter saturate (4..9): that value is composited through the rim mask
+ * inside the displacement chain, and applied to a whole surface it washes
+ * the page gold instead of frosting it.
  */
 
 export interface GlassSurfaceProps
@@ -711,6 +716,10 @@ export function GlassSurface({
 
   const MotionTag = MOTION_TAGS[as] as React.ElementType;
   const saturateValue = ramp.saturate;
+  // The universal base tier is real frost: blur plus a modest saturate. The
+  // ramp's `saturate` (4..9) belongs inside the displacement chain, masked to
+  // the rim — as a plain full-surface backdrop-filter it washes the page gold.
+  const baseFilter = `blur(${ramp.cssBlur}px) saturate(${ramp.cssSaturate})`;
 
   return (
     <MotionTag
@@ -855,8 +864,8 @@ export function GlassSurface({
           className="pointer-events-none absolute inset-0 bg-white/5 ring-1 ring-black/10 dark:ring-white/10"
           style={{
             borderRadius: cssRadius,
-            backdropFilter: `saturate(${saturateValue})`,
-            WebkitBackdropFilter: `saturate(${saturateValue})`,
+            backdropFilter: baseFilter,
+            WebkitBackdropFilter: baseFilter,
             boxShadow,
             zIndex: 0,
           }}

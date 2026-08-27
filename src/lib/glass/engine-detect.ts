@@ -184,8 +184,22 @@ export interface MaterialRampEntry {
    * 0..1 — the ONLY frost the reference construction carries).
    */
   blur: number;
-  /** feColorMatrix saturate on the refracted content (kube 4..9) */
+  /**
+   * feColorMatrix saturate on the refracted content (kube 4..9). This value
+   * only makes sense INSIDE the displacement chain, where it is composited
+   * through the 2px specular rim mask. Applied to a whole surface as a plain
+   * backdrop-filter it turns the page gold: the warm stage rgb(214 210 199)
+   * x saturate(9) is rgb(246 210 111). The base tier uses cssSaturate.
+   */
   saturate: number;
+  /**
+   * Universal base tier: backdrop-filter blur radius in px. Without this the
+   * fallback carries no frost at all and reads as a colour wash rather than
+   * glass. Scaled per level toward the documented blur-2xl register.
+   */
+  cssBlur: number;
+  /** Universal base tier: backdrop-filter saturate (the DS canon, 1.5). */
+  cssSaturate: number;
   /** feFuncA slope — specular rim opacity (kube 0.2..0.5) */
   specularOpacity: number;
   /** white tint alpha on the glass layer, percent (kube searchbox: 5) */
@@ -227,6 +241,8 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     saturate: 4,
     specularOpacity: 0.4,
     tint: 5,
+    cssBlur: 8,
+    cssSaturate: 1.5,
     strength: 0.35,
     stretch: 0.7,
     bounce: 0.54,
@@ -240,6 +256,8 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     saturate: 4,
     specularOpacity: 0.2,
     tint: 5,
+    cssBlur: 16,
+    cssSaturate: 1.5,
     strength: 0.5,
     stretch: 0.85,
     bounce: 0.5,
@@ -253,6 +271,8 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     saturate: 9,
     specularOpacity: 0.5,
     tint: 5,
+    cssBlur: 24,
+    cssSaturate: 1.5,
     strength: 0.65,
     stretch: 1,
     bounce: 0.48,
@@ -266,6 +286,8 @@ export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
     saturate: 4,
     specularOpacity: 0.4,
     tint: 6,
+    cssBlur: 40,
+    cssSaturate: 1.5,
     strength: 0.85,
     stretch: 1.3,
     bounce: 0.42,
