@@ -24,14 +24,14 @@ const LEVEL_NAMES: Record<MaterialLevel, string> = {
   thick: "Thick",
 };
 
-/** Swatch-caption format: tint · blur · saturate, e.g. "panel/60 · 40px · 150%". */
+/** Swatch-caption format: tint · frost · saturate, e.g. "white/5 · 0.2px · ×9". */
 function rampValues(doc: MaterialLevelDoc): string {
-  return `panel/${doc.tint} · ${doc.blur}px · ${doc.saturate}%`;
+  return `white/${doc.tint} · ${doc.blur}px · ×${doc.saturate}`;
 }
 
 const TABLE_HEADINGS = [
   "Level",
-  "Blur",
+  "Frost",
   "Saturate",
   "Tint",
   "WebGL strength",
@@ -59,19 +59,23 @@ export function HierarchySection() {
         </p>
         <p className="max-w-2xl text-body text-neutral-600 dark:text-neutral-500">
           The ramp is arithmetic and anchored in the middle, and since the
-          kube.io rewrite it carries the material primarily through{" "}
-          <Token>refraction</Token> rather than frost: a surface profile
-          (bezel width, glass thickness, IOR 1.5) drives the displacement
-          field, while the frost ceiling stays deliberately small — blur
-          climbs 0 → 1.5 → 3 → 6px, and even that is distributed across a{" "}
-          <Token>stacked progressive blur</Token> (three masked layers of
-          small radii, each frost span nested tighter toward the edge) so the
-          bend at the bezel never washes out into haze. Saturation rises
-          120% → 160%, the panel tint thickens from 24% to 46%, and the
-          refraction level steps 0.7 → 1.15× the physical maximum
-          displacement. Each step is small enough that adjacent levels still
-          read as the same substance, and large enough to be felt without a
-          side-by-side.
+          kube.io rewrite it carries the material entirely through{" "}
+          <Token>refraction</Token>: every level reuses one shipped reference
+          component&apos;s constants verbatim — ultraThin the switch thumb
+          (max displacement <Token>55.7px</Token> over a 4px bezel), thin the
+          search box (<Token>78.5px</Token>, 21px bezel), regular the
+          magnifying glass (<Token>122.8px</Token>, 20px bezel), and thick
+          the hero lens (<Token>134.0px</Token>, 32.5px bezel). The
+          feDisplacementMap scale rests at the constant × 0.8 while a
+          surface idles and rises to × 1.0 while it is grabbed — regular
+          lenses at <Token>98.2px</Token> at rest — and the frost stays
+          deliberately tiny: a single in-filter feGaussianBlur whose
+          stdDeviation never leaves 0–1px, because the bend, not haze, is
+          what makes the surface read as glass. Saturation rides inside
+          the same filter (×4–×9), and a 5% white tint plus the ring-1
+          hairline finish the layer. Each step is small enough that
+          adjacent levels still read as the same substance, and large
+          enough to be felt without a side-by-side.
         </p>
         <p className="max-w-2xl text-body text-neutral-600 dark:text-neutral-500">
           Each level has one job. UltraThin is the scrim hint — glass that
@@ -164,10 +168,10 @@ export function HierarchySection() {
                       {doc.blur}px
                     </td>
                     <td className="whitespace-nowrap border-t border-solid border-default-border px-3 py-3 font-code text-[12px] text-default-font tabular-nums">
-                      {doc.saturate}%
+                      ×{doc.saturate}
                     </td>
                     <td className="whitespace-nowrap border-t border-solid border-default-border px-3 py-3 font-code text-[12px] text-default-font tabular-nums">
-                      panel/{doc.tint}
+                      white/{doc.tint}
                     </td>
                     <td className="whitespace-nowrap border-t border-solid border-default-border px-3 py-3 font-code text-[12px] text-default-font tabular-nums">
                       {doc.strength.toFixed(2)}
@@ -222,14 +226,14 @@ export function HierarchySection() {
           implementation, never semantics.
         </span>{" "}
         All three rendering tiers resolve the anchor to the same visual
-        weight: the backdrop-filter base tier frosts it as{" "}
-        <Token>blur(40px)</Token> · <Token>saturate(150%)</Token> over{" "}
-        <Token>panel/60</Token>; the Chromium displacement tier bends it with
-        the 12-scale filter (derived channels 15 / 10 / 12); the WebGL tier
-        refracts it at strength <Token>0.65</Token> over the same frost. A
-        surface promoted between tiers — Chromium to Safari, WebGL to a
-        context-starved GPU — never changes its perceived thickness; only the
-        mechanism producing that thickness does.
+        weight: the Chromium displacement tier bends it with the magnifying
+        glass' exact filter — a resting scale of <Token>98.25px</Token> (the
+        shipped 122.81 constant × 0.8) over a 20px bezel; the
+        backdrop-filter base tier carries saturate(9) and the 5% white tint;
+        the WebGL tier refracts it at strength <Token>0.65</Token> over the
+        same geometry. A surface promoted between tiers — Chromium to
+        Safari, WebGL to a context-starved GPU — never changes its perceived
+        thickness; only the mechanism producing that thickness does.
       </Note>
     </div>
   );

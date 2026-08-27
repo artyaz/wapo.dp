@@ -1,492 +1,397 @@
 /**
- * Runtime displacement-map generation — the kube.io liquid-glass-css-svg
- * technique, implemented exactly as published:
+ * Runtime displacement-map generation — a verbatim port of the kube.io
+ * liquid-glass-css-svg generator, decoded from the shipped site:
  *
  *   https://kube.io/blog/liquid-glass-css-svg/
  *
- * The field is PRE-CALCULATED along a single radius (the bezel half-slice)
- * by ray-tracing real refraction through a glass surface profile, using
- * Snell–Descartes' law with n(air)=1 and n(glass)=1.5. The per-distance
- * displacement magnitudes are normalized against the maximum, and the
- * maximum itself becomes the <feDisplacementMap scale> — so the 8-bit map
- * stores unit vectors while the filter re-imposes physical pixel scale.
+ * What kube.io publishes (and what this file reproduces exactly):
  *
- * Surface functions (kube.io "Equations" section):
- *   convex-circle   y = sqrt(1 - (1-x)^2)        spherical dome
- *   convex-squircle y = (1 - (1-x)^4)^(1/4)      Apple's squircle (default)
- *   concave         y = 1 - Convex(x)            bowl
- *   lip             mix(Convex, Concave, smootherstep)  raised rim
+ *  1. The ring renderer (their `Qt` function, decoded from the blog bundle):
+ *     a rounded-rect bezel ring selected by distance to the nearest
+ *     corner-arc CENTER — pixels whose squared offset from the nearest arc
+ *     center lands in [(r - bezel)^2, (r + 1)^2] get displacement, everything
+ *     else stays neutral. The direction is the exact per-pixel radial unit
+ *     computed from the integer offsets to that arc center, the depth is
+ *     r - |offset|, and a 1px antialias fade covers the outermost band.
  *
- * Constraints honored from the article:
- *   - one refraction event only (entry; the exit is not simulated)
- *   - incident rays orthogonal to the background plane (no perspective)
- *   - convex profiles keep every sampled texel INSIDE the glass bounds
- *   - 127 samples across the bezel (the 8-bit channel resolution budget)
+ *  2. The neutral fill 0xFF008080 — R=128, G=128, B=0, A=255 (little-endian
+ *     u32). The 8-bit map stores normalized magnitudes; the filter's
+ *     feDisplacementMap scale re-imposes physical pixel scale.
  *
- * Map encoding (kube.io "Vector to Red-Green values"):
- *   R = 128 + x*127, G = 128 + y*127, B = 128, A = 255 — neutral 128.
+ *  3. The specular rim (their `Yr` function): a semicircular brightness
+ *     profile over the outer 2 device pixels of the border, lit by a fixed
+ *     light at -60 degrees — s = |n·l| * sqrt(1 - (1 - t/dpr)^2), rgb = 255s,
+ *     alpha = 255 s^2 * fade. Byte-verified against the shipped rim pixels.
+ *
+ *  4. The bezel displacement curves — baked below as normalized tables
+ *     measured directly from kube.io's shipped displacement maps (they ship
+ *     as 2x bilinear renders; the 1x layer carries the true values). Each
+ *     material level reuses one shipped reference component:
+ *
+ *       ultrathin  switch thumb   146x92  r46   maxDisplacement 55.65
+ *       thin       searchbox      420x56  r28   maxDisplacement 78.53
+ *       regular    magnifier      210x150 r75   maxDisplacement 122.81
+ *       thick      hero circle    150x150 r75   maxDisplacement 133.97
+ *
+ * The physics the article teaches (Snell refraction through a squircle
+ * bezel profile, max = 1.1181 x thickness) produces these same constants;
+ * we bake the measured curves so the runtime reproduces the shipped maps
+ * themselves, at any element size.
  */
 
-export type SurfaceProfile =
-  | "convex-squircle"
-  | "convex-circle"
-  | "concave"
-  | "lip";
+import type { MaterialLevel } from "./engine-detect";
+
+/* ------------------------------------------------------------------ */
+/* Baked reference data (measured from the shipped kube.io PNGs)       */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Normalized bezel profiles at 0.5 element-px steps, border = 1.
+ * Index with floor(depth / bezel * length) — kube's exact expression
+ * `s[(r/m*s.length)|0] ?? 0` (truncation toward zero, so the 1px outer
+ * antialias band reads the border sample).
+ */
+export const BAKED_PROFILES: Record<MaterialLevel, number[]> = {
+  // switch thumb: bezel 4 el px, 9 samples
+  ultrathin: [
+    1.0, 0.9403, 0.791, 0.597, 0.4776, 0.3582, 0.209, 0.0896, 0.0,
+  ],
+  // searchbox: bezel 21 el px, 43 samples
+  thin: [
+    1.0, 0.9394, 0.8283, 0.697, 0.6263, 0.5556, 0.4848, 0.4444, 0.404,
+    0.3535, 0.3232, 0.2828, 0.2626, 0.2424, 0.2121, 0.1919, 0.1818,
+    0.1616, 0.1414, 0.1313, 0.1212, 0.1111, 0.0909, 0.0909, 0.0808,
+    0.0707, 0.0606, 0.0505, 0.0505, 0.0404, 0.0404, 0.0303, 0.0303,
+    0.0202, 0.0202, 0.0202, 0.0202, 0.0101, 0.0101, 0.0101, 0.0101,
+    0.0101, 0.0,
+  ],
+  // magnifier: bezel 20 el px, 41 samples
+  regular: [
+    1.0, 1.0, 0.874, 0.7795, 0.6614, 0.5906, 0.5118, 0.4646, 0.4016,
+    0.3543, 0.3228, 0.2835, 0.2598, 0.2283, 0.2126, 0.189, 0.1732,
+    0.1496, 0.1339, 0.126, 0.1102, 0.0945, 0.0866, 0.0787, 0.0709,
+    0.0551, 0.0551, 0.0472, 0.0394, 0.0315, 0.0315, 0.0236, 0.0236,
+    0.0157, 0.0157, 0.0157, 0.0079, 0.0079, 0.0079, 0.0079, 0.0,
+  ],
+  // hero circle: bezel 32.5 el px, 66 samples
+  thick: [
+    1.0, 1.0, 1.0, 1.0, 0.9528, 0.8504, 0.8031, 0.7244, 0.6929, 0.622,
+    0.5669, 0.5433, 0.4961, 0.4724, 0.4331, 0.3937, 0.378, 0.3465,
+    0.3386, 0.3071, 0.2835, 0.2677, 0.252, 0.2362, 0.2205, 0.2047,
+    0.1969, 0.1811, 0.1732, 0.1575, 0.1417, 0.1417, 0.126, 0.1181,
+    0.1102, 0.1024, 0.0945, 0.0866, 0.0866, 0.0787, 0.0709, 0.063,
+    0.063, 0.0551, 0.0472, 0.0472, 0.0394, 0.0394, 0.0394, 0.0315,
+    0.0315, 0.0236, 0.0236, 0.0236, 0.0157, 0.0157, 0.0157, 0.0157,
+    0.0157, 0.0079, 0.0079, 0.0079, 0.0079, 0.0079, 0.0079, 0.0,
+  ],
+};
+
+/** Bezel band widths measured from the shipped maps (element px). */
+export const BAKED_BEZEL: Record<MaterialLevel, number> = {
+  ultrathin: 4,
+  thin: 21,
+  regular: 20,
+  thick: 32.5,
+};
+
+/**
+ * The shipped maxDisplacement constants, verbatim — feDisplacementMap
+ * scale = maxDisplacement x scaleRatio (kube animates scaleRatio with a
+ * spring: resting refractionLevel x 0.8, held refractionLevel x 1.0).
+ */
+export const MAX_DISPLACEMENT: Record<MaterialLevel, number> = {
+  ultrathin: 55.65161904498752,
+  thin: 78.53293977771185,
+  regular: 122.80891678834695,
+  thick: 133.9733637691058,
+};
+
+/* ------------------------------------------------------------------ */
+/* Spec                                                                */
+/* ------------------------------------------------------------------ */
 
 export interface DisplacementMapSpec {
   width: number;
   height: number;
   /** corner radius in px */
   radius: number;
-  /** bezel band width in px (how far refraction reaches inward) */
+  /** bezel band width in px — defaults to the level's baked bezel */
   bezel?: number;
-  /** glass thickness in px (height of the surface above the background) */
-  thickness?: number;
-  /** refractive index of the glass */
-  ior?: number;
-  /** surface profile (kube.io equations) */
-  profile?: SurfaceProfile;
-  /** long-side resolution cap for the generated bitmap */
-  maxResolution?: number;
-  /**
-   * PROGRESSIVE BLUR ceiling (CSS px) — distributed across a stack of
-   * masked blur layers (kube.io "Progressive Blur" construction), not one
-   * fat alpha-faded layer. Alpha-fading a single blur never reduces the blur
-   * RADIUS, it just makes it semi-transparent — which reads as haze/bloom.
-   * A stack of small radii with shrinking masks compounds into a true frost
-   * gradient: each layer adds a little more blur toward the outer edge.
-   */
-  blur?: number;
-  /** specular highlight parameters (kube.io "Specular Highlight" section) */
-  specular?: {
-    /** fixed light direction angle in degrees (0 = +X, CCW) */
-    angle?: number;
-    /** exponent — higher = tighter rim */
-    exponent?: number;
-  };
+  /** material level whose baked curve + constant to use (runtime path) */
+  material?: MaterialLevel;
+  /** fixed light direction for the specular rim, degrees (default -60) */
+  specularAngle?: number;
+  /** total map pixel budget before the render downsamples (default 1.1M) */
+  pixelBudget?: number;
 }
 
 /* ------------------------------------------------------------------ */
-/* Surface profile functions (kube.io equations)                       */
-/* ------------------------------------------------------------------ */
-
-/** x in [0,1] — 0 at the outer edge, 1 at the end of the bezel. */
-function surfaceHeight(x: number, profile: SurfaceProfile): number {
-  const t = Math.min(1, Math.max(0, x));
-  switch (profile) {
-    case "convex-circle":
-      return Math.sqrt(1 - (1 - t) * (1 - t));
-    case "convex-squircle":
-      return Math.sqrt(Math.sqrt(1 - Math.pow(1 - t, 4)));
-    case "concave":
-      return 1 - Math.sqrt(Math.sqrt(1 - Math.pow(1 - t, 4)));
-    case "lip": {
-      const convex = Math.sqrt(Math.sqrt(1 - Math.pow(1 - t, 4)));
-      const concave = 1 - convex;
-      // smootherstep blend — raised rim, shallow center dip
-      const s = t * t * t * (t * (t * 6 - 15) + 10);
-      return convex * (1 - s) + concave * s;
-    }
-  }
-}
-
-/* ------------------------------------------------------------------ */
-/* Refraction pre-computation along the bezel radius                   */
+/* Displacement map — kube.io's Qt ring renderer, verbatim            */
 /* ------------------------------------------------------------------ */
 
 /**
- * One refracted ray, exactly as the article traces it:
+ * Renders the displacement map into an ImageData of w*dpr x h*dpr px.
  *
- *   - the incident ray travels straight down (orthogonal to background)
- *   - it enters the glass at height h(x) above the background plane
- *   - the surface normal comes from the height function's derivative,
- *     rotated by -90 degrees
- *   - Snell: n1 sin(θ1) = n2 sin(θ2)
- *   - the ray continues to the background plane; the displacement is the
- *     horizontal distance between entry and landing
- *
- * Returns the displacement magnitude (px, signed: + = inward) sampled at
- * `samples` distances from the border across the bezel.
+ * Ring mechanics (decoded from the shipped `Qt`): for every pixel, the
+ * offset to the nearest corner-arc center (0 on the straight spans) gives
+ * both the exact radial direction and the border depth; pixels with
+ * dist in [r - bezel, r + 1] (map px) are displaced inward along the
+ * radial by profile(depth) — the baked curve — with a 1px outer fade.
  */
-function refractionDisplacements(
+function renderDisplacementMap(
+  w: number,
+  h: number,
+  radius: number,
   bezel: number,
-  thickness: number,
-  ior: number,
-  profile: SurfaceProfile,
-  samples = 127
-): Float64Array {
-  const out = new Float64Array(samples);
-  const delta = 0.001; // derivative approximation (kube.io uses the same)
-  const eta = 1 / ior;
+  profile: number[],
+  dpr: number
+): ImageData | null {
+  const mw = Math.max(2, Math.round(w * dpr));
+  const mh = Math.max(2, Math.round(h * dpr));
+  const canvas = document.createElement("canvas");
+  canvas.width = mw;
+  canvas.height = mh;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
 
-  for (let i = 0; i < samples; i++) {
-    // distance from the border, 0 → bezel
-    const x = (i / (samples - 1)) * bezel;
+  const img = ctx.createImageData(mw, mh);
+  // Neutral fill 0xFF008080 little-endian: R=128 G=128 B=0 A=255.
+  new Uint32Array(img.data.buffer).fill(0xff008080);
 
-    // normalized surface coordinate + derivative (central differences)
-    const nx = x / bezel;
-    const y1 = surfaceHeight(nx - delta, profile);
-    const y2 = surfaceHeight(nx + delta, profile);
-    const derivative = (y2 - y1) / (2 * delta);
+  const r = Math.min(radius, Math.min(w, h) / 2) * dpr; // p — arc radius
+  const m = Math.max(1, bezel * dpr); // ring width in map px
+  const inner2 = (r - m) * (r - m);
+  const border2 = r * r;
+  const outer2 = (r + 1) * (r + 1);
+  const spanX = mw - 2 * r; // b — straight-run length between arc centers
+  const spanY = mh - 2 * r; // ee
+  const n = profile.length;
 
-    // physical height of the entry point above the background plane
-    const h = surfaceHeight(nx, profile) * thickness;
+  for (let e = 0; e < mh; e++) {
+    const bottom = e >= mh - r;
+    const d = e < r ? e - r : bottom ? e - r - spanY : 0;
+    for (let t = 0; t < mw; t++) {
+      const right = t >= mw - r;
+      const l = t < r ? t - r : right ? t - r - spanX : 0;
+      const s = l * l + d * d;
+      if (s > outer2 || s < inner2) continue;
 
-    // surface normal: derivative rotated by -90° → (-h', 1), normalized
-    const len = Math.sqrt(derivative * derivative + 1);
-    const normalX = -derivative / len;
-    const normalY = 1 / len;
-
-    // incident direction: straight down
-    const dirX = 0;
-    const dirY = -1;
-
-    // Snell–Descartes
-    const cosTheta1 = -(dirX * normalX + dirY * normalY); // = 1/len
-    const sinTheta1 = Math.min(1, Math.abs(derivative) / len);
-    const sinTheta2 = (sinTheta1 * 1) / ior;
-    const cosTheta2 = Math.sqrt(Math.max(0, 1 - sinTheta2 * sinTheta2));
-
-    // refracted direction (Glasstone formula used by every ray tracer)
-    const k = eta * cosTheta1 - cosTheta2;
-    const tX = eta * dirX + k * normalX;
-    const tY = eta * dirY + k * normalY;
-
-    // travel from the entry point down to the background plane (y = 0)
-    if (tY >= -1e-6 || h <= 0) {
-      out[i] = 0; // grazing / at the very border — no displacement
-      continue;
+      const dist = Math.sqrt(s);
+      // 1px antialias fade across the outer band [r, r+1]
+      const fade = s < border2 ? 1 : 1 - (dist - r);
+      const depth = r - dist; // map px from the border, inward
+      const inv = 1 / dist;
+      const nx = l * inv; // outward radial unit (exact per pixel)
+      const ny = d * inv;
+      // kube: c = s[(depth/m * len)|0] ?? 0 — truncation toward zero
+      const c = profile[(depth / m) * n | 0] ?? 0;
+      const k = c * 127 * fade;
+      const rr = Math.max(0, Math.min(255, Math.round(128 - nx * k)));
+      const gg = Math.max(0, Math.min(255, Math.round(128 - ny * k)));
+      const i = (e * mw + t) * 4;
+      img.data[i] = rr;
+      img.data[i + 1] = gg;
+      img.data[i + 2] = 0;
+      img.data[i + 3] = 255;
     }
-    const travel = h / -tY;
-    const landing = x + travel * tX;
-    out[i] = landing - x; // + = displaced inward (convex keeps inside)
   }
-  return out;
-}
-
-/** Smallest unit the 8-bit map can express (kube.io: 127 samples ≈ 1/127). */
-const PROFILE_SAMPLES = 127;
-
-export interface DisplacementField {
-  /** normalized displacement magnitudes (0..1) sampled across the bezel */
-  profile: Float64Array;
-  /** the maximum displacement magnitude in px — reuse directly as filter scale */
-  maximumDisplacement: number;
-}
-
-const fieldCache = new Map<string, DisplacementField>();
-
-export function displacementFieldKey(spec: DisplacementMapSpec): string {
-  const bezel = spec.bezel ?? 24;
-  const thickness = spec.thickness ?? 32;
-  const ior = spec.ior ?? 1.5;
-  const profile = spec.profile ?? "convex-squircle";
-  return `f${Math.round(bezel)}t${Math.round(thickness)}n${ior}p${profile}`;
-}
-
-/**
- * Pre-calculate (and cache) the normalized displacement profile for one
- * bezel/thickness/IOR/profile combination. The magnitudes are divided by
- * the maximum so the map stores unit vectors; `maximumDisplacement` is
- * returned to feed <feDisplacementMap scale>.
- */
-export function computeDisplacementField(
-  spec: DisplacementMapSpec
-): DisplacementField {
-  const bezel = spec.bezel ?? 24;
-  const thickness = spec.thickness ?? 32;
-  const ior = spec.ior ?? 1.5;
-  const profile = spec.profile ?? "convex-squircle";
-  const key = displacementFieldKey(spec);
-  const cached = fieldCache.get(key);
-  if (cached) return cached;
-
-  const mags = refractionDisplacements(bezel, thickness, ior, profile, PROFILE_SAMPLES);
-  let max = 0;
-  for (let i = 0; i < mags.length; i++) {
-    const m = Math.abs(mags[i]);
-    if (m > max) max = m;
-  }
-  const profileNorm = new Float64Array(PROFILE_SAMPLES);
-  for (let i = 0; i < PROFILE_SAMPLES; i++) {
-    profileNorm[i] = max > 0 ? mags[i] / max : 0;
-  }
-  const field: DisplacementField = { profile: profileNorm, maximumDisplacement: max };
-  if (fieldCache.size > 64) fieldCache.clear();
-  fieldCache.set(key, field);
-  return field;
+  return img;
 }
 
 /* ------------------------------------------------------------------ */
-/* Rounded-rect signed distance field                                  */
+/* Specular map — kube.io's Yr rim renderer, verbatim                 */
 /* ------------------------------------------------------------------ */
 
 /**
- * Rounded-rect signed distance field, negative inside.
- * p relative to center, b half-extents, r corner radius.
+ * Renders the specular rim into an ImageData of w*dpr x h*dpr px.
+ *
+ * Ring [r - rimW*dpr, r + dpr] around the arc centers; brightness is a
+ * semicircle profile over the outermost 2 device pixels, gated by the
+ * border normal's alignment with the light:
+ *   s = |n·l| * sqrt(1 - (1 - t/dpr)^2), rgb = 255s, alpha = 255 s^2 fade
+ * (light at -60 degrees with the y-negated normal, exactly as shipped —
+ * byte-verified: left rim alpha 48/64, top rim 143/191).
  */
-function sdRoundedRect(px: number, py: number, bx: number, by: number, r: number): number {
-  const qx = Math.abs(px) - bx + r;
-  const qy = Math.abs(py) - by + r;
-  const ax = Math.max(qx, 0);
-  const ay = Math.max(qy, 0);
-  return Math.min(Math.max(qx, qy), 0) + Math.sqrt(ax * ax + ay * ay) - r;
+function renderSpecularMap(
+  w: number,
+  h: number,
+  radius: number,
+  rimWidth: number,
+  lightAngle: number,
+  dpr: number
+): ImageData | null {
+  const mw = Math.max(2, Math.round(w * dpr));
+  const mh = Math.max(2, Math.round(h * dpr));
+  const canvas = document.createElement("canvas");
+  canvas.width = mw;
+  canvas.height = mh;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
+
+  const img = ctx.createImageData(mw, mh);
+  new Uint32Array(img.data.buffer).fill(0); // transparent
+
+  const u = Math.min(radius, Math.min(w, h) / 2) * dpr;
+  const rim = Math.max(2, rimWidth) * dpr;
+  const lightX = Math.cos(lightAngle);
+  const lightY = Math.sin(lightAngle);
+  const border2 = u * u;
+  const outer2 = (u + dpr) * (u + dpr);
+  const inner2 = (u - rim) * (u - rim);
+  const spanX = mw - 2 * u;
+  const spanY = mh - 2 * u;
+
+  for (let e = 0; e < mh; e++) {
+    const bottom = e >= mh - u;
+    const dy = e < u ? e - u : bottom ? e - u - spanY : 0;
+    for (let t = 0; t < mw; t++) {
+      const right = t >= mw - u;
+      const dx = t < u ? t - u : right ? t - u - spanX : 0;
+      const b = dx * dx + dy * dy;
+      if (b > outer2 || b < inner2) continue;
+
+      const dist = Math.sqrt(b);
+      const depth = u - dist; // t — map px from the border
+      const fade = b < border2 ? 1 : 1 - (dist - u) / dpr;
+      const inv = 1 / dist;
+      const nx = dx * inv;
+      const ny = -dy * inv; // y negated — light coordinate system
+      const arc = Math.sqrt(Math.max(0, 1 - (1 - depth / dpr) ** 2));
+      const s = Math.abs(nx * lightX + ny * lightY) * arc;
+      const c = 255 * s;
+      const alpha = c * s * fade;
+      const i = (e * mw + t) * 4;
+      const cc = Math.round(Math.min(255, c));
+      img.data[i] = cc;
+      img.data[i + 1] = cc;
+      img.data[i + 2] = cc;
+      img.data[i + 3] = Math.round(Math.min(255, Math.max(0, alpha)));
+    }
+  }
+  return img;
 }
 
 /* ------------------------------------------------------------------ */
-/* Map generation                                                      */
+/* Generation + cache                                                  */
 /* ------------------------------------------------------------------ */
-
-export interface BlurStackLayer {
-  /** CSS blur radius for this layer (px, full-resolution) */
-  radius: number;
-  /** mask data URL — alpha 1 across this layer's frost span, smoothstep
-   * tail at its inner boundary, 0 elsewhere (RGB white) */
-  maskUrl: string;
-}
 
 export interface GeneratedMaps {
-  /** displacement map data URL (R = X, G = Y, neutral 128) */
+  /** displacement map data URL (R = X, G = Y, neutral 128, B = 0) */
   displacementUrl: string;
-  /** specular rim map data URL (grayscale highlight, black elsewhere) */
+  /** specular rim map data URL (grayscale rgb, alpha = rim strength) */
   specularUrl: string;
-  /** stacked progressive-blur layers — outermost-biased frost gradient */
-  blurStack: BlurStackLayer[];
-  /** the scale to feed feDisplacementMap (max displacement in px) */
+  /** the shipped constant for the resolved level — feDisplacementMap
+   *  scale = maximumDisplacement x scaleRatio */
   maximumDisplacement: number;
 }
 
-/**
- * Layer geometry for the progressive-blur stack. Coverage is measured from
- * the OUTER edge inward, as a fraction of the bezel band; each layer's mask
- * is opaque across its span and fades over a short tail at the inner end —
- * short tails keep the frost crisp instead of a long haze gradient.
- */
-const BLUR_STACK_PLAN = [
-  { coverage: 1.0, radiusFraction: 0.32, tail: 0.3 },
-  { coverage: 0.58, radiusFraction: 0.44, tail: 0.3 },
-  { coverage: 0.3, radiusFraction: 0.6, tail: 0.35 },
-] as const;
+interface ResolvedProfile {
+  table: number[];
+  bezel: number;
+  level: MaterialLevel;
+}
 
-/**
- * Resolves the frost ceiling into concrete layer radii. Small ceilings
- * collapse to fewer layers — one blur(0.8px) layer frosts nothing useful.
- */
-export function planBlurStack(blurPx: number): Array<{
-  radius: number;
-  coverage: number;
-  tail: number;
-}> {
-  if (!(blurPx > 0.75)) return [];
-  if (blurPx < 2.5) {
-    return [{ radius: blurPx * 0.7, coverage: 1, tail: 0.3 }];
+function resolveProfile(spec: DisplacementMapSpec): ResolvedProfile {
+  const levels: MaterialLevel[] = ["ultrathin", "thin", "regular", "thick"];
+  if (spec.material) {
+    return {
+      table: BAKED_PROFILES[spec.material],
+      bezel: spec.bezel ?? BAKED_BEZEL[spec.material],
+      level: spec.material,
+    };
   }
-  return BLUR_STACK_PLAN.map((l) => ({
-    radius: blurPx * l.radiusFraction,
-    coverage: l.coverage,
-    tail: l.tail,
-  })).filter((l) => l.radius >= 0.5);
+  // Docs/visualizer path: no material declared — nearest baked bezel.
+  const wanted = spec.bezel ?? BAKED_BEZEL.regular;
+  let best: MaterialLevel = "regular";
+  let bestD = Infinity;
+  for (const lv of levels) {
+    const d = Math.abs(BAKED_BEZEL[lv] - wanted);
+    if (d < bestD) {
+      bestD = d;
+      best = lv;
+    }
+  }
+  return { table: BAKED_PROFILES[best], bezel: spec.bezel ?? BAKED_BEZEL[best], level: best };
 }
 
 const mapCache = new Map<string, GeneratedMaps>();
 
 export function displacementMapKey(spec: DisplacementMapSpec): string {
-  const bezel = spec.bezel ?? 24;
-  const thickness = spec.thickness ?? 32;
-  const ior = spec.ior ?? 1.5;
-  const profile = spec.profile ?? "convex-squircle";
+  const { bezel, level } = resolveProfile(spec);
   return `${Math.round(spec.width)}x${Math.round(spec.height)}r${Math.round(
     spec.radius
-  )}b${Math.round(bezel)}t${Math.round(thickness)}n${ior}p${profile}bl${
-    spec.blur ?? 0
-  }`;
+  )}b${Math.round(bezel * 2)}m${level}s${Math.round(spec.specularAngle ?? -60)}`;
 }
 
 /**
- * Generates the displacement + specular maps as PNG data-URLs sized to the
- * element (kube.io: "ensure that your filter images fit the size of your
- * elements"). Results are cached by geometry key.
+ * Generates the displacement + specular maps sized to the element, at
+ * min(2, devicePixelRatio) like the shipped 2x assets. Very large
+ * surfaces downsample proportionally (feImage stretches the map back to
+ * element pixels) so a fullscreen sheet never allocates an 8-megapixel
+ * canvas. Results are cached by geometry key.
  */
-export function generateDisplacementMaps(spec: DisplacementMapSpec): GeneratedMaps | null {
+export function generateDisplacementMaps(
+  spec: DisplacementMapSpec
+): GeneratedMaps | null {
   const key = displacementMapKey(spec);
   const cached = mapCache.get(key);
   if (cached) return cached;
 
-  const w0 = Math.max(2, Math.round(spec.width));
-  const h0 = Math.max(2, Math.round(spec.height));
-  // Downsample for cost; feImage stretches with preserveAspectRatio="none".
-  const maxRes = spec.maxResolution ?? 340;
-  const scale = Math.min(1, maxRes / Math.max(w0, h0));
-  const w = Math.max(8, Math.round(w0 * scale));
-  const h = Math.max(8, Math.round(h0 * scale));
-  const radius = Math.min(spec.radius * scale, Math.min(w, h) / 2);
+  const dpr = Math.min(
+    2,
+    typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1
+  );
+  // Pixel budget: cap total map area; scale the dpr proportionally.
+  const budget = spec.pixelBudget ?? 1_100_000;
+  const rawPx = spec.width * spec.height * dpr * dpr;
+  const effDpr = rawPx > budget ? dpr * Math.sqrt(budget / rawPx) : dpr;
 
-  const bezel = spec.bezel ?? 24;
-  const thickness = spec.thickness ?? 32;
-  const ior = spec.ior ?? 1.5;
-  const profile = spec.profile ?? "convex-squircle";
-  const bz = Math.max(2, Math.min(bezel * scale, Math.min(w, h) / 2 - 1));
-  const th = Math.max(1, thickness * scale);
+  const { table, bezel, level } = resolveProfile(spec);
+  const angle = ((spec.specularAngle ?? -60) * Math.PI) / 180;
 
-  const field = computeDisplacementField({
-    ...spec,
-    bezel: bz,
-    thickness: th,
-  });
-  const { profile: profileNorm } = field;
-
-  // Fixed light direction for the specular rim (kube.io: angle between the
-  // surface normal and a fixed light direction).
-  const lightAngle = ((spec.specular?.angle ?? -60) * Math.PI) / 180;
-  const lightX = Math.cos(lightAngle);
-  const lightY = Math.sin(lightAngle);
-  const specExponent = spec.specular?.exponent ?? 8;
+  const disp = renderDisplacementMap(
+    spec.width,
+    spec.height,
+    spec.radius,
+    bezel,
+    table,
+    effDpr
+  );
+  if (!disp) return null;
+  const specMap = renderSpecularMap(
+    spec.width,
+    spec.height,
+    spec.radius,
+    2,
+    angle,
+    effDpr
+  );
+  if (!specMap) return null;
 
   const canvas = document.createElement("canvas");
-  canvas.width = w;
-  canvas.height = h;
+  canvas.width = disp.width;
+  canvas.height = disp.height;
   const ctx = canvas.getContext("2d");
   if (!ctx) return null;
 
-  const dispImg = ctx.createImageData(w, h);
-  const specImg = ctx.createImageData(w, h);
-  const blurPlan = planBlurStack(spec.blur ?? 0);
-  const blurImgs = blurPlan.map(() => ctx.createImageData(w, h));
-  const dData = dispImg.data;
-  const sData = specImg.data;
-
-  const cx = w / 2;
-  const cy = h / 2;
-
-  for (let y = 0; y < h; y++) {
-    for (let x = 0; x < w; x++) {
-      // Pixel-center sample coordinates
-      const px = x + 0.5 - cx;
-      const py = y + 0.5 - cy;
-      const d = sdRoundedRect(px, py, w / 2, h / 2, radius);
-
-      // Distance to the boundary from inside the shape (d ≤ 0 inside).
-      const depth = d < 0 ? -d : 0; // 0 at edge, growing inward
-
-      let mag = 0; // normalized displacement magnitude (0..1)
-      let nx = 0;
-      let ny = 0;
-
-      if (depth < bz) {
-        // Inward normal from the SDF gradient (central differences) —
-        // computed for the whole bezel band: both the displacement vector
-        // and the specular rim need it, including where mag itself is 0
-        // (the outermost edge, where the surface is tilted the most).
-        const eps = 1;
-        const gx =
-          sdRoundedRect(px + eps, py, w / 2, h / 2, radius) -
-          sdRoundedRect(px - eps, py, w / 2, h / 2, radius);
-        const gy =
-          sdRoundedRect(px, py + eps, w / 2, h / 2, radius) -
-          sdRoundedRect(px, py - eps, w / 2, h / 2, radius);
-        const len = Math.sqrt(gx * gx + gy * gy);
-        if (len > 1e-6) {
-          // gradient points outward — invert for inward
-          nx = -gx / len;
-          ny = -gy / len;
-        }
-
-        // look up the pre-calculated displacement magnitude
-        const t = depth / bz;
-        const idx = Math.min(PROFILE_SAMPLES - 1, Math.floor(t * (PROFILE_SAMPLES - 1)));
-        mag = profileNorm[idx];
-      }
-
-      // Displacement vector → unit vector scaled by normalized magnitude
-      const vx = nx * mag;
-      const vy = ny * mag;
-
-      const i = (y * w + x) * 4;
-      // kube.io encoding: 128 + component * 127
-      dData[i] = Math.round(128 + vx * 127);
-      dData[i + 1] = Math.round(128 + vy * 127);
-      dData[i + 2] = 128;
-      dData[i + 3] = 255;
-
-      // Specular (kube.io): rim light whose intensity varies with the angle
-      // between the surface normal and a fixed light direction. The bezel
-      // normal at this pixel points inward (nx, ny); its horizontal tilt is
-      // the surface slope at this depth — flat interior ⇒ no highlight.
-      let intensity = 0;
-      if (depth < bz && depth > 0) {
-        const t = depth / bz;
-        const delta = 0.001;
-        const y1 = surfaceHeight(t - delta, profile);
-        const y2 = surfaceHeight(t + delta, profile);
-        const derivative = (y2 - y1) / (2 * delta);
-        const slopeLen = Math.sqrt(derivative * derivative + 1);
-        const tilt = Math.abs(derivative) / slopeLen; // 0 flat → 1 vertical
-        const cosA = nx * lightX + ny * lightY; // bezel normal vs light
-        if (cosA > 0) {
-          intensity = Math.pow(cosA, specExponent) * tilt;
-        }
-        // fade the inner end of the band (surface flattens to level)
-        intensity *= 1 - t * t;
-      }
-      const c = Math.round(Math.min(1, intensity) * 255);
-      sData[i] = c;
-      sData[i + 1] = c;
-      sData[i + 2] = c;
-      sData[i + 3] = 255;
-
-      // Progressive-blur stack (kube.io): N layers, each opaque across its
-      // own frost span (measured from the outer edge inward) with a short
-      // smoothstep tail. Stacked small radii compound toward the edge into a
-      // real frost gradient — a single alpha-faded blur would read as bloom.
-      blurPlan.forEach((layer, li) => {
-        const span = bz * layer.coverage;
-        const tail = span * layer.tail;
-        let a: number;
-        if (depth >= span) {
-          a = 0;
-        } else if (depth >= span - tail && tail > 0) {
-          const u = (span - depth) / tail; // 1 at tail start → 0 at span
-          a = u * u * (3 - 2 * u);
-        } else {
-          a = 1;
-        }
-        const m = Math.round(Math.max(0, Math.min(1, a)) * 255);
-        const mData = blurImgs[li].data;
-        mData[i] = 255;
-        mData[i + 1] = 255;
-        mData[i + 2] = 255;
-        mData[i + 3] = m;
-      });
-    }
-  }
-
-  // Paint all maps from one canvas (one pass per ImageData)
-  ctx.putImageData(dispImg, 0, 0);
+  ctx.putImageData(disp, 0, 0);
   const displacementUrl = canvas.toDataURL("image/png");
-  ctx.putImageData(specImg, 0, 0);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.putImageData(specMap, 0, 0);
   const specularUrl = canvas.toDataURL("image/png");
-  const blurStack: BlurStackLayer[] = [];
-  for (let li = 0; li < blurPlan.length; li++) {
-    ctx.putImageData(blurImgs[li], 0, 0);
-    const url = canvas.toDataURL("image/png");
-    if (!url) return null;
-    blurStack.push({ radius: blurPlan[li].radius, maskUrl: url });
-  }
-
   if (!displacementUrl || !specularUrl) return null;
 
   const maps: GeneratedMaps = {
     displacementUrl,
     specularUrl,
-    blurStack,
-    maximumDisplacement: Math.round(field.maximumDisplacement / scale),
+    maximumDisplacement: MAX_DISPLACEMENT[level],
   };
-  if (mapCache.size > 48) mapCache.clear(); // transient stretch sizes don't grow it unbounded
+  if (mapCache.size > 48) mapCache.clear();
   mapCache.set(key, maps);
   return maps;
 }
 
-/** Back-compat single-map helper (previous API returned one data URL). */
+/** Single-map helper (the docs map visualizer uses this). */
 export function generateDisplacementMap(spec: DisplacementMapSpec): string {
   const maps = generateDisplacementMaps(spec);
   return maps ? maps.displacementUrl : "";
@@ -498,40 +403,31 @@ export function displacementMapCacheSize(): number {
 }
 
 /**
- * Human-readable summary of the vector field at a probe point — used by the
- * live map visualizer on the Materials page.
+ * Human-readable summary of the vector field at a probe point — the docs
+ * map visualizer draws these as an arrow grid. Same ring math as the
+ * generator: direction is the inward radial, magnitude the baked curve.
  */
 export function probeField(
   spec: DisplacementMapSpec,
   x: number,
   y: number
 ): { nx: number; ny: number; profile: number } {
-  const bezel = spec.bezel ?? 24;
-  const px = x - spec.width / 2;
-  const py = y - spec.height / 2;
-  const d = sdRoundedRect(px, py, spec.width / 2, spec.height / 2, spec.radius);
-  let profile = 0;
-  if (d < 0 && -d < bezel) {
-    const field = computeDisplacementField(spec);
-    const t = -d / bezel;
-    const idx = Math.min(PROFILE_SAMPLES - 1, Math.floor(t * (PROFILE_SAMPLES - 1)));
-    profile = Math.abs(field.profile[idx]);
-  }
-  let nx = 0;
-  let ny = 0;
-  if (profile > 0) {
-    const eps = 1;
-    const gx =
-      sdRoundedRect(px + eps, py, spec.width / 2, spec.height / 2, spec.radius) -
-      sdRoundedRect(px - eps, py, spec.width / 2, spec.height / 2, spec.radius);
-    const gy =
-      sdRoundedRect(px, py + eps, spec.width / 2, spec.height / 2, spec.radius) -
-      sdRoundedRect(px, py - eps, spec.width / 2, spec.height / 2, spec.radius);
-    const len = Math.sqrt(gx * gx + gy * gy);
-    if (len > 1e-6) {
-      nx = -gx / len;
-      ny = -gy / len;
-    }
-  }
-  return { nx, ny, profile };
+  const { table, bezel } = resolveProfile(spec);
+  const w = spec.width;
+  const h = spec.height;
+  const p = Math.min(spec.radius, Math.min(w, h) / 2);
+  const bottom = y >= h - p;
+  const d = y < p ? y - p : bottom ? y - p - (h - 2 * p) : 0;
+  const right = x >= w - p;
+  const l = x < p ? x - p : right ? x - p - (w - 2 * p) : 0;
+  const s = l * l + d * d;
+  const outer2 = (p + 1) * (p + 1);
+  const inner2 = (p - bezel) * (p - bezel);
+  if (s > outer2 || s < inner2) return { nx: 0, ny: 0, profile: 0 };
+
+  const dist = Math.sqrt(s);
+  const depth = p - dist;
+  const profile = Math.abs(table[(depth / bezel) * table.length | 0] ?? 0);
+  if (profile <= 0 || dist < 1e-6) return { nx: 0, ny: 0, profile: 0 };
+  return { nx: -l / dist, ny: -d / dist, profile };
 }

@@ -1,26 +1,33 @@
 "use client";
 
 /**
- * GLASS LAB — interactive harness for the liquid-glass runtime.
+ * GLASS LAB — interactive harness for the liquid-glass runtime (kube.io
+ * exact port).
  *
  * Not part of the public docs site. A deliberately busy, high-contrast
  * backdrop (grid + text specimen + color bands) so refraction is provable,
  * with GlassSurface instances sized to expose the known failure modes:
  *
  *  - fractional layout widths (233.5px) → filter-region hairline boxes
- *  - small chips (bezel ≈ element height) → whole-surface bloom
+ *  - small chips (bezel ≈ element height) → whole-surface frost/bloom
  *  - interactive content (buttons/links) → must stay clickable and must
  *    never realign when the surface is elastically pulled
- *  - every material level side by side for frost-gradient comparison
+ *  - every material level side by side for refraction comparison
+ *  - text + icon surfaces (the kube.io searchbox / player shapes) →
+ *    content must stretch visually with the glass and stay legible
  *
  * Drag any glass surface to test the elastic pull; drag from a button and
  * the button's normal behavior wins (no gesture).
  */
 
 import React from "react";
+import {
+  IconSearch,
+  IconSparkles,
+  IconPlayerPlay,
+} from "@tabler/icons-react";
 import { EvalShell } from "@/eval/EvalShell";
-import { GlassSurface } from "@/lib/glass";
-import { MATERIAL_RAMP, type MaterialLevel } from "@/lib/glass";
+import { GlassSurface, MATERIAL_RAMP, type MaterialLevel } from "@/lib/glass";
 
 function BusyBackdrop() {
   return (
@@ -79,12 +86,14 @@ export default function GlassLabPage() {
             </h1>
             <p className="mt-2 text-sm leading-relaxed text-neutral-800">
               Drag any glass surface — it should stretch elastically toward the
-              pointer (never fully reaching it) and spring back on release.
-              Layout never changes; buttons stay put and stay clickable.
+              pointer (never fully reaching it, capped at ~1cm) and spring
+              back with a jelly settle on release. Layout never changes;
+              buttons stay put and stay clickable; the lens sharpens while
+              held (refraction ×1.25).
             </p>
           </header>
 
-          {/* material ramp row — frost gradient comparison */}
+          {/* material ramp row — refraction comparison */}
           <section className="flex flex-wrap items-center gap-5">
             {levels.map((level) => (
               <GlassSurface
@@ -95,10 +104,59 @@ export default function GlassLabPage() {
                 data-glass-lab={`ramp-${level}`}
               >
                 <span className="text-[13px] font-semibold text-neutral-900">
-                  {level} · blur {MATERIAL_RAMP[level].blur}px
+                  {level} · scale {MATERIAL_RAMP[level].maxDisplacement.toFixed(1)}
                 </span>
               </GlassSurface>
             ))}
+          </section>
+
+          {/* text + icon surfaces — the kube.io component shapes; the
+              content must stretch visually with the glass */}
+          <section className="flex flex-wrap items-center gap-6">
+            <GlassSurface
+              shape="capsule"
+              material="thin"
+              className="flex h-14 w-[320px] items-center gap-2.5 px-5"
+              data-glass-lab="search-capsule"
+            >
+              <IconSearch size={16} stroke={2} className="shrink-0 text-neutral-700" />
+              <span className="text-[14px] text-neutral-500">
+                Search the glass docs
+              </span>
+              <span className="ml-auto rounded border border-neutral-400 px-1.5 py-0.5 font-mono text-[11px] text-neutral-600">
+                ⌘K
+              </span>
+            </GlassSurface>
+
+            <GlassSurface
+              shape="capsule"
+              material="regular"
+              className="flex h-16 w-[400px] items-center gap-4 px-6"
+              data-glass-lab="player-capsule"
+            >
+              <IconPlayerPlay size={18} stroke={2} className="shrink-0 text-neutral-800" />
+              <span className="font-mono text-[14px] tabular-nums text-neutral-800">
+                03:12 / 18:40
+              </span>
+              <span className="ml-auto flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-neutral-700" />
+                <span className="text-[12px] font-medium text-neutral-700">
+                  Ambient Refractions
+                </span>
+              </span>
+            </GlassSurface>
+
+            <GlassSurface
+              shape="capsule"
+              material="regular"
+              className="flex h-11 items-center gap-2 px-4"
+              data-glass-lab="sparkle-chip"
+            >
+              <IconSparkles size={15} stroke={2} className="shrink-0 text-neutral-700" />
+              <span className="text-[13px] font-semibold text-neutral-900">
+                Liquid preview
+              </span>
+            </GlassSurface>
           </section>
 
           {/* fractional widths — filter-region hairline box test */}

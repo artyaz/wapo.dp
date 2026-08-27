@@ -434,15 +434,15 @@ export type MaterialLevelName = "ultrathin" | "thin" | "regular" | "thick";
 /** One level of the liquid-glass material ramp. */
 export interface MaterialLevelDoc {
   level: MaterialLevelName;
-  /** Backdrop blur in px. */
+  /** In-filter frost — feGaussianBlur stdDeviation, 0–1px (kube.io range). */
   blur: number;
-  /** Backdrop saturation in percent (e.g. 150 = 1.5). */
+  /** feColorMatrix saturate multiplier on the refracted content (×4–×9). */
   saturate: number;
-  /** Panel tint opacity in percent (bg-panel/<tint>). */
+  /** White tint alpha on the glass layer, percent. */
   tint: number;
   /** WebGL refraction strength, 0–1. */
   strength: number;
-  /** SVG displacement scale. */
+  /** The shipped kube.io maxDisplacement constant (filter scale at ×1). */
   displacement: number;
   description: string;
 }
@@ -450,47 +450,48 @@ export interface MaterialLevelDoc {
 /**
  * The four material levels — the same values the glass runtime's MATERIAL_RAMP
  * negotiates per engine tier (backdrop-filter base, SVG displacement on
- * Chromium, WebGL refraction elsewhere).
+ * Chromium, WebGL refraction elsewhere). Each level reuses one shipped
+ * kube.io reference component, constants verbatim.
  */
 export const MATERIAL_RAMP_DOCS: MaterialLevelDoc[] = [
   {
     level: "ultrathin",
-    blur: 16,
-    saturate: 120,
-    tint: 40,
+    blur: 0.2,
+    saturate: 4,
+    tint: 5,
     strength: 0.35,
-    displacement: 6,
+    displacement: 55.65,
     description:
-      "The scrim end of the scrim-to-sheet range — glass that must barely register over large ambient fields.",
+      "The scrim end of the scrim-to-sheet range — glass that must barely register over large ambient fields. kube.io switch-thumb constants.",
   },
   {
     level: "thin",
-    blur: 28,
-    saturate: 135,
-    tint: 50,
+    blur: 1,
+    saturate: 4,
+    tint: 5,
     strength: 0.5,
-    displacement: 9,
+    displacement: 78.53,
     description:
-      "Light-touch floating chrome up to sheet weight, where the content underneath stays the priority.",
+      "Light-touch floating chrome up to sheet weight, where the content underneath stays the priority. kube.io searchbox constants.",
   },
   {
     level: "regular",
-    blur: 40,
-    saturate: 150,
-    tint: 60,
+    blur: 0,
+    saturate: 9,
+    tint: 5,
     strength: 0.65,
-    displacement: 12,
+    displacement: 122.81,
     description:
-      "The anchor level and system default — the material of GlassChip, FloatingToolbar and most laid objects.",
+      "The anchor level and system default — the material of GlassChip, FloatingToolbar and most laid objects. kube.io magnifying-glass constants.",
   },
   {
     level: "thick",
-    blur: 56,
-    saturate: 165,
-    tint: 72,
+    blur: 0.2,
+    saturate: 4,
+    tint: 6,
     strength: 0.85,
-    displacement: 16,
+    displacement: 133.97,
     description:
-      "The legibility floor for text over busy content — dialogs, drawers and anything that must be read.",
+      "The legibility floor for text over busy content — dialogs, drawers and anything that must be read. kube.io hero-lens constants.",
   },
 ];

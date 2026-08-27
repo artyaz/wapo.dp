@@ -522,13 +522,15 @@ function SeparateLayers() {
           </p>
           <p>
             So the displacement layer carries only the bare url() — one
-            function, one token, nothing to take down with it — while the
-            frost lives on its own masked layer beneath. If the reference ever
-            fails, that layer voids itself and the surface degrades to the
-            blur tier instead of to nothing. The frost is now PROGRESSIVE:
-            masked to the bezel band (a smoothstep ramp from the same SDF as
-            the displacement map), so the center of the surface stays crisp
-            and only the bent edges take frost — the old global 40px blur is
+            function, one token, nothing to take down with it — on a layer
+            of its own. If the reference ever fails, that layer voids itself
+            and the surface degrades to the saturate-and-tint tier instead
+            of to nothing. The frost itself lives INSIDE the filter, exactly
+            as kube.io builds it: one <Token>feGaussianBlur</Token> whose
+            stdDeviation stays between 0 and 1px, applied to the backdrop
+            before the displacement map bends it. The center of the surface
+            stays crisp because the baked bezel curve — not a mask — decides
+            where the lens has any effect at all; the old global blur is
             what made the material read as bloom.
           </p>
         </div>

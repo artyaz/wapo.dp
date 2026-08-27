@@ -83,8 +83,8 @@ export function MaterialTeaserSection() {
                   {level}
                 </span>
                 <span className="font-code text-[11px] text-neutral-400">
-                  blur {ramp.blur}px · sat {Math.round(ramp.saturate * 100)}% ·
-                  tint {ramp.tint}%
+                  scale {ramp.maxDisplacement.toFixed(1)} · bezel {ramp.bezel}px
+                  · sat ×{ramp.saturate}
                 </span>
               </div>
             );

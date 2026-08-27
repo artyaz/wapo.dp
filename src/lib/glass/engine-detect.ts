@@ -160,39 +160,106 @@ export function resetStrategyCache(): void {
 }
 
 /* ------------------------------------------------------------------ */
-/* Material ramp — the canonical values (MaterialTokens §1)            */
+/* Material ramp — kube.io's shipped component constants, verbatim     */
 /* ------------------------------------------------------------------ */
+
+import { MAX_DISPLACEMENT } from "./displacement-map";
 
 export interface MaterialRampEntry {
   /**
-   * PROGRESSIVE BLUR ceiling (px). Blur is edge-only (masked so the center
-   * stays crisp) — the kube.io music-player look. The old global 16–56px
-   * blur frosted the whole surface and read as bloom.
+   * kube.io "refraction level" — the filter's scaleRatio spring rests at
+   * refraction x 0.8 and rises to refraction x 1.0 while the surface is
+   * grabbed (the magnifying-glass relationship, exactly).
+   */
+  refraction: number;
+  /**
+   * The shipped maxDisplacement constant — feDisplacementMap
+   * scale = maxDisplacement x scaleRatio.
+   */
+  maxDisplacement: number;
+  /** bezel band width in px — how far the refraction reaches inward */
+  bezel: number;
+  /**
+   * In-filter frost: feGaussianBlur stdDeviation (kube.io keeps this in
+   * 0..1 — the ONLY frost the reference construction carries).
    */
   blur: number;
-  /** global saturation boost (applied unmasked, keeps content vibrant) */
+  /** feColorMatrix saturate on the refracted content (kube 4..9) */
   saturate: number;
-  /** panel tint, percent */
+  /** feFuncA slope — specular rim opacity (kube 0.2..0.5) */
+  specularOpacity: number;
+  /** white tint alpha on the glass layer, percent (kube searchbox: 5) */
   tint: number;
   /** WebGL refraction strength on liquidGL's 0–1 scale */
   strength: number;
   /**
-   * refraction level (kube.io "Refraction Level" parameter) — multiplies
-   * the physical maximum displacement fed to feDisplacementMap.
+   * OUR stretch adaptation (the one allowed change): how much pull
+   * travel this material allows relative to the 1cm budget.
    */
-  refraction: number;
-  /** bezel band width in px — how far the refraction reaches inward */
-  bezel: number;
-  /** glass thickness in px (surface height above the background) */
-  thickness: number;
+  stretch: number;
 }
 
+/**
+ * Each level reuses one shipped kube.io component, constants verbatim:
+ *
+ *   ultrathin  switch thumb   146x92  r46  (rest ratio 0.4)
+ *   thin       searchbox      420x56  r28  (rest ratio 0.7)
+ *   regular    magnifier      210x150 r75  (rest ratio 0.8 -> scale 98.247)
+ *   thick      hero circle    150x150 r75  (rest ratio 1.0)
+ */
 export const MATERIAL_RAMP: Record<MaterialLevel, MaterialRampEntry> = {
-  ultrathin: { blur: 0, saturate: 1.2, tint: 24, strength: 0.35, refraction: 0.7, bezel: 14, thickness: 20 },
-  thin: { blur: 1.5, saturate: 1.3, tint: 32, strength: 0.5, refraction: 0.9, bezel: 18, thickness: 28 },
-  regular: { blur: 3, saturate: 1.45, tint: 38, strength: 0.65, refraction: 1.0, bezel: 24, thickness: 36 },
-  thick: { blur: 6, saturate: 1.6, tint: 46, strength: 0.85, refraction: 1.15, bezel: 32, thickness: 48 },
+  ultrathin: {
+    refraction: 0.5,
+    maxDisplacement: MAX_DISPLACEMENT.ultrathin,
+    bezel: 4,
+    blur: 0.2,
+    saturate: 4,
+    specularOpacity: 0.4,
+    tint: 5,
+    strength: 0.35,
+    stretch: 0.7,
+  },
+  thin: {
+    refraction: 0.875,
+    maxDisplacement: MAX_DISPLACEMENT.thin,
+    bezel: 21,
+    blur: 1,
+    saturate: 4,
+    specularOpacity: 0.2,
+    tint: 5,
+    strength: 0.5,
+    stretch: 0.85,
+  },
+  regular: {
+    refraction: 1,
+    maxDisplacement: MAX_DISPLACEMENT.regular,
+    bezel: 20,
+    blur: 0,
+    saturate: 9,
+    specularOpacity: 0.5,
+    tint: 5,
+    strength: 0.65,
+    stretch: 1,
+  },
+  thick: {
+    refraction: 1.25,
+    maxDisplacement: MAX_DISPLACEMENT.thick,
+    bezel: 32.5,
+    blur: 0.2,
+    saturate: 4,
+    specularOpacity: 0.4,
+    tint: 6,
+    strength: 0.85,
+    stretch: 1.3,
+  },
 };
+
+/**
+ * The stretch budget (OUR adaptation of the magnifier's drag): a surface
+ * may elongate by at most ~1cm (37.8px at 96dpi) or 22% of the stretched
+ * axis — whichever is smaller — scaled by the material's stretch factor.
+ */
+export const STRETCH_BUDGET = { cmPx: 37.8, fraction: 0.22 } as const;
 
 /**
  * Chromatic aberration multipliers per color channel (spec §4).

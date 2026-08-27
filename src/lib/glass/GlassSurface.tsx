@@ -1,12 +1,18 @@
 "use client";
 
 import React from "react";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { twClassNames } from "@/lib/subframe/utils";
 import {
   MATERIAL_RAMP,
   SHAPE_RADIUS,
   INTENSITY_BASE_SCALE,
-  SPECULAR_DEFAULTS,
+  STRETCH_BUDGET,
   type MaterialLevel,
   type GlassShape,
   type RefractionIntensity,
@@ -15,13 +21,9 @@ import {
   useGlassRuntime,
   useGlassMaterial,
   GlassMaterialContext,
-  hashKey,
   type GlassMaterialContextValue,
 } from "./glass-store";
-import {
-  generateDisplacementMaps,
-  displacementMapKey,
-} from "./displacement-map";
+import { generateDisplacementMaps } from "./displacement-map";
 import {
   createLiquidGlass,
   type LiquidGlassHandle,
@@ -29,57 +31,46 @@ import {
 } from "./webgl-refraction";
 
 /**
- * GlassSurface — the universal liquid-glass primitive, rebuilt on the
- * kube.io reference implementation:
+ * GlassSurface — the universal liquid-glass primitive, an exact port of
+ * the kube.io reference implementation:
  *
  *   https://kube.io/blog/liquid-glass-css-svg/
  *
- * One component, three implementation tiers, identical semantics:
+ * Chromium tier (the reference construction, verbatim):
  *
- *  svg-displacement  Chromium: backdrop-filter: url(#filter) where the SVG
- *                    filter is EXACTLY the article's construction — an
- *                    element-sized feImage displacement map (real Snell's-law
- *                    refraction, normalized vectors) + a single
- *                    feDisplacementMap whose scale IS the physical maximum
- *                    displacement + a specular rim feImage blended with
- *                    feBlend mode="screen".
- *  webgl-refraction  Safari/Firefox: WebGL canvas in the inset slot; full mode
- *                    replaces the material, edge mode adds the bevel band over
- *                    the live backdrop.
- *  backdrop-filter   base tier: progressive (edge-only) blur + saturation.
+ *   <svg style="display:none" color-interpolation-filters="sRGB">
+ *     <filter id>
+ *       feGaussianBlur(SourceGraphic, stdDeviation 0..1)      the only frost
+ *       feImage(displacement map, element-sized)
+ *       feDisplacementMap(scale = maxDisplacement × scaleRatio)  the lens
+ *       feColorMatrix(saturate 4..9)
+ *       feImage(specular map, element-sized)
+ *       feComposite(operator="in") · feComponentTransfer(feFuncA slope)
+ *       feBlend × 2                                            the rim
  *
- * Layer stack (bottom → top), the tint moved OFF the root so the
- * backdrop-filter layers sample the page content itself, not the tint:
+ *  ...applied as backdrop-filter: url(#id) on a single glass layer that
+ *  also carries the white tint, the spring-animated shadow and the
+ *  ring-1 hairline — exactly the magnifying-glass markup.
  *
- *   1. refraction layer   — url(#filter), Chromium tier
- *   2. progressive blur   — STACKED masked blur layers (kube.io "Progressive
- *                           Blur"): each layer is a small blur radius masked
- *                           to a shrinking span of the bezel band, so the
- *                           frost compounds toward the edge into a crisp
- *                           gradient instead of one fat alpha-faded blur
- *                           (which reads as bloom). Layers render ONLY when
- *                           the maps exist — never unmasked.
- *   3. tint layer         — color-mix(panel, tint%) over the refracted content
- *   4. rim                — 20% white border
- *   5. dual sheen         — canonical specular construction
- *   6. content            — crisp, above every layer
+ * Motion rig (the MagnifyingGlass component's springs, decoded verbatim):
+ *   scaleRatio   spring {250, 14} — rest refractionLevel × 0.8,
+ *                held refractionLevel × 1.0 (so a grabbed regular surface
+ *                lenses at 98.247 px → 122.809 px, ×1.25 exactly)
+ *   shadow       springs {340, 30} / alphas {220, 24} —
+ *                rest (0, 4, 9, .16, .20) → held (4, 16, 24, .22, .27)
  *
- * Every backdrop-filter layer carries the surface's own border-radius so the
- * filter's sample region follows the rounded shape — square-cornered filter
- * layers under a rounded clip leave a translucent fringe (the "half-transparent
- * box" artifact) along the edges.
+ * Stretch (the ONE adaptation, built from the magnifier's math): hold the
+ * surface and pull — it deforms with saturating resistance along the
+ * dominant axis (one axis elongates, the other squashes, floor 0.7,
+ * area-preserving like scaleX = base + (1 − scaleY)), capped at ~1cm or
+ * 22% of the axis, then springs back on the same {340, 30} springs with
+ * an underdamped jelly settle. Pure scaleX/scaleY on the root: layout,
+ * DOM geometry and interactive children never move; the content stretches
+ * visually with the glass because the whole subtree transforms together.
+ * No cursor change; interactive descendants opt out automatically.
  *
- * Elastic pull interaction (kube.io magnifying-glass feel): grab the surface
- * anywhere and drag — the glass follows the pointer with saturating resistance
- * (it never stretches all the way to the cursor; it has its own
- * stretchability), elongating along the pull axis and squashing across it,
- * then springs back with an underdamped jelly wobble on release. The whole
- * deformation is a pure CSS transform on the root: layout, DOM geometry and
- * interactive children are completely untouched — buttons inside keep their
- * positions and keep working — while ALL content (text, icons) stretches
- * visually with the glass because the entire subtree transforms together.
- * No cursor is shown for the gesture. Interactive descendants (buttons,
- * links, inputs…) opt out automatically so their normal behavior wins.
+ * Non-Chromium tiers keep their negotiated fallbacks (WebGL refraction on
+ * Safari/Firefox, saturate + tint + hairline as the universal base).
  */
 
 export interface GlassSurfaceProps
@@ -108,56 +99,20 @@ export interface GlassSurfaceProps
 }
 
 /* ------------------------------------------------------------------ */
-/* Stretch spring — tiny underdamped spring, rAF-driven, no deps       */
+/* Motion tag lookup — the root carries scaleX/scaleY directly        */
 /* ------------------------------------------------------------------ */
 
-interface SpringState {
-  from: number;
-  to: number;
-  v: number;
-}
-
-function reducedMotion(): boolean {
-  return (
-    typeof window !== "undefined" &&
-    typeof window.matchMedia === "function" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
-}
-
-/**
- * Runs an underdamped spring per axis and calls back with values each frame.
- * Returns a stop function.
- */
-function runSprings(
-  axes: SpringState[],
-  onUpdate: (values: number[], done: boolean) => void,
-  stiffness = 200,
-  damping = 16
-): () => void {
-  let raf = 0;
-  let last = performance.now();
-  const step = (now: number) => {
-    const dt = Math.min(0.032, (now - last) / 1000);
-    last = now;
-    let settled = true;
-    const values = axes.map((a) => {
-      const f = -stiffness * (a.from - a.to);
-      const d = -damping * a.v;
-      a.v += (f + d) * dt;
-      a.from += a.v * dt;
-      if (Math.abs(a.from - a.to) > 0.1 || Math.abs(a.v) > 1) settled = false;
-      return a.from;
-    });
-    onUpdate(values, settled);
-    if (!settled) raf = requestAnimationFrame(step);
-  };
-  raf = requestAnimationFrame(step);
-  return () => cancelAnimationFrame(raf);
-}
+const MOTION_TAGS = {
+  div: motion.div,
+  header: motion.header,
+  nav: motion.nav,
+  section: motion.section,
+  aside: motion.aside,
+  footer: motion.footer,
+} as const;
 
 /* ------------------------------------------------------------------ */
-/* Elastic pull — saturating offset + directional stretch transform    */
+/* Elastic pull — saturating offset + dominant-axis squash & stretch  */
 /* ------------------------------------------------------------------ */
 
 /** Interactive descendants that must never start a pull gesture. */
@@ -167,47 +122,50 @@ const PULL_EXCLUDES =
   "[role='checkbox'], [role='switch'], [role='menuitem'], " +
   "[contenteditable=''], [contenteditable='true'], [data-glass-no-stretch]";
 
-/** Saturating resistance: the offset asymptotically approaches maxPull. */
-function saturatePull(delta: number, maxPull: number): number {
-  return maxPull * Math.tanh(delta / maxPull);
+/** Pointer travel (px) before the stretch engages — plain clicks stay inert. */
+const PULL_ENGAGE_PX = 3;
+
+function reducedMotion(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
+/** Per-axis saturating resistance: offset asymptotically reaches budget. */
+function saturatePull(delta: number, budget: number): number {
+  return budget * Math.tanh(delta / budget);
 }
 
 /**
- * Writes the elastic deformation for one pull offset. Purely visual: a
- * translate toward the pull plus a stretch along the pull axis and a squash
- * across it (rotate → scale → rotate back keeps the deformation axis-aligned
- * with the pull direction). Below the subpixel floor the transform clears —
- * identity costs nothing.
+ * The magnifier's squash & stretch, driven by the pull offset instead of
+ * drag velocity: the dominant axis (larger normalized pull) elongates
+ * while the cross axis squashes — area-preserving, squash floored at
+ * kube's 0.7 — pure 2D scale, never a rotation or translation.
  */
-function applyPullTransform(
-  el: HTMLElement,
-  ox: number,
-  oy: number,
-  maxPull: number
-): void {
-  const len = Math.hypot(ox, oy);
-  if (len < 0.5) {
-    if (el.style.transform) el.style.transform = "";
-    return;
-  }
-  const t = Math.min(1, len / maxPull);
-  const stretch = 1 + 0.85 * t; // elongation along the pull axis
-  const squash = 1 - 0.32 * t; // counter-squash across it
-  const ang = Math.atan2(oy, ox);
-  el.style.transform =
-    `translate(${ox.toFixed(2)}px, ${oy.toFixed(2)}px) ` +
-    `rotate(${ang.toFixed(4)}rad) ` +
-    `scale(${stretch.toFixed(4)}, ${squash.toFixed(4)}) ` +
-    `rotate(${(-ang).toFixed(4)}rad)`;
+function computeStretchScales(
+  pullX: number,
+  pullY: number,
+  w: number,
+  h: number
+): { scaleX: number; scaleY: number } {
+  if (w < 1 || h < 1) return { scaleX: 1, scaleY: 1 };
+  const qx = Math.abs(pullX) / w;
+  const qy = Math.abs(pullY) / h;
+  const dominant = Math.max(qx, qy);
+  const elongate = 1 + dominant;
+  const squash = Math.max(0.7, 1 - dominant);
+  return qx >= qy
+    ? { scaleX: elongate, scaleY: squash }
+    : { scaleX: squash, scaleY: elongate };
 }
 
 interface PullState {
   pointerId: number;
   startX: number;
   startY: number;
-  maxPull: number;
-  ox: number;
-  oy: number;
+  engaged: boolean;
 }
 
 /* ------------------------------------------------------------------ */
@@ -238,8 +196,6 @@ export function GlassSurface({
   const material = materialProp ?? ctx.level;
 
   const strategy = useGlassRuntime((s) => s.strategy);
-  const registerFilter = useGlassRuntime((s) => s.registerFilter);
-  const unregisterFilter = useGlassRuntime((s) => s.unregisterFilter);
 
   const rootRef = React.useRef<HTMLDivElement>(null);
   const setRootRef = React.useCallback(
@@ -254,8 +210,6 @@ export function GlassSurface({
     },
     [forwardedRef]
   );
-  const [filterId, setFilterId] = React.useState<string | null>(null);
-  const webglHandle = React.useRef<LiquidGlassHandle | null>(null);
 
   const shapeRadius =
     shape === "free" ? (radiusProp ?? 0) : (SHAPE_RADIUS[shape] ?? 0);
@@ -263,20 +217,17 @@ export function GlassSurface({
   const ramp = MATERIAL_RAMP[material];
 
   const activeStrategy = glass ? strategy : "backdrop-filter";
-  const isSvg = activeStrategy === "svg-displacement" && filterId !== null;
+  const isSvg = activeStrategy === "svg-displacement";
   const isWebgl = activeStrategy === "webgl-refraction";
+  const webglFull = isWebgl && webglMode === "full";
 
   /* ------------ measured geometry + generated maps ------------------ */
   const [geo, setGeo] = React.useState<{ w: number; h: number } | null>(null);
-  const [stretchBoost, setStretchBoost] = React.useState(0);
   const [maps, setMaps] = React.useState<{
-    key: string;
     width: number;
     height: number;
     displacementUrl: string;
     specularUrl: string;
-    blurStack: Array<{ radius: number; maskUrl: string }>;
-    maximumDisplacement: number;
   } | null>(null);
 
   React.useEffect(() => {
@@ -298,98 +249,275 @@ export function GlassSurface({
     return () => ro.disconnect();
   }, [glass]);
 
-  /* ------------ generate maps for the measured geometry ------------- */
-  /* Runs on EVERY tier — the progressive-blur stack is universal; only the
-     SVG filter registration below is Chromium-specific. */
   React.useEffect(() => {
     if (!glass || !geo) return;
     const { w, h } = geo;
     const r = shape === "capsule" ? Math.min(w, h) / 2 : shapeRadius;
-
-    const spec = {
+    const generated = generateDisplacementMaps({
       width: w,
       height: h,
       radius: r,
       bezel: ramp.bezel,
-      thickness: ramp.thickness,
-      blur: ramp.blur,
-      profile: "convex-squircle" as const,
-      specular: {
-        angle: SPECULAR_DEFAULTS.angle,
-        exponent: SPECULAR_DEFAULTS.saturation,
-      },
-    };
-    const generated = generateDisplacementMaps(spec);
+      material,
+    });
     if (!generated) return;
     setMaps({
-      key: displacementMapKey(spec),
       width: w,
       height: h,
       displacementUrl: generated.displacementUrl,
       specularUrl: generated.specularUrl,
-      blurStack: generated.blurStack,
-      maximumDisplacement: generated.maximumDisplacement,
     });
-  }, [glass, geo, shape, shapeRadius, ramp.bezel, ramp.thickness, ramp.blur]);
+  }, [glass, geo, shape, shapeRadius, material, ramp.bezel]);
 
-  /* ------------ Chromium tier: per-geometry filter registration ------ */
-  const registeredKeyRef = React.useRef<string | null>(null);
+  /* ------------ per-instance filter id ------------------------------ */
+  const reactId = React.useId();
+  const filterId = `glass-fx-${reactId.replace(/[^a-zA-Z0-9]/g, "")}`;
+
+  /* ------------------------------------------------------------------ */
+  /* kube.io motion rig — scaleRatio + shadow springs, verbatim          */
+  /* ------------------------------------------------------------------ */
+
+  const [held, setHeld] = React.useState(false);
+
+  // scaleRatio spring {250, 14}: rest = level × intensity × 0.8, held × 1.0.
+  const ratioTarget = useMotionValue(
+    ramp.refraction * INTENSITY_BASE_SCALE[intensity] * 0.8
+  );
+  const scaleRatio = useSpring(ratioTarget, { stiffness: 250, damping: 14 });
+  // feDisplacementMap scale = maxDisplacement × scaleRatio (derived).
+  const filterScale = useTransform(
+    scaleRatio,
+    (v) => ramp.maxDisplacement * v
+  );
+
   React.useEffect(() => {
-    if (!glass || strategy !== "svg-displacement" || !maps) return;
-
-    // kube.io "Refraction Level": the intensity fork and material ramp
-    // multiply the physical maximum, and pulling boosts it further (the
-    // glass lenses harder while it is deformed).
-    const scale = Math.max(
-      1,
-      Math.round(
-        maps.maximumDisplacement *
-          INTENSITY_BASE_SCALE[intensity] *
-          ramp.refraction *
-          (1 + 0.6 * stretchBoost)
-      )
+    ratioTarget.set(
+      ramp.refraction *
+        INTENSITY_BASE_SCALE[intensity] *
+        (held ? 1 : 0.8)
     );
+  }, [ratioTarget, ramp.refraction, intensity, held]);
 
-    const key = `${maps.key}-s${scale}`;
-    const id = `glass-dsp-${hashKey(key)}`;
-    registerFilter(key, {
-      id,
-      width: maps.width,
-      height: maps.height,
-      displacementUrl: maps.displacementUrl,
-      specularUrl: maps.specularUrl,
-      scale,
-      specularOpacity: SPECULAR_DEFAULTS.opacity,
-      saturate: Math.round(ramp.saturate * 100),
-    });
-    setFilterId(id);
-    registeredKeyRef.current = key;
+  // Shadow springs — magnifier values: rest (0, 4, 9, .16, .20) →
+  // held (4, 16, 24, .22, .27); geometry {340, 30}, alphas {220, 24}.
+  const shadowXTarget = useMotionValue(0);
+  const shadowYTarget = useMotionValue(4);
+  const shadowBlurTarget = useMotionValue(9);
+  const shadowAlphaTarget = useMotionValue(0.16);
+  const insetAlphaTarget = useMotionValue(0.2);
+  const shadowX = useSpring(shadowXTarget, { stiffness: 340, damping: 30 });
+  const shadowY = useSpring(shadowYTarget, { stiffness: 340, damping: 30 });
+  const shadowBlur = useSpring(shadowBlurTarget, { stiffness: 340, damping: 30 });
+  const shadowAlpha = useSpring(shadowAlphaTarget, { stiffness: 220, damping: 24 });
+  const insetAlpha = useSpring(insetAlphaTarget, { stiffness: 220, damping: 24 });
 
-    return () => {
-      const k = registeredKeyRef.current;
-      if (k) {
-        unregisterFilter(k);
-        registeredKeyRef.current = null;
-      }
-    };
+  React.useEffect(() => {
+    shadowXTarget.set(held ? 4 : 0);
+    shadowYTarget.set(held ? 16 : 4);
+    shadowBlurTarget.set(held ? 24 : 9);
+    shadowAlphaTarget.set(held ? 0.22 : 0.16);
+    insetAlphaTarget.set(held ? 0.27 : 0.2);
   }, [
-    glass,
-    strategy,
-    maps,
-    geo,
-    shape,
-    shapeRadius,
-    intensity,
-    stretchBoost,
-    registerFilter,
-    unregisterFilter,
-    ramp.bezel,
-    ramp.thickness,
-    ramp.refraction,
-    ramp.saturate,
+    held,
+    shadowXTarget,
+    shadowYTarget,
+    shadowBlurTarget,
+    shadowAlphaTarget,
+    insetAlphaTarget,
   ]);
 
+  const boxShadow = useTransform(
+    [shadowX, shadowY, shadowBlur, shadowAlpha, insetAlpha],
+    (values: number[]) => {
+      const [x, y, blur, alpha, inset] = values;
+      return (
+        `${x}px ${y}px ${blur}px rgba(0,0,0,${alpha}), ` +
+        `inset ${x / 2}px ${y / 2}px 24px rgba(0,0,0,${inset}), ` +
+        `inset ${-x / 2}px ${-y / 2}px 24px rgba(255,255,255,${inset})`
+      );
+    }
+  );
+
+  /* ------------------------------------------------------------------ */
+  /* Elastic pull — the magnifier's springs on a budget-capped offset    */
+  /* ------------------------------------------------------------------ */
+
+  const pullRef = React.useRef<PullState | null>(null);
+  const willChangeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
+  const [stretching, setStretching] = React.useState(false);
+
+  // Dimensions + per-axis budgets, kept in a ref so the motion-value
+  // transforms never go stale between renders.
+  const dimsRef = React.useRef({ w: 0, h: 0, bx: 1, by: 1 });
+  React.useEffect(() => {
+    if (!geo) return;
+    const stretch = ramp.stretch;
+    dimsRef.current = {
+      w: geo.w,
+      h: geo.h,
+      bx:
+        Math.max(1, Math.min(STRETCH_BUDGET.cmPx, STRETCH_BUDGET.fraction * geo.w)) *
+        stretch,
+      by:
+        Math.max(1, Math.min(STRETCH_BUDGET.cmPx, STRETCH_BUDGET.fraction * geo.h)) *
+        stretch,
+    };
+  }, [geo, ramp.stretch]);
+
+  const pullX = useMotionValue(0);
+  const pullY = useMotionValue(0);
+  const pullXS = useSpring(pullX, { stiffness: 340, damping: 30 });
+  const pullYS = useSpring(pullY, { stiffness: 340, damping: 30 });
+
+  const scaleX = useTransform(
+    [pullXS, pullYS],
+    (values: number[]) =>
+      computeStretchScales(values[0], values[1], dimsRef.current.w, dimsRef.current.h)
+        .scaleX
+  );
+  const scaleY = useTransform(
+    [pullXS, pullYS],
+    (values: number[]) =>
+      computeStretchScales(values[0], values[1], dimsRef.current.w, dimsRef.current.h)
+        .scaleY
+  );
+
+  const handlePointerDown = React.useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      onPointerDown?.(e);
+      if (e.defaultPrevented) return;
+      if (!stretchable || e.button !== 0) return;
+      if (pullRef.current) return; // one gesture at a time (multi-touch)
+      if (reducedMotion()) return;
+      const el = rootRef.current;
+      if (!el) return;
+
+      const target = e.target as Element | null;
+      if (target?.closest?.(PULL_EXCLUDES)) return;
+      // A nested glass surface owns its own pull gesture.
+      const ownerSurface = target?.closest?.("[data-glass-surface]");
+      if (ownerSurface && ownerSurface !== el) return;
+
+      const w = el.offsetWidth;
+      const h = el.offsetHeight;
+      if (w < 24 || h < 12) return; // too small to deform meaningfully
+
+      if (willChangeTimer.current) {
+        clearTimeout(willChangeTimer.current);
+        willChangeTimer.current = null;
+      }
+
+      e.preventDefault(); // no text-selection drag
+      try {
+        el.setPointerCapture(e.pointerId);
+      } catch {
+        /* capture is best-effort */
+      }
+      el.style.touchAction = "none"; // claim the gesture on touch too
+      el.style.willChange = "transform"; // composited for the whole gesture
+
+      pullRef.current = {
+        pointerId: e.pointerId,
+        startX: e.clientX,
+        startY: e.clientY,
+        engaged: false,
+      };
+      setStretching(true);
+      setHeld(true); // the glass wakes: refraction 0.8 → 1.0, shadow grows
+    },
+    [stretchable, onPointerDown]
+  );
+
+  const handlePointerMove = React.useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      onPointerMove?.(e);
+      const p = pullRef.current;
+      if (!p || e.pointerId !== p.pointerId) return;
+
+      const dx = e.clientX - p.startX;
+      const dy = e.clientY - p.startY;
+      if (!p.engaged) {
+        if (Math.hypot(dx, dy) < PULL_ENGAGE_PX) return;
+        p.engaged = true;
+      }
+
+      // Saturating resistance per axis — the glass has its own
+      // stretchability and never reaches the pointer.
+      const { bx, by } = dimsRef.current;
+      pullX.set(saturatePull(dx, bx));
+      pullY.set(saturatePull(dy, by));
+    },
+    [onPointerMove, pullX, pullY]
+  );
+
+  const endPull = React.useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      onPointerUp?.(e);
+      const p = pullRef.current;
+      const el = rootRef.current;
+      if (!p || !el || e.pointerId !== p.pointerId) return;
+
+      pullRef.current = null;
+      setStretching(false);
+      setHeld(false);
+      try {
+        el.releasePointerCapture(e.pointerId);
+      } catch {
+        /* pointer already released */
+      }
+      el.style.touchAction = "";
+
+      // Elastic snap-back: the {340, 30} springs return the pull offset to
+      // zero — the underdamped jelly settle comes free.
+      pullX.set(0);
+      pullY.set(0);
+      if (willChangeTimer.current) clearTimeout(willChangeTimer.current);
+      willChangeTimer.current = setTimeout(() => {
+        el.style.willChange = "";
+        willChangeTimer.current = null;
+      }, 450);
+    },
+    [onPointerUp, pullX, pullY]
+  );
+
+  const handlePointerCancel = React.useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      onPointerCancel?.(e);
+      const p = pullRef.current;
+      const el = rootRef.current;
+      if (!p || !el || e.pointerId !== p.pointerId) return;
+
+      pullRef.current = null;
+      setStretching(false);
+      setHeld(false);
+      try {
+        el.releasePointerCapture(e.pointerId);
+      } catch {
+        /* pointer already released */
+      }
+      el.style.touchAction = "";
+      el.style.willChange = "";
+      if (willChangeTimer.current) {
+        clearTimeout(willChangeTimer.current);
+        willChangeTimer.current = null;
+      }
+      pullX.set(0);
+      pullY.set(0);
+    },
+    [onPointerCancel, pullX, pullY]
+  );
+
+  React.useEffect(
+    () => () => {
+      if (willChangeTimer.current) clearTimeout(willChangeTimer.current);
+    },
+    []
+  );
+
   /* ------------ Safari/Firefox tier: bind the WebGL engine ----------- */
+  const webglHandle = React.useRef<LiquidGlassHandle | null>(null);
   React.useEffect(() => {
     if (!glass || strategy !== "webgl-refraction") return;
     const el = rootRef.current;
@@ -413,193 +541,30 @@ export function GlassSurface({
     };
   }, [glass, strategy, material, webglMode, backdrop]);
 
-  /* ------------------------------------------------------------------ */
-  /* Elastic pull (magnifying-glass stretchiness)                        */
-  /* ------------------------------------------------------------------ */
+  /* ------------ animated feDisplacementMap scale --------------------- */
+  // framer-motion treats a `scale` prop as a transform, so the attribute is
+  // written through a subscription instead (identical result to kube's
+  // motion value — the spring emits per-frame values).
+  const dispMapRef = React.useRef<SVGFEDisplacementMapElement | null>(null);
+  React.useEffect(() => {
+    const el = dispMapRef.current;
+    if (!el || !isSvg || !maps) return;
+    const write = (v: number) => el.setAttribute("scale", String(v));
+    write(filterScale.get());
+    return filterScale.on("change", write);
+  }, [filterScale, isSvg, maps]);
 
-  const pullRef = React.useRef<PullState | null>(null);
-  const springStopRef = React.useRef<(() => void) | null>(null);
-  const [stretching, setStretching] = React.useState(false);
+  const restingScale =
+    ramp.maxDisplacement *
+    ramp.refraction *
+    INTENSITY_BASE_SCALE[intensity] *
+    0.8;
 
-  const handlePointerDown = React.useCallback(
-    (e: React.PointerEvent<HTMLDivElement>) => {
-      onPointerDown?.(e);
-      if (e.defaultPrevented) return;
-      if (!stretchable || e.button !== 0) return;
-      if (pullRef.current) return; // one gesture at a time (multi-touch)
-      const el = rootRef.current;
-      if (!el) return;
-
-      const target = e.target as Element | null;
-      if (target?.closest?.(PULL_EXCLUDES)) return;
-      // A nested glass surface owns its own pull gesture.
-      const ownerSurface = target?.closest?.("[data-glass-surface]");
-      if (ownerSurface && ownerSurface !== el) return;
-
-      const w = el.offsetWidth;
-      const h = el.offsetHeight;
-      if (w < 24 || h < 12) return; // too small to deform meaningfully
-
-      // Own stretchability: the maximum travel scales with the surface but
-      // is capped — big panels are not infinitely pullable.
-      const maxPull = Math.min(64, Math.max(24, Math.min(w, h) * 0.35));
-
-      springStopRef.current?.();
-      springStopRef.current = null;
-
-      e.preventDefault(); // no text-selection drag
-      try {
-        el.setPointerCapture(e.pointerId);
-      } catch {
-        /* capture is best-effort */
-      }
-      el.style.touchAction = "none"; // claim the gesture on touch too
-      el.style.willChange = "transform"; // composited for the whole gesture
-
-      pullRef.current = {
-        pointerId: e.pointerId,
-        startX: e.clientX,
-        startY: e.clientY,
-        maxPull,
-        ox: 0,
-        oy: 0,
-      };
-      setStretching(true);
-    },
-    [stretchable, onPointerDown]
-  );
-
-  const handlePointerMove = React.useCallback(
-    (e: React.PointerEvent<HTMLDivElement>) => {
-      onPointerMove?.(e);
-      const p = pullRef.current;
-      const el = rootRef.current;
-      if (!p || !el || e.pointerId !== p.pointerId) return;
-
-      const dx = e.clientX - p.startX;
-      const dy = e.clientY - p.startY;
-      p.ox = saturatePull(dx, p.maxPull);
-      p.oy = saturatePull(dy, p.maxPull);
-      applyPullTransform(el, p.ox, p.oy, p.maxPull);
-
-      // Refraction intensifies as the glass deforms (quantized so the filter
-      // re-registration happens a handful of times per pull).
-      const t = Math.min(1, Math.hypot(p.ox, p.oy) / p.maxPull);
-      const q = Math.round(t * 5) / 5;
-      setStretchBoost((prev) => (prev === q ? prev : q));
-    },
-    [onPointerMove]
-  );
-
-  const endPull = React.useCallback(
-    (e: React.PointerEvent<HTMLDivElement>) => {
-      onPointerUp?.(e);
-      const p = pullRef.current;
-      const el = rootRef.current;
-      if (!p || !el || e.pointerId !== p.pointerId) return;
-
-      pullRef.current = null;
-      setStretching(false);
-      setStretchBoost(0);
-      try {
-        el.releasePointerCapture(e.pointerId);
-      } catch {
-        /* pointer already released */
-      }
-      el.style.touchAction = "";
-
-      const clearGesture = () => {
-        el.style.transform = "";
-        el.style.willChange = "";
-      };
-      if (reducedMotion() || Math.hypot(p.ox, p.oy) < 0.5) {
-        clearGesture();
-        return;
-      }
-
-      // Elastic snap-back: underdamped spring on the offset — the jelly
-      // wobble comes free because the stretch is derived from the offset.
-      const axes: SpringState[] = [
-        { from: p.ox, to: 0, v: 0 },
-        { from: p.oy, to: 0, v: 0 },
-      ];
-      springStopRef.current = runSprings(
-        axes,
-        (values, done) => {
-          applyPullTransform(el, values[0], values[1], p.maxPull);
-          if (done) {
-            clearGesture();
-            springStopRef.current = null;
-          }
-        },
-        170,
-        13
-      );
-    },
-    [onPointerUp]
-  );
-
-  const handlePointerCancel = React.useCallback(
-    (e: React.PointerEvent<HTMLDivElement>) => {
-      onPointerCancel?.(e);
-      const p = pullRef.current;
-      const el = rootRef.current;
-      if (!p || !el || e.pointerId !== p.pointerId) return;
-      pullRef.current = null;
-      setStretching(false);
-      setStretchBoost(0);
-      try {
-        el.releasePointerCapture(e.pointerId);
-      } catch {
-        /* pointer already released */
-      }
-      el.style.touchAction = "";
-      el.style.transform = "";
-      el.style.willChange = "";
-    },
-    [onPointerCancel]
-  );
-
-  React.useEffect(
-    () => () => {
-      springStopRef.current?.();
-    },
-    []
-  );
-
-  const Tag = as as React.ElementType;
-
-  /* Layer styles ------------------------------------------------------ */
-  const webglFull = isWebgl && webglMode === "full";
-  const saturatePct = Math.round(ramp.saturate * 100);
-
-  // Stacked progressive blur (kube.io): small radii, shrinking masks, each
-  // layer rounded to the surface shape. Rendered ONLY when the maps exist —
-  // an unmasked blur layer would frost the whole surface (the bloom bug).
-  const blurLayers = React.useMemo(() => {
-    if (!maps || maps.blurStack.length === 0 || !glass || webglFull)
-      return null;
-    return maps.blurStack.map((l) => {
-      const maskUrl = `url(${l.maskUrl})`;
-      return {
-        radius: l.radius,
-        style: {
-          borderRadius: cssRadius,
-          backdropFilter: `blur(${l.radius}px)`,
-          WebkitBackdropFilter: `blur(${l.radius}px)`,
-          maskImage: maskUrl,
-          maskSize: "100% 100%",
-          maskRepeat: "no-repeat",
-          WebkitMaskImage: maskUrl,
-          WebkitMaskSize: "100% 100%",
-          WebkitMaskRepeat: "no-repeat",
-        } as React.CSSProperties,
-      };
-    });
-  }, [maps, glass, webglFull, cssRadius]);
+  const MotionTag = MOTION_TAGS[as] as React.ElementType;
+  const saturateValue = ramp.saturate;
 
   return (
-    <Tag
+    <MotionTag
       ref={setRootRef}
       data-glass-surface={activeStrategy}
       data-stretching={stretching || undefined}
@@ -610,8 +575,9 @@ export function GlassSurface({
       )}
       style={{
         borderRadius: cssRadius,
-        boxShadow: "var(--ds-shadow-glass-specular)",
         ...style,
+        scaleX,
+        scaleY,
       }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
@@ -619,94 +585,128 @@ export function GlassSurface({
       onPointerCancel={handlePointerCancel}
       {...otherProps}
     >
-      {/* Chromium tier: the kube.io refraction filter on its own layer —
-          a failed url() voids only this layer */}
-      {isSvg && filterId ? (
-        <div
+      {/* Chromium tier — the kube.io filter, inline per surface exactly
+          like the shipped components (one <svg> per glass element). */}
+      {isSvg && maps ? (
+        <>
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            colorInterpolationFilters="sRGB"
+            style={{ display: "none" }}
+          >
+            <defs>
+              <filter id={filterId}>
+                {/* the only frost — kube.io keeps stdDeviation in 0..1 */}
+                <feGaussianBlur
+                  in="SourceGraphic"
+                  stdDeviation={ramp.blur}
+                  result="blurred_source"
+                />
+                <feImage
+                  href={maps.displacementUrl}
+                  x={0}
+                  y={0}
+                  width={maps.width}
+                  height={maps.height}
+                  result="displacement_map"
+                  preserveAspectRatio="none"
+                />
+                <feDisplacementMap
+                  ref={dispMapRef}
+                  in="blurred_source"
+                  in2="displacement_map"
+                  scale={restingScale}
+                  xChannelSelector="R"
+                  yChannelSelector="G"
+                  result="displaced"
+                />
+                {/* saturate the refracted content */}
+                <feColorMatrix
+                  in="displaced"
+                  type="saturate"
+                  values={String(saturateValue)}
+                  result="displaced_saturated"
+                />
+                {/* specular rim — exact Yr construction */}
+                <feImage
+                  href={maps.specularUrl}
+                  x={0}
+                  y={0}
+                  width={maps.width}
+                  height={maps.height}
+                  result="specular_layer"
+                  preserveAspectRatio="none"
+                />
+                <feComposite
+                  in="displaced_saturated"
+                  in2="specular_layer"
+                  operator="in"
+                  result="specular_saturated"
+                />
+                <feComponentTransfer
+                  in="specular_layer"
+                  result="specular_faded"
+                >
+                  <feFuncA
+                    type="linear"
+                    slope={ramp.specularOpacity}
+                  />
+                </feComponentTransfer>
+                <feBlend
+                  in="specular_saturated"
+                  in2="displaced"
+                  mode="normal"
+                  result="withSaturation"
+                />
+                <feBlend
+                  in="specular_faded"
+                  in2="withSaturation"
+                  mode="normal"
+                />
+              </filter>
+            </defs>
+          </svg>
+
+          {/* the glass layer — backdrop-filter + tint + spring shadow +
+              hairline, the magnifying-glass markup verbatim */}
+          <motion.div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-white/5 ring-1 ring-black/10 dark:ring-white/10"
+            style={{
+              borderRadius: cssRadius,
+              backdropFilter: `url(#${filterId})`,
+              WebkitBackdropFilter: `url(#${filterId})`,
+              boxShadow,
+              zIndex: 0,
+            }}
+          />
+        </>
+      ) : null}
+
+      {/* Non-Chromium tiers: the url() form would void the whole
+          declaration, so the fallback layers stay separate. */}
+      {!isSvg && !webglFull ? (
+        <motion.div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-0 bg-white/5 ring-1 ring-black/10 dark:ring-white/10"
           style={{
             borderRadius: cssRadius,
-            backdropFilter: `url(#${filterId})`,
-            WebkitBackdropFilter: `url(#${filterId})`,
+            backdropFilter: `saturate(${saturateValue})`,
+            WebkitBackdropFilter: `saturate(${saturateValue})`,
+            boxShadow,
+            zIndex: 0,
           }}
         />
       ) : null}
 
-      {/* progressive blur — the stacked frost gradient (kube.io music
-          player "Progressive Blur"); saturate applies unmasked on
-          non-Chromium tiers where the SVG filter can't carry it */}
-      {!webglFull ? (
-        <>
-          {activeStrategy !== "svg-displacement" && glass ? (
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0"
-              style={{
-                borderRadius: cssRadius,
-                backdropFilter: `saturate(${saturatePct}%)`,
-                WebkitBackdropFilter: `saturate(${saturatePct}%)`,
-              }}
-            />
-          ) : null}
-          {blurLayers?.map((l, i) => (
-            <div
-              key={i}
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0"
-              style={l.style}
-            />
-          ))}
-        </>
-      ) : null}
-
-      {/* tint — ABOVE the refracted backdrop, so the veil never blurs the
-          sampled content (the old root-background tint sat inside the
-          backdrop snapshot and flattened the refraction) */}
-      {!webglFull ? (
-        <div
-          aria-hidden="true"
-          className="praxis-glass-tint pointer-events-none absolute inset-0"
-          style={{
-            borderRadius: cssRadius,
-            backgroundColor: `color-mix(in srgb, var(--ds-color-panel) ${ramp.tint}%, transparent)`,
-          }}
-        />
-      ) : null}
-
-      {/* rim — 20% white (spec: single rim token) */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          borderRadius: cssRadius,
-          border: "1px solid rgba(255, 255, 255, 0.2)",
-        }}
-      />
-
-      {/* dual quad-stop sheen — canonical specular construction */}
-      {!webglFull ? (
-        <>
-          <div
-            aria-hidden="true"
-            className="praxis-sheen-primary pointer-events-none absolute inset-0"
-            style={{ borderRadius: cssRadius }}
-          />
-          <div
-            aria-hidden="true"
-            className="praxis-sheen-counter pointer-events-none absolute inset-0"
-            style={{ borderRadius: cssRadius }}
-          />
-        </>
-      ) : null}
-
-      {/* content sits above every layer, crisp. It stretches visually with
-          the glass because the whole subtree transforms together — layout
-          and DOM geometry never move. */}
+      {/* Content sits above every layer, crisp. It stretches visually
+          with the glass because the whole subtree transforms together —
+          layout and DOM geometry never move. */}
       {children ? (
         <div className="relative z-10 flex w-full items-center">{children}</div>
       ) : null}
-    </Tag>
+    </MotionTag>
   );
 }
 
