@@ -1,0 +1,40 @@
+{
+  "pairId": "pair-165",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:GlassMaterialProvider",
+    "ds:AtmosphereScrim",
+    "ui:toast"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-165.jpg",
+    "qa/screenshots/pair-165-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:07:14.395Z",
+  "summary": "The page exhibits visual collision where the floating chapter dock overlaps body copy without sufficient clearance or blur occlusion.",
+  "issues": [
+    {
+      "component": "page",
+      "severity": "major",
+      "title": "Content overlap with floating dock",
+      "description": "Body text runs directly beneath the floating chapter indicator without adequate padding or scrim separation.",
+      "evidence": "The third paragraph text collides directly with 'Chapter 3 of 9' navigation text.",
+      "suggestion": "Increase bottom padding in the reading card or apply an atmosphere scrim mask."
+    }
+  ]
+}

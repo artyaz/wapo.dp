@@ -1,0 +1,19 @@
+{
+  "id": "ui:button-group",
+  "name": "button-group",
+  "kind": "ui",
+  "importPath": "@/components/ui/button-group",
+  "sourceFiles": [
+    "src/components/ui/button-group.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/button-group/accessibility.tsx",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

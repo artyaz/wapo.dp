@@ -1,0 +1,51 @@
+{
+  "id": "ui:chart",
+  "name": "chart",
+  "kind": "ui",
+  "importPath": "@/components/ui/chart",
+  "sourceFiles": [
+    "src/components/ui/chart.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/chart/accessibility.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:chart",
+      "severity": "minor",
+      "title": "X-axis label clipping",
+      "description": "The initial x-axis label is cut off at the left boundary.",
+      "evidence": "The '00' timestamp on the bottom-left of the chart is clipped.",
+      "suggestion": "Increase chart side margins or offset the initial x-axis tick label.",
+      "pairId": "pair-007",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-007"
+      ],
+      "triage": "fix",
+      "triageNote": "Verified real: with a numeric XAxis interval (interval={2} on pair-007) recharts skips its edge-tick clamping (getTicks.js returns getNumberIntervalTicks), so the first tick '00' at x=5 with text-anchor=middle renders with bbox left = -2px, clipped by the SVG viewport. Fixed in ChartContainer by adding px-2 so the ResponsiveContainer/SVG is inset 8px from the card edge, giving edge tick labels clearance (symmetric, RTL-safe)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:chart",
+      "severity": "minor",
+      "title": "X-axis label clipping",
+      "description": "The initial x-axis label is cut off at the left boundary.",
+      "evidence": "The '00' timestamp on the bottom-left of the chart is clipped.",
+      "suggestion": "Increase chart side margins or offset the initial x-axis tick label.",
+      "pairId": "pair-007",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone"
+    }
+  ]
+}

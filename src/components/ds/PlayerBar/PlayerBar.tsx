@@ -55,11 +55,14 @@ const PlayerBarRoot = React.forwardRef<HTMLDivElement, PlayerBarRootProps>(
           <div className="flex w-full items-center gap-2.5">
             <StatusBadge tone="live">Live</StatusBadge>
             {position ? (
-              <span className="font-body text-[11px] font-[400] leading-[14px] tracking-[0.08em] text-brand-secondary tabular-nums">
+              <span
+                dir="ltr"
+                className="font-body text-[11px] font-[400] leading-[14px] tracking-[0.08em] text-brand-secondary tabular-nums"
+              >
                 {position}
               </span>
             ) : null}
-            <div className="flex h-[30px] w-[30px] flex-none items-center justify-center rounded-[9999px] ml-auto cursor-pointer bg-brand-primary/[0.07] text-brand-secondary">
+            <div className="flex h-[30px] w-[30px] flex-none items-center justify-center rounded-[9999px] ms-auto cursor-pointer bg-brand-primary/[0.07] text-brand-secondary">
               <svg
                 className="font-body text-[13px] font-[400] leading-[20px] text-brand-secondary"
                 width="1em"
@@ -79,70 +82,78 @@ const PlayerBarRoot = React.forwardRef<HTMLDivElement, PlayerBarRootProps>(
             </div>
           </div>
           {excerpt ? (
-            <p className="line-clamp-2 w-full font-prose text-[14px] font-[400] leading-[21px] text-default-font m-0 min-h-[2.9em]">
+            <p
+              dir="auto"
+              className="line-clamp-2 w-full font-prose text-[14px] font-[400] leading-[21px] text-default-font m-0 min-h-[2.9em]"
+            >
               {excerpt}
             </p>
           ) : null}
           <div className="flex w-full flex-wrap items-center gap-2.5">
-            <div
-              className={SubframeUtils.twClassNames(
-                "flex h-[42px] w-[42px] flex-none items-center justify-center rounded-[9999px] border-2 border-solid border-default-border cursor-pointer text-default-font",
-                { "opacity-30 cursor-default": previousDisabled }
-              )}
-            >
-              <svg
-                className="font-body text-[14px] font-[400] leading-[21px] text-default-font"
-                width="1em"
-                height="1em"
-                viewBox="0 0 24 24"
+            {/* The transport cluster keeps the standard media order (prev ·
+                play · next) even on RTL pages: playback timecodes run
+                left-to-right, so the rings must not mirror. */}
+            <div dir="ltr" className="flex items-center gap-2.5">
+              <div
+                className={SubframeUtils.twClassNames(
+                  "flex h-[42px] w-[42px] flex-none items-center justify-center rounded-[9999px] border-2 border-solid border-default-border cursor-pointer text-default-font",
+                  { "opacity-30 cursor-default": previousDisabled }
+                )}
               >
-                <path
-                  d="M19 12H5m0 0 5-5m-5 5 5 5M6 5v14"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeOpacity="1"
-                />
-              </svg>
-            </div>
-            <div className="flex h-[54px] w-[54px] flex-none items-center justify-center rounded-[9999px] border-2 border-solid border-brand-primary bg-brand-primary cursor-pointer text-brand-primary-foreground">
-              <svg
-                className="font-body text-[17px] font-[400] leading-[26px] text-brand-primary-foreground"
-                width="1em"
-                height="1em"
-                viewBox="0 0 24 24"
+                <svg
+                  className="font-body text-[14px] font-[400] leading-[21px] text-default-font"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 12H5m0 0 5-5m-5 5 5 5M6 5v14"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeOpacity="1"
+                  />
+                </svg>
+              </div>
+              <div className="flex h-[54px] w-[54px] flex-none items-center justify-center rounded-[9999px] border-2 border-solid border-brand-primary bg-brand-primary cursor-pointer text-brand-primary-foreground">
+                <svg
+                  className="font-body text-[17px] font-[400] leading-[26px] text-brand-primary-foreground"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8 5.14v14l11-7z"
+                    fill="currentColor"
+                    fillOpacity="1"
+                  />
+                </svg>
+              </div>
+              <div
+                className={SubframeUtils.twClassNames(
+                  "flex h-[42px] w-[42px] flex-none items-center justify-center rounded-[9999px] border-2 border-solid border-default-border cursor-pointer text-default-font",
+                  { "opacity-30 cursor-default": nextDisabled }
+                )}
               >
-                <path
-                  d="M8 5.14v14l11-7z"
-                  fill="currentColor"
-                  fillOpacity="1"
-                />
-              </svg>
-            </div>
-            <div
-              className={SubframeUtils.twClassNames(
-                "flex h-[42px] w-[42px] flex-none items-center justify-center rounded-[9999px] border-2 border-solid border-default-border cursor-pointer text-default-font",
-                { "opacity-30 cursor-default": nextDisabled }
-              )}
-            >
-              <svg
-                className="font-body text-[14px] font-[400] leading-[21px] text-default-font"
-                width="1em"
-                height="1em"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M5 12h14m0 0-5-5m5 5-5 5m4-12v14"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeOpacity="1"
-                />
-              </svg>
+                <svg
+                  className="font-body text-[14px] font-[400] leading-[21px] text-default-font"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M5 12h14m0 0-5-5m5 5-5 5m4-12v14"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeOpacity="1"
+                  />
+                </svg>
+              </div>
             </div>
             <div className="flex grow shrink-0 basis-0 items-start min-w-0" />
             <div className="flex items-center gap-[7px] rounded-[22px] border-2 border-solid border-default-border px-4 py-[11px] cursor-pointer whitespace-nowrap">
@@ -170,7 +181,10 @@ const PlayerBarRoot = React.forwardRef<HTMLDivElement, PlayerBarRootProps>(
             </div>
           </div>
           {error ? (
-            <span className="font-body text-[12px] font-[400] leading-[17px] text-destructive-500">
+            <span
+              dir="auto"
+              className="font-body text-[12px] font-[400] leading-[17px] text-destructive-500"
+            >
               {error}
             </span>
           ) : null}

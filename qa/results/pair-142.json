@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-142",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:popover",
+    "ui:message",
+    "ui:drawer"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-142.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:31:32.304Z",
+  "summary": "The interface accurately renders the dark theme layout at 1024x768. Popover, message group, and drawer components display proper hierarchy, spacing, alignment, and visual contrast with no actionable defects.",
+  "issues": []
+}

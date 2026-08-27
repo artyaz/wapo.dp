@@ -1,0 +1,31 @@
+{
+  "pairId": "pair-031",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:RecordHeader",
+    "ui:label",
+    "ui:date-picker"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a document editor header bar"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-031.jpg",
+    "qa/screenshots/pair-031-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:30:30.346Z",
+  "summary": "The mobile layout adheres cleanly to the Praxis dark design system. Spacing, typography, and component hierarchy are consistent and legible across both views.",
+  "issues": []
+}

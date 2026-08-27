@@ -2,8 +2,9 @@
 
 /**
  * CodePane — a bordered code surface with numbered CodeLine rows (optional
- * currentLine highlight) and a HoverDocCard pinned to the top-right corner,
- * modeling the editor's hover-documentation moment.
+ * currentLine highlight) and a HoverDocCard rendered below the snippet,
+ * docked to the pane's trailing edge, modeling the editor's
+ * hover-documentation moment without covering the code.
  */
 
 import React from "react";
@@ -71,7 +72,7 @@ const CodeLine = React.forwardRef<HTMLDivElement, CodeLineProps>(
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "group/3f0ae4b4 flex h-6 w-full items-center group/codeline",
+          "group/3f0ae4b4 flex min-h-6 w-full items-center group/codeline",
           { "bg-brand-primary/[0.04]": currentLine },
           className
         )}
@@ -125,7 +126,9 @@ const CodePaneRoot = React.forwardRef<HTMLDivElement, CodePaneRootProps>(
             {children}
           </div>
         ) : null}
-        <HoverDocCard className="absolute right-3 top-3" />
+        {/* Rendered in flow (not absolutely positioned over the code) so the
+            doc card never obscures the lines it documents. */}
+        <HoverDocCard className="mb-3 self-end me-3" />
       </div>
     );
   }

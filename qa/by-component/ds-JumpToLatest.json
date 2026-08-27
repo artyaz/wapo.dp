@@ -1,0 +1,82 @@
+{
+  "id": "ds:JumpToLatest",
+  "name": "JumpToLatest",
+  "kind": "ds",
+  "importPath": "@/components/ds/JumpToLatest",
+  "sourceFiles": [
+    "src/components/ds/JumpToLatest/JumpToLatest.tsx"
+  ],
+  "demoFile": "src/components/ds/JumpToLatest/demo.tsx",
+  "metaFile": "src/components/ds/JumpToLatest/meta.ts",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ds:JumpToLatest",
+      "severity": "major",
+      "title": "Button overlaps list content",
+      "description": "The floating jump-to-latest button obscures text in the activity feed item beneath it.",
+      "evidence": "The circular arrow button covers the end of the text on the lowest activity entry in the right sidebar.",
+      "suggestion": "Add bottom padding to the activity feed container or position the floating control clear of text content.",
+      "pairId": "pair-100",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-100"
+      ],
+      "triage": "fix",
+      "triageNote": "Real occlusion with no built-in clearance affordance: added a backdrop-matched radial scrim to the component that fades content approaching the FAB (page-level bottom-lane padding remains a documented container contract since eval pages are off-limits)."
+    },
+    {
+      "component": "ds:JumpToLatest",
+      "severity": "minor",
+      "title": "Activity item overlap",
+      "description": "The floating JumpToLatest pill overlays the latest activity log item, reducing readability.",
+      "evidence": "The 09:57 timestamp and text at the bottom of the activity list sit directly underneath the floating pill.",
+      "suggestion": "Add bottom padding to the scroll container to ensure the last item scrolls clear of the floating control.",
+      "pairId": "pair-088",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-088"
+      ],
+      "triage": "fix",
+      "triageNote": "Intended FAB-over-fade pattern, but the control cluster sat directly on live rows; the built-in scrim now fades the feed beneath the FAB into the rail background (full lane reservation is page-level, documented in meta/demo)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:JumpToLatest",
+      "severity": "minor",
+      "title": "Activity item overlap",
+      "description": "The floating JumpToLatest pill overlays the latest activity log item, reducing readability.",
+      "evidence": "The 09:57 timestamp and text at the bottom of the activity list sit directly underneath the floating pill.",
+      "suggestion": "Add bottom padding to the scroll container to ensure the last item scrolls clear of the floating control.",
+      "pairId": "pair-088",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop-wide"
+    },
+    {
+      "component": "ds:JumpToLatest",
+      "severity": "major",
+      "title": "Button overlaps list content",
+      "description": "The floating jump-to-latest button obscures text in the activity feed item beneath it.",
+      "evidence": "The circular arrow button covers the end of the text on the lowest activity entry in the right sidebar.",
+      "suggestion": "Add bottom padding to the activity feed container or position the floating control clear of text content.",
+      "pairId": "pair-100",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide"
+    }
+  ]
+}

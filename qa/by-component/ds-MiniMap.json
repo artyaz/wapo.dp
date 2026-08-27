@@ -1,0 +1,52 @@
+{
+  "id": "ds:MiniMap",
+  "name": "MiniMap",
+  "kind": "ds",
+  "importPath": "@/components/ds/MiniMap",
+  "sourceFiles": [
+    "src/components/ds/MiniMap/MiniMap.tsx"
+  ],
+  "demoFile": "src/components/ds/MiniMap/demo.tsx",
+  "metaFile": "src/components/ds/MiniMap/meta.ts",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ds:MiniMap",
+      "severity": "minor",
+      "title": "Low contrast metadata text",
+      "description": "Helper labels adjacent to the minimap do not meet adequate contrast standards against the light background.",
+      "evidence": "The 'viewport 56×40%' and 'drag to navigate' labels appear in low-contrast light gray.",
+      "suggestion": "Increase text darkness token to meet minimum 4.5:1 contrast ratio.",
+      "pairId": "pair-074",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-074"
+      ],
+      "triage": "composition",
+      "triageNote": "MiniMap.tsx renders no text at all (only the glass panel + ContentBlock/ViewportFrame divs); the flagged 'viewport 56×40%' / 'drag to navigate' labels are page-level chrome emitted by src/app/eval/pair-074/page.tsx (lines 157–167) with text-neutral-400 (2.12:1 on light bg) — an eval-page file outside the component's editable scope."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:MiniMap",
+      "severity": "minor",
+      "title": "Low contrast metadata text",
+      "description": "Helper labels adjacent to the minimap do not meet adequate contrast standards against the light background.",
+      "evidence": "The 'viewport 56×40%' and 'drag to navigate' labels appear in low-contrast light gray.",
+      "suggestion": "Increase text darkness token to meet minimum 4.5:1 contrast ratio.",
+      "pairId": "pair-074",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    }
+  ]
+}

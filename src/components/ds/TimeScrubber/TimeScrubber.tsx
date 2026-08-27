@@ -1,8 +1,9 @@
 "use client";
 /**
  * TimeScrubber — a time-range scrubber: a fixed bar backdrop (activity
- * histogram), selected-range shade with hairline handles at 55%/85%, mono
- * range tags pinned to the handles, and a 1H/1D/1W/1M range selector row.
+ * histogram), selected-range shade with hairline handles at 55%/85%, quiet
+ * hairline range tags pinned to the handles, and a 1H/1D/1W/1M range
+ * selector row kept clearly below the plotting area.
  */
 
 import React from "react";
@@ -32,7 +33,7 @@ const TimeScrubberRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/dc7534c2 flex w-full flex-col items-start gap-2 bg-panel px-3 py-2 group/timescrubber",
+        "group/dc7534c2 flex w-full flex-col items-start gap-4 bg-panel px-3 py-2 group/timescrubber",
         className
       )}
       ref={ref}
@@ -95,14 +96,14 @@ const TimeScrubberRoot = React.forwardRef<
         <div className="flex w-0.5 flex-none items-start self-stretch bg-brand-primary absolute top-0 left-[85%]" />
         <div className="flex items-start absolute top-0.5 left-[55%] ml-1">
           {rangeStart ? (
-            <span className="self-stretch whitespace-nowrap font-code text-[10px] font-[400] leading-[10px] text-brand-primary-foreground rounded-[3px] bg-brand-primary px-1 py-[1px] tabular-nums">
+            <span className="self-stretch whitespace-nowrap font-code text-[10px] font-[400] leading-[10px] text-default-font rounded-[3px] border border-solid border-default-border bg-panel px-1 py-[1px] tabular-nums">
               {rangeStart}
             </span>
           ) : null}
         </div>
         <div className="flex items-start absolute top-0.5 left-[85%] -translate-x-full -ml-1">
           {rangeEnd ? (
-            <span className="self-stretch whitespace-nowrap font-code text-[10px] font-[400] leading-[10px] text-brand-primary-foreground rounded-[3px] bg-brand-primary px-1 py-[1px] tabular-nums">
+            <span className="self-stretch whitespace-nowrap font-code text-[10px] font-[400] leading-[10px] text-default-font rounded-[3px] border border-solid border-default-border bg-panel px-1 py-[1px] tabular-nums">
               {rangeEnd}
             </span>
           ) : null}

@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-005",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:MiniMap",
+    "ui:card",
+    "ds:PanelTile"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a media player with its playlist"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-005.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:23:55.563Z",
+  "summary": "The layout cleanly executes the desktop media player scenario with proper Praxis styling, consistent alignment, and balanced visual hierarchy across all components.",
+  "issues": []
+}

@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-126",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:GlassChip",
+    "ds:Button",
+    "ui:popover"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-half",
+      "width": 390,
+      "height": 420,
+      "weight": 10,
+      "hint": "roughly HALF of a phone screen (very little vertical room)"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "dense-content",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-126.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:09:04.501Z",
+  "summary": "The RTL layout is mostly functional, but there is an icon placement inconsistency in the glass chip actions.",
+  "issues": [
+    {
+      "component": "ds:GlassChip",
+      "severity": "major",
+      "title": "Inconsistent icon alignment in RTL",
+      "description": "Icon placement is mismatched across sibling chips, appearing on the left for two items and on the right for the destructive item.",
+      "evidence": "The link and download icons appear to the left of their labels, while the trash icon is placed to the right of 'מחיקה'.",
+      "suggestion": "Standardize icon positioning across all chips to consistently lead or trail the text in RTL."
+    }
+  ]
+}

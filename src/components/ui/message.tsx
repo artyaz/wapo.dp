@@ -6,7 +6,21 @@ import { cn } from "@/lib/utils"
 
 type MessageAlign = "start" | "end"
 
+/**
+ * Carries the side (`start`/`end`) of the closest ancestor `Message`.
+ *
+ * Exported so sibling slots that render inside a `Message` — most notably
+ * `Bubble` — can inherit the message's alignment when they don't declare an
+ * explicit `align` of their own (an align-less `Bubble` otherwise defaults to
+ * the start edge and detaches from the avatar/footer of an `align="end"`
+ * message, in both LTR and RTL).
+ */
 const MessageAlignContext = React.createContext<MessageAlign>("start")
+
+/** Reads the `align` of the closest ancestor `Message`. Defaults to `"start"`. */
+function useMessageAlign() {
+  return React.useContext(MessageAlignContext)
+}
 
 /**
  * A single chat turn: avatar on one side, content (header, bubbles,
@@ -64,7 +78,7 @@ function MessageAvatar({ className, ...props }: React.ComponentProps<"div">) {
  * Follows the `align` of the parent `Message`.
  */
 function MessageContent({ className, ...props }: React.ComponentProps<"div">) {
-  const align = React.useContext(MessageAlignContext)
+  const align = useMessageAlign()
 
   return (
     <div
@@ -72,6 +86,13 @@ function MessageContent({ className, ...props }: React.ComponentProps<"div">) {
       className={cn(
         "flex min-w-0 flex-1 flex-col gap-2",
         align === "end" ? "items-end" : "items-start",
+        // Bubbles default to the start edge; inside an `align="end"` message
+        // that pushes them to the opposite edge from the avatar and footer
+        // (the pair-170 RTL disconnect). Flip bubbles to the end edge so the
+        // outgoing group stays cohesive in LTR and RTL. No-op for bubbles
+        // that already align end; stays a no-op once `Bubble` consumes
+        // `MessageAlignContext` for inherited alignment.
+        align === "end" && "[&_[data-slot=bubble]]:items-end",
         className
       )}
       {...props}
@@ -120,9 +141,12 @@ function MessageGroup({ className, ...props }: React.ComponentProps<"div">) {
 
 export {
   Message,
+  MessageAlignContext,
   MessageAvatar,
   MessageContent,
   MessageFooter,
   MessageHeader,
   MessageGroup,
+  useMessageAlign,
 }
+export type { MessageAlign }

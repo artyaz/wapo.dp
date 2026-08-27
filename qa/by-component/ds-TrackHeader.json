@@ -1,0 +1,82 @@
+{
+  "id": "ds:TrackHeader",
+  "name": "TrackHeader",
+  "kind": "ds",
+  "importPath": "@/components/ds/TrackHeader",
+  "sourceFiles": [
+    "src/components/ds/TrackHeader/TrackHeader.tsx"
+  ],
+  "demoFile": "src/components/ds/TrackHeader/demo.tsx",
+  "metaFile": "src/components/ds/TrackHeader/meta.ts",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ds:TrackHeader",
+      "severity": "minor",
+      "title": "Audio controls rendered on marker track",
+      "description": "Non-audio marker track displays audio monitoring and mute/solo controls.",
+      "evidence": "Track 'Markers · T1' displays M/S buttons and a VU level meter.",
+      "suggestion": "Hide audio-specific metering and solo/mute toggles for marker tracks.",
+      "pairId": "pair-158",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-158"
+      ],
+      "triage": "fix",
+      "triageNote": "Real component defect: TrackHeader rendered the VU level meter and M/S squares for every trackType, including text/marker lanes; fixed by hiding audio-only affordances (M/S + meter) for trackType=\"text\" while keeping the L lock square."
+    },
+    {
+      "component": "ds:TrackHeader",
+      "severity": "minor",
+      "title": "Inverted negative timeline markers",
+      "description": "Negative time offset axis markers render with inverted negative signs under RTL direction.",
+      "evidence": "Timeline displays '30 s-', '60 s-', and '90 s-' instead of '-30s', '-60s', '-90s'.",
+      "suggestion": "Enclose time offset values in directional isolation tags.",
+      "pairId": "pair-168",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-168"
+      ],
+      "triage": "blocked-external",
+      "triageNote": "Misattributed: the '-90s/-60s/-30s' labels are rendered by the eval page's own shared time-axis row (src/app/eval/pair-168/page.tsx), not by TrackHeader, which emits no time text; the bidi fix (dir=\"ltr\" or <bdi> per offset) lives in a forbidden file."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:TrackHeader",
+      "severity": "minor",
+      "title": "Audio controls rendered on marker track",
+      "description": "Non-audio marker track displays audio monitoring and mute/solo controls.",
+      "evidence": "Track 'Markers · T1' displays M/S buttons and a VU level meter.",
+      "suggestion": "Hide audio-specific metering and solo/mute toggles for marker tracks.",
+      "pairId": "pair-158",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ds:TrackHeader",
+      "severity": "minor",
+      "title": "Inverted negative timeline markers",
+      "description": "Negative time offset axis markers render with inverted negative signs under RTL direction.",
+      "evidence": "Timeline displays '30 s-', '60 s-', and '90 s-' instead of '-30s', '-60s', '-90s'.",
+      "suggestion": "Enclose time offset values in directional isolation tags.",
+      "pairId": "pair-168",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop"
+    }
+  ]
+}

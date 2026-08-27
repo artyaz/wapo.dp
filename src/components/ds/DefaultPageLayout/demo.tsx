@@ -4,7 +4,8 @@
  * DefaultPageLayout demo — a quiet page composition (header band, session
  * rows, footer band) inside a fixed-height frame. The frame stands in for the
  * viewport: the root's h-screen is overridden to h-full via className so the
- * scaffold renders contained while the white column still owns its scrolling.
+ * scaffold renders contained while the panel-themed column still owns its
+ * scrolling.
  */
 
 import React from "react";

@@ -1,0 +1,55 @@
+{
+  "pairId": "pair-175",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:calendar",
+    "ui:separator",
+    "ui:table"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "dark",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": "a command palette overlay"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-175.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T01:24:43.889Z",
+  "summary": "The command palette shows minor alignment and RTL layout discrepancies, including unmirrored table columns and offset calendar positioning.",
+  "issues": [
+    {
+      "component": "ui:table",
+      "severity": "major",
+      "title": "Unmirrored column ordering",
+      "description": "Table columns retain LTR ordering instead of flowing right-to-left.",
+      "evidence": "The 'Length' column is positioned on the far left while 'Time' remains on the far right.",
+      "suggestion": "Reverse column sequence to align primary event content starting from the right."
+    },
+    {
+      "component": "ui:calendar",
+      "severity": "minor",
+      "title": "Asymmetrical calendar alignment",
+      "description": "Calendar container is horizontally off-center within the dialog body.",
+      "evidence": "Spacing between the left edge and calendar box is smaller than the right spacing.",
+      "suggestion": "Apply consistent centering or symmetrical horizontal margins to the calendar wrapper."
+    },
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "RTL punctuation misplacement in search",
+      "description": "Leading ellipsis appears on the left of English placeholder text due to RTL direction.",
+      "evidence": "Search field displays '...Jump to a date or search events'.",
+      "suggestion": "Set dir='auto' on the input element to correctly handle LTR placeholder strings."
+    }
+  ]
+}

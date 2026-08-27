@@ -7,7 +7,7 @@ export default defineMeta({
   description:
     "A self-contained chart inspection frame: a crisp 260×150 panel with hairline gridlines, a quiet alternating bar series, a full-height crosshair rule and a value tag anchored above it. Doctrine: don't put glass on the CrosshairTag chart frame or any in-flow/crisp surface — glass is for floating overlays only — so the frame stays plain bg-panel with a hairline border while the tag alone floats on 56px blur at the thickest material level, with its rotated pointer diamond tying it to the crosshair. Use it wherever a chart needs a point read-out (a price, latency or count) without building tooltip machinery.",
   usage:
-    "Pass the reading through value, a unit or delta through glyph, and a timestamp; the frame, crosshair and tag compose themselves.",
+    "Pass the reading through value, a unit or delta through glyph, and a timestamp; the frame, crosshair and tag compose themselves. The bar series and the crosshair anchor are fixed illustrative geometry — the default 62% anchor lands on the tall bar of the 260px frame — so pin the read-out to a real data point with crosshairPosition (a CSS left value: number = px, e.g. 161, or a string like '62%'), which moves the guideline and the tag together.",
   tags: ["chart", "crosshair", "glass", "overlay", "readout"],
   props: [
     {
@@ -25,7 +25,14 @@ export default defineMeta({
     {
       name: "timestamp",
       type: "React.ReactNode",
-      description: "Second line under the value, mono and muted.",
+      description:
+        "Second line under the value, mono and muted — kept on a single line (the tag grows to fit, never wraps mid-date).",
+    },
+    {
+      name: "crosshairPosition",
+      type: "string | number",
+      description:
+        "Horizontal anchor shared by the crosshair guideline and the glass value tag — any CSS left value (number = px, string used as-is, e.g. '62%' or '161px'). Defaults to the built-in 62% anchor, which sits on the tall bar of the fixed illustrative series in the 260px frame; pass a bar-center position to snap the read-out to a specific data bar.",
     },
     {
       name: "className",

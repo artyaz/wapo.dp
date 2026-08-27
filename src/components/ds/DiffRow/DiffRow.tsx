@@ -32,9 +32,9 @@ const DiffLine = React.forwardRef<HTMLDivElement, DiffLineProps>(
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "group/a06650b7 flex h-6 w-full items-center bg-default-background",
+          "group/a06650b7 flex min-h-6 w-full items-center bg-default-background",
           {
-            "bg-neutral-50": lineType === "hunk-header",
+            "bg-neutral-100": lineType === "hunk-header",
             "bg-destructive-50": lineType === "removed",
             "bg-success-50": lineType === "added",
           },
@@ -45,7 +45,7 @@ const DiffLine = React.forwardRef<HTMLDivElement, DiffLineProps>(
       >
         <div
           className={SubframeUtils.twClassNames(
-            "flex w-10 flex-none items-center justify-end self-stretch pr-1.5",
+            "flex w-8 flex-none items-center justify-end self-stretch pr-1.5 sm:w-10",
             { hidden: lineType === "hunk-header" }
           )}
         >
@@ -57,7 +57,7 @@ const DiffLine = React.forwardRef<HTMLDivElement, DiffLineProps>(
         </div>
         <div
           className={SubframeUtils.twClassNames(
-            "flex w-10 flex-none items-center justify-end self-stretch pr-1.5",
+            "flex w-8 flex-none items-center justify-end self-stretch pr-1.5 sm:w-10",
             { hidden: lineType === "hunk-header" }
           )}
         >
@@ -93,9 +93,9 @@ const DiffLine = React.forwardRef<HTMLDivElement, DiffLineProps>(
         {code ? (
           <span
             className={SubframeUtils.twClassNames(
-              "grow shrink-0 basis-0 whitespace-nowrap text-code font-code text-default-font overflow-hidden text-ellipsis",
+              "grow min-w-0 basis-0 whitespace-pre-wrap break-words pl-8 -indent-8 text-code font-code text-default-font",
               {
-                "text-neutral-400 pl-3": lineType === "hunk-header",
+                "text-neutral-400 pl-8 -indent-5": lineType === "hunk-header",
                 "text-destructive-700": lineType === "removed",
                 "text-success-700": lineType === "added",
               }

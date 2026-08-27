@@ -1,0 +1,82 @@
+{
+  "id": "ds:AskBar",
+  "name": "AskBar",
+  "kind": "ds",
+  "importPath": "@/components/ds/AskBar",
+  "sourceFiles": [
+    "src/components/ds/AskBar/AskBar.tsx"
+  ],
+  "demoFile": "src/components/ds/AskBar/demo.tsx",
+  "metaFile": "src/components/ds/AskBar/meta.ts",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ds:AskBar",
+      "severity": "major",
+      "title": "AskBar clipped at viewport bottom",
+      "description": "The input bar and action buttons overflow the bottom of the screen.",
+      "evidence": "The lower boundary of the AskBar input and action buttons is cut off at the viewport edge.",
+      "suggestion": "Add bottom safe-area padding to keep the input bar fully in view.",
+      "pairId": "pair-002",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-002"
+      ],
+      "triage": "fix",
+      "triageNote": "Geometry probe shows no actual clipping (askbar bottom = 640 = viewport height, buttons bottom 612, 26px bottom padding intact) — the visual report was a misread of the bar ending flush at the fold; the REAL confirmed defect on this pair was the React controlled-input console error from <TextField.Input value=\"\" /> with no onChange (fired every render), fixed by making the input uncontrolled (defaultValue) plus safe-area-aware bottom padding."
+    },
+    {
+      "component": "ds:AskBar",
+      "severity": "minor",
+      "title": "Incomplete placeholder text",
+      "description": "The search input placeholder text cuts off abruptly.",
+      "evidence": "Placeholder ends with trailing 'או' at the bottom input bar.",
+      "suggestion": "Ensure full placeholder copy renders without premature truncation.",
+      "pairId": "pair-058",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-058"
+      ],
+      "triage": "fix",
+      "triageNote": "Placeholder copy (page-supplied) measures 341px vs 214px of input width at phone size, so truncation is physically unavoidable; fixed the abrupt mid-word RTL cut by adding text-overflow: ellipsis to the embedded TextField.Input — post-fix re-audit of pair-058 no longer flags AskBar."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:AskBar",
+      "severity": "major",
+      "title": "AskBar clipped at viewport bottom",
+      "description": "The input bar and action buttons overflow the bottom of the screen.",
+      "evidence": "The lower boundary of the AskBar input and action buttons is cut off at the viewport edge.",
+      "suggestion": "Add bottom safe-area padding to keep the input bar fully in view.",
+      "pairId": "pair-002",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    },
+    {
+      "component": "ds:AskBar",
+      "severity": "minor",
+      "title": "Incomplete placeholder text",
+      "description": "The search input placeholder text cuts off abruptly.",
+      "evidence": "Placeholder ends with trailing 'או' at the bottom input bar.",
+      "suggestion": "Ensure full placeholder copy renders without premature truncation.",
+      "pairId": "pair-058",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone"
+    }
+  ]
+}

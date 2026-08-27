@@ -1,0 +1,40 @@
+{
+  "pairId": "pair-099",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:PayloadInspector",
+    "ui:table",
+    "ui:message"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-099.jpg",
+    "qa/screenshots/pair-099-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:38:05.696Z",
+  "summary": "The payload inspector inherits RTL text direction, corrupting JSON formatting, indentation, and punctuation layout.",
+  "issues": [
+    {
+      "component": "ds:PayloadInspector",
+      "severity": "major",
+      "title": "Corrupted RTL code formatting",
+      "description": "Code content inherits RTL direction, causing right-aligned code, misplaced punctuation, and inverted syntax.",
+      "evidence": "JSON brackets, commas, and wrapped strings are right-aligned and disorganized inside the payload box.",
+      "suggestion": "Enforce dir=\"ltr\" and left text alignment on the code container."
+    }
+  ]
+}

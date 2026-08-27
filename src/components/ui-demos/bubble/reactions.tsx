@@ -18,7 +18,6 @@ export function BubbleReactionsDemo() {
           I don&apos;t need tests, I know my code works.
         </BubbleContent>
         <BubbleReactions
-          align="start"
           role="img"
           aria-label="Reactions: thumbs up, surprised"
         >
@@ -46,7 +45,6 @@ export function BubbleReactionsDemo() {
         </BubbleContent>
         <BubbleReactions
           side="top"
-          align="start"
           role="img"
           aria-label="Reactions: party popper, clapping hands"
         >

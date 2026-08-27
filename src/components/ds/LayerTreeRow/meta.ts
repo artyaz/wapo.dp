@@ -28,7 +28,7 @@ export default defineMeta({
       type: '"0" | "1" | "2" | "3" | "4"',
       default: '"0"',
       description:
-        "Indentation level; each level adds a rail column with a neutral-300/30 right border.",
+        "Indentation level; depth 0 rows carry an 8px start inset, each deeper level adds a rail column with a neutral-300/30 right border.",
     },
     {
       name: "expanded",

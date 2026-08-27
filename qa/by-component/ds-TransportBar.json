@@ -1,0 +1,20 @@
+{
+  "id": "ds:TransportBar",
+  "name": "TransportBar",
+  "kind": "ds",
+  "importPath": "@/components/ds/TransportBar",
+  "sourceFiles": [
+    "src/components/ds/TransportBar/TransportBar.tsx"
+  ],
+  "demoFile": "src/components/ds/TransportBar/demo.tsx",
+  "metaFile": "src/components/ds/TransportBar/meta.ts",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

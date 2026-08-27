@@ -1,0 +1,55 @@
+{
+  "pairId": "pair-150",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:spinner",
+    "ds:ThoughtHeader",
+    "ds:TextField"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": "a user profile page"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-150.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T01:11:12.660Z",
+  "summary": "The RTL layout displays several bidirectional text and alignment defects, including punctuation jumping to line starts in English text, misplaced list bullets in ThoughtHeader, and inconsistent icon/spinner slotting in text fields.",
+  "issues": [
+    {
+      "component": "ds:ThoughtHeader",
+      "severity": "major",
+      "title": "Misplaced step bullet markers in RTL",
+      "description": "Status bullets render at the end of first lines rather than as leading markers on the right edge.",
+      "evidence": "The bullet glyphs appear on the far right of the first text lines ('About •', 'three •', 'your •') instead of preceding the list items.",
+      "suggestion": "Position list bullets in a dedicated leading slot aligned to the start margin."
+    },
+    {
+      "component": "ds:TextField",
+      "severity": "major",
+      "title": "BiDi punctuation jumping in RTL inputs",
+      "description": "English input text and helper copy without BiDi isolation causes punctuation and symbols to flip to opposite ends.",
+      "evidence": "Periods appear at line starts in helper text ('.How you appear') and textarea ('.component library'), and '@' renders at the trailing side in email fields.",
+      "suggestion": "Apply dir='auto' or unicode-bidi isolation to inputs and labels containing LTR strings."
+    },
+    {
+      "component": "ui:spinner",
+      "severity": "minor",
+      "title": "Asymmetrical spinner placement in text field",
+      "description": "Loading indicator in the work email field floats at the far-left edge rather than adhering to RTL trailing/leading icon padding.",
+      "evidence": "Spinner icon rests against the far left border while input text is right-aligned, leaving excessive empty space.",
+      "suggestion": "Anchor the spinner to the appropriate inline-end slot with consistent margin token spacing."
+    }
+  ]
+}

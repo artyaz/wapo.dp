@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-088",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:JumpToLatest",
+    "ds:InlineChips",
+    "ui:pagination"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": "a document editor header bar"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-088.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:25:37.569Z",
+  "summary": "The document editor layout adheres well to the dark monochrome aesthetic with solid hierarchy, exhibiting only minor overlay clearance polish in the side activity feed.",
+  "issues": [
+    {
+      "component": "ds:JumpToLatest",
+      "severity": "minor",
+      "title": "Activity item overlap",
+      "description": "The floating JumpToLatest pill overlays the latest activity log item, reducing readability.",
+      "evidence": "The 09:57 timestamp and text at the bottom of the activity list sit directly underneath the floating pill.",
+      "suggestion": "Add bottom padding to the scroll container to ensure the last item scrolls clear of the floating control."
+    }
+  ]
+}

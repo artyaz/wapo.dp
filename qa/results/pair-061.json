@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-061",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:separator",
+    "ds:ActivityEvent",
+    "ds:ActionTraces"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-half",
+      "width": 390,
+      "height": 420,
+      "weight": 10,
+      "hint": "roughly HALF of a phone screen (very little vertical room)"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "an analytics dashboard"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-061.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T23:24:14.694Z",
+  "summary": "The dashboard layout fits the compact viewport cleanly with clear hierarchy, consistent typography, and proper dark theme contrast across all components.",
+  "issues": []
+}

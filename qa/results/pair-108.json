@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-108",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:alert-dialog",
+    "ds:Drawer",
+    "ui:bubble"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-108.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:43:49.876Z",
+  "summary": "The alert dialog backdrop is confined to the conversation panel instead of covering the full viewport, leaving the side drawer un-dimmed beneath the dialog.",
+  "issues": [
+    {
+      "component": "ui:alert-dialog",
+      "severity": "major",
+      "title": "Backdrop overlay improperly scoped",
+      "description": "The dialog overlay dims only the left pane rather than covering the entire viewport.",
+      "evidence": "The dark scrim stops at the edge of the chat container while the dialog overlaps the drawer.",
+      "suggestion": "Position the dialog backdrop with fixed inset-0 over the entire viewport."
+    }
+  ]
+}

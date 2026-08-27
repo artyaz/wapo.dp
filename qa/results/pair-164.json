@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-164",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:select",
+    "ds:QueryInput",
+    "ui:label"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": "an AI chat interface"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-164.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:57:22.129Z",
+  "summary": "The layout fits the 1024x768 viewport without overflow, demonstrating the required components with consistent dark theme styling and alignment.",
+  "issues": []
+}

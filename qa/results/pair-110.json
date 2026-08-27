@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-110",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:textarea",
+    "ds:ToolSummaryRow",
+    "ui:input"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a login screen"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-110.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:37:36.683Z",
+  "summary": "The login page layout adheres to the Praxis design specifications with consistent alignment, clear typography, and proper component hierarchy across both columns.",
+  "issues": []
+}

@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-128",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:AssistantMessage",
+    "ds:Sheet",
+    "ds:ActionTraces"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-tiny",
+      "width": 320,
+      "height": 480,
+      "weight": 5,
+      "hint": "a tiny 320px phone (extremely cramped)"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-128.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:07:22.328Z",
+  "summary": "The layout fits the 320x480 viewport without overflow, presenting clean visual hierarchy, proper alignment, and distinct component boundaries across the dark interface.",
+  "issues": [
+    {
+      "component": "ds:AssistantMessage",
+      "severity": "minor",
+      "title": "Low contrast callout text",
+      "description": "The blockquote text inside the assistant card has low contrast against the light container surface.",
+      "evidence": "Muted gray text 'WCAG 2.1 AA needs 4.5:1 for text.' on light beige card background.",
+      "suggestion": "Increase font weight or darken the text token to ensure WCAG AA compliance."
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "pairId": "pair-051",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:DiffRow",
+    "ui:button-group",
+    "ui:bubble"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a file browser"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-051.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T01:23:27.169Z",
+  "summary": "The page maintains a clean, readable layout matching the design system specifications, with minor polish needed for reaction placement, code wrapping, and text truncation.",
+  "issues": [
+    {
+      "component": "ui:bubble",
+      "severity": "minor",
+      "title": "Detached reaction placement",
+      "description": "Reaction component appears disconnected from its parent message bubble.",
+      "evidence": "The eye reaction icon sits isolated at the far bottom-left below right-aligned message bubbles.",
+      "suggestion": "Position the reaction directly beneath or anchored to its associated message bubble."
+    },
+    {
+      "component": "ds:DiffRow",
+      "severity": "minor",
+      "title": "Unformatted code wrapping",
+      "description": "Diff rows wrap code abruptly across multiple lines, impacting readability.",
+      "evidence": "Lines 13 and 14 break code expressions across two lines without indent continuation.",
+      "suggestion": "Enable horizontal scrolling or preserve indentation on wrapped diff rows."
+    },
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "File metadata truncation",
+      "description": "File details text truncates prematurely with irregular punctuation.",
+      "evidence": "Metadata under the file card displays 'TypeScript · 1....'.",
+      "suggestion": "Allocate adequate horizontal space or format file size strings to avoid awkward truncation."
+    }
+  ]
+}

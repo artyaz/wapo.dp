@@ -1,0 +1,19 @@
+{
+  "id": "ui:separator",
+  "name": "separator",
+  "kind": "ui",
+  "importPath": "@/components/ui/separator",
+  "sourceFiles": [
+    "src/components/ui/separator.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/separator/list.tsx",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

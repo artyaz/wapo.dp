@@ -1,0 +1,111 @@
+{
+  "id": "ui:sidebar",
+  "name": "sidebar",
+  "kind": "ui",
+  "importPath": "@/components/ui/sidebar",
+  "sourceFiles": [
+    "src/components/ui/sidebar.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/sidebar/changelog.tsx",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 3,
+    "minor": 0,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ui:sidebar",
+      "severity": "major",
+      "title": "Expanded sidebar crowds mobile viewport",
+      "description": "The static sidebar consumes roughly half the vertical height, leaving insufficient space for workspace content.",
+      "evidence": "Sidebar navigation list extends down to mid-screen above the chart card.",
+      "suggestion": "Collapse sidebar into a mobile sheet or drawer menu on narrow screens.",
+      "pairId": "pair-042",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-042"
+      ],
+      "triage": "composition",
+      "triageNote": "Eval page deliberately composes an inline static sidebar (collapsible=\"none\" + h-auto w-full) on a 390px phone, bypassing the component's Sheet mobile branch; a component-level auto-collapse/icon-rail would break this page's intended full-width band (and pair-042 is the only inline usage), so a usage note was added to the source instead."
+    },
+    {
+      "component": "ui:sidebar",
+      "severity": "major",
+      "title": "Sidebar label and timestamp text collision",
+      "description": "Item titles overlap directly with duration timestamps due to missing layout spacing and truncation.",
+      "evidence": "Scene titles 01 through 04 collide with numeric timestamps such as '41:12' and '0:48' along the right edge of the sidebar.",
+      "suggestion": "Wrap labels in a flexible container with overflow truncation and allocate dedicated spacing for timestamps.",
+      "pairId": "pair-053",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-053"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: SidebarMenuButton reserved no end padding for the absolutely-positioned SidebarMenuBadge (right-1), so truncated labels ran underneath duration badges; fixed with group-has-data-[sidebar=menu-badge]/menu-item:pe-12 on the button base + badge right-1 → end-1 (RTL-correct, LTR-identical)."
+    },
+    {
+      "component": "ui:sidebar",
+      "severity": "major",
+      "title": "Severe sidebar item truncation",
+      "description": "The sidebar is rendered side-by-side with main content on a narrow viewport, severely constraining column width.",
+      "evidence": "Nearly all navigation labels ('Bridge call ...', 'APM traces ·...') and timeline items are heavily truncated.",
+      "suggestion": "Collapse the sidebar into an overlay drawer on narrow mobile screens.",
+      "pairId": "pair-103",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-tiny",
+      "occurrences": 1,
+      "pairs": [
+        "pair-103"
+      ],
+      "triage": "composition",
+      "triageNote": "Eval page forces a 9.5rem static sidebar (collapsible=\"none\") side-by-side with main content at 320px; the component truncates labels with ellipsis as designed and cannot restructure the page layout — any component-level auto-collapse would also break pair-042's inline mobile usage. Documented via the mobile usage note in sidebar.tsx."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:sidebar",
+      "severity": "major",
+      "title": "Expanded sidebar crowds mobile viewport",
+      "description": "The static sidebar consumes roughly half the vertical height, leaving insufficient space for workspace content.",
+      "evidence": "Sidebar navigation list extends down to mid-screen above the chart card.",
+      "suggestion": "Collapse sidebar into a mobile sheet or drawer menu on narrow screens.",
+      "pairId": "pair-042",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone"
+    },
+    {
+      "component": "ui:sidebar",
+      "severity": "major",
+      "title": "Sidebar label and timestamp text collision",
+      "description": "Item titles overlap directly with duration timestamps due to missing layout spacing and truncation.",
+      "evidence": "Scene titles 01 through 04 collide with numeric timestamps such as '41:12' and '0:48' along the right edge of the sidebar.",
+      "suggestion": "Wrap labels in a flexible container with overflow truncation and allocate dedicated spacing for timestamps.",
+      "pairId": "pair-053",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ui:sidebar",
+      "severity": "major",
+      "title": "Severe sidebar item truncation",
+      "description": "The sidebar is rendered side-by-side with main content on a narrow viewport, severely constraining column width.",
+      "evidence": "Nearly all navigation labels ('Bridge call ...', 'APM traces ·...') and timeline items are heavily truncated.",
+      "suggestion": "Collapse the sidebar into an overlay drawer on narrow mobile screens.",
+      "pairId": "pair-103",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-tiny"
+    }
+  ]
+}

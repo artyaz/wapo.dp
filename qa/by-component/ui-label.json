@@ -1,0 +1,19 @@
+{
+  "id": "ui:label",
+  "name": "label",
+  "kind": "ui",
+  "importPath": "@/components/ui/label",
+  "sourceFiles": [
+    "src/components/ui/label.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/label/label-in-field.tsx",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

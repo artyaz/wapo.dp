@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-102",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:toggle",
+    "ui:dropdown-menu",
+    "ui:tooltip"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "dense-content",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-102.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:41:50.101Z",
+  "summary": "The mobile layout exhibits overlay positioning defects where floating menus and tooltips obscure critical page content and trigger anchors.",
+  "issues": [
+    {
+      "component": "ui:tooltip",
+      "severity": "major",
+      "title": "Misplaced anchor and content obstruction",
+      "description": "The tooltip obscures descriptive text and its pointer does not align with the info trigger icon.",
+      "evidence": "Tooltip box covers card body copy while the arrow points downward away from the top-right info icon.",
+      "suggestion": "Reposition tooltip relative to the info trigger or present context inline on small screens."
+    },
+    {
+      "component": "ui:dropdown-menu",
+      "severity": "major",
+      "title": "Viewport edge collision and content obscuration",
+      "description": "Dropdown overlays section headers and touches the right screen boundary.",
+      "evidence": "Menu obscures 'Alert filt' and 'Choose whi' headings and hugs the right viewport edge.",
+      "suggestion": "Add boundary padding and constrain menu position relative to its activator."
+    }
+  ]
+}

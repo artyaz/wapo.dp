@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-034",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:FormSection",
+    "ds:CodePane",
+    "ds:DefaultPageLayout"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": "a user profile page"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-034.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T23:37:57.464Z",
+  "summary": "The page exhibits visual defects including severe contrast degradation in the header title and an overlapping hover card obstructing code readability in the code pane.",
+  "issues": [
+    {
+      "component": "ds:DefaultPageLayout",
+      "severity": "major",
+      "title": "Header title low contrast",
+      "description": "The primary profile name in the header is rendered with low-contrast dark text, making it nearly illegible against the dark background.",
+      "evidence": "The text 'Amara Chen' below 'WORKSPACE / PROFILE' is barely visible compared to the subtitle beneath it.",
+      "suggestion": "Apply high-contrast text color tokens for headings in dark mode."
+    },
+    {
+      "component": "ds:CodePane",
+      "severity": "major",
+      "title": "Hover card obscures code text",
+      "description": "The inspect/documentation popup directly overlaps active code lines, truncating and obscuring text.",
+      "evidence": "Lines 1 through 11 have their right sides blocked by the floating function signature card.",
+      "suggestion": "Offset the popover or reposition it to avoid occluding active code lines."
+    }
+  ]
+}

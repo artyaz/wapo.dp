@@ -1,0 +1,31 @@
+{
+  "pairId": "pair-133",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:message-scroller",
+    "ds:CanvasNode",
+    "ui:questionnaire"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "an onboarding wizard step"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-133.jpg",
+    "qa/screenshots/pair-133-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:29:55.239Z",
+  "summary": "The onboarding layout is cleanly structured and well-proportioned for the 390px mobile viewport in dark theme, with properly aligned components and consistent visual hierarchy.",
+  "issues": []
+}

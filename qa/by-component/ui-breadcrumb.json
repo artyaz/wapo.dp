@@ -1,0 +1,81 @@
+{
+  "id": "ui:breadcrumb",
+  "name": "breadcrumb",
+  "kind": "ui",
+  "importPath": "@/components/ui/breadcrumb",
+  "sourceFiles": [
+    "src/components/ui/breadcrumb.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/breadcrumb/basic.tsx",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ui:breadcrumb",
+      "severity": "minor",
+      "title": "Unmirrored breadcrumb separators in RTL",
+      "description": "Breadcrumb separator chevrons point rightwards instead of leftwards in RTL reading order.",
+      "evidence": "Separators between 'בית', 'הגדרות סביבה', and 'כללי' render as '>' pointing rightward.",
+      "suggestion": "Flip separator chevrons to point leftwards in RTL direction.",
+      "pairId": "pair-045",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-045"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: BreadcrumbSeparator default ChevronRight had no RTL handling; added rtl:rotate-180 to the default icon."
+    },
+    {
+      "component": "ui:breadcrumb",
+      "severity": "minor",
+      "title": "Unmirrored breadcrumb separators",
+      "description": "Breadcrumb chevron separators point right instead of left for RTL navigation flow.",
+      "evidence": "The '>' separators between items point toward the starting item.",
+      "suggestion": "Mirror separator chevrons to point left in RTL mode.",
+      "pairId": "pair-106",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-106"
+      ],
+      "triage": "fix",
+      "triageNote": "Same root cause as pair-045 finding; single fix in breadcrumb.tsx (rtl:rotate-180 on default separator icon) covers both."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:breadcrumb",
+      "severity": "minor",
+      "title": "Unmirrored breadcrumb separators in RTL",
+      "description": "Breadcrumb separator chevrons point rightwards instead of leftwards in RTL reading order.",
+      "evidence": "Separators between 'בית', 'הגדרות סביבה', and 'כללי' render as '>' pointing rightward.",
+      "suggestion": "Flip separator chevrons to point leftwards in RTL direction.",
+      "pairId": "pair-045",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "laptop"
+    },
+    {
+      "component": "ui:breadcrumb",
+      "severity": "minor",
+      "title": "Unmirrored breadcrumb separators",
+      "description": "Breadcrumb chevron separators point right instead of left for RTL navigation flow.",
+      "evidence": "The '>' separators between items point toward the starting item.",
+      "suggestion": "Mirror separator chevrons to point left in RTL mode.",
+      "pairId": "pair-106",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "desktop"
+    }
+  ]
+}

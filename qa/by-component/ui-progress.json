@@ -1,0 +1,51 @@
+{
+  "id": "ui:progress",
+  "name": "progress",
+  "kind": "ui",
+  "importPath": "@/components/ui/progress",
+  "sourceFiles": [
+    "src/components/ui/progress.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/progress/controlled.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:progress",
+      "severity": "major",
+      "title": "Incorrect progress bar fill direction in RTL",
+      "description": "Progress indicators fill left-to-right rather than right-to-left.",
+      "evidence": "Filled white tracks on all cards originate from the left edge.",
+      "suggestion": "Reverse track fill origin to start from the inline start (right) in RTL mode.",
+      "pairId": "pair-004",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-004"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: indicator used physical translateX(-X%) which always fills from the left edge; replaced with absolute inset-y-0 start-0 (inset-inline-start) + width % so fill starts at the inline-start edge (right in RTL)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:progress",
+      "severity": "major",
+      "title": "Incorrect progress bar fill direction in RTL",
+      "description": "Progress indicators fill left-to-right rather than right-to-left.",
+      "evidence": "Filled white tracks on all cards originate from the left edge.",
+      "suggestion": "Reverse track fill origin to start from the inline start (right) in RTL mode.",
+      "pairId": "pair-004",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop"
+    }
+  ]
+}

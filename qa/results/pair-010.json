@@ -1,0 +1,56 @@
+{
+  "pairId": "pair-010",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:questionnaire",
+    "ds:InlineChips",
+    "ui:calendar"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "dense-content",
+    "scenario": "a pricing comparison"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-010.jpg",
+    "qa/screenshots/pair-010-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:50:06.759Z",
+  "summary": "The dark theme layout exhibits contrast and state-tracking defects, including unreadable text in the baseline section, missing selected date styling in the calendar, and premature completion actions in the questionnaire flow.",
+  "issues": [
+    {
+      "component": "ds:InlineChips",
+      "severity": "major",
+      "title": "Low contrast body text",
+      "description": "Surrounding inline text within the card fails contrast standards on dark backgrounds.",
+      "evidence": "Body text such as 'Rates read from' and 'applied at checkout' blends into the dark surface.",
+      "suggestion": "Apply higher-contrast muted text tokens for dark theme body copy."
+    },
+    {
+      "component": "ui:calendar",
+      "severity": "major",
+      "title": "Missing active date indicator",
+      "description": "The calendar grid does not visually indicate the selected date.",
+      "evidence": "Footer text indicates Jan 12, 2026 is selected, but date cell 12 uses default unselected styling.",
+      "suggestion": "Add active selection styling to the active CalendarDayButton."
+    },
+    {
+      "component": "ui:questionnaire",
+      "severity": "minor",
+      "title": "Premature completion action",
+      "description": "Final submission action is displayed on the initial step.",
+      "evidence": "Both 'Next' and 'Lock in pricing' buttons are visible on Question 1 of 3.",
+      "suggestion": "Render only step-appropriate navigation buttons until the final question."
+    }
+  ]
+}

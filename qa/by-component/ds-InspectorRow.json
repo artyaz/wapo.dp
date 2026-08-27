@@ -1,0 +1,52 @@
+{
+  "id": "ds:InspectorRow",
+  "name": "InspectorRow",
+  "kind": "ds",
+  "importPath": "@/components/ds/InspectorRow",
+  "sourceFiles": [
+    "src/components/ds/InspectorRow/InspectorRow.tsx"
+  ],
+  "demoFile": "src/components/ds/InspectorRow/demo.tsx",
+  "metaFile": "src/components/ds/InspectorRow/meta.ts",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ds:InspectorRow",
+      "severity": "minor",
+      "title": "Color Swatch Text Collision",
+      "description": "The preview swatch collides with the hex string.",
+      "evidence": "In the accent row, the square color indicator overlaps the '#' character of '#737373'.",
+      "suggestion": "Add horizontal spacing between the color preview tile and the hex label.",
+      "pairId": "pair-064",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-half",
+      "occurrences": 1,
+      "pairs": [
+        "pair-064"
+      ],
+      "triage": "false-positive",
+      "triageNote": "Measured in the exact audited condition (dark, 390x420 phone-half, DSF 2): swatch right edge x=301.00, hex left edge x=309.00 — a clean 8px gap (the source's gap-2), zero horizontal overflow; pixel scan of the original qa/screenshots/pair-064.jpg shows ~21 physical px (~10.5 CSS px) of pure background between the swatch border and the '#' glyph, and pair-080 desktop-dark measures the same 8.00px gap. No overlap exists; the swatch is already flex-none and the value container's parent is shrink-0, so the gap cannot collapse."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:InspectorRow",
+      "severity": "minor",
+      "title": "Color Swatch Text Collision",
+      "description": "The preview swatch collides with the hex string.",
+      "evidence": "In the accent row, the square color indicator overlaps the '#' character of '#737373'.",
+      "suggestion": "Add horizontal spacing between the color preview tile and the hex label.",
+      "pairId": "pair-064",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-half"
+    }
+  ]
+}

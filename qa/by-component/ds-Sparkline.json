@@ -1,0 +1,20 @@
+{
+  "id": "ds:Sparkline",
+  "name": "Sparkline",
+  "kind": "ds",
+  "importPath": "@/components/ds/Sparkline",
+  "sourceFiles": [
+    "src/components/ds/Sparkline/Sparkline.tsx"
+  ],
+  "demoFile": "src/components/ds/Sparkline/demo.tsx",
+  "metaFile": "src/components/ds/Sparkline/meta.ts",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

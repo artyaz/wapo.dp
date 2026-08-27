@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-132",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:separator",
+    "ui:toggle",
+    "ds:Drawer"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-132.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:22:19.815Z",
+  "summary": "The drawer layout and components render cleanly with consistent spacing, but the dismiss hint text in the footer specifies an incorrect drag gesture direction.",
+  "issues": [
+    {
+      "component": "ds:Drawer",
+      "severity": "minor",
+      "title": "Incorrect gesture hint direction",
+      "description": "Footer text directs users to drag left to dismiss a right-anchored drawer.",
+      "evidence": "Footer text displays 'Drag the sheet left or press Escape to dismiss.'",
+      "suggestion": "Update copy to 'Drag the sheet right or press Escape to dismiss.'"
+    }
+  ]
+}

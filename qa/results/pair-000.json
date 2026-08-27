@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-000",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:Button",
+    "ds:StatTile",
+    "ui:alert"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 0,
+      "hint": "a modern phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a system status page"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-000.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:13:22.923Z",
+  "summary": "The page cleanly implements the dark theme status layout with proper alignment, readable contrast, and consistent component styling across the viewport.",
+  "issues": []
+}

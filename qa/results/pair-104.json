@@ -1,0 +1,48 @@
+{
+  "pairId": "pair-104",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:AssetCard",
+    "ds:MaterialTokens",
+    "ui:chart"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-tiny",
+      "width": 320,
+      "height": 480,
+      "weight": 5,
+      "hint": "a tiny 320px phone (extremely cramped)"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "dense-content",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-104.jpg",
+    "qa/screenshots/pair-104-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:40:59.287Z",
+  "summary": "The compact layout adapts well to the 320px viewport, but displays series differentiation issues in the trend chart and contrast problems within the material token preview.",
+  "issues": [
+    {
+      "component": "ui:chart",
+      "severity": "major",
+      "title": "Indistinguishable multi-series styles",
+      "description": "Plays and Downloads share identical solid grey strokes and legend markers, making data series impossible to distinguish.",
+      "evidence": "Both legend indicators are solid grey squares corresponding to identical solid grey chart lines.",
+      "suggestion": "Use distinct stroke styles (such as dashed vs. solid) or differentiated tonal shades for each data series."
+    },
+    {
+      "component": "ds:MaterialTokens",
+      "severity": "minor",
+      "title": "Low contrast specimen text",
+      "description": "Specimen preview labels behind the translucent material pills suffer from poor legibility.",
+      "evidence": "Light grey specimen labels inside the glass stack preview blend into the white frosted overlays.",
+      "suggestion": "Darken specimen text or adjust layer opacity to ensure adequate contrast."
+    }
+  ]
+}

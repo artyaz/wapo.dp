@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-152",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:carousel",
+    "ui:accordion",
+    "ui:select"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "an analytics dashboard"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-152.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:39:40.439Z",
+  "summary": "The dashboard layout cleanly implements the specified components with proper dark-theme styling, consistent alignment, and appropriate spacing throughout.",
+  "issues": []
+}

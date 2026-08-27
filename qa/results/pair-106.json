@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-106",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:breadcrumb",
+    "ui:dialog",
+    "ds:GlassRefraction"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "no-scroll",
+    "scenario": "a pricing comparison"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-106.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:46:18.502Z",
+  "summary": "The page fits the viewport in RTL light theme, but contains unmirrored breadcrumb separators and low-contrast secondary text within the dialog cards.",
+  "issues": [
+    {
+      "component": "ui:breadcrumb",
+      "severity": "minor",
+      "title": "Unmirrored breadcrumb separators",
+      "description": "Breadcrumb chevron separators point right instead of left for RTL navigation flow.",
+      "evidence": "The '>' separators between items point toward the starting item.",
+      "suggestion": "Mirror separator chevrons to point left in RTL mode."
+    },
+    {
+      "component": "ui:dialog",
+      "severity": "minor",
+      "title": "Low contrast metadata text",
+      "description": "Secondary monospace description text in pricing cards lacks sufficient contrast against the white surface.",
+      "evidence": "Text reading 'liquid glass surface material...' is faint light gray on white background.",
+      "suggestion": "Increase font weight or darken text color to meet contrast thresholds."
+    }
+  ]
+}

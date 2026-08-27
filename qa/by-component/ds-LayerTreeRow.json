@@ -1,0 +1,82 @@
+{
+  "id": "ds:LayerTreeRow",
+  "name": "LayerTreeRow",
+  "kind": "ds",
+  "importPath": "@/components/ds/LayerTreeRow",
+  "sourceFiles": [
+    "src/components/ds/LayerTreeRow/LayerTreeRow.tsx"
+  ],
+  "demoFile": "src/components/ds/LayerTreeRow/demo.tsx",
+  "metaFile": "src/components/ds/LayerTreeRow/meta.ts",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ds:LayerTreeRow",
+      "severity": "minor",
+      "title": "Root row chevron edge clipping",
+      "description": "The collapse chevron on the root layer row lacks sufficient left inset padding, placing it flush against the left panel boundary.",
+      "evidence": "The chevron icon preceding 'Checkout page' touches the outer left border of the layers panel.",
+      "suggestion": "Add consistent left padding (e.g., 8px) to root level tree rows.",
+      "pairId": "pair-044",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-044"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: depth-0 rows render a zero-width spacer so the caret slot starts at x=0, leaving the ▾ glyph ~5px from the panel border; fixed by adding a ps-2 (8px, logical) start inset to depth-0 rows."
+    },
+    {
+      "component": "ds:LayerTreeRow",
+      "severity": "minor",
+      "title": "Misaligned sibling row items",
+      "description": "Rows with expand chevrons shift icons and text labels to the right compared to non-expandable sibling rows.",
+      "evidence": "In the layers panel and children list, 'trust-badges' is offset relative to sibling rows 'headline' and 'product-shot'.",
+      "suggestion": "Reserve a fixed-width slot for the expander chevron across all tree rows.",
+      "pairId": "pair-083",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-083"
+      ],
+      "triage": "false-positive",
+      "triageNote": "The caret slot (`flex w-5 flex-none`) is rendered unconditionally on every row — only the glyph inside toggles hidden/inline — so siblings at equal depth are structurally pixel-aligned (fixed 20px caret slot + 20px glyph slot); the auditor read the presence/absence of the ▸ glyph as an offset."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:LayerTreeRow",
+      "severity": "minor",
+      "title": "Root row chevron edge clipping",
+      "description": "The collapse chevron on the root layer row lacks sufficient left inset padding, placing it flush against the left panel boundary.",
+      "evidence": "The chevron icon preceding 'Checkout page' touches the outer left border of the layers panel.",
+      "suggestion": "Add consistent left padding (e.g., 8px) to root level tree rows.",
+      "pairId": "pair-044",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "laptop"
+    },
+    {
+      "component": "ds:LayerTreeRow",
+      "severity": "minor",
+      "title": "Misaligned sibling row items",
+      "description": "Rows with expand chevrons shift icons and text labels to the right compared to non-expandable sibling rows.",
+      "evidence": "In the layers panel and children list, 'trust-badges' is offset relative to sibling rows 'headline' and 'product-shot'.",
+      "suggestion": "Reserve a fixed-width slot for the expander chevron across all tree rows.",
+      "pairId": "pair-083",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "tablet-portrait"
+    }
+  ]
+}

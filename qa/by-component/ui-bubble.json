@@ -1,0 +1,111 @@
+{
+  "id": "ui:bubble",
+  "name": "bubble",
+  "kind": "ui",
+  "importPath": "@/components/ui/bubble",
+  "sourceFiles": [
+    "src/components/ui/bubble.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/bubble/accessibility.tsx",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ui:bubble",
+      "severity": "major",
+      "title": "Inconsistent message bubble alignment",
+      "description": "Chat bubbles lack consistent sender-based horizontal alignment, producing an irregular visual flow.",
+      "evidence": "Multiple response bubbles show mismatched left and right offsets across the thread.",
+      "suggestion": "Apply consistent left and right alignment classes for incoming and outgoing messages.",
+      "pairId": "pair-039",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-039"
+      ],
+      "triage": "false-positive",
+      "triageNote": "Geometrically verified in-browser: all incoming (start) bubbles share left edge 875px and all outgoing (end) bubbles share right edge 1391px on pair-039 — sender-based alignment is consistent by design; the auditor misread the intentional alternating chat layout."
+    },
+    {
+      "component": "ui:bubble",
+      "severity": "minor",
+      "title": "Unintended word fragmentation",
+      "description": "Several text strings inside bubbles exhibit broken spacing within words.",
+      "evidence": "Artifacts appear in words like 'Rever ted', 'Postmorte m', and 'Schedu led'.",
+      "suggestion": "Remove extraneous spacing in message strings and ensure standard word-break styling.",
+      "pairId": "pair-039",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-039"
+      ],
+      "triage": "false-positive",
+      "triageNote": "DOM text contains 'Reverted'/'Postmortem'/'Scheduled' with no stray spaces and computed styles are overflow-wrap:normal, word-break:normal, hyphens:manual — no fragmentation mechanism exists; small-text vision misread (JPEG artifacts)."
+    },
+    {
+      "component": "ui:bubble",
+      "severity": "minor",
+      "title": "Misplaced bubble reaction",
+      "description": "Reaction badge is anchored to the left margin instead of aligning with the parent message.",
+      "evidence": "The eye reaction badge appears detached on the far left beneath right-aligned bubbles.",
+      "suggestion": "Align reaction badges directly beneath or adjacent to the associated message bubble.",
+      "pairId": "pair-051",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-051"
+      ],
+      "triage": "fix",
+      "triageNote": "Component correctly defaults reactions to the parent Bubble's alignment via context; the detached pill came from the explicit align=\"start\" under end-aligned bubbles taught by the demos — removed it from reactions.tsx (×2) and bubble-group.tsx so reactions follow their bubble; pair-051's own instance is a frozen eval page that explicitly passes align=\"start\" (composition, unfixable there)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:bubble",
+      "severity": "major",
+      "title": "Inconsistent message bubble alignment",
+      "description": "Chat bubbles lack consistent sender-based horizontal alignment, producing an irregular visual flow.",
+      "evidence": "Multiple response bubbles show mismatched left and right offsets across the thread.",
+      "suggestion": "Apply consistent left and right alignment classes for incoming and outgoing messages.",
+      "pairId": "pair-039",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop-wide"
+    },
+    {
+      "component": "ui:bubble",
+      "severity": "minor",
+      "title": "Unintended word fragmentation",
+      "description": "Several text strings inside bubbles exhibit broken spacing within words.",
+      "evidence": "Artifacts appear in words like 'Rever ted', 'Postmorte m', and 'Schedu led'.",
+      "suggestion": "Remove extraneous spacing in message strings and ensure standard word-break styling.",
+      "pairId": "pair-039",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop-wide"
+    },
+    {
+      "component": "ui:bubble",
+      "severity": "minor",
+      "title": "Misplaced bubble reaction",
+      "description": "Reaction badge is anchored to the left margin instead of aligning with the parent message.",
+      "evidence": "The eye reaction badge appears detached on the far left beneath right-aligned bubbles.",
+      "suggestion": "Align reaction badges directly beneath or adjacent to the associated message bubble.",
+      "pairId": "pair-051",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone"
+    }
+  ]
+}

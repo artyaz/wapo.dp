@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-059",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:EditorTab",
+    "ds:GlassDisplacement",
+    "ds:MethodChip"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-059.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:57:29.895Z",
+  "summary": "The mobile interface effectively showcases the Praxis components with clean typography and layout, showing only minor contrast and truncation polish items.",
+  "issues": [
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "Low contrast header tag",
+      "description": "Version label lacks sufficient contrast against the background.",
+      "evidence": "The 'V1' indicator in the top right corner is extremely light gray.",
+      "suggestion": "Darken text token to satisfy minimum contrast ratios."
+    },
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "Truncated status text in action bar",
+      "description": "Subtext truncates prematurely despite available vertical room.",
+      "evidence": "Status string displays as 'POST /v1/records · last 201 ·...'.",
+      "suggestion": "Refactor subtext flex container or reduce font size to fit without ellipsis."
+    }
+  ]
+}

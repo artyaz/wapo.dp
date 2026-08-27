@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-084",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:InlineChips",
+    "ds:CrosshairTag",
+    "ui:tabs"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-084.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:24:05.110Z",
+  "summary": "The interface complies with layout constraints and correctly showcases the designated components in dark theme without visual defects or overflow.",
+  "issues": []
+}

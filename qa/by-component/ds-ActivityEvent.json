@@ -1,0 +1,112 @@
+{
+  "id": "ds:ActivityEvent",
+  "name": "ActivityEvent",
+  "kind": "ds",
+  "importPath": "@/components/ds/ActivityEvent",
+  "sourceFiles": [
+    "src/components/ds/ActivityEvent/ActivityEvent.tsx"
+  ],
+  "demoFile": "src/components/ds/ActivityEvent/demo.tsx",
+  "metaFile": "src/components/ds/ActivityEvent/meta.ts",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 2,
+    "minor": 1,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ds:ActivityEvent",
+      "severity": "major",
+      "title": "Insufficient text contrast",
+      "description": "The intermediate activity item text and icon have low contrast against the dark background.",
+      "evidence": "The 'Anomaly detected -> insight agent queued' row is difficult to read.",
+      "suggestion": "Increase foreground luminance for muted timeline events in dark mode.",
+      "pairId": "pair-061",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-half",
+      "occurrences": 1,
+      "pairs": [
+        "pair-061"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: system-variant body hardcodes text-neutral-500 (12px mono) = 5.44:1 on dark panel — weak at phone scale; stepped up to text-neutral-600 (7.36:1)."
+    },
+    {
+      "component": "ds:ActivityEvent",
+      "severity": "major",
+      "title": "Low contrast text",
+      "description": "Secondary activity entry text lacks sufficient contrast against the dark theme background.",
+      "evidence": "The 'Export queued -> batch #4471' item is barely readable against the background.",
+      "suggestion": "Increase opacity or lighten the muted text token in dark mode.",
+      "pairId": "pair-075",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-tiny",
+      "occurrences": 1,
+      "pairs": [
+        "pair-075"
+      ],
+      "triage": "fix",
+      "triageNote": "Same root cause as pair-061 (independent corroboration): neutral-500 system body on near-black bg; text-neutral-600 raises it to 7.92:1."
+    },
+    {
+      "component": "ds:ActivityEvent",
+      "severity": "minor",
+      "title": "Low contrast status text",
+      "description": "Initial event text is excessively faint, reducing legibility.",
+      "evidence": "Faint text on 'Session started — 44.1 kHz · mono · auto-transcribe on'.",
+      "suggestion": "Increase font opacity or use a darker neutral token.",
+      "pairId": "pair-151",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-151"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect, objectively fails WCAG AA: neutral-500 on white card = 3.59:1; text-neutral-600 (5.33:1) fixes light theme too via the inverting neutral scale."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:ActivityEvent",
+      "severity": "major",
+      "title": "Insufficient text contrast",
+      "description": "The intermediate activity item text and icon have low contrast against the dark background.",
+      "evidence": "The 'Anomaly detected -> insight agent queued' row is difficult to read.",
+      "suggestion": "Increase foreground luminance for muted timeline events in dark mode.",
+      "pairId": "pair-061",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-half"
+    },
+    {
+      "component": "ds:ActivityEvent",
+      "severity": "major",
+      "title": "Low contrast text",
+      "description": "Secondary activity entry text lacks sufficient contrast against the dark theme background.",
+      "evidence": "The 'Export queued -> batch #4471' item is barely readable against the background.",
+      "suggestion": "Increase opacity or lighten the muted text token in dark mode.",
+      "pairId": "pair-075",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-tiny"
+    },
+    {
+      "component": "ds:ActivityEvent",
+      "severity": "minor",
+      "title": "Low contrast status text",
+      "description": "Initial event text is excessively faint, reducing legibility.",
+      "evidence": "Faint text on 'Session started — 44.1 kHz · mono · auto-transcribe on'.",
+      "suggestion": "Increase font opacity or use a darker neutral token.",
+      "pairId": "pair-151",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone"
+    }
+  ]
+}

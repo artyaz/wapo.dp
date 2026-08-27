@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-023",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:ToolSummaryRow",
+    "ds:AssetCard",
+    "ui:breadcrumb"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-023.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:29:01.507Z",
+  "summary": "The layout displays all components cleanly with consistent spacing, legible typography, and balanced hierarchy.",
+  "issues": []
+}

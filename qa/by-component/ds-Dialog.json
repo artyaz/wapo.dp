@@ -1,0 +1,112 @@
+{
+  "id": "ds:Dialog",
+  "name": "Dialog",
+  "kind": "ds",
+  "importPath": "@/components/ds/Dialog",
+  "sourceFiles": [
+    "src/components/ds/Dialog/Dialog.tsx"
+  ],
+  "demoFile": "src/components/ds/Dialog/demo.tsx",
+  "metaFile": "src/components/ds/Dialog/meta.ts",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 3,
+    "minor": 0,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ds:Dialog",
+      "severity": "major",
+      "title": "Illegible dialog header contrast",
+      "description": "The dialog title lacks adequate contrast against the light container background.",
+      "evidence": "The heading 'حذف المرفق؟' renders in light gray/white text on a white modal surface.",
+      "suggestion": "Apply a high-contrast text color token to the dialog title.",
+      "pairId": "pair-116",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-116"
+      ],
+      "triage": "fix",
+      "triageNote": "Confirmed: Dialog.Content hardcoded bg-[#ffffff]/border-[#e5e5e5] while the composed Title uses text-default-font (near-white in dark) — replaced with bg-panel/border-default-border tokens in Dialog.tsx; verified live (panel rgb(21,21,19), title rgb(241,239,233)) and by vision re-audit of pair-116 (no ds:Dialog issues remain)."
+    },
+    {
+      "component": "ds:Dialog",
+      "severity": "major",
+      "title": "Confined dialog scrim clipping content",
+      "description": "The dialog overlay renders within a bounded sidebar container rather than portaling globally, cutting off underlying helper text.",
+      "evidence": "Dark overlay rectangle in the right column partially masks text, leaving orphan word 'completes.' exposed at bottom edge.",
+      "suggestion": "Mount dialog via a portal to cover the entire viewport.",
+      "pairId": "pair-127",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-127"
+      ],
+      "triage": "composition",
+      "triageNote": "The inline (non-portaled) scrim inside a bounded frame is the component's documented demo idiom, used deliberately by the eval page; measured DOM geometry shows the scrim fully covers its frame (394–704 vs frame 393–705 incl. borders), so the 'orphan word' evidence does not reproduce. Improvements applied: scrim no longer paints while closed (empty:hidden — Radix keeps the root mounted so the 60% black scrim previously dimmed the frame forever after dismissal) and the inline-scrim idiom + full-viewport guidance is documented in meta.ts."
+    },
+    {
+      "component": "ds:Dialog",
+      "severity": "major",
+      "title": "Low contrast dialog title",
+      "description": "The dialog title uses light text on a light background, rendering it illegible.",
+      "evidence": "The 'Delete account?' heading in the Danger Zone dialog blends into the white container background.",
+      "suggestion": "Update the dialog title color token to ensure sufficient contrast against the surface.",
+      "pairId": "pair-166",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-166"
+      ],
+      "triage": "fix",
+      "triageNote": "Same root cause as pair-116: hardcoded white panel vs token-driven title in dark theme — fixed via bg-panel/border-default-border tokens; verified live on /eval/pair-166 (dark, 390x844: panel rgb(21,21,19), title rgb(241,239,233))."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:Dialog",
+      "severity": "major",
+      "title": "Illegible dialog header contrast",
+      "description": "The dialog title lacks adequate contrast against the light container background.",
+      "evidence": "The heading 'حذف المرفق؟' renders in light gray/white text on a white modal surface.",
+      "suggestion": "Apply a high-contrast text color token to the dialog title.",
+      "pairId": "pair-116",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait"
+    },
+    {
+      "component": "ds:Dialog",
+      "severity": "major",
+      "title": "Confined dialog scrim clipping content",
+      "description": "The dialog overlay renders within a bounded sidebar container rather than portaling globally, cutting off underlying helper text.",
+      "evidence": "Dark overlay rectangle in the right column partially masks text, leaving orphan word 'completes.' exposed at bottom edge.",
+      "suggestion": "Mount dialog via a portal to cover the entire viewport.",
+      "pairId": "pair-127",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide"
+    },
+    {
+      "component": "ds:Dialog",
+      "severity": "major",
+      "title": "Low contrast dialog title",
+      "description": "The dialog title uses light text on a light background, rendering it illegible.",
+      "evidence": "The 'Delete account?' heading in the Danger Zone dialog blends into the white container background.",
+      "suggestion": "Update the dialog title color token to ensure sufficient contrast against the surface.",
+      "pairId": "pair-166",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone"
+    }
+  ]
+}

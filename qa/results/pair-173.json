@@ -1,0 +1,31 @@
+{
+  "pairId": "pair-173",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:TimeScrubber",
+    "ds:LayerTreeRow",
+    "ui:accordion"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "dense-content",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-173.jpg",
+    "qa/screenshots/pair-173-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:08:28.600Z",
+  "summary": "The layout cleanly showcases the components on a mobile viewport with proper hierarchy, well-proportioned spacing, and appropriate text truncation.",
+  "issues": []
+}

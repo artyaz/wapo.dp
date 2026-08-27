@@ -5,9 +5,9 @@ export default defineMeta({
   slug: "code-pane",
   category: "code-editor",
   description:
-    "A bordered code reading surface. CodeLine rows pair a right-aligned line-number gutter with the line's content and can flag the current line with a faint brand wash and a semibold number. The root also mounts a HoverDocCard — a small floating panel with a function signature, a prose summary and a file reference — pinned to the pane's top-right, modeling the editor's hover-documentation moment. Use it for read-only snippets, signatures and code excerpts.",
+    "A bordered code reading surface. CodeLine rows pair a right-aligned line-number gutter with the line's content and can flag the current line with a faint brand wash and a semibold number. The root also mounts a HoverDocCard — a small panel with a function signature, a prose summary and a file reference — rendered below the snippet and docked to the pane's trailing edge, modeling the editor's hover-documentation moment without covering the code. Use it for read-only snippets, signatures and code excerpts.",
   usage:
-    "Compose CodeLine rows as children of CodePane and set currentLine on the cursor's row; the HoverDocCard is rendered by the root as authored and can also be positioned standalone.",
+    "Compose CodeLine rows as children of CodePane and set currentLine on the cursor's row; the HoverDocCard is rendered by the root in flow below the snippet (so it never overlaps the code) and can also be positioned standalone.",
   tags: ["code", "editor", "snippet", "hover-doc", "line-numbers"],
   props: [
     {

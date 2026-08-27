@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-137",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:WaveformStrip",
+    "ui:collapsible",
+    "ui:avatar"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-half",
+      "width": 390,
+      "height": 420,
+      "weight": 10,
+      "hint": "roughly HALF of a phone screen (very little vertical room)"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a pricing comparison"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-137.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T01:22:29.292Z",
+  "summary": "The compact dark-mode pricing layout fits the viewport correctly, but displays several typographical word-splitting errors across labels.",
+  "issues": [
+    {
+      "component": "page",
+      "severity": "major",
+      "title": "Unintended spacing in text strings",
+      "description": "Multiple text labels contain artificial spaces that split words awkwardly.",
+      "evidence": "Strings render as 'mo nth', 'START ER', and 'Transcriptio n' across the plan cards and comparison table.",
+      "suggestion": "Correct source strings and letter-spacing properties to prevent broken words."
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-153",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:radio-group",
+    "ds:AssistantMessage",
+    "ds:EditorTab"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "dark",
+    "direction": "rtl",
+    "constraint": "dense-content",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-153.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T01:49:31.207Z",
+  "summary": "The page displays layout mirroring defects in the radio group controls and insufficient text contrast within message blocks under dark RTL mode.",
+  "issues": [
+    {
+      "component": "ui:radio-group",
+      "severity": "major",
+      "title": "RTL indicator misplacement",
+      "description": "Radio selection indicators remain anchored to the far left while option text is aligned to the right.",
+      "evidence": "Radio controls appear on the left edge opposite the right-aligned option text.",
+      "suggestion": "Mirror indicator placement to precede the text on the right side in RTL layout."
+    },
+    {
+      "component": "ds:AssistantMessage",
+      "severity": "minor",
+      "title": "Low contrast prompt text",
+      "description": "Prompt text inside the message container lacks sufficient contrast against the dark surface.",
+      "evidence": "Hebrew text in the upper container renders in dark gray on a dark background.",
+      "suggestion": "Elevate text brightness tokens to comply with dark mode contrast standards."
+    }
+  ]
+}

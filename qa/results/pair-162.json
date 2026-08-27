@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-162",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:resizable",
+    "ui:kbd",
+    "ui:combobox"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "dark",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": "a voice memo recorder"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-162.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:03:16.010Z",
+  "summary": "The interface delivers a coherent dark-themed RTL recording studio layout, but exhibits minor RTL key-ordering issues in shortcut badges and reversed transcript metadata placement.",
+  "issues": [
+    {
+      "component": "ui:kbd",
+      "severity": "minor",
+      "title": "Inverted shortcut modifier order in RTL",
+      "description": "Modifier keys appear after trigger keys inside shortcut badges rather than preceding them.",
+      "evidence": "Search bar displays 'K Ctrl' instead of 'Ctrl K'; bottom action displays 'S ⌘' instead of '⌘ S'.",
+      "suggestion": "Ensure shortcut container retains LTR ordering for key combinations in RTL contexts."
+    },
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "Transcript timestamp placement misaligned with text flow",
+      "description": "Timestamps appear at the trailing end of Hebrew text lines instead of anchoring to a consistent start margin.",
+      "evidence": "Transcript timestamps (00:00, 00:07) are positioned to the left of the Hebrew sentences rather than in a dedicated leading column on the right.",
+      "suggestion": "Move timestamps to a fixed right-hand gutter preceding the transcript text."
+    }
+  ]
+}

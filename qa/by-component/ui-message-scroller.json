@@ -1,0 +1,111 @@
+{
+  "id": "ui:message-scroller",
+  "name": "message-scroller",
+  "kind": "ui",
+  "importPath": "@/components/ui/message-scroller",
+  "sourceFiles": [
+    "src/components/ui/message-scroller.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/message-scroller/accessibility.tsx",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 2,
+    "minor": 1,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ui:message-scroller",
+      "severity": "major",
+      "title": "Scroll-to-bottom button overlaps message text",
+      "description": "The MessageScrollerButton floating action is positioned directly over the text content of the latest message, obstructing readability.",
+      "evidence": "The circular down-arrow button is rendered on top of the text in the 09:49 message, obscuring part of the word 'approves' so it reads 'Once billing [arrow] oves'.",
+      "suggestion": "Position the MessageScrollerButton in a dedicated anchored overlay position (e.g., bottom-right with adequate margin) and ensure it does not obstruct reading flow.",
+      "pairId": "pair-009",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-009"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: the button was absolutely centered over the reading flow (bottom-4 left-1/2). Fixed by anchoring it bottom-end inside a 48px footer lane the scroller now reserves under the viewport whenever the transcript can scroll, so it can never cover message text."
+    },
+    {
+      "component": "ui:message-scroller",
+      "severity": "major",
+      "title": "Scroll button overlaps message content",
+      "description": "The scroll-to-bottom floating button overlays the text within the lowest message bubble.",
+      "evidence": "The down-arrow circle directly collides with the message text at the bottom center of the message viewport.",
+      "suggestion": "Add sufficient bottom inset to the scroller viewport so floating controls do not obscure message content.",
+      "pairId": "pair-011",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-011"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect, corroborated independently by pair-009; browser measurement confirmed the lowest right-aligned customer bubble overlapped the corner-anchored button 32x32px. Fixed with the same reserved footer lane (pb-12 when scrollable) under the viewport."
+    },
+    {
+      "component": "ui:message-scroller",
+      "severity": "minor",
+      "title": "Message bubble clipped at top viewport boundary",
+      "description": "The topmost message bubble is abruptly cut in half at the upper boundary of the message scroller viewport.",
+      "evidence": "A partially clipped container edge and truncated text fragment are visible directly beneath the header divider at the top edge of the message area.",
+      "suggestion": "Add top padding or a subtle scroll fade mask to the MessageScrollerViewport to avoid harsh text clipping at the scroll container edge.",
+      "pairId": "pair-009",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-009"
+      ],
+      "triage": "fix",
+      "triageNote": "Real (by design the last-anchor position leaves a 64px peek of the previous turn clipped at the top edge); fixed with state-gated 24px from-background gradient fades on the container that dissolve content crossing either viewport edge."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:message-scroller",
+      "severity": "major",
+      "title": "Scroll-to-bottom button overlaps message text",
+      "description": "The MessageScrollerButton floating action is positioned directly over the text content of the latest message, obstructing readability.",
+      "evidence": "The circular down-arrow button is rendered on top of the text in the 09:49 message, obscuring part of the word 'approves' so it reads 'Once billing [arrow] oves'.",
+      "suggestion": "Position the MessageScrollerButton in a dedicated anchored overlay position (e.g., bottom-right with adequate margin) and ensure it does not obstruct reading flow.",
+      "pairId": "pair-009",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ui:message-scroller",
+      "severity": "minor",
+      "title": "Message bubble clipped at top viewport boundary",
+      "description": "The topmost message bubble is abruptly cut in half at the upper boundary of the message scroller viewport.",
+      "evidence": "A partially clipped container edge and truncated text fragment are visible directly beneath the header divider at the top edge of the message area.",
+      "suggestion": "Add top padding or a subtle scroll fade mask to the MessageScrollerViewport to avoid harsh text clipping at the scroll container edge.",
+      "pairId": "pair-009",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ui:message-scroller",
+      "severity": "major",
+      "title": "Scroll button overlaps message content",
+      "description": "The scroll-to-bottom floating button overlays the text within the lowest message bubble.",
+      "evidence": "The down-arrow circle directly collides with the message text at the bottom center of the message viewport.",
+      "suggestion": "Add sufficient bottom inset to the scroller viewport so floating controls do not obscure message content.",
+      "pairId": "pair-011",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide"
+    }
+  ]
+}

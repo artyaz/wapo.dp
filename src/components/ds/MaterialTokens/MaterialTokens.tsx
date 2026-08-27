@@ -5,8 +5,9 @@
  * a warm-gray test backdrop plus one glass Swatch per level (ultrathin,
  * thin, regular, thick) captioned with its exact tint · blur · saturate.
  * The busy backdrop (radial gradients + specimen text) renders as an
- * absolute layer BEHIND the swatches so every swatch demonstrates its
- * translucency over real content.
+ * absolute layer confined to the pill column — one specimen line per
+ * pill row — so every swatch demonstrates its translucency over real
+ * content without the text ever colliding with the level labels.
  */
 
 import React from "react";
@@ -24,7 +25,7 @@ const Swatch = React.forwardRef<HTMLDivElement, SwatchProps>(function Swatch(
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/63758c20 flex items-center gap-4",
+        "group/63758c20 flex h-10 w-full items-center gap-4",
         className
       )}
       ref={ref}
@@ -46,7 +47,7 @@ const Swatch = React.forwardRef<HTMLDivElement, SwatchProps>(function Swatch(
         <div className="flex items-start rounded-[9999px] pointer-events-none absolute inset-0 bg-[linear-gradient(160deg,rgba(255,255,255,0.55)_0%,rgba(255,255,255,0.16)_26%,rgba(255,255,255,0.04)_44%,transparent_60%)]" />
         <div className="flex items-start rounded-[9999px] pointer-events-none absolute inset-0 bg-[linear-gradient(340deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0.07)_22%,transparent_42%)]" />
       </div>
-      <div className="flex flex-col items-start gap-0.5">
+      <div className="flex min-w-0 flex-1 flex-col items-start gap-0.5">
         <span className="font-body text-[11px] font-[600] leading-[14px] tracking-[0.14em] text-default-font uppercase select-none">
           {level === "thick"
             ? "THICK"
@@ -100,29 +101,32 @@ const MaterialTokensRoot = React.forwardRef<
         </span>
       </div>
       <div className="flex w-full flex-col items-start gap-4 relative">
-        {/* busy test backdrop — warm-gray radials + faint specimen text,
-            layered BEHIND the swatches so translucency is provable */}
+        {/* busy test backdrop — warm-gray radials + quiet specimen text,
+            layered BEHIND the glass pills. It spans exactly the pill column
+            (pill width + 8px bleed on each side) and each specimen line is
+            vertically aligned with one pill row, so the text proves
+            translucency through its pill but can never run underneath the
+            level labels to its right or straddle a pill edge. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -inset-x-2 -inset-y-2 flex-col gap-1.5 overflow-hidden rounded-lg bg-neutral-300/60 flex"
+          className="pointer-events-none absolute -inset-y-2 -start-2 flex w-52 mobile:w-40 flex-col gap-1.5 overflow-hidden rounded-lg bg-neutral-300/60"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(160,155,145,0.25)_0%,transparent_60%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_60%,rgba(140,138,130,0.20)_0%,transparent_55%)]" />
           <div className="absolute inset-0 bg-neutral-200/40" />
-          <div className="relative flex flex-col gap-1.5 px-4 py-3">
+          {/* one specimen line per pill row — same h-10/gap-3 rhythm as the
+              swatch column, offset by pt-2 to cancel the -inset-y-2 bleed */}
+          <div className="relative flex flex-col gap-3 px-4 pt-2">
             {[
               "specimen 01 — the quick brown fox",
               "specimen 02 — jumps over the lazy dog",
               "specimen 03 — laid-object surfaces",
-              "specimen 04 — one substance, graded",
-              "specimen 05 — tint · blur · saturate",
-              "specimen 06 — quiet elevation by refraction",
+              "specimen 04 — elevation by refraction",
             ].map((line) => (
-              <span
-                key={line}
-                className="font-code text-[11px] font-[400] leading-[16px] text-default-font/50 select-none"
-              >
-                {line}
+              <span key={line} className="flex h-10 items-center">
+                <span className="font-code text-[11px] font-[400] leading-[16px] text-default-font/70 select-none truncate">
+                  {line}
+                </span>
               </span>
             ))}
           </div>

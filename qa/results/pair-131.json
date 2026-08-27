@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-131",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:TransportBar",
+    "ds:GlassChip",
+    "ds:MediaClip"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": "a multi-step form"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-131.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:25:56.082Z",
+  "summary": "The page follows RTL layout rules and Praxis visual styling consistently with minimal minor clipping polish needed.",
+  "issues": [
+    {
+      "component": "ds:MediaClip",
+      "severity": "minor",
+      "title": "Premature label truncation",
+      "description": "Clip title truncates with ellipsis prematurely despite remaining inline container width.",
+      "evidence": "The second track clip shows 'intro-theme....' with empty space before the duration badge.",
+      "suggestion": "Adjust flex shrink and container max-width constraints on the label element."
+    }
+  ]
+}

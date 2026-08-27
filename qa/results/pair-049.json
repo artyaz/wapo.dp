@@ -1,0 +1,40 @@
+{
+  "pairId": "pair-049",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:WaveformStrip",
+    "ds:DiffRow",
+    "ds:CodePane"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a search & filter toolbar"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-049.jpg",
+    "qa/screenshots/pair-049-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:11:33.840Z",
+  "summary": "The page displays layout issues in the code viewer where text lines overlap and collide at small viewport widths.",
+  "issues": [
+    {
+      "component": "ds:CodePane",
+      "severity": "major",
+      "title": "Code line text overlap",
+      "description": "Lines in the code block overlap vertically and collide with adjacent text due to improper line wrapping handling.",
+      "evidence": "Lines 1 and 2 text are superimposed directly on top of each other in the code pane.",
+      "suggestion": "Enable horizontal code scrolling or correct line-height and wrapping behavior."
+    }
+  ]
+}

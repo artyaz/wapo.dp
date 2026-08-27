@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-050",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:AtmosphereScrim",
+    "ds:ReasoningLog",
+    "ds:StatusBadge"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-050.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:58:56.948Z",
+  "summary": "The showcase renders cleanly across ds:AtmosphereScrim, ds:ReasoningLog, and ds:StatusBadge with balanced spacing, legible hierarchy, and precise alignment.",
+  "issues": []
+}

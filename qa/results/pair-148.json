@@ -1,0 +1,31 @@
+{
+  "pairId": "pair-148",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:card",
+    "ds:CandleSeries",
+    "ui:dropdown-menu"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a user profile page"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-148.jpg",
+    "qa/screenshots/pair-148-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:42:15.199Z",
+  "summary": "The profile page renders cleanly with well-aligned components, balanced spacing, and strong visual hierarchy matching the design system.",
+  "issues": []
+}

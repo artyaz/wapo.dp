@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-029",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:AssetCard",
+    "ui:native-select",
+    "ds:AskBar"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "an image gallery with metadata"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-029.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:31:30.798Z",
+  "summary": "The gallery layout adheres to design specifications with clean component hierarchy, consistent spacing, and proper mobile viewport alignment.",
+  "issues": []
+}

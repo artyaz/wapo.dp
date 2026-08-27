@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-079",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:toast",
+    "ui:spinner",
+    "ds:TrackHeader"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a pricing comparison"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-079.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:09:49.563Z",
+  "summary": "The pricing comparison layout displays cleanly on the mobile viewport with clear hierarchy, balanced spacing, and proper contrast.",
+  "issues": []
+}

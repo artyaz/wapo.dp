@@ -1,0 +1,19 @@
+{
+  "id": "ui:date-picker",
+  "name": "date-picker",
+  "kind": "ui",
+  "importPath": "@/components/ui/date-picker",
+  "sourceFiles": [
+    "src/components/ui/date-picker.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/date-picker/basic.tsx",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

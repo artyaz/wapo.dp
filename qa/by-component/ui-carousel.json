@@ -1,0 +1,51 @@
+{
+  "id": "ui:carousel",
+  "name": "carousel",
+  "kind": "ui",
+  "importPath": "@/components/ui/carousel",
+  "sourceFiles": [
+    "src/components/ui/carousel.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/carousel/api.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:carousel",
+      "severity": "major",
+      "title": "Incorrect slide counter value",
+      "description": "The carousel pagination displays an invalid slide count.",
+      "evidence": "The indicator reads 'شريحة 1 من 0' despite items being present.",
+      "suggestion": "Bind the total count to the active slide collection length.",
+      "pairId": "pair-116",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-116"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: carousel.tsx never passed embla's `direction` option, so on RTL pages embla initialized as LTR inside an RTL flex container — scrollSnapList() returned [] (counter 'of 0') and canScrollPrev/Next were both false (arrows permanently disabled). Fixed by resolving direction (opts.direction > dir prop > closest [dir] ancestor) and passing it to embla; verified on /eval/pair-116: counter now 'شريحة 1 من 4', prev disabled/next enabled at slide 1, clicking next advances to 'شريحة 2 من 4'; vision re-audit of pair-116 no longer flags the counter."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:carousel",
+      "severity": "major",
+      "title": "Incorrect slide counter value",
+      "description": "The carousel pagination displays an invalid slide count.",
+      "evidence": "The indicator reads 'شريحة 1 من 0' despite items being present.",
+      "suggestion": "Bind the total count to the active slide collection length.",
+      "pairId": "pair-116",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait"
+    }
+  ]
+}

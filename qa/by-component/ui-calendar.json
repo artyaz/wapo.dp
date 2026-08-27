@@ -1,0 +1,111 @@
+{
+  "id": "ui:calendar",
+  "name": "calendar",
+  "kind": "ui",
+  "importPath": "@/components/ui/calendar",
+  "sourceFiles": [
+    "src/components/ui/calendar.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/calendar/basic.tsx",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 2,
+    "minor": 1,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ui:calendar",
+      "severity": "major",
+      "title": "Selected date not highlighted",
+      "description": "The calendar grid does not render an active state for the selected date.",
+      "evidence": "The footer states Jan 12, 2026 is selected, but day 12 displays resting state styling.",
+      "suggestion": "Apply active background and border tokens to the selected CalendarDayButton.",
+      "pairId": "pair-010",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-010"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect, but root cause was not subtle dark bg-primary: react-day-picker v9 dropped the uncontrolled defaultSelected prop, so defaultSelected never rendered any selection (bg-primary is near-white in dark and clearly visible once selected state exists). Fixed in calendar.tsx by emulating uncontrolled defaultSelected with internal state."
+    },
+    {
+      "component": "ui:calendar",
+      "severity": "major",
+      "title": "Low contrast for muted calendar dates",
+      "description": "Muted date numbers have insufficient contrast against the dark surface background.",
+      "evidence": "Date digits in the top row and day 7 blend into the dark calendar background.",
+      "suggestion": "Increase the foreground luminance for muted calendar day tokens.",
+      "pairId": "pair-175",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-175"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: disabled days were double-dimmed — td got opacity-50 from the disabled classNames AND the Button base added disabled:opacity-50 (~1.4:1 on dark background). Removed opacity-50 from the disabled classNames and added disabled:opacity-100 to CalendarDayButton so muted digits render at full text-muted-foreground (~5.8:1 in dark)."
+    },
+    {
+      "component": "ui:calendar",
+      "severity": "minor",
+      "title": "Unmirrored calendar navigation in RTL",
+      "description": "Month navigation chevrons remain in standard LTR orientation rather than RTL.",
+      "evidence": "Previous and next chevrons are placed on the left and right respectively.",
+      "suggestion": "Swap navigation arrow directions to follow RTL flow.",
+      "pairId": "pair-175",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-175"
+      ],
+      "triage": "false-positive",
+      "triageNote": "rtl:**:[.rdp-button\\_next>svg]:rotate-180 / previous rules were already present in HEAD and verified in compiled CSS; under dir=rtl the nav flex reverses (previous right, next left) and both chevrons rotate 180, giving a correct mirror — which for symmetric chevrons is visually identical to the LTR layout the auditor misread as unmirrored."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:calendar",
+      "severity": "major",
+      "title": "Selected date not highlighted",
+      "description": "The calendar grid does not render an active state for the selected date.",
+      "evidence": "The footer states Jan 12, 2026 is selected, but day 12 displays resting state styling.",
+      "suggestion": "Apply active background and border tokens to the selected CalendarDayButton.",
+      "pairId": "pair-010",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    },
+    {
+      "component": "ui:calendar",
+      "severity": "major",
+      "title": "Low contrast for muted calendar dates",
+      "description": "Muted date numbers have insufficient contrast against the dark surface background.",
+      "evidence": "Date digits in the top row and day 7 blend into the dark calendar background.",
+      "suggestion": "Increase the foreground luminance for muted calendar day tokens.",
+      "pairId": "pair-175",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "phone-small"
+    },
+    {
+      "component": "ui:calendar",
+      "severity": "minor",
+      "title": "Unmirrored calendar navigation in RTL",
+      "description": "Month navigation chevrons remain in standard LTR orientation rather than RTL.",
+      "evidence": "Previous and next chevrons are placed on the left and right respectively.",
+      "suggestion": "Swap navigation arrow directions to follow RTL flow.",
+      "pairId": "pair-175",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "phone-small"
+    }
+  ]
+}

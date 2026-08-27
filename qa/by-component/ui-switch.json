@@ -1,0 +1,81 @@
+{
+  "id": "ui:switch",
+  "name": "switch",
+  "kind": "ui",
+  "importPath": "@/components/ui/switch",
+  "sourceFiles": [
+    "src/components/ui/switch.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/switch/choice-card.tsx",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ui:switch",
+      "severity": "major",
+      "title": "RTL punctuation displacement",
+      "description": "English helper text inherits RTL directionality causing periods to render at the beginning of wrapped lines.",
+      "evidence": "Switch descriptions show periods at the start of '.manual review', '.Clients...', and '.session'.",
+      "suggestion": "Set dir='auto' or explicit LTR isolation on English text elements.",
+      "pairId": "pair-028",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-028"
+      ],
+      "triage": "composition",
+      "triageNote": "Switch renders no text; the English descriptions are plain <p> nodes composed by the eval page itself (src/app/eval/pair-028/page.tsx RuleRow) inside a dir=rtl shell, so bidi moves trailing periods. Root cause is page composition in a file fix agents may not edit — not a ui:switch defect."
+    },
+    {
+      "component": "ui:switch",
+      "severity": "minor",
+      "title": "Switch active thumb rendering defect",
+      "description": "The switch thumb in active state displays an uneven crescent cutout artifact.",
+      "evidence": "Active switches for Auto-confirm and Reminder emails show irregular thumb clipping on the track.",
+      "suggestion": "Adjust thumb inset and track overflow styling for consistent thumb geometry.",
+      "pairId": "pair-028",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-028"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: checked-state thumb used physical translate-x-[calc(100%-2px)] which in RTL pushed the 16px thumb 13px outside the 32px track (eval-agent DOM measurement: thumb x 70-86 vs track right edge 73). Fixed with rtl:-translate-x mirror in src/components/ui/switch.tsx."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:switch",
+      "severity": "major",
+      "title": "RTL punctuation displacement",
+      "description": "English helper text inherits RTL directionality causing periods to render at the beginning of wrapped lines.",
+      "evidence": "Switch descriptions show periods at the start of '.manual review', '.Clients...', and '.session'.",
+      "suggestion": "Set dir='auto' or explicit LTR isolation on English text elements.",
+      "pairId": "pair-028",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "tablet-portrait"
+    },
+    {
+      "component": "ui:switch",
+      "severity": "minor",
+      "title": "Switch active thumb rendering defect",
+      "description": "The switch thumb in active state displays an uneven crescent cutout artifact.",
+      "evidence": "Active switches for Auto-confirm and Reminder emails show irregular thumb clipping on the track.",
+      "suggestion": "Adjust thumb inset and track overflow styling for consistent thumb geometry.",
+      "pairId": "pair-028",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "tablet-portrait"
+    }
+  ]
+}

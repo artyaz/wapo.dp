@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-021",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:item",
+    "ds:Sheet",
+    "ds:CrosshairTag"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "dark",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-021.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:34:01.290Z",
+  "summary": "The dark RTL interface displays good overall visual fidelity, but exhibits minor layout alignment issues in the sheet actions and crosshair tooltip anchoring.",
+  "issues": [
+    {
+      "component": "ds:Sheet",
+      "severity": "major",
+      "title": "RTL action alignment in modal footer",
+      "description": "The dialog actions are aligned to the left edge rather than the expected start edge in RTL layout.",
+      "evidence": "Footer buttons 'تأكيد الشراء' and 'إلغاء' sit at the bottom-left corner of the sheet.",
+      "suggestion": "Align modal footer actions to the start edge (right) or use a consistent full-width/RTL ordering."
+    },
+    {
+      "component": "ds:CrosshairTag",
+      "severity": "minor",
+      "title": "Crosshair indicator misaligned with active bar",
+      "description": "The floating crosshair tag and its guideline do not align accurately with the highlighted chart column.",
+      "evidence": "The glass tooltip overlay floats centered across multiple bars while the vertical crosshair line sits offset behind it.",
+      "suggestion": "Snap the crosshair line and tag anchor directly to the selected data bar."
+    }
+  ]
+}

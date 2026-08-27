@@ -115,7 +115,13 @@ export default function Demo() {
           </span>
           <div className="h-px flex-1 bg-default-border" />
         </div>
-        <div className="relative w-full" style={{ height: CHART_HEIGHT }}>
+        {/* dir="ltr": price axis is authored on the right — don't let an RTL
+            page context flip the gridline labels onto the candles */}
+        <div
+          dir="ltr"
+          className="relative w-full"
+          style={{ height: CHART_HEIGHT }}
+        >
           <div className="absolute inset-0 pointer-events-none">
             {GRID_PRICES.map((price) => (
               <div

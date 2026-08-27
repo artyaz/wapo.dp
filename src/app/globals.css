@@ -15,6 +15,7 @@
 @source not "../scripts";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant mobile (@media (width < 30rem));
 
 /* ============================================================
    Praxis Design System — token layer

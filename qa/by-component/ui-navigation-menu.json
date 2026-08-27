@@ -1,0 +1,19 @@
+{
+  "id": "ui:navigation-menu",
+  "name": "navigation-menu",
+  "kind": "ui",
+  "importPath": "@/components/ui/navigation-menu",
+  "sourceFiles": [
+    "src/components/ui/navigation-menu.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/navigation-menu/link-component.tsx",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

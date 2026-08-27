@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-097",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:StatTile",
+    "ds:DialogLayout",
+    "ds:CandleSeries"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-097.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:42:10.461Z",
+  "summary": "The components render cleanly with consistent spacing, legible typography, and balanced layout hierarchy across the mobile viewport.",
+  "issues": []
+}

@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-018",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:TimelineRuler",
+    "ui:badge",
+    "ui:navigation-menu"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-018.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:32:25.193Z",
+  "summary": "The page is mostly clean and aligned, but contains a visual collision between the error callout and action button in the preview window.",
+  "issues": [
+    {
+      "component": "page",
+      "severity": "major",
+      "title": "Error callout overlaps button",
+      "description": "The failure notification card is positioned directly over the primary payment button, causing text overlap and readability issues.",
+      "evidence": "The 'Payment failed' tooltip sits directly on top of the black 'Pay $148.00' button with overlapping text.",
+      "suggestion": "Reposition the annotation callout above or beside the target button to avoid visual collision."
+    }
+  ]
+}

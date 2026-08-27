@@ -45,7 +45,7 @@ export function MessageActionsDemo() {
       </Message>
       <Message align="end">
         <MessageContent>
-          <Bubble>
+          <Bubble align="end">
             <BubbleContent>Okay drop me a link. Taking a look...</BubbleContent>
           </Bubble>
           <MessageFooter className="gap-2">

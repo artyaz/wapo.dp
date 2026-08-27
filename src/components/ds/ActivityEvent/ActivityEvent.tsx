@@ -131,7 +131,7 @@ const ActivityEventRoot = React.forwardRef<
           )}
         >
           {body ? (
-            <span className="font-code text-[12px] font-[400] leading-[20px] text-neutral-500 tabular-nums">
+            <span className="font-code text-[12px] font-[400] leading-[20px] text-neutral-600 tabular-nums">
               {body}
             </span>
           ) : null}

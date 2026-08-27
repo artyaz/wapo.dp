@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-026",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:field",
+    "ui:sidebar",
+    "ds:SlaTimer"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-026.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:29:56.294Z",
+  "summary": "The page cleanly implements the design system components with consistent spacing, legible typography, and correct visual hierarchy across the viewport.",
+  "issues": []
+}

@@ -5,7 +5,7 @@ export default defineMeta({
   slug: "text-field",
   category: "inputs",
   description:
-    "The core text input of the Praxis form system. The root renders the field anatomy — caption label, 2px-bordered body on panel glass, help text — while TextField.Input and TextField TextArea supply the unstyled control that goes inside. Focus feedback is ink weight, not glow: the border deepens to neutral-600 on focus-within, and the error state swaps the border and help text to the destructive ramp. Leading and trailing slots hold icons or affordances without disturbing the 13px vertical padding.",
+    "The core text input of the Praxis form system. The root renders the field anatomy — caption label, 2px-bordered body on panel glass, help text — while TextField.Input and TextField TextArea supply the unstyled control that goes inside. Focus feedback is ink weight, not glow: the border deepens to neutral-600 on focus-within, and the error state swaps the border and help text to the destructive ramp. Leading and trailing slots hold icons or affordances without disturbing the 13px vertical padding. Labels, help text and the controls themselves resolve their own base direction (dir=\"auto\"), so Latin copy keeps its terminal punctuation and '@' placement inside RTL pages while Arabic content mirrors fully.",
   usage:
     "Compose TextField with a TextField.Input (or TextArea) child; add label, helpText and error to the root.",
   tags: ["input", "form", "field", "inputs"],
@@ -19,7 +19,7 @@ export default defineMeta({
       name: "helpText",
       type: "React.ReactNode",
       description:
-        "Caption rendered below the field; turns destructive-500 when error is set.",
+        "Caption rendered below the field; turns destructive-500 when error is set. Rendered with dir=\"auto\", so Latin copy keeps its terminal punctuation on the correct side inside RTL pages (and Arabic/Hebrew copy mirrors fully).",
     },
     {
       name: "error",

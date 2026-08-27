@@ -1,0 +1,48 @@
+{
+  "pairId": "pair-039",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:Sparkline",
+    "ui:card",
+    "ui:bubble"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-039.jpg",
+    "qa/screenshots/pair-039-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:42:54.439Z",
+  "summary": "The dashboard demonstrates solid layout structure and theming, but exhibits alignment inconsistencies and text formatting artifacts in the incident chat timeline.",
+  "issues": [
+    {
+      "component": "ui:bubble",
+      "severity": "major",
+      "title": "Inconsistent message bubble alignment",
+      "description": "Chat bubbles lack consistent sender-based horizontal alignment, producing an irregular visual flow.",
+      "evidence": "Multiple response bubbles show mismatched left and right offsets across the thread.",
+      "suggestion": "Apply consistent left and right alignment classes for incoming and outgoing messages."
+    },
+    {
+      "component": "ui:bubble",
+      "severity": "minor",
+      "title": "Unintended word fragmentation",
+      "description": "Several text strings inside bubbles exhibit broken spacing within words.",
+      "evidence": "Artifacts appear in words like 'Rever ted', 'Postmorte m', and 'Schedu led'.",
+      "suggestion": "Remove extraneous spacing in message strings and ensure standard word-break styling."
+    }
+  ]
+}

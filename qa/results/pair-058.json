@@ -1,0 +1,48 @@
+{
+  "pairId": "pair-058",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:kbd",
+    "ds:TimelineRuler",
+    "ds:AskBar"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "dense-content",
+    "scenario": "a multi-step form"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-058.jpg",
+    "qa/screenshots/pair-058-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:29:16.818Z",
+  "summary": "The page demonstrates good visual styling and layout overall, but exhibits minor RTL text wrapping issues in the timeline ruler metadata and inverted shortcut key ordering in the keyboard helper.",
+  "issues": [
+    {
+      "component": "ds:TimelineRuler",
+      "severity": "minor",
+      "title": "Bidi caption wrapping artifact",
+      "description": "The footer caption below the timeline ruler wraps awkwardly due to bidirectional text mixing with timestamp ranges.",
+      "evidence": "The string '02:00 - 00:00' and helper text wrap unevenly across two lines beneath the ruler.",
+      "suggestion": "Set proper directional isolation (dir='rtl' with unicode-bidi) or flex alignment for timestamp ranges."
+    },
+    {
+      "component": "ui:kbd",
+      "severity": "minor",
+      "title": "Inverted shortcut key sequence in RTL",
+      "description": "KbdGroup keys inherit RTL flow direction, causing modifier keys to appear after the action key in reading order.",
+      "evidence": "Shortcut displays visually as [⇧] [⌘] [K] left-to-right, placing 'K' first in RTL reading order.",
+      "suggestion": "Enforce LTR direction on KbdGroup containers for standard shortcut sequence display."
+    }
+  ]
+}

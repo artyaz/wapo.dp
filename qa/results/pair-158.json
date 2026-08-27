@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-158",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:attachment",
+    "ds:RelationshipGrid",
+    "ds:TrackHeader"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a voice memo recorder"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-158.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:31:11.694Z",
+  "summary": "The layout adheres to design specifications with balanced spacing, clear hierarchy, and correct component rendering across the desktop viewport.",
+  "issues": []
+}

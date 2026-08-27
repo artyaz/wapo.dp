@@ -28,7 +28,7 @@ export function MessageAttachmentDemo() {
               />
             </AttachmentMedia>
           </Attachment>
-          <Bubble>
+          <Bubble align="end">
             <BubbleContent>
               Here&apos;s the image. Can you add it to the PDF? Use it for the
               cover page.
@@ -67,7 +67,7 @@ export function MessageAttachmentDemo() {
       </Message>
       <Message align="end">
         <MessageContent>
-          <Bubble>
+          <Bubble align="end">
             <BubbleContent>Thanks. Looks good.</BubbleContent>
           </Bubble>
         </MessageContent>

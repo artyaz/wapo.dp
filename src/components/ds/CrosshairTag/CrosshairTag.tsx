@@ -15,6 +15,15 @@ export interface CrosshairTagRootProps
   value?: React.ReactNode;
   glyph?: React.ReactNode;
   timestamp?: React.ReactNode;
+  /**
+   * Horizontal anchor shared by the crosshair guideline and the glass value
+   * tag — any CSS `left` value (a number is treated as px, a string is used
+   * as-is, e.g. "62%" or "161px"). Defaults to the built-in "62%" anchor,
+   * which sits on the tall bar of the fixed illustrative series in the
+   * 260px frame; pass a bar-center position to snap the read-out to a
+   * specific data bar.
+   */
+  crosshairPosition?: string | number;
   className?: string;
 }
 
@@ -22,9 +31,22 @@ const CrosshairTagRoot = React.forwardRef<
   HTMLDivElement,
   CrosshairTagRootProps
 >(function CrosshairTagRoot(
-  { value, glyph, timestamp, className, ...otherProps }: CrosshairTagRootProps,
+  {
+    value,
+    glyph,
+    timestamp,
+    crosshairPosition,
+    className,
+    ...otherProps
+  }: CrosshairTagRootProps,
   ref
 ) {
+  // Only override the default class-based anchor (`left-[62%]`) when a
+  // position is supplied — an inline style wins over the utility class.
+  const anchorStyle =
+    crosshairPosition === undefined
+      ? undefined
+      : { left: crosshairPosition };
   return (
     <div
       className={SubframeUtils.twClassNames(
@@ -51,8 +73,14 @@ const CrosshairTagRoot = React.forwardRef<
       <div className="flex h-6 w-2.5 flex-none items-start rounded-[1px] bg-success-200 absolute bottom-[20px] left-[184px]" />
       <div className="flex h-4 w-2.5 flex-none items-start rounded-[1px] bg-destructive-200 absolute bottom-[20px] left-[198px]" />
       <div className="flex h-8 w-2.5 flex-none items-start rounded-[1px] bg-success-200 absolute bottom-[20px] left-[212px]" />
-      <div className="flex w-px flex-none items-start self-stretch bg-neutral-400 absolute left-[62%] top-0 bottom-0 -translate-x-1/2" />
-      <div className="flex min-w-[96px] flex-col items-start gap-0.5 rounded-[10px] border border-solid border-[#ffffff33] px-3 py-2 shadow-glass-surface bg-panel/72 backdrop-blur-[56px] backdrop-saturate-[165%] absolute left-[62%] top-[26px] -translate-x-1/2">
+      <div
+        className="flex w-px flex-none items-start self-stretch bg-neutral-400 absolute left-[62%] top-0 bottom-0 -translate-x-1/2"
+        style={anchorStyle}
+      />
+      <div
+        className="flex min-w-[96px] whitespace-nowrap flex-col items-start gap-0.5 rounded-[10px] border border-solid border-[#ffffff33] px-3 py-2 shadow-glass-surface bg-panel/72 backdrop-blur-[56px] backdrop-saturate-[165%] absolute left-[62%] top-[26px] -translate-x-1/2"
+        style={anchorStyle}
+      >
         <div className="flex items-start rounded-[10px] absolute inset-0 pointer-events-none bg-[linear-gradient(160deg,rgba(255,255,255,0.55)_0%,rgba(255,255,255,0.16)_26%,rgba(255,255,255,0.04)_44%,transparent_60%)]" />
         <div className="flex items-start rounded-[10px] absolute inset-0 pointer-events-none bg-[linear-gradient(340deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0.07)_22%,transparent_42%)]" />
         <div className="flex w-full gap-1 items-baseline relative">

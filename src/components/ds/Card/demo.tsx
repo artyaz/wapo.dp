@@ -15,17 +15,28 @@ export default function Demo() {
           <span className="text-body-medium text-default-font">
             Deploy preview · build #482
           </span>
-          <span className="text-caption font-caption text-neutral-500">
+          {/* dir="ltr": relative-time strings that lead with a digit bidi-split
+              under RTL ("4 minutes ago" would scatter); isolate LTR metadata. */}
+          <span
+            dir="ltr"
+            className="text-caption font-caption text-neutral-500"
+          >
             api-gateway · queued from main · 4 minutes ago
           </span>
         </div>
       }
       footer={
         <>
-          <span className="text-caption font-caption text-neutral-400">
+          <span
+            dir="ltr"
+            className="text-caption font-caption text-neutral-400"
+          >
             main @ a1b2c3d
           </span>
-          <span className="text-caption font-caption text-neutral-400">
+          <span
+            dir="ltr"
+            className="text-caption font-caption text-neutral-400"
+          >
             96s build · 214 checks passed
           </span>
         </>
@@ -46,17 +57,17 @@ export const demoSource = `<Card
       <span className="text-body-medium text-default-font">
         Deploy preview · build #482
       </span>
-      <span className="text-caption font-caption text-neutral-500">
+      <span dir="ltr" className="text-caption font-caption text-neutral-500">
         api-gateway · queued from main · 4 minutes ago
       </span>
     </div>
   }
   footer={
     <>
-      <span className="text-caption font-caption text-neutral-400">
+      <span dir="ltr" className="text-caption font-caption text-neutral-400">
         main @ a1b2c3d
       </span>
-      <span className="text-caption font-caption text-neutral-400">
+      <span dir="ltr" className="text-caption font-caption text-neutral-400">
         96s build · 214 checks passed
       </span>
     </>

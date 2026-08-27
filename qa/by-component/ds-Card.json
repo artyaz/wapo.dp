@@ -1,0 +1,82 @@
+{
+  "id": "ds:Card",
+  "name": "Card",
+  "kind": "ds",
+  "importPath": "@/components/ds/Card",
+  "sourceFiles": [
+    "src/components/ds/Card/Card.tsx"
+  ],
+  "demoFile": "src/components/ds/Card/demo.tsx",
+  "metaFile": "src/components/ds/Card/meta.ts",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ds:Card",
+      "severity": "major",
+      "title": "BiDi text ordering and header overlap",
+      "description": "Relative time strings render in reverse order ('h ago 2') and the 'LineState' column header lacks proper spacing.",
+      "evidence": "Table shows 'h ago 2' instead of '2 h ago' and 'LineState' header text runs together.",
+      "suggestion": "Wrap timestamps in dir='ltr' or isolate numbers, and add proper column spacing.",
+      "pairId": "pair-172",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-172"
+      ],
+      "triage": "composition",
+      "triageNote": "Real bidi defect, but composed in the eval page (src/app/eval/pair-172/page.tsx, not editable): raw leading-digit strings ('2 h ago') render into Card slots with no dir isolation, so the UBA detaches the leading number ('h ago 2'); the 'LineState' overlap is the page's own 14px grid column overflowing under the 'State' header. Card.tsx itself renders slots correctly. Hardened the component demo (dir='ltr' on its own leading-digit/time meta strings, e.g. '96s build · 214 checks passed' which splits the same way) and documented the isolation pattern in meta.ts usage."
+    },
+    {
+      "component": "ds:Card",
+      "severity": "minor",
+      "title": "Header Kerning Artifacts",
+      "description": "Unintended letter spacing creates visible gaps within header text words.",
+      "evidence": "Text displays as 'Delivera ble' and 'assistan t' in card header labels.",
+      "suggestion": "Normalize font tracking and kerning across card header typography styles.",
+      "pairId": "pair-118",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-118"
+      ],
+      "triage": "false-positive",
+      "triageNote": "No tracking/kerning/letter-spacing classes exist on Card or the pair-118 header spans (plain text-body-medium/font-medium tokens); uniform tracking cannot produce mid-word gaps like 'Delivera ble', pair-118's overall verdict was pass, and an independent VLM re-pass found rendering normal — JPEG-artifact misread of small caption text."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:Card",
+      "severity": "minor",
+      "title": "Header Kerning Artifacts",
+      "description": "Unintended letter spacing creates visible gaps within header text words.",
+      "evidence": "Text displays as 'Delivera ble' and 'assistan t' in card header labels.",
+      "suggestion": "Normalize font tracking and kerning across card header typography styles.",
+      "pairId": "pair-118",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide"
+    },
+    {
+      "component": "ds:Card",
+      "severity": "major",
+      "title": "BiDi text ordering and header overlap",
+      "description": "Relative time strings render in reverse order ('h ago 2') and the 'LineState' column header lacks proper spacing.",
+      "evidence": "Table shows 'h ago 2' instead of '2 h ago' and 'LineState' header text runs together.",
+      "suggestion": "Wrap timestamps in dir='ltr' or isolate numbers, and add proper column spacing.",
+      "pairId": "pair-172",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait"
+    }
+  ]
+}

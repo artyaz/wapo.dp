@@ -30,7 +30,8 @@ export default defineMeta({
       name: "maxHeightClass",
       type: "string",
       default: '"max-h-[320px]"',
-      description: "Tailwind max-height class for the scrollable body.",
+      description:
+        "Tailwind max-height class for the scrollable body. When the payload exceeds it, a fade mask with an expand control appears over the clipped edge (click to reveal the full payload). The code body is always rendered LTR, even on RTL pages.",
     },
   ],
   status: "stable",

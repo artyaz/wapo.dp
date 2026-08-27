@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-071",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:carousel",
+    "ds:CodePane",
+    "ui:input"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-071.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:05:30.537Z",
+  "summary": "The dark theme layout is mostly coherent, but a code hover popover obscures code lines, and bottom alignment between main columns is uneven.",
+  "issues": [
+    {
+      "component": "ds:CodePane",
+      "severity": "major",
+      "title": "Code popover obscures active source lines",
+      "description": "Hover popover renders directly over the inspected code tokens, obstructing lines 1 through 6.",
+      "evidence": "Popover container overlaps and hides code text in lines 1–6 of the pane.",
+      "suggestion": "Offset the popover above the token or adjust placement to prevent covering code."
+    },
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "Mismatched column container heights",
+      "description": "Bottom edges of the source code pane and the test event panel do not align.",
+      "evidence": "The right test event card extends further down than the CodePane card.",
+      "suggestion": "Set consistent card heights across the two-column grid."
+    }
+  ]
+}

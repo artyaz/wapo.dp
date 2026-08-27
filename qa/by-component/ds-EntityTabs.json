@@ -1,0 +1,82 @@
+{
+  "id": "ds:EntityTabs",
+  "name": "EntityTabs",
+  "kind": "ds",
+  "importPath": "@/components/ds/EntityTabs",
+  "sourceFiles": [
+    "src/components/ds/EntityTabs/EntityTabs.tsx"
+  ],
+  "demoFile": "src/components/ds/EntityTabs/demo.tsx",
+  "metaFile": "src/components/ds/EntityTabs/meta.ts",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ds:EntityTabs",
+      "severity": "minor",
+      "title": "Extraneous tab glyph",
+      "description": "An orphaned dropdown marker renders on the tab bar edge.",
+      "evidence": "A downward triangle glyph appears at the far left of the tab line.",
+      "suggestion": "Remove the unused overflow marker from the tab component.",
+      "pairId": "pair-116",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-116"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: flex-1 on the tab scroll container stretched it to fill the row, banishing the ▾ caret to the far strip edge (far left in RTL) so it read as an orphaned glyph; removed flex-1 and added a root gap so the caret sits adjacent to the last tab."
+    },
+    {
+      "component": "ds:EntityTabs",
+      "severity": "minor",
+      "title": "Detached overflow caret indicator",
+      "description": "The downward caret icon is pinned to the far left edge away from active tabs.",
+      "evidence": "Caret '▼' sits on the far left under the tab dividing line while tabs are aligned right.",
+      "suggestion": "Position the tab action icon adjacent to the tab group.",
+      "pairId": "pair-172",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-172"
+      ],
+      "triage": "fix",
+      "triageNote": "Same root cause as pair-116 (flex-1 spacer detaching the caret); no physical left/right utilities were involved — fixed with flow-relative layout so it holds in LTR and RTL."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:EntityTabs",
+      "severity": "minor",
+      "title": "Extraneous tab glyph",
+      "description": "An orphaned dropdown marker renders on the tab bar edge.",
+      "evidence": "A downward triangle glyph appears at the far left of the tab line.",
+      "suggestion": "Remove the unused overflow marker from the tab component.",
+      "pairId": "pair-116",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait"
+    },
+    {
+      "component": "ds:EntityTabs",
+      "severity": "minor",
+      "title": "Detached overflow caret indicator",
+      "description": "The downward caret icon is pinned to the far left edge away from active tabs.",
+      "evidence": "Caret '▼' sits on the far left under the tab dividing line while tabs are aligned right.",
+      "suggestion": "Position the tab action icon adjacent to the tab group.",
+      "pairId": "pair-172",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait"
+    }
+  ]
+}

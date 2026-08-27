@@ -1,0 +1,21 @@
+{
+  "id": "ds:GlassDisplacement",
+  "name": "GlassDisplacement",
+  "kind": "ds",
+  "importPath": "@/components/ds/GlassDisplacement",
+  "sourceFiles": [
+    "src/components/ds/GlassDisplacement/GlassDisplacement.tsx",
+    "src/components/ds/GlassDisplacement/GlassSurfaceSubtle.tsx"
+  ],
+  "demoFile": "src/components/ds/GlassDisplacement/demo.tsx",
+  "metaFile": "src/components/ds/GlassDisplacement/meta.ts",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

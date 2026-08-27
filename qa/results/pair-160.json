@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-160",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:data-table",
+    "ds:AssetCard",
+    "ds:DefaultPageLayout"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a settings panel"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-160.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:47:22.449Z",
+  "summary": "The page layout fails dark theme requirements by rendering a white header, footer, and canvas around dark content cards.",
+  "issues": [
+    {
+      "component": "ds:DefaultPageLayout",
+      "severity": "major",
+      "title": "Light theme background in dark mode",
+      "description": "Layout frame and canvas use light tokens instead of dark theme styling.",
+      "evidence": "Header and footer show white background with dark text surrounding dark content cards.",
+      "suggestion": "Apply dark background and typography tokens to the root page container."
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "pairId": "pair-155",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:WaveformStrip",
+    "ui:dropdown-menu",
+    "ds:MediaClip"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-155.jpg",
+    "qa/screenshots/pair-155-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:05:35.338Z",
+  "summary": "The page layout is mostly well-structured for the mobile viewport, but the open dropdown menu exhibits inconsistent item alignment.",
+  "issues": [
+    {
+      "component": "ui:dropdown-menu",
+      "severity": "minor",
+      "title": "Inconsistent item alignment",
+      "description": "The item without an icon is left-aligned with sibling icon containers rather than their text baselines.",
+      "evidence": "'Snap to grid' label is shifted left relative to labels with leading icons.",
+      "suggestion": "Add inset padding to iconless items to maintain consistent text alignment."
+    }
+  ]
+}

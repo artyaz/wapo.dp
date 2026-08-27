@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-083",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:skeleton",
+    "ds:DrawerLayout",
+    "ds:LayerTreeRow"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-083.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:28:00.016Z",
+  "summary": "The interface shows alignment and hierarchy issues in the layer tree rows where missing chevron slots cause ragged sibling alignment.",
+  "issues": [
+    {
+      "component": "ds:LayerTreeRow",
+      "severity": "minor",
+      "title": "Misaligned sibling row items",
+      "description": "Rows with expand chevrons shift icons and text labels to the right compared to non-expandable sibling rows.",
+      "evidence": "In the layers panel and children list, 'trust-badges' is offset relative to sibling rows 'headline' and 'product-shot'.",
+      "suggestion": "Reserve a fixed-width slot for the expander chevron across all tree rows."
+    }
+  ]
+}

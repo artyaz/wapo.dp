@@ -1,0 +1,52 @@
+{
+  "id": "ds:UserMessage",
+  "name": "UserMessage",
+  "kind": "ds",
+  "importPath": "@/components/ds/UserMessage",
+  "sourceFiles": [
+    "src/components/ds/UserMessage/UserMessage.tsx"
+  ],
+  "demoFile": "src/components/ds/UserMessage/demo.tsx",
+  "metaFile": "src/components/ds/UserMessage/meta.ts",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ds:UserMessage",
+      "severity": "minor",
+      "title": "Bidi and word fragmentation artifacts",
+      "description": "Message bubbles exhibit punctuation inversion and broken word spacing under RTL.",
+      "evidence": "Periods render at the start of lines (.the QA workspace, .please) alongside kerning splits.",
+      "suggestion": "Ensure chat message text containers isolate LTR content direction.",
+      "pairId": "pair-077",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-077"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: the bubble did not isolate content direction, so English (LTR) prompts under RTL pages got trailing periods flipped to line start; fixed by adding dir=\"auto\" to the bubble container. Also proactively fixed the demo canvas (bg-neutral-900 → +dark:bg-neutral-100) which inverted to a near-identical light surface behind the light bubble in dark theme (pattern source of the pair-013 page-level finding)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:UserMessage",
+      "severity": "minor",
+      "title": "Bidi and word fragmentation artifacts",
+      "description": "Message bubbles exhibit punctuation inversion and broken word spacing under RTL.",
+      "evidence": "Periods render at the start of lines (.the QA workspace, .please) alongside kerning splits.",
+      "suggestion": "Ensure chat message text containers isolate LTR content direction.",
+      "pairId": "pair-077",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop"
+    }
+  ]
+}

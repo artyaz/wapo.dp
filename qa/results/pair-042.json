@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-042",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:CrosshairTag",
+    "ds:FloatingToolbar",
+    "ui:sidebar"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-042.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T01:25:07.705Z",
+  "summary": "The mobile showcase correctly presents the components, but the floating toolbar collides directly with the bottom boundary of the card container.",
+  "issues": [
+    {
+      "component": "ds:FloatingToolbar",
+      "severity": "minor",
+      "title": "Toolbar border collision",
+      "description": "The floating toolbar overlaps the bottom border of the card container.",
+      "evidence": "The white card's bottom border line intersects with the toolbar background.",
+      "suggestion": "Add bottom margin or adjust toolbar offset to maintain clear spacing."
+    }
+  ]
+}

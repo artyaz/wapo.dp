@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-105",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:tabs",
+    "ui:badge",
+    "ui:questionnaire"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-105.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:39:25.629Z",
+  "summary": "The dark-theme layout is cleanly structured with strong visual hierarchy, consistent component alignment, and appropriate contrast across interactive states.",
+  "issues": []
+}

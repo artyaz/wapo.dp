@@ -2,7 +2,9 @@
 
 /**
  * PanelTile demo — two windowed tiles of label/value rows; the second uses the
- * focused variant to show the top accent rail.
+ * focused variant to show the top accent rail. Value slots carry inherently
+ * LTR technical values, so they are isolated with dir="ltr" to keep ids like
+ * "#4217" or measures like "18.2 GB" intact inside RTL panels.
  */
 
 import { PanelTile } from "@/components/ds/PanelTile";
@@ -13,7 +15,10 @@ function Row({ label, value }: { label: string; value: string }) {
       <span className="min-w-0 truncate text-caption font-caption text-neutral-500">
         {label}
       </span>
-      <span className="min-w-0 truncate font-code text-[13px] text-default-font tabular-nums">
+      <span
+        dir="ltr"
+        className="min-w-0 truncate font-code text-[13px] text-default-font tabular-nums"
+      >
         {value}
       </span>
     </div>
@@ -49,7 +54,7 @@ export const demoSource = `<PanelTile title="Upstream · api-gateway">
       <span className="text-caption font-caption text-neutral-500">
         Region
       </span>
-      <span className="font-code text-[13px] text-default-font tabular-nums">
+      <span dir="ltr" className="font-code text-[13px] text-default-font tabular-nums">
         us-east-1
       </span>
     </div>
@@ -57,7 +62,7 @@ export const demoSource = `<PanelTile title="Upstream · api-gateway">
       <span className="text-caption font-caption text-neutral-500">
         p99 latency
       </span>
-      <span className="font-code text-[13px] text-default-font tabular-nums">
+      <span dir="ltr" className="font-code text-[13px] text-default-font tabular-nums">
         42.1ms
       </span>
     </div>

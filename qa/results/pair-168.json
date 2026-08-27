@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-168",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:RecordHeader",
+    "ds:TrackHeader",
+    "ds:PlayerBar"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "dark",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": "a system status page"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-168.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:31:01.293Z",
+  "summary": "The dark theme and RTL layout are mostly intact, but bidirectional text rendering issues and mirrored media controls introduce minor UI defects.",
+  "issues": [
+    {
+      "component": "ds:PlayerBar",
+      "severity": "minor",
+      "title": "Inverted playback skip controls",
+      "description": "Playback skip icons around the main action button are reversed due to unhandled RTL mirroring.",
+      "evidence": "The skip forward icon appears on the left of play, while skip backward appears on the right.",
+      "suggestion": "Preserve standard media control orientations under RTL layouts."
+    },
+    {
+      "component": "ds:TrackHeader",
+      "severity": "minor",
+      "title": "Bidi punctuation displacement on timeline markers",
+      "description": "RTL direction causes hyphens on numeric time markers to jump positions.",
+      "evidence": "Timeline labels render as '30s-', '60s-', and '90s-' instead of '-30s', '-60s', '-90s'.",
+      "suggestion": "Wrap numeric timeline scale values in directional isolation tags."
+    }
+  ]
+}

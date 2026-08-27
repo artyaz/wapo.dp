@@ -1,0 +1,20 @@
+{
+  "id": "ds:Button",
+  "name": "Button",
+  "kind": "ds",
+  "importPath": "@/components/ds/Button",
+  "sourceFiles": [
+    "src/components/ds/Button/Button.tsx"
+  ],
+  "demoFile": "src/components/ds/Button/demo.tsx",
+  "metaFile": "src/components/ds/Button/meta.ts",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

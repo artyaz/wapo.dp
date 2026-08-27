@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-006",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:input-group",
+    "ui:empty",
+    "ds:DefaultPageLayout"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-006.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:18:30.251Z",
+  "summary": "The page layout, input groups, and empty state component are properly aligned, formatted, and legible with balanced spacing and clear hierarchy.",
+  "issues": []
+}

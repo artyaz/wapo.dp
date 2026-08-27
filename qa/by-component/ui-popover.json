@@ -1,0 +1,19 @@
+{
+  "id": "ui:popover",
+  "name": "popover",
+  "kind": "ui",
+  "importPath": "@/components/ui/popover",
+  "sourceFiles": [
+    "src/components/ui/popover.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/popover/align.tsx",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

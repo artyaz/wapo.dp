@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-033",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:hover-card",
+    "ds:EditorTab",
+    "ds:Card"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-033.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:42:03.386Z",
+  "summary": "The workspace layout renders cleanly with proper alignment, well-spaced typography, and accurate component styling.",
+  "issues": []
+}

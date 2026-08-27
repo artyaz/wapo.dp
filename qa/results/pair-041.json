@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-041",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:textarea",
+    "ds:TimeScrubber",
+    "ds:GlassRefraction"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-041.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:46:09.583Z",
+  "summary": "The dark theme layout displays well overall but suffers from vertical viewport clipping on the incident timeline and low contrast in the glass refraction metadata labels.",
+  "issues": [
+    {
+      "component": "page",
+      "severity": "major",
+      "title": "Timeline container vertical clipping",
+      "description": "Bottom timeline entry is truncated by the bottom viewport boundary.",
+      "evidence": "The 17:12 log row at the bottom left is sliced horizontally through the text.",
+      "suggestion": "Adjust layout spacing or enable internal scrolling within the timeline panel."
+    },
+    {
+      "component": "ds:GlassRefraction",
+      "severity": "minor",
+      "title": "Low contrast metadata text",
+      "description": "Secondary captions beneath preview cards have insufficient contrast against the background.",
+      "evidence": "Labels such as 'material ultrathin' and 'svg-displacement' blend into the dark card surface.",
+      "suggestion": "Increase opacity or lighten token color for dark mode readability."
+    }
+  ]
+}

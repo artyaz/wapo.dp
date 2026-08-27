@@ -1,0 +1,52 @@
+{
+  "id": "ds:GlassChip",
+  "name": "GlassChip",
+  "kind": "ds",
+  "importPath": "@/components/ds/GlassChip",
+  "sourceFiles": [
+    "src/components/ds/GlassChip/GlassChip.tsx"
+  ],
+  "demoFile": "src/components/ds/GlassChip/demo.tsx",
+  "metaFile": "src/components/ds/GlassChip/meta.ts",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ds:GlassChip",
+      "severity": "major",
+      "title": "Inconsistent icon alignment in RTL",
+      "description": "Icon placement is mismatched across sibling chips, appearing on the left for two items and on the right for the destructive item.",
+      "evidence": "The link and download icons appear to the left of their labels, while the trash icon is placed to the right of 'מחיקה'.",
+      "suggestion": "Standardize icon positioning across all chips to consistently lead or trail the text in RTL.",
+      "pairId": "pair-126",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone-half",
+      "occurrences": 1,
+      "pairs": [
+        "pair-126"
+      ],
+      "triage": "false-positive",
+      "triageNote": "DOM-measured on /eval/pair-126 at exact audit conditions (light, RTL, 390x420): Action renders glyph-then-label in one logical flex row, and all three glyphs (Link2/Download/Trash2) sit identically on the leading/right side of their labels with the same 6px gap-1.5 spacing (glyph.left > label.right in every action, e.g. trash glyph 548.1-561.1 vs label 501.4-542.1); tone does not affect order, so the claimed asymmetry does not exist in the rendered geometry — auditor misread the Hebrew screenshot."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:GlassChip",
+      "severity": "major",
+      "title": "Inconsistent icon alignment in RTL",
+      "description": "Icon placement is mismatched across sibling chips, appearing on the left for two items and on the right for the destructive item.",
+      "evidence": "The link and download icons appear to the left of their labels, while the trash icon is placed to the right of 'מחיקה'.",
+      "suggestion": "Standardize icon positioning across all chips to consistently lead or trail the text in RTL.",
+      "pairId": "pair-126",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone-half"
+    }
+  ]
+}

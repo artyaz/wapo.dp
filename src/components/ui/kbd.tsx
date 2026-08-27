@@ -7,6 +7,7 @@ function Kbd({
   className,
   render,
   children,
+  dir = "ltr",
   ...props
 }: React.ComponentProps<"kbd"> & {
   render?: React.ReactElement<Record<string, unknown>>
@@ -17,6 +18,10 @@ function Kbd({
       // element is supplied it is cloned with the merged props instead.
       render={render ?? <kbd />}
       data-slot="kbd"
+      // Keycaps and key sequences ("⌘S", "Ctrl") are inherently LTR:
+      // isolate from an RTL parent so the bidi algorithm neither inverts
+      // glyph order nor flips flex row order. An explicit `dir` still wins.
+      dir={dir}
       className={cn(
         "bg-muted text-muted-foreground pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded-sm border border-b-2 px-1.5 font-mono text-xs font-medium",
         className
@@ -37,6 +42,7 @@ function KbdGroup({
   className,
   render,
   children,
+  dir = "ltr",
   ...props
 }: React.ComponentProps<"div"> & {
   render?: React.ReactElement<Record<string, unknown>>
@@ -45,6 +51,9 @@ function KbdGroup({
     <RenderSlot
       render={render ?? <div />}
       data-slot="kbd-group"
+      // Modifier-first key order ("Ctrl" before "K") must stay stable under
+      // RTL parents — key sequences read left-to-right regardless of locale.
+      dir={dir}
       className={cn("inline-flex items-center gap-1", className)}
       {...props}
     >

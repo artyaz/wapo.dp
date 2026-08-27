@@ -7,7 +7,7 @@ export default defineMeta({
   description:
     "The baseline content container of the document canvas: a bordered, panel-colored surface with 18px interior padding that stacks an optional header, free-form body, and a right-aligned footer row. The quiet variant dissolves the chrome for embedded layouts, while interactive adds hover and press feedback for clickable cards. Unlike the floating glass families, Card is opaque and flat — it structures content rather than hovering above it.",
   usage:
-    "Compose header (title plus meta line), body content, and footer meta or actions through the three slots; the footer row is right-aligned with an 8px gap.",
+    "Compose header (title plus meta line), body content, and footer meta or actions through the three slots; the footer row is right-aligned with an 8px gap. Card renders slots verbatim, so when composing card content for RTL pages, isolate inherently-LTR runs — especially strings that START with a digit (relative times like \"2 h ago\", counts like \"96s build\") — with dir=\"ltr\" or <bdi>, otherwise the Unicode bidi algorithm detaches the leading number and it migrates to the far end (\"h ago 2\").",
   tags: ["card", "surface", "container", "panel"],
   props: [
     {

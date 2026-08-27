@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-135",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:avatar",
+    "ds:UserMessage",
+    "ui:input-otp"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-135.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T23:27:26.758Z",
+  "summary": "The page cleanly implements the Praxis design system across the avatar, message, and OTP input components with balanced spacing, clear hierarchy, and proper dark theme contrast.",
+  "issues": []
+}

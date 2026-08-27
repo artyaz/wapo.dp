@@ -4,6 +4,10 @@
  * StatTile — a compact metric surface: uppercase caption label, large
  * tabular-numeral value in the code face, an optional sign-colored delta chip,
  * a quiet footer note, and an optional sparkline slot.
+ *
+ * Value and delta are bidi-isolated (`dir="ltr"`) so numeric tokens such as
+ * "+8.1%" or "42.1ms" keep their authored glyph order on RTL pages; label and
+ * footer stay direction-neutral for natural-language content.
  */
 
 import React from "react";
@@ -51,6 +55,7 @@ const StatTileRoot = React.forwardRef<HTMLDivElement, StatTileRootProps>(
         <div className="flex w-full flex-wrap gap-2 items-baseline">
           {value ? (
             <span
+              dir="ltr"
               className={SubframeUtils.twClassNames(
                 "font-code text-[28px] font-[600] leading-[28px] text-default-font tabular-nums",
                 { "text-destructive-700": sign === "negative" }
@@ -61,6 +66,7 @@ const StatTileRoot = React.forwardRef<HTMLDivElement, StatTileRootProps>(
           ) : null}
           {delta ? (
             <span
+              dir="ltr"
               className={SubframeUtils.twClassNames(
                 "font-code text-[13px] font-[500] leading-[20px] text-neutral-600 inline-flex items-center gap-1 whitespace-nowrap rounded-sm px-1.5 py-[2px] tabular-nums bg-neutral-100",
                 {

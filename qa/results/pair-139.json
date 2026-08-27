@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-139",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:resizable",
+    "ds:Sparkline",
+    "ui:native-select"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-139.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T01:22:32.735Z",
+  "summary": "The mobile layout cleanly integrates resizable panels, sparklines, and native selects with minor contrast and text truncation constraints.",
+  "issues": [
+    {
+      "component": "ui:native-select",
+      "severity": "minor",
+      "title": "Text truncation in region selector",
+      "description": "Region option label truncates due to tight half-width column sizing on mobile.",
+      "evidence": "Option text reads 'us-east-1 · Virgi...' with an ellipsis.",
+      "suggestion": "Stack selects vertically or allocate more width to region."
+    },
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "Low contrast secondary text",
+      "description": "Secondary metrics and event log descriptions have borderline readability against the dark background.",
+      "evidence": "Log detail strings and metric labels use very dark muted gray text.",
+      "suggestion": "Bump secondary text brightness token for better legibility."
+    }
+  ]
+}

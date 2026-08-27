@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-044",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:button",
+    "ds:LayerTreeRow",
+    "ui:tabs"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-044.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T23:42:28.784Z",
+  "summary": "The interface aligns well with the design system specifications, maintaining structured layout and hierarchy with only minor contrast considerations.",
+  "issues": [
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "Low contrast step indicator",
+      "description": "The step metadata text above the title has low visual contrast against the card background.",
+      "evidence": "The 'step 2 of 3' label above 'Order summary' renders in very light gray text.",
+      "suggestion": "Increase text darkness to meet standard contrast ratios."
+    }
+  ]
+}

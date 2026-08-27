@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-069",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:data-table",
+    "ui:progress",
+    "ds:PayloadInspector"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": "a data table view"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-069.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:35:41.559Z",
+  "summary": "The layout mostly fits the dark aesthetic, but the lower inspector component overflows the 360x640 viewport boundary.",
+  "issues": [
+    {
+      "component": "ds:PayloadInspector",
+      "severity": "major",
+      "title": "Component clipped at viewport bottom",
+      "description": "The payload card exceeds available vertical space and gets cut off.",
+      "evidence": "The JSON content and bottom border of the inspector card are clipped at the screen bottom edge.",
+      "suggestion": "Reduce table rows or compact spacing so the inspector fits without vertical overflow."
+    }
+  ]
+}

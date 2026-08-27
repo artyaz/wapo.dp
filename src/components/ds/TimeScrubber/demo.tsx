@@ -3,9 +3,12 @@
 /**
  * Demo — a quiet observability range picker: the component's own fixed bar
  * backdrop (activity histogram) with the authored selection handles at
- * 55% / 85% and mono range tags pinned to them. The tag times match the
+ * 55% / 85% and hairline range tags pinned to them. The tag times match the
  * handle geometry exactly — 55% and 85% of a 24-hour 1D window — and nothing
- * is computed at render. All content fixed; no randomness, no clocks.
+ * is computed at render. The header deliberately does NOT repeat the range:
+ * the in-chart tags are the single range readout, so adjacent chrome stays
+ * complementary (window span) instead of duplicating the timecodes.
+ * All content fixed; no randomness, no clocks.
  */
 
 import React from "react";
@@ -19,7 +22,7 @@ export default function Demo() {
           requests · api-gateway
         </span>
         <span className="font-code text-[11px] text-neutral-400">
-          13:12 – 20:24 UTC
+          24 h window · 48 buckets
         </span>
       </div>
       <TimeScrubber rangeStart="13:12" rangeEnd="20:24" />

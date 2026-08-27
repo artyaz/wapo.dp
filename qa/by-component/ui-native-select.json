@@ -1,0 +1,51 @@
+{
+  "id": "ui:native-select",
+  "name": "native-select",
+  "kind": "ui",
+  "importPath": "@/components/ui/native-select",
+  "sourceFiles": [
+    "src/components/ui/native-select.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/native-select/disabled.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:native-select",
+      "severity": "major",
+      "title": "Option text clipping",
+      "description": "Option label overflows and clips into the dropdown chevron without proper truncation styling.",
+      "evidence": "The label shows 'us-east-1 · Virgini' with the end of the text cut off by the chevron.",
+      "suggestion": "Add text truncation with ellipsis and ensure sufficient right padding for the icon.",
+      "pairId": "pair-139",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-139"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: the select relies on default text-overflow (clip), so long values hard-clip next to the chevron overlay; added truncate (overflow-hidden + text-ellipsis) to the base select classes in native-select.tsx."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:native-select",
+      "severity": "major",
+      "title": "Option text clipping",
+      "description": "Option label overflows and clips into the dropdown chevron without proper truncation styling.",
+      "evidence": "The label shows 'us-east-1 · Virgini' with the end of the text cut off by the chevron.",
+      "suggestion": "Add text truncation with ellipsis and ensure sufficient right padding for the icon.",
+      "pairId": "pair-139",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "id": "ds:CandleSeries",
+  "name": "CandleSeries",
+  "kind": "ds",
+  "importPath": "@/components/ds/CandleSeries",
+  "sourceFiles": [
+    "src/components/ds/CandleSeries/CandleSeries.tsx"
+  ],
+  "demoFile": "src/components/ds/CandleSeries/demo.tsx",
+  "metaFile": "src/components/ds/CandleSeries/meta.ts",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ds:CandleSeries",
+      "severity": "major",
+      "title": "Y-axis label collision",
+      "description": "Y-axis grid label overlaps directly with candlestick bars and wicks, degrading legibility.",
+      "evidence": "The '105.0' text label collides directly with the central red and green candles.",
+      "suggestion": "Offset Y-axis labels to the margin or place them in a dedicated gutter outside the data area.",
+      "pairId": "pair-170",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-170"
+      ],
+      "triage": "fix",
+      "triageNote": "Confirmed in source: gridline label rows are flex rows that inherit page dir; under dir=rtl the label span flips from the right-axis gutter onto the physically-positioned candles. Fixed by dir=\"ltr\" isolation on the chart container."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:CandleSeries",
+      "severity": "major",
+      "title": "Y-axis label collision",
+      "description": "Y-axis grid label overlaps directly with candlestick bars and wicks, degrading legibility.",
+      "evidence": "The '105.0' text label collides directly with the central red and green candles.",
+      "suggestion": "Offset Y-axis labels to the margin or place them in a dedicated gutter outside the data area.",
+      "pairId": "pair-170",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone"
+    }
+  ]
+}

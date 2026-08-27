@@ -20,7 +20,7 @@ export default function Demo() {
           title="checkout"
           statusTone="live"
           footer={
-            <span className="font-code text-[11px] text-neutral-400">
+            <span className="font-code text-[11px] text-neutral-600">
               svc/checkout
             </span>
           }
@@ -37,7 +37,7 @@ export default function Demo() {
           title="payments"
           statusTone="success"
           footer={
-            <span className="font-code text-[11px] text-neutral-400">
+            <span className="font-code text-[11px] text-neutral-600">
               svc/payments
             </span>
           }
@@ -57,7 +57,7 @@ export default function Demo() {
 export const demoSource = `<CanvasNode
   title="checkout"
   statusTone="live"
-  footer={<span className="font-code text-[11px] text-neutral-400">svc/checkout</span>}
+  footer={<span className="font-code text-[11px] text-neutral-600">svc/checkout</span>}
 >
   <span className="text-code font-code text-default-font">p99 · 42ms</span>
   <span className="text-code font-code text-neutral-500">rps · 1,204</span>
@@ -66,7 +66,7 @@ export const demoSource = `<CanvasNode
 <CanvasNode
   title="payments"
   statusTone="success"
-  footer={<span className="font-code text-[11px] text-neutral-400">svc/payments</span>}
+  footer={<span className="font-code text-[11px] text-neutral-600">svc/payments</span>}
 >
   <span className="text-code font-code text-default-font">p99 · 88ms</span>
   <span className="text-code font-code text-neutral-500">rps · 412</span>

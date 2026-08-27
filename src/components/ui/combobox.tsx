@@ -526,7 +526,13 @@ function ComboboxInput({
   }, [isTrigger, context.open])
 
   const selectionText = context.selectedValues.join(", ")
-  const displayValue = isTrigger && !context.open ? selectionText : context.filterText
+  // While the popup is open the input doubles as the filter field. When no
+  // filter is active it mirrors the current selection instead of falling
+  // back to the placeholder, so an active selection stays visible.
+  const displayValue =
+    isTrigger && (!context.open || context.filterText === "")
+      ? selectionText
+      : context.filterText
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.(event)
@@ -540,6 +546,21 @@ function ComboboxInput({
   }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    // The input mirrors the selection while no filter is active; select the
+    // mirrored text on the first typed character so typing replaces it
+    // instead of appending to it.
+    if (
+      isTrigger &&
+      context.filterText === "" &&
+      selectionText.length > 0 &&
+      event.key.length === 1 &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !event.altKey &&
+      !event.nativeEvent.isComposing
+    ) {
+      event.currentTarget.select()
+    }
     onKeyDown?.(event)
     context.handleInputKeyDown(event)
   }

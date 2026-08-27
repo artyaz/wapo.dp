@@ -2,8 +2,10 @@
 
 /**
  * Sheet — a bottom-anchored modal surface built on the Dialog primitive. The
- * root paints the ink scrim across its container and docks Sheet.Content to
- * the bottom edge; Sheet.Content is the bordered, scrollable panel itself.
+ * root paints a black scrim across its container (34% in light theme, deepened
+ * to 60% in dark theme where the near-black page needs stronger dimming) and
+ * docks Sheet.Content to the bottom edge; Sheet.Content is the bordered,
+ * scrollable panel itself.
  */
 
 import React from "react";
@@ -55,7 +57,15 @@ const SheetRoot = React.forwardRef<HTMLDivElement, SheetRootProps>(
             // relative + z-50: the scrim must own a stacking context above any
             // adjacent absolutely-positioned content — otherwise positioned
             // siblings paint over the scrim AND the (opaque) sheet panel.
-            "relative z-50 flex h-full w-full flex-col items-center justify-end bg-default-font/[0.34]",
+            //
+            // bg-[#00000057] / dark:bg-[#00000099] — a BLACK scrim in both
+            // themes. A previous bg-default-font/[0.34] scrim inverted with
+            // the ink token in dark theme (near-white 34% haze), and a flat
+            // 34% black is imperceptible over the near-black dark page —
+            // either way the sheet read as an un-scrimmed panel floating over
+            // content. Dark theme deepens to 60% to match ds:Dialog's
+            // #00000099 scrim; light keeps the original 34% ink strength.
+            "relative z-50 flex h-full w-full flex-col items-center justify-end bg-[#00000057] dark:bg-[#00000099]",
             className
           )}
           ref={ref}

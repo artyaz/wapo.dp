@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-096",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:Card",
+    "ds:TransportBar",
+    "ui:button-group"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-096.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:21:41.473Z",
+  "summary": "The page adheres cleanly to the Praxis design specifications with consistent alignment, well-balanced whitespace, and proper component hierarchy.",
+  "issues": []
+}

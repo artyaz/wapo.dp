@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-002",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:AskBar",
+    "ds:DefaultPageLayout",
+    "ui:command"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-002.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:19:32.019Z",
+  "summary": "The bottom AskBar is clipped by the viewport boundary, obscuring input controls.",
+  "issues": [
+    {
+      "component": "ds:AskBar",
+      "severity": "major",
+      "title": "AskBar clipped at viewport bottom",
+      "description": "The input bar and action buttons overflow the bottom of the screen.",
+      "evidence": "The lower boundary of the AskBar input and action buttons is cut off at the viewport edge.",
+      "suggestion": "Add bottom safe-area padding to keep the input bar fully in view."
+    }
+  ]
+}

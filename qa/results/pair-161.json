@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-161",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:JsonTreeNode",
+    "ui:alert-dialog",
+    "ui:date-picker"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-161.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:07:07.565Z",
+  "summary": "The interface effectively demonstrates the requested components with clean hierarchy, proper alignment, and consistent Praxis styling.",
+  "issues": []
+}

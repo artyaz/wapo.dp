@@ -11,6 +11,9 @@ export function ToggleDisabled() {
       <Toggle variant="outline" aria-label="Toggle disabled outline" disabled>
         Disabled
       </Toggle>
+      <Toggle defaultPressed aria-label="Toggle disabled pressed" disabled>
+        On · disabled
+      </Toggle>
     </div>
   )
 }

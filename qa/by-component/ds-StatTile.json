@@ -1,0 +1,112 @@
+{
+  "id": "ds:StatTile",
+  "name": "StatTile",
+  "kind": "ds",
+  "importPath": "@/components/ds/StatTile",
+  "sourceFiles": [
+    "src/components/ds/StatTile/StatTile.tsx"
+  ],
+  "demoFile": "src/components/ds/StatTile/demo.tsx",
+  "metaFile": "src/components/ds/StatTile/meta.ts",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ds:StatTile",
+      "severity": "major",
+      "title": "Corrupted metric glyph rendering",
+      "description": "",
+      "evidence": "The percent symbol in '71%' has an overlapping, malformed glyph artifact.",
+      "suggestion": "Fix font rendering and character formatting for percentage values.",
+      "pairId": "pair-109",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-half",
+      "occurrences": 1,
+      "pairs": [
+        "pair-109"
+      ],
+      "triage": "false-positive",
+      "triageNote": "Source value is plain ASCII '71%' (byte-verified) rendered in IBM Plex Mono via font-code + tabular-nums; the eval agent's second VLM pass and an independent fresh VLM pass on qa/screenshots/pair-109.jpg both report crisp, normal monospace glyphs with no malformed/overlapping '%'; 4 of 6 StatTile pairs rendering the same font-face '%' and decimal values (pair-000, pair-097, pair-134, pair-149) passed with zero issues."
+    },
+    {
+      "component": "ds:StatTile",
+      "severity": "minor",
+      "title": "Uneven bottom whitespace balance",
+      "description": "Tiles without sparklines present disproportionate empty space compared to the tile containing a chart.",
+      "evidence": "The rightmost latency tile includes a trend graph, leaving the other two metric tiles with empty bottom halves.",
+      "suggestion": "Standardize tile heights or provide consistent bottom auxiliary content across sibling tiles.",
+      "pairId": "pair-098",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-098"
+      ],
+      "triage": "composition",
+      "triageNote": "The pair-098 page (off-limits) grid-stretches one sparkline tile beside two plain tiles; the component already standardizes heights (VLM verified all three boxes share identical top/bottom edges — grid stretch) and top-aligns content per its documented shared-value-baseline design (meta.ts), so the residual space is inherent to the page's mixed sparkline/non-sparkline composition; the identical mixed composition passed with zero issues in pair-149 and is the demo's canonical layout. Post-fix re-audit of pair-098 now passes overall."
+    },
+    {
+      "component": "ds:StatTile",
+      "severity": "minor",
+      "title": "Irregular number kerning",
+      "description": "",
+      "evidence": "Noticeable gap around the decimal point in '12 . 4k'.",
+      "suggestion": "Remove unnecessary spaces around the decimal point.",
+      "pairId": "pair-109",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-half",
+      "occurrences": 1,
+      "pairs": [
+        "pair-109"
+      ],
+      "triage": "false-positive",
+      "triageNote": "Byte-level dump of the pair-109 source shows value is '12.4k' with no space characters; the perceived gap is the normal full monospace cell of IBM Plex Mono's '.' under font-code/tabular-nums, confirmed as normal kerning with no blank spaces by an independent VLM pass on the screenshot."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:StatTile",
+      "severity": "minor",
+      "title": "Uneven bottom whitespace balance",
+      "description": "Tiles without sparklines present disproportionate empty space compared to the tile containing a chart.",
+      "evidence": "The rightmost latency tile includes a trend graph, leaving the other two metric tiles with empty bottom halves.",
+      "suggestion": "Standardize tile heights or provide consistent bottom auxiliary content across sibling tiles.",
+      "pairId": "pair-098",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "desktop-wide"
+    },
+    {
+      "component": "ds:StatTile",
+      "severity": "major",
+      "title": "Corrupted metric glyph rendering",
+      "description": "",
+      "evidence": "The percent symbol in '71%' has an overlapping, malformed glyph artifact.",
+      "suggestion": "Fix font rendering and character formatting for percentage values.",
+      "pairId": "pair-109",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-half"
+    },
+    {
+      "component": "ds:StatTile",
+      "severity": "minor",
+      "title": "Irregular number kerning",
+      "description": "",
+      "evidence": "Noticeable gap around the decimal point in '12 . 4k'.",
+      "suggestion": "Remove unnecessary spaces around the decimal point.",
+      "pairId": "pair-109",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-half"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "id": "ui:hover-card",
+  "name": "hover-card",
+  "kind": "ui",
+  "importPath": "@/components/ui/hover-card",
+  "sourceFiles": [
+    "src/components/ui/hover-card.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/hover-card/basic.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:hover-card",
+      "severity": "minor",
+      "title": "Premature text truncation",
+      "description": "User role string truncates prematurely with an ellipsis despite available card width.",
+      "evidence": "Hover card subtitle reads 'Incident Comma...'.",
+      "suggestion": "Increase max-width on the metadata line to allow full text display.",
+      "pairId": "pair-080",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-080"
+      ],
+      "triage": "composition",
+      "triageNote": "Truncation comes from the eval page's own content, not the component: pair-080/page.tsx:166 puts `truncate` (nowrap+ellipsis) on the single line '{handle} · {role}' inside a fixed w-72 card next to a 40px avatar — 288px card − 32px p-4 padding − 40px avatar − 12px gap ≈ 204px for text, while '@daeun · SRE · Incident Commander' at text-xs needs ~210px, so it clips mid-word ('Comma…'); HoverCardContent (hover-card.tsx) applies no truncate/overflow/max-width classes and the page already overrides the default w-64 with w-72 via twMerge, so there is nothing to fix in the component — the page file is off-limits to fix agents (page-level fix would be: drop `truncate` and let it wrap, split handle/role onto two lines, or widen the card to w-80)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:hover-card",
+      "severity": "minor",
+      "title": "Premature text truncation",
+      "description": "User role string truncates prematurely with an ellipsis despite available card width.",
+      "evidence": "Hover card subtitle reads 'Incident Comma...'.",
+      "suggestion": "Increase max-width on the metadata line to allow full text display.",
+      "pairId": "pair-080",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-169",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:toast",
+    "ui:carousel",
+    "ui:button"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-half",
+      "width": 390,
+      "height": 420,
+      "weight": 10,
+      "hint": "roughly HALF of a phone screen (very little vertical room)"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-169.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:05:47.296Z",
+  "summary": "The interface complies with layout, typography, and contrast guidelines for the compact viewport, rendering components cleanly without evident defects.",
+  "issues": []
+}

@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-019",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:Sparkline",
+    "ui:dialog",
+    "ds:ReasoningLog"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-019.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:50:47.495Z",
+  "summary": "The mobile interface cleanly implements the Sparkline, ReasoningLog, and Dialog components with sound hierarchy, proper spacing, and crisp contrast.",
+  "issues": []
+}

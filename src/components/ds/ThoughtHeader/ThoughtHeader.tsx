@@ -89,12 +89,12 @@ const ThoughtHeaderRoot = React.forwardRef<
         aria-expanded={open}
         className={SubframeUtils.twClassNames(
           "group/th flex w-full cursor-pointer items-center gap-2",
-          "border-b border-neutral-800 pb-2.5 text-left",
-          "transition-colors hover:text-neutral-300"
+          "border-b border-default-border pb-2.5 text-start",
+          "transition-colors hover:text-neutral-300 dark:hover:text-neutral-600"
         )}
       >
         <Chevron open={open} />
-        <span className="min-w-0 truncate text-[13px] leading-[18px] font-medium text-neutral-500 group-hover/th:text-neutral-400">
+        <span className="min-w-0 truncate text-[13px] leading-[18px] font-medium text-neutral-500 group-hover/th:text-neutral-400 dark:group-hover/th:text-neutral-600">
           {label}
         </span>
       </button>

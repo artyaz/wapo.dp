@@ -1,0 +1,142 @@
+{
+  "id": "ds:MediaClip",
+  "name": "MediaClip",
+  "kind": "ds",
+  "importPath": "@/components/ds/MediaClip",
+  "sourceFiles": [
+    "src/components/ds/MediaClip/MediaClip.tsx"
+  ],
+  "demoFile": "src/components/ds/MediaClip/demo.tsx",
+  "metaFile": "src/components/ds/MediaClip/meta.ts",
+  "totals": {
+    "issues": 4,
+    "blocker": 0,
+    "major": 3,
+    "minor": 1,
+    "distinctPatterns": 4
+  },
+  "issues": [
+    {
+      "component": "ds:MediaClip",
+      "severity": "major",
+      "title": "Audio clip text overlaps waveform",
+      "description": "Attachment filename label renders directly on top of the audio waveform visualization.",
+      "evidence": "Filename text collides with waveform bars in the primary audio attachment.",
+      "suggestion": "Separate filename and waveform into dedicated flex containers with adequate vertical spacing.",
+      "pairId": "pair-016",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-016"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: label/duration chips were absolutely positioned over the full-height waveform body. Fixed by moving chips into a dedicated header row above the media body."
+    },
+    {
+      "component": "ds:MediaClip",
+      "severity": "major",
+      "title": "Double-rendered text in attachment card",
+      "description": "Text content in the third attachment card exhibits duplicated ghost rendering, making it illegible.",
+      "evidence": "Severely distorted duplicate text overlay visible across the document title label.",
+      "suggestion": "Clean up duplicate text nodes and pseudo-elements in the attachment component.",
+      "pairId": "pair-016",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-016"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: text-kind clips rendered the caption row AND the absolute corner label chip on top of it. Fixed by inlining label/duration as chips in the single caption row (no overlay)."
+    },
+    {
+      "component": "ds:MediaClip",
+      "severity": "major",
+      "title": "Waveform and label overlap",
+      "description": "Clip title text and timestamp overlap directly with waveform graphics, impairing legibility.",
+      "evidence": "The 'room-tone.w..' text and '00:27' badge render on top of the audio waveform bars in the sequence track.",
+      "suggestion": "Separate clip metadata into a dedicated header row above the waveform canvas.",
+      "pairId": "pair-155",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-155"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: same overlay root cause as pair-016; the header row now separates the room-tone label/00:27 chips from the waveform body."
+    },
+    {
+      "component": "ds:MediaClip",
+      "severity": "minor",
+      "title": "Premature label truncation",
+      "description": "Clip title truncates with ellipsis prematurely despite remaining inline container width.",
+      "evidence": "The second track clip shows 'intro-theme....' with empty space before the duration badge.",
+      "suggestion": "Adjust flex shrink and container max-width constraints on the label element.",
+      "pairId": "pair-131",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-131"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: label chip had an arbitrary max-w-[70%] cap unrelated to the space actually left beside the duration chip. Fixed with a flex header row where the label truncates only once the row is genuinely full (at the 140px floor a long filename still truncates by design)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:MediaClip",
+      "severity": "major",
+      "title": "Audio clip text overlaps waveform",
+      "description": "Attachment filename label renders directly on top of the audio waveform visualization.",
+      "evidence": "Filename text collides with waveform bars in the primary audio attachment.",
+      "suggestion": "Separate filename and waveform into dedicated flex containers with adequate vertical spacing.",
+      "pairId": "pair-016",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone"
+    },
+    {
+      "component": "ds:MediaClip",
+      "severity": "major",
+      "title": "Double-rendered text in attachment card",
+      "description": "Text content in the third attachment card exhibits duplicated ghost rendering, making it illegible.",
+      "evidence": "Severely distorted duplicate text overlay visible across the document title label.",
+      "suggestion": "Clean up duplicate text nodes and pseudo-elements in the attachment component.",
+      "pairId": "pair-016",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone"
+    },
+    {
+      "component": "ds:MediaClip",
+      "severity": "minor",
+      "title": "Premature label truncation",
+      "description": "Clip title truncates with ellipsis prematurely despite remaining inline container width.",
+      "evidence": "The second track clip shows 'intro-theme....' with empty space before the duration badge.",
+      "suggestion": "Adjust flex shrink and container max-width constraints on the label element.",
+      "pairId": "pair-131",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "laptop"
+    },
+    {
+      "component": "ds:MediaClip",
+      "severity": "major",
+      "title": "Waveform and label overlap",
+      "description": "Clip title text and timestamp overlap directly with waveform graphics, impairing legibility.",
+      "evidence": "The 'room-tone.w..' text and '00:27' badge render on top of the audio waveform bars in the sequence track.",
+      "suggestion": "Separate clip metadata into a dedicated header row above the waveform canvas.",
+      "pairId": "pair-155",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-085",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:badge",
+    "ui:toast",
+    "ds:Button"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-tiny",
+      "width": 320,
+      "height": 480,
+      "weight": 5,
+      "hint": "a tiny 320px phone (extremely cramped)"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-085.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:21:44.008Z",
+  "summary": "The layout renders cleanly within the 320x480 dark viewport. Spacing, alignment, contrast, and component styling across Badge, Toast, and Button meet visual quality standards with no evident clipping or overflow.",
+  "issues": []
+}

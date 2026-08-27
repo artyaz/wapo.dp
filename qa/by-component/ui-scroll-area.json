@@ -1,0 +1,19 @@
+{
+  "id": "ui:scroll-area",
+  "name": "scroll-area",
+  "kind": "ui",
+  "importPath": "@/components/ui/scroll-area",
+  "sourceFiles": [
+    "src/components/ui/scroll-area.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/scroll-area/horizontal.tsx",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

@@ -147,6 +147,12 @@ export interface DataTableProps<TData extends RowData> {
   footer?: React.ReactNode | ((table: Table<TData>) => React.ReactNode)
   /** Whether to render the built-in `DataTablePagination` footer. Default true. */
   showPagination?: boolean
+  /**
+   * Labels for the built-in `DataTablePagination` footer (ignored when a
+   * custom `footer` is provided). Lets non-English UIs localize the footer
+   * strings — see `DataTablePaginationLabels`.
+   */
+  paginationLabels?: DataTablePaginationLabels
   /** Message rendered when there are no rows. Default "No results." */
   emptyMessage?: React.ReactNode
   className?: string
@@ -176,6 +182,7 @@ export function DataTable<TData extends RowData>({
   toolbar,
   footer,
   showPagination = true,
+  paginationLabels,
   emptyMessage = "No results.",
   className,
 }: DataTableProps<TData>) {
@@ -350,7 +357,7 @@ export function DataTable<TData extends RowData>({
       {footerContent !== undefined && footerContent !== null ? (
         footerContent
       ) : showPagination ? (
-        <DataTablePagination table={table} />
+        <DataTablePagination table={table} labels={paginationLabels} />
       ) : null}
     </div>
   )
@@ -386,7 +393,7 @@ export function DataTableColumnHeader<TData extends RowData, TValue>({
             <Button
               variant="ghost"
               size="sm"
-              className="-ml-3 h-8 data-[state=open]:bg-accent"
+              className="-ms-3 h-8 data-[state=open]:bg-accent"
             />
           }
         >
@@ -429,27 +436,91 @@ export function DataTableColumnHeader<TData extends RowData, TValue>({
 // DataTablePagination
 // ---------------------------------------------------------------------------
 
+/**
+ * Localizable strings for the built-in pagination footer.
+ *
+ * All entries are optional — anything omitted falls back to English.
+ * Numeric labels accept a function so translated sentences can keep their
+ * own word order:
+ *
+ * ```tsx
+ * <DataTable
+ *   paginationLabels={{
+ *     selectedRows: (selected, total) => `${selected} מתוך ${total} שורות נבחרו.`,
+ *     rowsPerPage: "שורות בעמוד",
+ *     pageStatus: (page, pageCount) => `עמוד ${page} מתוך ${pageCount}`,
+ *   }}
+ *   // ...
+ * />
+ * ```
+ */
+export interface DataTablePaginationLabels {
+  /** Selection summary. Receives `(selected, total)`. Default: `"0 of 9 row(s) selected."` */
+  selectedRows?: string | ((selected: number, total: number) => string)
+  /** Label before the page-size select. Default: "Rows per page". */
+  rowsPerPage?: React.ReactNode
+  /** Page indicator. Receives `(page, pageCount)`. Default: `"Page 1 of 2"`. */
+  pageStatus?: string | ((page: number, pageCount: number) => string)
+  /** Screen-reader label for the go-to-first-page button. */
+  goToFirstPage?: string
+  /** Screen-reader label for the previous-page button. */
+  goToPreviousPage?: string
+  /** Screen-reader label for the next-page button. */
+  goToNextPage?: string
+  /** Screen-reader label for the go-to-last-page button. */
+  goToLastPage?: string
+}
+
 export interface DataTablePaginationProps<TData extends RowData> {
   table: Table<TData>
+  /** Localizable footer strings — English defaults. */
+  labels?: DataTablePaginationLabels
   className?: string
 }
 
 export function DataTablePagination<TData extends RowData>({
   table,
+  labels,
   className,
 }: DataTablePaginationProps<TData>) {
+  const selectedCount = table.getFilteredSelectedRowModel().rows.length
+  const totalCount = table.getFilteredRowModel().rows.length
+  const page = table.getState().pagination.pageIndex + 1
+  const pageCount = table.getPageCount()
+  const canPrevious = table.getCanPreviousPage()
+  const canNext = table.getCanNextPage()
+
+  const selectedRowsLabel = labels?.selectedRows
+  const selectedRowsText =
+    typeof selectedRowsLabel === "function"
+      ? selectedRowsLabel(selectedCount, totalCount)
+      : (selectedRowsLabel ?? `${selectedCount} of ${totalCount} row(s) selected.`)
+  const pageStatusLabel = labels?.pageStatus
+  const pageStatusText =
+    typeof pageStatusLabel === "function"
+      ? pageStatusLabel(page, pageCount)
+      : (pageStatusLabel ?? `Page ${page} of ${pageCount}`)
+
   return (
     <div
       data-slot="data-table-pagination"
-      className={cn("flex items-center justify-between px-2", className)}
+      className={cn("flex items-center justify-between gap-4 px-2", className)}
     >
+      {/* The default labels are English runs: isolate each run with
+          dir="ltr" on a SPAN so digits/punctuation are not re-ordered by the
+          surrounding bidi paragraph, while the container itself keeps the
+          page direction — setting dir on the container would flip the text
+          alignment and push the label flush against the controls in RTL. */}
       <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
+        {selectedRowsLabel === undefined ? (
+          <span dir="ltr">{selectedRowsText}</span>
+        ) : (
+          selectedRowsText
+        )}
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
+          <p className="text-sm font-medium">{labels?.rowsPerPage ?? "Rows per page"}</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
@@ -468,52 +539,60 @@ export function DataTablePagination<TData extends RowData>({
             </SelectContent>
           </Select>
         </div>
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
+        <div className="flex min-w-[100px] items-center justify-center whitespace-nowrap text-sm font-medium">
+          {pageStatusLabel === undefined ? (
+            <span dir="ltr">{pageStatusText}</span>
+          ) : (
+            pageStatusText
+          )}
         </div>
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            size="icon"
-            className="hidden size-8 lg:flex"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <span className="sr-only">Go to first page</span>
-            <ChevronsLeft />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="size-8"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <span className="sr-only">Go to previous page</span>
-            <ChevronLeft />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="size-8"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            <span className="sr-only">Go to next page</span>
-            <ChevronRight />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="hidden size-8 lg:flex"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            <span className="sr-only">Go to last page</span>
-            <ChevronsRight />
-          </Button>
-        </div>
+        {/* Navigation buttons are only meaningful when there is more than one
+            page — on a single-page table every button would be disabled, and a
+            row of faded ghost controls reads as a broken footer. */}
+        {canPrevious || canNext ? (
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="outline"
+              size="icon"
+              className="hidden size-8 lg:flex"
+              onClick={() => table.setPageIndex(0)}
+              disabled={!canPrevious}
+            >
+              <span className="sr-only">{labels?.goToFirstPage ?? "Go to first page"}</span>
+              <ChevronsLeft className="rtl:rotate-180" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="size-8"
+              onClick={() => table.previousPage()}
+              disabled={!canPrevious}
+            >
+              <span className="sr-only">{labels?.goToPreviousPage ?? "Go to previous page"}</span>
+              <ChevronLeft className="rtl:rotate-180" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="size-8"
+              onClick={() => table.nextPage()}
+              disabled={!canNext}
+            >
+              <span className="sr-only">{labels?.goToNextPage ?? "Go to next page"}</span>
+              <ChevronRight className="rtl:rotate-180" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="hidden size-8 lg:flex"
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!canNext}
+            >
+              <span className="sr-only">{labels?.goToLastPage ?? "Go to last page"}</span>
+              <ChevronsRight className="rtl:rotate-180" />
+            </Button>
+          </div>
+        ) : null}
       </div>
     </div>
   )
@@ -538,7 +617,7 @@ export function DataTableViewOptions<TData extends RowData>({
             <Button
               variant="outline"
               size="sm"
-              className="ml-auto hidden h-8 lg:flex"
+              className="ms-auto hidden h-8 lg:flex"
             />
           }
         >

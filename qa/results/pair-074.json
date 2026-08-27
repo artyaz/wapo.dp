@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-074",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:MiniMap",
+    "ui:menubar",
+    "ds:FileTreeRow"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-074.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:06:39.466Z",
+  "summary": "The mobile layout generally follows the monochrome theme, but contains minor contrast and alignment flaws in the file tree selection indicator and minimap metadata.",
+  "issues": [
+    {
+      "component": "ds:FileTreeRow",
+      "severity": "minor",
+      "title": "Active state indicator boundary collision",
+      "description": "The active selection bar for selected rows extends flush to the outer container border rather than respecting item padding.",
+      "evidence": "The solid black bar beside report-draft.md touches the card's left boundary abruptly.",
+      "suggestion": "Inset the active indicator bar to align with row padding."
+    },
+    {
+      "component": "ds:MiniMap",
+      "severity": "minor",
+      "title": "Low contrast metadata text",
+      "description": "Helper labels adjacent to the minimap do not meet adequate contrast standards against the light background.",
+      "evidence": "The 'viewport 56×40%' and 'drag to navigate' labels appear in low-contrast light gray.",
+      "suggestion": "Increase text darkness token to meet minimum 4.5:1 contrast ratio."
+    }
+  ]
+}

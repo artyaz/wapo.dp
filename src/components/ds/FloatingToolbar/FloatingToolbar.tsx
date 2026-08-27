@@ -5,6 +5,13 @@
  * content. Actions are rounded-sm so members keep their own identity inside
  * the pill-shaped toolbar (per the laid-objects doctrine); Rule separates
  * action groups with a hairline divider.
+ *
+ * Sizing: the root is `w-max` + `max-w-full`, so the capsule keeps its
+ * single-row natural width even when centered with the common
+ * `left-1/2 -translate-x-1/2` pattern (shrink-to-fit would otherwise cap the
+ * available width at half the surface and wrap into ragged rows). It only
+ * wraps — evenly, centered — when the surface itself is narrower than the
+ * content.
  */
 
 import React from "react";
@@ -103,7 +110,7 @@ const FloatingToolbarRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "flex items-center gap-1 rounded-[22px] border border-solid border-[#ffffff33] px-2 py-1.5 shadow-glass-surface relative max-w-full min-w-0 bg-panel/50 backdrop-blur-[28px] backdrop-saturate-[135%]",
+        "flex w-max items-center gap-1 rounded-[22px] border border-solid border-[#ffffff33] px-2 py-1.5 shadow-glass-surface relative max-w-full min-w-0 bg-panel/50 backdrop-blur-[28px] backdrop-saturate-[135%]",
         className
       )}
       ref={ref}

@@ -1,0 +1,82 @@
+{
+  "id": "ds:QueryInput",
+  "name": "QueryInput",
+  "kind": "ds",
+  "importPath": "@/components/ds/QueryInput",
+  "sourceFiles": [
+    "src/components/ds/QueryInput/QueryInput.tsx"
+  ],
+  "demoFile": "src/components/ds/QueryInput/demo.tsx",
+  "metaFile": "src/components/ds/QueryInput/meta.ts",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ds:QueryInput",
+      "severity": "major",
+      "title": "BiDi text corruption in code input",
+      "description": "Query syntax is fragmented and scrambled due to missing LTR text direction isolation within the RTL context.",
+      "evidence": "The focused query string displays broken syntax with tokens wrapped and reordered across lines.",
+      "suggestion": "Apply dir=\"ltr\" and left alignment to the query code container.",
+      "pairId": "pair-016",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-016"
+      ],
+      "triage": "fix",
+      "triageNote": "Verified in screenshot: token spans are flex items in an RTL flex container, so token order reverses and neutral chars ( ) = / scramble; fix by isolating the query line with dir=ltr."
+    },
+    {
+      "component": "ds:QueryInput",
+      "severity": "minor",
+      "title": "Text wrapping in fixed-height input",
+      "description": "Multi-line query string wraps within a fixed-height field, resulting in cramped line spacing.",
+      "evidence": "Focused QueryInput shows two lines of text compressed within the same height as the single-line placeholder input.",
+      "suggestion": "Enable horizontal scrolling or auto-expand the input height when query text exceeds one line.",
+      "pairId": "pair-180",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-180"
+      ],
+      "triage": "fix",
+      "triageNote": "Height actually auto-expands (that part of the claim was a misread), but wrapping is not token-aware and inter-token spaces collapse because spans are blockified flex items (edge whitespace removed), jamming tokens together; switching the query line to inline flow gives real spaces and word-boundary wrapping."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:QueryInput",
+      "severity": "major",
+      "title": "BiDi text corruption in code input",
+      "description": "Query syntax is fragmented and scrambled due to missing LTR text direction isolation within the RTL context.",
+      "evidence": "The focused query string displays broken syntax with tokens wrapped and reordered across lines.",
+      "suggestion": "Apply dir=\"ltr\" and left alignment to the query code container.",
+      "pairId": "pair-016",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone"
+    },
+    {
+      "component": "ds:QueryInput",
+      "severity": "minor",
+      "title": "Text wrapping in fixed-height input",
+      "description": "Multi-line query string wraps within a fixed-height field, resulting in cramped line spacing.",
+      "evidence": "Focused QueryInput shows two lines of text compressed within the same height as the single-line placeholder input.",
+      "suggestion": "Enable horizontal scrolling or auto-expand the input height when query text exceeds one line.",
+      "pairId": "pair-180",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "tablet-portrait"
+    }
+  ]
+}

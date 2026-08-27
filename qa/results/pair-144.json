@@ -1,0 +1,31 @@
+{
+  "pairId": "pair-144",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:typography",
+    "ui:menubar",
+    "ds:InlineChips"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-half",
+      "width": 390,
+      "height": 420,
+      "weight": 10,
+      "hint": "roughly HALF of a phone screen (very little vertical room)"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a search & filter toolbar"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-144.jpg",
+    "qa/screenshots/pair-144-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:10:09.417Z",
+  "summary": "The search and filter toolbar layout cleanly integrates typography, menubar controls, and inline chips with balanced spacing, clear contrast, and proper hierarchy within the compact viewport.",
+  "issues": []
+}

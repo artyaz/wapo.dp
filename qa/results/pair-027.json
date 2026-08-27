@@ -1,0 +1,40 @@
+{
+  "pairId": "pair-027",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:toggle",
+    "ui:pagination",
+    "ds:ThoughtHeader"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "dense-content",
+    "scenario": "an empty-state + recovery flow"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-027.jpg",
+    "qa/screenshots/pair-027-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:32:05.266Z",
+  "summary": "The page layout and component structure are properly aligned for mobile viewports, but several core text elements suffer from severe dark-theme contrast failures that render content illegible.",
+  "issues": [
+    {
+      "component": "page",
+      "severity": "major",
+      "title": "Illegible low-contrast text in dark theme",
+      "description": "Primary headings, empty-state body copy, and draft list item titles use dark foreground tokens on a dark background.",
+      "evidence": "'Archive search', 'No documents match this search', and draft titles like 'Vendor Agreement' blend into the dark surface.",
+      "suggestion": "Apply light/muted foreground color tokens suitable for dark theme."
+    }
+  ]
+}

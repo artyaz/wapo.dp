@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-092",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:AssistantMessage",
+    "ui:scroll-area",
+    "ui:input-group"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-half",
+      "width": 390,
+      "height": 420,
+      "weight": 10,
+      "hint": "roughly HALF of a phone screen (very little vertical room)"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-092.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:49:39.003Z",
+  "summary": "The interface fits within the 390x420 viewport and presents assistant messaging, scrollable actions, and input elements cleanly in dark theme.",
+  "issues": []
+}

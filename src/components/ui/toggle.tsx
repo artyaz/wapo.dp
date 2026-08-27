@@ -28,6 +28,20 @@ const toggleVariants = cva(
   }
 )
 
+/**
+ * Toggle — a two-state, pressable chip (icon and/or label) for toolbar and
+ * filter-bar mode toggles.
+ *
+ * The pressed state uses a high-contrast inverted fill (`bg-primary` /
+ * `text-primary-foreground`), mirroring the "on" treatment of `ui:switch`,
+ * so on/off stays legible on panels in both light and dark themes. The
+ * stock `data-[state=on]:bg-accent` fill was ~1.1:1 against white panels in
+ * light theme and identical to the panel color in dark theme, making the
+ * state effectively invisible.
+ *
+ * NOTE: Toggle is not a switch. For settings-style on/off rows (label plus a
+ * trailing track/thumb control), use `ui:switch` instead.
+ */
 function Toggle({
   className,
   variant,
@@ -38,7 +52,14 @@ function Toggle({
   return (
     <TogglePrimitive.Root
       data-slot="toggle"
-      className={cn(toggleVariants({ variant, size, className }))}
+      className={cn(
+        toggleVariants({ variant, size }),
+        // Pressed = inverted primary chip; the hover-compound pair keeps the
+        // pressed fill stable while hovering (the outline variant's
+        // hover:bg-accent would otherwise override it).
+        "data-[state=on]:bg-primary data-[state=on]:text-primary-foreground hover:data-[state=on]:bg-primary hover:data-[state=on]:text-primary-foreground",
+        className
+      )}
       {...props}
     />
   )

@@ -47,13 +47,13 @@ const StrategyBadge = React.forwardRef<HTMLDivElement, StrategyBadgeProps>(
       >
         <div
           className={SubframeUtils.twClassNames(
-            "flex h-[5px] w-[5px] flex-none items-start rounded-[9999px] bg-neutral-400",
+            "flex h-[5px] w-[5px] flex-none items-start rounded-[9999px] bg-muted-foreground",
             { "bg-default-font": active }
           )}
         />
         <span
           className={SubframeUtils.twClassNames(
-            "font-body text-[11px] font-[600] leading-[14px] tracking-[0.1em] text-neutral-400 uppercase select-none",
+            "font-body text-[11px] font-[600] leading-[14px] tracking-[0.1em] text-muted-foreground uppercase select-none",
             { "text-default-font": active }
           )}
         >

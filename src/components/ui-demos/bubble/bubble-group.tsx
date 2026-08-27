@@ -22,7 +22,7 @@ export function BubbleGroupDemo() {
         </Bubble>
         <Bubble align="end">
           <BubbleContent>Find the bug and fix it.</BubbleContent>
-          <BubbleReactions aria-label="Reactions: eyes" align="start">
+          <BubbleReactions aria-label="Reactions: eyes">
             <span>👀</span>
           </BubbleReactions>
         </Bubble>

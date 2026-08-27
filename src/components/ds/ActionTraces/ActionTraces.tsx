@@ -88,9 +88,10 @@ const ActionTracesRoot = React.forwardRef<HTMLDivElement, ActionTracesRootProps>
     return (
       <div
         className={SubframeUtils.twClassNames(
-          // indented vertical sub-list — nested inside the macro summary row
-          "ml-[18px] flex w-[calc(100%-18px)] min-w-0 flex-col gap-1.5",
-          "border-l border-neutral-800 pl-3",
+          // indented vertical sub-list — nested inside the macro summary row.
+          // Logical utilities (ms/ps/border-s) so the guide rail mirrors in RTL.
+          "ms-[18px] flex w-[calc(100%-18px)] min-w-0 flex-col gap-1.5",
+          "border-s border-solid border-default-border ps-3",
           className
         )}
         ref={ref}
@@ -105,8 +106,13 @@ const ActionTracesRoot = React.forwardRef<HTMLDivElement, ActionTracesRootProps>
                 <span className="flex h-[16px] flex-none items-center">
                   <TraceIcon kind={item.kind} />
                 </span>
+                {/* Inner span dir="ltr": labels are inherently-LTR machine
+                    output (shell commands, HTTP requests) — isolate the bidi
+                    run so punctuation keeps its order in RTL pages, while the
+                    outer <code> keeps the inherited direction so text-align:
+                    start keeps every row anchored to the icon (inline-start). */}
                 <code className="min-w-0 whitespace-pre-wrap break-words font-code text-[12px] leading-[16px] text-neutral-500">
-                  {item.label}
+                  <span dir="ltr">{item.label}</span>
                 </code>
               </div>
             ))

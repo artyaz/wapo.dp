@@ -1,0 +1,20 @@
+{
+  "id": "ds:TerminalLine",
+  "name": "TerminalLine",
+  "kind": "ds",
+  "importPath": "@/components/ds/TerminalLine",
+  "sourceFiles": [
+    "src/components/ds/TerminalLine/TerminalLine.tsx"
+  ],
+  "demoFile": "src/components/ds/TerminalLine/demo.tsx",
+  "metaFile": "src/components/ds/TerminalLine/meta.ts",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

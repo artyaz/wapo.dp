@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-157",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:button",
+    "ds:DiffRow",
+    "ui:radio-group"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-157.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:43:30.062Z",
+  "summary": "The layout is well-structured with consistent spacing, legible typography, proper visual hierarchy, and correct implementation across all showcased components.",
+  "issues": []
+}

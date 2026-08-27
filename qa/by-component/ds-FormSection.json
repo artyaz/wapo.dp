@@ -1,0 +1,20 @@
+{
+  "id": "ds:FormSection",
+  "name": "FormSection",
+  "kind": "ds",
+  "importPath": "@/components/ds/FormSection",
+  "sourceFiles": [
+    "src/components/ds/FormSection/FormSection.tsx"
+  ],
+  "demoFile": "src/components/ds/FormSection/demo.tsx",
+  "metaFile": "src/components/ds/FormSection/meta.ts",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

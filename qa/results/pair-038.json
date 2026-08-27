@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-038",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:drawer",
+    "ui:menubar",
+    "ui:collapsible"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-038.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:46:26.991Z",
+  "summary": "The drawer lacks backdrop dimming and bottom safe area padding, causing visual overlap with background content.",
+  "issues": [
+    {
+      "component": "ui:drawer",
+      "severity": "major",
+      "title": "Missing drawer overlay backdrop",
+      "description": "Drawer lacks a dimming overlay, causing high-contrast background content to bleed into the top header of the drawer.",
+      "evidence": "The collapsible card text remains visible directly above and behind the drawer top edge.",
+      "suggestion": "Add a dimmed backdrop overlay behind DrawerContent."
+    },
+    {
+      "component": "ui:drawer",
+      "severity": "minor",
+      "title": "Insufficient bottom padding",
+      "description": "Drawer action buttons lack bottom safe area inset.",
+      "evidence": "Footer buttons touch close to the bottom viewport edge.",
+      "suggestion": "Add safe-area bottom padding to DrawerFooter."
+    }
+  ]
+}

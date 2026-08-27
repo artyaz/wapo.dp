@@ -1,0 +1,52 @@
+{
+  "id": "ds:ActionTraces",
+  "name": "ActionTraces",
+  "kind": "ds",
+  "importPath": "@/components/ds/ActionTraces",
+  "sourceFiles": [
+    "src/components/ds/ActionTraces/ActionTraces.tsx"
+  ],
+  "demoFile": "src/components/ds/ActionTraces/demo.tsx",
+  "metaFile": "src/components/ds/ActionTraces/meta.ts",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ds:ActionTraces",
+      "severity": "major",
+      "title": "Trace Guide Disconnection",
+      "description": "The execution tree vertical connector line stays anchored on the left side while trace contents align to the right.",
+      "evidence": "A vertical guide rail renders on the left edge while step labels and icons align to the right.",
+      "suggestion": "Mirror tree connector lines and nesting indentations to the right side in RTL mode.",
+      "pairId": "pair-114",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-114"
+      ],
+      "triage": "fix",
+      "triageNote": "Confirmed in source: rail uses physical ml-[18px]/border-l/pl-3 which stay physical-left in RTL while content right-aligns; swapped to logical ms/border-s/ps (mirrors JsonTreeNode rail pattern), rail token moved from neutral-800 (flips bright in dark theme) to border-default-border, and LTR machine-code labels isolated with dir=\"ltr\" against bidi scrambling."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:ActionTraces",
+      "severity": "major",
+      "title": "Trace Guide Disconnection",
+      "description": "The execution tree vertical connector line stays anchored on the left side while trace contents align to the right.",
+      "evidence": "A vertical guide rail renders on the left edge while step labels and icons align to the right.",
+      "suggestion": "Mirror tree connector lines and nesting indentations to the right side in RTL mode.",
+      "pairId": "pair-114",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "laptop"
+    }
+  ]
+}

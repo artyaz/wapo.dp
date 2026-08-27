@@ -1,0 +1,56 @@
+{
+  "pairId": "pair-007",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:RelationshipGrid",
+    "ui:chart",
+    "ui:dropdown-menu"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-007.jpg",
+    "qa/screenshots/pair-007-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:58:57.309Z",
+  "summary": "The mobile layout has visual overlap issues where the open dropdown menu obstructs underlying summary content, along with minor chart axis clipping and an empty header container.",
+  "issues": [
+    {
+      "component": "ui:dropdown-menu",
+      "severity": "major",
+      "title": "Menu overlaps summary card",
+      "description": "The dropdown menu covers critical incident details on mobile viewports.",
+      "evidence": "The menu overlays the top incident card, obscuring description text.",
+      "suggestion": "Display the menu as a bottom sheet on small viewports."
+    },
+    {
+      "component": "ui:chart",
+      "severity": "minor",
+      "title": "X-axis label clipped",
+      "description": "Leftmost x-axis timestamp label is clipped at container edge.",
+      "evidence": "The initial '00' label on the chart axis is cut off on its left edge.",
+      "suggestion": "Increase chart container left padding or adjust axis margin."
+    },
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "Empty header container",
+      "description": "An empty pill element appears in the upper right header.",
+      "evidence": "A hollow rounded rectangle outline is rendered in the top-right corner.",
+      "suggestion": "Remove the empty element or supply its intended trigger icon."
+    }
+  ]
+}

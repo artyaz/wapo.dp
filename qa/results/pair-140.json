@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-140",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:sheet",
+    "ds:Sheet",
+    "ds:UserMessage"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "an onboarding wizard step"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-140.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:27:57.501Z",
+  "summary": "The sheet component and user message layout are well-structured with clear hierarchy, consistent spacing, and proper alignment throughout the onboarding flow.",
+  "issues": []
+}

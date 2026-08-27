@@ -40,7 +40,8 @@ export default defineMeta({
     {
       name: "DiffLine.code",
       type: "React.ReactNode",
-      description: "The line's code content; tinted per lineType.",
+      description:
+        "The line's code content; tinted per lineType. Long lines wrap (with a hanging indent) instead of truncating, and the line-number gutters narrow below the sm breakpoint to give the code more room.",
     },
     {
       name: "DiffLine.className",

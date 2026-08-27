@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-151",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:input",
+    "ui:slider",
+    "ds:ActivityEvent"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a voice memo recorder"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-151.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:37:15.774Z",
+  "summary": "The page is well-aligned for a mobile viewport, but contains a low-contrast readability issue in the activity feed.",
+  "issues": [
+    {
+      "component": "ds:ActivityEvent",
+      "severity": "minor",
+      "title": "Low contrast status text",
+      "description": "Initial event text is excessively faint, reducing legibility.",
+      "evidence": "Faint text on 'Session started — 44.1 kHz · mono · auto-transcribe on'.",
+      "suggestion": "Increase font opacity or use a darker neutral token."
+    }
+  ]
+}

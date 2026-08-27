@@ -1,0 +1,19 @@
+{
+  "id": "ui:accordion",
+  "name": "accordion",
+  "kind": "ui",
+  "importPath": "@/components/ui/accordion",
+  "sourceFiles": [
+    "src/components/ui/accordion.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/accordion/basic.tsx",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

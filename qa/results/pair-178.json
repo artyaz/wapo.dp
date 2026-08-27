@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-178",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:accordion",
+    "ui:input",
+    "ds:RecordHeader"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-178.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:14:26.471Z",
+  "summary": "The page demonstrates a clean, well-aligned mobile layout respecting the Praxis design system. Spacing, typography hierarchy, contrast, and component integration across the RecordHeader, Input, and Accordion are properly executed with no visible defects.",
+  "issues": []
+}

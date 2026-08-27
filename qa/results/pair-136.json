@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-136",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:GlassDisplacement",
+    "ds:AtmosphereScrim",
+    "ds:TerminalLine"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-136.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:24:54.570Z",
+  "summary": "The page displays clean alignment overall, but suffers from floating overlay elements occluding active terminal text lines at the bottom of the main console view.",
+  "issues": [
+    {
+      "component": "page",
+      "severity": "major",
+      "title": "Console log collision with bottom controls",
+      "description": "Floating status and action controls overlap the trailing terminal log lines, reducing readability.",
+      "evidence": "The 'streaming metric' and 'error-rate gate' text lines collide directly with the floating status pill and action buttons.",
+      "suggestion": "Add sufficient bottom inset padding to the terminal content viewport so logs do not render behind overlay controls."
+    }
+  ]
+}

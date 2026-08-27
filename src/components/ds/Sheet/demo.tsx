@@ -50,6 +50,9 @@ export default function Demo() {
               next build will recompile from source and take roughly three
               minutes longer.
             </p>
+            {/* justify-end is logical/direction-aware: in RTL the action row
+                mirrors to the trailing (left) edge automatically — no
+                physical left/right utilities needed. */}
             <div className="flex w-full items-center justify-end gap-2">
               <button
                 type="button"

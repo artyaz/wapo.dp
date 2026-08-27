@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-171",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:FileTreeRow",
+    "ui:input-otp",
+    "ui:alert"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-171.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:58:19.648Z",
+  "summary": "The page layout is structured well, but contains inconsistent styling between OTP slot groups and a tree guide alignment collision in the file list.",
+  "issues": [
+    {
+      "component": "ui:input-otp",
+      "severity": "minor",
+      "title": "Inconsistent slot group styling",
+      "description": "The first and second OTP groups render with mismatched slot container styles and backgrounds.",
+      "evidence": "Slots 1-3 display as distinct white cards, whereas slots 4-6 render inside a single connected grey container.",
+      "suggestion": "Apply consistent slot background and border tokens across both groups."
+    },
+    {
+      "component": "ds:FileTreeRow",
+      "severity": "minor",
+      "title": "Tree guideline icon collision",
+      "description": "Vertical tree guide line collides with the file icon.",
+      "evidence": "The left hierarchy guide line intersects the package.json file icon border.",
+      "suggestion": "Increase left padding on the row content to clear the guide line."
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "id": "ui:radio-group",
+  "name": "radio-group",
+  "kind": "ui",
+  "importPath": "@/components/ui/radio-group",
+  "sourceFiles": [
+    "src/components/ui/radio-group.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/radio-group/choice-card.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:radio-group",
+      "severity": "minor",
+      "title": "Disconnected control and label layout",
+      "description": "Radio indicators are placed on the far right while item labels remain left-aligned across wide cards.",
+      "evidence": "Large empty gap separates radio selectors on the far right from left-aligned text.",
+      "suggestion": "Group radio indicator and label content adjacently with consistent inline spacing.",
+      "pairId": "pair-153",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-153"
+      ],
+      "triage": "fix",
+      "triageNote": "Verified in-browser: Radix RadioGroup defaults dir to \"ltr\" and renders it on the group div, so on the RTL page the radio-group subtree kept an LTR layout (text left-aligned, radio isolated at the far right edge) — inconsistent with the mirrored page. Fixed in radio-group.tsx by resolving the inherited DOM direction when no dir prop is passed. Also flipped the choice-card demo to the adjacent radio-first pattern (matching the description/rtl demos) per the audit suggestion to group indicator and label adjacently. Residual on pair-153 itself: the eval page composes content-first with full-width cards, which is a read-only composition (blocked-external); the component-level root cause is fixed."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:radio-group",
+      "severity": "minor",
+      "title": "Disconnected control and label layout",
+      "description": "Radio indicators are placed on the far right while item labels remain left-aligned across wide cards.",
+      "evidence": "Large empty gap separates radio selectors on the far right from left-aligned text.",
+      "suggestion": "Group radio indicator and label content adjacently with consistent inline spacing.",
+      "pairId": "pair-153",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait"
+    }
+  ]
+}

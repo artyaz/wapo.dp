@@ -1,0 +1,20 @@
+{
+  "id": "ds:WaveformStrip",
+  "name": "WaveformStrip",
+  "kind": "ds",
+  "importPath": "@/components/ds/WaveformStrip",
+  "sourceFiles": [
+    "src/components/ds/WaveformStrip/WaveformStrip.tsx"
+  ],
+  "demoFile": "src/components/ds/WaveformStrip/demo.tsx",
+  "metaFile": "src/components/ds/WaveformStrip/meta.ts",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

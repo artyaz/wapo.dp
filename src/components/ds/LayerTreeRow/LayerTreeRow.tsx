@@ -47,6 +47,9 @@ const LayerTreeRowRoot = React.forwardRef<
         {
           "border-l-2 border-y-0 border-r-0 border-solid border-brand-primary bg-neutral-200 hover:bg-neutral-200":
             selected,
+          // Root rows get a small start inset so the caret doesn't sit flush
+          // against the panel's edge (logical property → mirrors in RTL).
+          "ps-2": depth === "0",
         },
         className
       )}

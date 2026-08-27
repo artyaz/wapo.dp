@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-121",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:MethodChip",
+    "ui:date-picker",
+    "ds:EntityTabs"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-121.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:04:19.831Z",
+  "summary": "The layout is well-structured and conforms to dark theme standards, showing consistent alignment, appropriate contrast, and proper component hierarchy without visual defects.",
+  "issues": []
+}

@@ -1,0 +1,19 @@
+{
+  "id": "ui:input",
+  "name": "input",
+  "kind": "ui",
+  "importPath": "@/components/ui/input",
+  "sourceFiles": [
+    "src/components/ui/input.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/input/badge.tsx",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

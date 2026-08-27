@@ -4,7 +4,9 @@
  * TrackHeader — the fixed 180px label column for a timeline track: a type
  * glyph tile (♪ audio / ▣ video / ¶ text), the track name, M / S / L toggle
  * squares that fill brand-primary when engaged, and a static twelve-bar level
- * meter tinted through the neutral ramp.
+ * meter tinted through the neutral ramp. Mute/solo and the level meter are
+ * audio-carrying affordances, so they render for audio and video tracks only
+ * — a text/marker track gets the glyph, the name and the L (lock) square.
  */
 
 import React from "react";
@@ -33,6 +35,9 @@ const TrackHeaderRoot = React.forwardRef<HTMLDivElement, TrackHeaderRootProps>(
     }: TrackHeaderRootProps,
     ref
   ) {
+    // Text/marker tracks carry no signal — mute/solo and the level meter are
+    // audio-only affordances and stay hidden for them (lock still applies).
+    const carriesAudio = trackType !== "text";
     return (
       <div
         className={SubframeUtils.twClassNames(
@@ -76,42 +81,46 @@ const TrackHeaderRoot = React.forwardRef<HTMLDivElement, TrackHeaderRootProps>(
           ) : null}
         </div>
         <div className="flex items-center gap-1.5">
-          <div
-            className={SubframeUtils.twClassNames(
-              "flex h-[18px] w-[18px] flex-none items-center justify-center rounded-[2px] border border-solid border-default-border cursor-pointer transition-colors duration-150 hover:border-neutral-400",
-              {
-                "bg-brand-primary border border-solid border-transparent hover:border-transparent":
-                  muted,
-              }
-            )}
-          >
-            <span
+          {carriesAudio ? (
+            <div
               className={SubframeUtils.twClassNames(
-                "font-body text-[9px] font-[600] leading-[9px] text-neutral-500 select-none",
-                { "text-brand-primary-foreground": muted }
+                "flex h-[18px] w-[18px] flex-none items-center justify-center rounded-[2px] border border-solid border-default-border cursor-pointer transition-colors duration-150 hover:border-neutral-400",
+                {
+                  "bg-brand-primary border border-solid border-transparent hover:border-transparent":
+                    muted,
+                }
               )}
             >
-              M
-            </span>
-          </div>
-          <div
-            className={SubframeUtils.twClassNames(
-              "flex h-[18px] w-[18px] flex-none items-center justify-center rounded-[2px] border border-solid border-default-border cursor-pointer transition-colors duration-150 hover:border-neutral-400",
-              {
-                "bg-brand-primary border border-solid border-transparent hover:border-transparent":
-                  solo,
-              }
-            )}
-          >
-            <span
+              <span
+                className={SubframeUtils.twClassNames(
+                  "font-body text-[9px] font-[600] leading-[9px] text-neutral-500 select-none",
+                  { "text-brand-primary-foreground": muted }
+                )}
+              >
+                M
+              </span>
+            </div>
+          ) : null}
+          {carriesAudio ? (
+            <div
               className={SubframeUtils.twClassNames(
-                "font-body text-[9px] font-[600] leading-[9px] text-neutral-500 select-none",
-                { "text-brand-primary-foreground": solo }
+                "flex h-[18px] w-[18px] flex-none items-center justify-center rounded-[2px] border border-solid border-default-border cursor-pointer transition-colors duration-150 hover:border-neutral-400",
+                {
+                  "bg-brand-primary border border-solid border-transparent hover:border-transparent":
+                    solo,
+                }
               )}
             >
-              S
-            </span>
-          </div>
+              <span
+                className={SubframeUtils.twClassNames(
+                  "font-body text-[9px] font-[600] leading-[9px] text-neutral-500 select-none",
+                  { "text-brand-primary-foreground": solo }
+                )}
+              >
+                S
+              </span>
+            </div>
+          ) : null}
           <div
             className={SubframeUtils.twClassNames(
               "flex h-[18px] w-[18px] flex-none items-center justify-center rounded-[2px] border border-solid border-default-border cursor-pointer transition-colors duration-150 hover:border-neutral-400",
@@ -131,20 +140,22 @@ const TrackHeaderRoot = React.forwardRef<HTMLDivElement, TrackHeaderRootProps>(
             </span>
           </div>
         </div>
-        <div className="flex items-end gap-1">
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-brand-primary" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-brand-primary" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-brand-primary" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-brand-primary" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-700" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-700" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-500" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-500" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-200" />
-          <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-200" />
-        </div>
+        {carriesAudio ? (
+          <div className="flex items-end gap-1">
+            <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-brand-primary" />
+            <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-brand-primary" />
+            <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-brand-primary" />
+            <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-brand-primary" />
+            <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-700" />
+            <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-700" />
+            <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-500" />
+            <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-500" />
+            <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
+            <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-300" />
+            <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-200" />
+            <div className="flex h-3 w-0.5 flex-none items-start rounded-[1px] bg-neutral-200" />
+          </div>
+        ) : null}
       </div>
     );
   }

@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-082",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:drawer",
+    "ds:CandleSeries",
+    "ui:aspect-ratio"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "dense-content",
+    "scenario": "a system status page"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-082.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:31:01.427Z",
+  "summary": "The drawer overlay, candlestick chart, and aspect-ratio card render cleanly with proper spacing, readable typography, and responsive alignment on a 360px viewport.",
+  "issues": []
+}

@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-060",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:DrawerLayout",
+    "ds:GlassChip",
+    "ui:input-otp"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-060.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:56:26.373Z",
+  "summary": "The page cleanly executes the Praxis liquid-glass aesthetic. The DrawerLayout appropriately overlays the dimmed workspace view, the InputOTP component is neatly configured into grouped slots with a separator, and typography, padding, and alignments are consistent throughout.",
+  "issues": []
+}

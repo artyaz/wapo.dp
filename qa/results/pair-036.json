@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-036",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:MaterialTokens",
+    "ui:marker",
+    "ds:TerminalLine"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-036.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:41:39.885Z",
+  "summary": "The page displays a clean dark-theme layout for the build console and terminal, but the MaterialTokens component has a prominent visual layout defect where background specimen text collides with the token labels and technical specs.",
+  "issues": [
+    {
+      "component": "ds:MaterialTokens",
+      "severity": "major",
+      "title": "Overlapping specimen text clashing with token labels",
+      "description": "Background specimen text extends across the full width of the material preview container, causing it to render directly behind and collide with the token hierarchy labels and spec details.",
+      "evidence": "Specimen strings such as 'jumps over the lazy dog', 'laid-object surfaces', and 'elevation by refraction' overlap with 'ULTRATHIN', 'THIN', 'REGULAR' and their associated 'panel/XX' spec text.",
+      "suggestion": "Constrain the background specimen text container to sit strictly behind the preview glass pills on the left, or clip and separate the specimen area from the right-hand metadata column."
+    }
+  ]
+}

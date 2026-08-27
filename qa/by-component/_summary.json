@@ -1,0 +1,576 @@
+[
+  {
+    "id": "ds:RelationshipGrid",
+    "blocker": 0,
+    "major": 4,
+    "minor": 1,
+    "distinct": 5
+  },
+  {
+    "id": "ds:MaterialTokens",
+    "blocker": 0,
+    "major": 5,
+    "minor": 0,
+    "distinct": 5
+  },
+  {
+    "id": "ds:MediaClip",
+    "blocker": 0,
+    "major": 3,
+    "minor": 1,
+    "distinct": 4
+  },
+  {
+    "id": "ds:TimelineRuler",
+    "blocker": 0,
+    "major": 1,
+    "minor": 3,
+    "distinct": 4
+  },
+  {
+    "id": "ui:dialog",
+    "blocker": 0,
+    "major": 1,
+    "minor": 3,
+    "distinct": 4
+  },
+  {
+    "id": "ds:FileTreeRow",
+    "blocker": 0,
+    "major": 2,
+    "minor": 2,
+    "distinct": 4
+  },
+  {
+    "id": "ds:CanvasNode",
+    "blocker": 0,
+    "major": 2,
+    "minor": 2,
+    "distinct": 4
+  },
+  {
+    "id": "ui:data-table",
+    "blocker": 0,
+    "major": 2,
+    "minor": 2,
+    "distinct": 4
+  },
+  {
+    "id": "ds:AssistantMessage",
+    "blocker": 1,
+    "major": 1,
+    "minor": 2,
+    "distinct": 4
+  },
+  {
+    "id": "ds:StatTile",
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinct": 3
+  },
+  {
+    "id": "ui:command",
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinct": 3
+  },
+  {
+    "id": "ui:message-scroller",
+    "blocker": 0,
+    "major": 2,
+    "minor": 1,
+    "distinct": 3
+  },
+  {
+    "id": "ui:questionnaire",
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinct": 3
+  },
+  {
+    "id": "ui:calendar",
+    "blocker": 0,
+    "major": 2,
+    "minor": 1,
+    "distinct": 3
+  },
+  {
+    "id": "ds:DialogLayout",
+    "blocker": 0,
+    "major": 2,
+    "minor": 1,
+    "distinct": 3
+  },
+  {
+    "id": "ui:checkbox",
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinct": 3
+  },
+  {
+    "id": "ui:sidebar",
+    "blocker": 0,
+    "major": 3,
+    "minor": 0,
+    "distinct": 3
+  },
+  {
+    "id": "ui:context-menu",
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinct": 3
+  },
+  {
+    "id": "ui:drawer",
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinct": 3
+  },
+  {
+    "id": "ui:bubble",
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinct": 3
+  },
+  {
+    "id": "ui:input-otp",
+    "blocker": 0,
+    "major": 2,
+    "minor": 1,
+    "distinct": 3
+  },
+  {
+    "id": "ds:ActivityEvent",
+    "blocker": 0,
+    "major": 2,
+    "minor": 1,
+    "distinct": 3
+  },
+  {
+    "id": "ui:tooltip",
+    "blocker": 0,
+    "major": 3,
+    "minor": 0,
+    "distinct": 3
+  },
+  {
+    "id": "ds:Dialog",
+    "blocker": 0,
+    "major": 3,
+    "minor": 0,
+    "distinct": 3
+  },
+  {
+    "id": "ds:Drawer",
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinct": 3
+  },
+  {
+    "id": "ds:Sheet",
+    "blocker": 0,
+    "major": 2,
+    "minor": 0,
+    "distinct": 2
+  },
+  {
+    "id": "ds:AskBar",
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinct": 2
+  },
+  {
+    "id": "ds:DefaultPageLayout",
+    "blocker": 0,
+    "major": 2,
+    "minor": 0,
+    "distinct": 2
+  },
+  {
+    "id": "ui:avatar",
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "distinct": 2
+  },
+  {
+    "id": "ui:dropdown-menu",
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinct": 2
+  },
+  {
+    "id": "ds:Card",
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinct": 2
+  },
+  {
+    "id": "ds:LayerTreeRow",
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "distinct": 2
+  },
+  {
+    "id": "ds:QueryInput",
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinct": 2
+  },
+  {
+    "id": "ds:JumpToLatest",
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinct": 2
+  },
+  {
+    "id": "ds:CrosshairTag",
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinct": 2
+  },
+  {
+    "id": "ui:breadcrumb",
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "distinct": 2
+  },
+  {
+    "id": "ds:ThoughtHeader",
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinct": 2
+  },
+  {
+    "id": "ui:switch",
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinct": 2
+  },
+  {
+    "id": "ds:CodePane",
+    "blocker": 0,
+    "major": 2,
+    "minor": 0,
+    "distinct": 2
+  },
+  {
+    "id": "ui:menubar",
+    "blocker": 0,
+    "major": 2,
+    "minor": 0,
+    "distinct": 2
+  },
+  {
+    "id": "ds:TimeScrubber",
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinct": 2
+  },
+  {
+    "id": "ds:GlassRefraction",
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "distinct": 2
+  },
+  {
+    "id": "ui:kbd",
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinct": 2
+  },
+  {
+    "id": "ds:PlayerBar",
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinct": 2
+  },
+  {
+    "id": "ds:PayloadInspector",
+    "blocker": 0,
+    "major": 2,
+    "minor": 0,
+    "distinct": 2
+  },
+  {
+    "id": "ui:combobox",
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "distinct": 2
+  },
+  {
+    "id": "ds:TrackHeader",
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "distinct": 2
+  },
+  {
+    "id": "ds:EntityTabs",
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "distinct": 2
+  },
+  {
+    "id": "ds:GlassMaterialProvider",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  },
+  {
+    "id": "ds:InlineChips",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ui:input-group",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ui:progress",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ds:MiniMap",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  },
+  {
+    "id": "ds:PanelTile",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  },
+  {
+    "id": "ui:chart",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  },
+  {
+    "id": "ui:skeleton",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  },
+  {
+    "id": "ds:UserMessage",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  },
+  {
+    "id": "ds:TextField",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ui:item",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  },
+  {
+    "id": "ds:JsonTreeNode",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ui:slider",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ui:aspect-ratio",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ui:attachment",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  },
+  {
+    "id": "ui:toggle",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ui:native-select",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ds:ActionTraces",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ds:RecordHeader",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  },
+  {
+    "id": "ui:hover-card",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  },
+  {
+    "id": "ds:FloatingToolbar",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ui:collapsible",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  },
+  {
+    "id": "ui:table",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  },
+  {
+    "id": "ds:DiffRow",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ui:radio-group",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  },
+  {
+    "id": "ds:GlassChip",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ds:InspectorRow",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  },
+  {
+    "id": "ui:carousel",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ui:typography",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ui:toast",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  },
+  {
+    "id": "ds:CandleSeries",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ui:message",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ui:alert-dialog",
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinct": 1
+  },
+  {
+    "id": "ui:toggle-group",
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinct": 1
+  }
+]

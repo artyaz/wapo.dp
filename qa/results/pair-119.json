@@ -1,0 +1,31 @@
+{
+  "pairId": "pair-119",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:ThoughtHeader",
+    "ui:navigation-menu",
+    "ds:Drawer"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-119.jpg",
+    "qa/screenshots/pair-119-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T23:43:43.096Z",
+  "summary": "The layout renders cleanly on the 360px mobile viewport with accurate RTL mirroring, consistent typography, and proper component hierarchy.",
+  "issues": []
+}

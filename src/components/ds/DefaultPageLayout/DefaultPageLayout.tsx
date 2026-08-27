@@ -2,8 +2,9 @@
 
 /**
  * DefaultPageLayout — the base page scaffold of the system. A full-height,
- * full-width centered stage that holds one vertically-scrollable white content
- * column; pages compose their header/body/footer sections as its children.
+ * full-width centered stage that holds one vertically-scrollable content column
+ * themed with the `bg-panel` surface token; pages compose their
+ * header/body/footer sections as its children.
  */
 
 import React from "react";
@@ -32,7 +33,12 @@ const DefaultPageLayoutRoot = React.forwardRef<
       {...otherProps}
     >
       {children ? (
-        <div className="flex min-w-0 grow shrink-0 basis-0 flex-col items-start gap-4 self-stretch overflow-y-auto bg-[#ffffff]">
+        // Theme the column with the surface token: it used to hardcode
+        // light-theme hex (bg-[#ffffff]), which painted a glaring white canvas
+        // behind token-driven dark content (bg-panel cards, text-default-font)
+        // in dark theme. bg-panel is white in light theme, so light rendering
+        // is unchanged.
+        <div className="flex min-w-0 grow shrink-0 basis-0 flex-col items-start gap-4 self-stretch overflow-y-auto bg-panel">
           {children}
         </div>
       ) : null}

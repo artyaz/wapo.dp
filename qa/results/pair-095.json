@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-095",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:aspect-ratio",
+    "ui:hover-card",
+    "ui:checkbox"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-095.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:28:08.739Z",
+  "summary": "The page cleanly showcases AspectRatio, HoverCard, and Checkbox components with balanced spacing, crisp typography, and proper alignment adhering to the Praxis design system standards on a mobile viewport.",
+  "issues": []
+}

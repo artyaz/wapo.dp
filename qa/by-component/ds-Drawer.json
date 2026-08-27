@@ -1,0 +1,112 @@
+{
+  "id": "ds:Drawer",
+  "name": "Drawer",
+  "kind": "ds",
+  "importPath": "@/components/ds/Drawer",
+  "sourceFiles": [
+    "src/components/ds/Drawer/Drawer.tsx"
+  ],
+  "demoFile": "src/components/ds/Drawer/demo.tsx",
+  "metaFile": "src/components/ds/Drawer/meta.ts",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ds:Drawer",
+      "severity": "major",
+      "title": "Horizontal clipping in side drawer",
+      "description": "The drawer opens as a cramped side sheet on a 360px viewport, clipping Arabic text lines mid-word.",
+      "evidence": "The dark pane on the right edge cuts off text such as 'ننقل نافذة ا' without enough horizontal reading space.",
+      "suggestion": "Use a full-width bottom sheet pattern on mobile viewports instead of a persistent side panel.",
+      "pairId": "pair-119",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-119"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: at 360px a 240px side sheet left an ~88px scrimmed column clipping the transcript mid-word; Drawer.Content now stretches to full frame width below 30rem (mobile:w-full) so the sheet becomes the reading surface on phones."
+    },
+    {
+      "component": "ds:Drawer",
+      "severity": "minor",
+      "title": "Desktop dismissal copy on mobile",
+      "description": "Footer hint mentions the Esc key and suggests an incorrect drag direction for a right-anchored drawer.",
+      "evidence": "Base of drawer reads 'Drag the sheet left or press Esc to dismiss'.",
+      "suggestion": "Update copy to touch-relevant dismiss gestures with the correct swipe direction.",
+      "pairId": "pair-122",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-122"
+      ],
+      "triage": "fix",
+      "triageNote": "The captured string lives in the eval page (page-owned), but the same wrong-direction desktop copy shipped in the component demo; demo hint now reads 'Drag the sheet right' and drops the Esc mention below 30rem (touch-only copy)."
+    },
+    {
+      "component": "ds:Drawer",
+      "severity": "minor",
+      "title": "Incorrect gesture hint direction",
+      "description": "Footer text directs users to drag left to dismiss a right-anchored drawer.",
+      "evidence": "Footer text displays 'Drag the sheet left or press Escape to dismiss.'",
+      "suggestion": "Update copy to 'Drag the sheet right or press Escape to dismiss.'",
+      "pairId": "pair-132",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-132"
+      ],
+      "triage": "fix",
+      "triageNote": "Wrong-direction drag copy confirmed in the shipped demo ('drag left' for a right-anchored sheet); demo corrected to 'Drag the sheet right'. The identical string on the eval page is page-owned and cannot be edited here."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:Drawer",
+      "severity": "major",
+      "title": "Horizontal clipping in side drawer",
+      "description": "The drawer opens as a cramped side sheet on a 360px viewport, clipping Arabic text lines mid-word.",
+      "evidence": "The dark pane on the right edge cuts off text such as 'ننقل نافذة ا' without enough horizontal reading space.",
+      "suggestion": "Use a full-width bottom sheet pattern on mobile viewports instead of a persistent side panel.",
+      "pairId": "pair-119",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone-small"
+    },
+    {
+      "component": "ds:Drawer",
+      "severity": "minor",
+      "title": "Desktop dismissal copy on mobile",
+      "description": "Footer hint mentions the Esc key and suggests an incorrect drag direction for a right-anchored drawer.",
+      "evidence": "Base of drawer reads 'Drag the sheet left or press Esc to dismiss'.",
+      "suggestion": "Update copy to touch-relevant dismiss gestures with the correct swipe direction.",
+      "pairId": "pair-122",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone"
+    },
+    {
+      "component": "ds:Drawer",
+      "severity": "minor",
+      "title": "Incorrect gesture hint direction",
+      "description": "Footer text directs users to drag left to dismiss a right-anchored drawer.",
+      "evidence": "Footer text displays 'Drag the sheet left or press Escape to dismiss.'",
+      "suggestion": "Update copy to 'Drag the sheet right or press Escape to dismiss.'",
+      "pairId": "pair-132",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "tablet-portrait"
+    }
+  ]
+}

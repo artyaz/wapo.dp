@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-174",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:DrawerLayout",
+    "ui:combobox",
+    "ui:table"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-174.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:11:47.475Z",
+  "summary": "The DrawerLayout, Combobox, and Table components are well-integrated and cleanly rendered on the mobile viewport. Typography, alignment, row spacing, contrast, and layout hierarchy strictly conform to the Praxis design system with no visible defects.",
+  "issues": []
+}

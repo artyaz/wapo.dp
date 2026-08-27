@@ -40,6 +40,7 @@ const JsonTreeNodeLeaf = React.forwardRef<
         "group/39fc64ef flex h-6 w-full cursor-pointer items-center gap-1 hover:bg-neutral-50",
         className
       )}
+      dir="ltr"
       ref={ref}
       {...otherProps}
     >
@@ -147,6 +148,7 @@ const JsonTreeNodeBranch = React.forwardRef<
         "group/cfc8fab7 flex w-full flex-col items-start",
         className
       )}
+      dir="ltr"
       ref={ref}
       {...otherProps}
     >
@@ -231,7 +233,7 @@ const JsonTreeNodeBranch = React.forwardRef<
       {children ? (
         <div
           className={SubframeUtils.twClassNames(
-            "hidden w-full flex-col items-start border-l border-solid border-default-border pl-4 ml-[7px]",
+            "hidden w-full flex-col items-start border-s border-solid border-default-border ps-4 ms-[7px]",
             { flex: expanded }
           )}
         >
@@ -240,7 +242,7 @@ const JsonTreeNodeBranch = React.forwardRef<
       ) : null}
       <div
         className={SubframeUtils.twClassNames(
-          "hidden h-6 w-full flex-none items-center pl-5",
+          "hidden h-6 w-full flex-none items-center ps-5",
           { flex: expanded }
         )}
       >
@@ -283,6 +285,7 @@ const JsonTreeNodeRoot = React.forwardRef<
         "flex w-full max-w-[420px] flex-col items-start rounded-lg border border-solid border-default-border bg-panel px-3 py-3",
         className
       )}
+      dir="ltr"
       ref={ref}
       {...otherProps}
     >

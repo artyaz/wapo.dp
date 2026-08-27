@@ -1,0 +1,51 @@
+{
+  "id": "ui:table",
+  "name": "table",
+  "kind": "ui",
+  "importPath": "@/components/ui/table",
+  "sourceFiles": [
+    "src/components/ui/table.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/table/actions.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:table",
+      "severity": "minor",
+      "title": "Header and cell alignment mismatch",
+      "description": "The Length column header alignment does not match its cell data alignment.",
+      "evidence": "The 'Length' header is aligned left while the duration values below are aligned right.",
+      "suggestion": "Align the header text to the right to match the cell content.",
+      "pairId": "pair-175",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-175"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: TableHead base class used physical text-left, so in RTL headers hug the left while cells align to start (right). Fixed with logical text-start (plus pr-0→pe-0 sweep and demo text-right→text-end)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:table",
+      "severity": "minor",
+      "title": "Header and cell alignment mismatch",
+      "description": "The Length column header alignment does not match its cell data alignment.",
+      "evidence": "The 'Length' header is aligned left while the duration values below are aligned right.",
+      "suggestion": "Align the header text to the right to match the cell content.",
+      "pairId": "pair-175",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "phone-small"
+    }
+  ]
+}

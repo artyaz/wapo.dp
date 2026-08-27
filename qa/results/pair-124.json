@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-124",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:drawer",
+    "ds:Button",
+    "ds:InspectorRow"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-half",
+      "width": 390,
+      "height": 420,
+      "weight": 10,
+      "hint": "roughly HALF of a phone screen (very little vertical room)"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a checkout / payment step"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-124.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:08:53.255Z",
+  "summary": "The checkout drawer meets design specifications with clean alignment, well-proportioned spacing, and appropriate contrast for dark theme.",
+  "issues": []
+}

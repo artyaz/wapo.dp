@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-032",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:FileTreeRow",
+    "ui:field",
+    "ui:label"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a live transcript / captions view"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-032.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:30:52.773Z",
+  "summary": "The layout is cleanly structured with minor chevron state inconsistencies in the file tree component.",
+  "issues": [
+    {
+      "component": "ds:FileTreeRow",
+      "severity": "major",
+      "title": "Folder chevron state mismatch",
+      "description": "The 'exports' and 'translate' folders display collapsed chevron icons while child items are expanded.",
+      "evidence": "Right-pointing chevrons shown for 'exports' and 'translate' despite child rows visible underneath.",
+      "suggestion": "Sync chevron orientation to reflect expanded child row visibility."
+    }
+  ]
+}

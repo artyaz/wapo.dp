@@ -19,7 +19,11 @@ function CollapsibleTrigger({ render, children, ...props }: React.ComponentProps
       </CollapsiblePrimitive.CollapsibleTrigger>
     )
   }
-  return <CollapsiblePrimitive.CollapsibleTrigger data-slot="collapsible-trigger" {...props} />
+  return (
+    <CollapsiblePrimitive.CollapsibleTrigger data-slot="collapsible-trigger" {...props}>
+      {children}
+    </CollapsiblePrimitive.CollapsibleTrigger>
+  )
 }
 
 function CollapsibleContent({

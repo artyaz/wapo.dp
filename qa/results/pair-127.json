@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-127",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:combobox",
+    "ds:Dialog",
+    "ds:FormSection"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "dense-content",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-127.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:17:21.129Z",
+  "summary": "The page mostly adheres to design tokens, but ds:Dialog exhibits a container confinement issue causing clipped backdrop and partially occluded background text in the sidebar.",
+  "issues": [
+    {
+      "component": "ds:Dialog",
+      "severity": "major",
+      "title": "Confined dialog scrim clipping content",
+      "description": "The dialog overlay renders within a bounded sidebar container rather than portaling globally, cutting off underlying helper text.",
+      "evidence": "Dark overlay rectangle in the right column partially masks text, leaving orphan word 'completes.' exposed at bottom edge.",
+      "suggestion": "Mount dialog via a portal to cover the entire viewport."
+    }
+  ]
+}

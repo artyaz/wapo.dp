@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-008",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:Card",
+    "ui:card",
+    "ds:LayerTreeRow"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-008.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:19:48.653Z",
+  "summary": "The layout properly showcases the target card and layer tree components with clean alignment, balanced spacing, and legible typography across the viewport.",
+  "issues": []
+}

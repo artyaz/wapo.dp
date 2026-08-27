@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-116",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:carousel",
+    "ds:EntityTabs",
+    "ds:Dialog"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "dark",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-116.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T01:45:07.399Z",
+  "summary": "The layout mostly conforms to the RTL dark theme specification, but minor truncation and alignment issues affect the carousel card labels and tab overflow indicators.",
+  "issues": [
+    {
+      "component": "ui:carousel",
+      "severity": "minor",
+      "title": "Filename truncation in carousel card",
+      "description": "The middle card title truncates awkwardly into the file extension due to constrained width.",
+      "evidence": "The second carousel item renders as 'العرض_التقديمي.tx...'.",
+      "suggestion": "Allow two-line text wrapping or adjust item min-width."
+    },
+    {
+      "component": "ds:EntityTabs",
+      "severity": "minor",
+      "title": "Overflow indicator vertical misalignment",
+      "description": "The tab bar dropdown icon does not align with the adjacent tab baseline.",
+      "evidence": "The downward caret icon to the left of '3 Audit' sits below the text baseline.",
+      "suggestion": "Center-align the dropdown icon vertically with tab labels."
+    }
+  ]
+}

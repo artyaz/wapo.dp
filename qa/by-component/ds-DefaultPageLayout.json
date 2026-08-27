@@ -1,0 +1,82 @@
+{
+  "id": "ds:DefaultPageLayout",
+  "name": "DefaultPageLayout",
+  "kind": "ds",
+  "importPath": "@/components/ds/DefaultPageLayout",
+  "sourceFiles": [
+    "src/components/ds/DefaultPageLayout/DefaultPageLayout.tsx"
+  ],
+  "demoFile": "src/components/ds/DefaultPageLayout/demo.tsx",
+  "metaFile": "src/components/ds/DefaultPageLayout/meta.ts",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 2,
+    "minor": 0,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ds:DefaultPageLayout",
+      "severity": "major",
+      "title": "Inconsistent theme styling",
+      "description": "Page frame uses light background tokens while inner sections use dark mode styling.",
+      "evidence": "Header and footer regions render with white backgrounds around dark card containers.",
+      "suggestion": "Set consistent dark theme tokens on the outer page layout and header/footer containers.",
+      "pairId": "pair-034",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-034"
+      ],
+      "triage": "fix",
+      "triageNote": "Confirmed: the scrolling content column hardcodes bg-[#ffffff] (DefaultPageLayout.tsx); header/footer bands are transparent so they showed the white column around dark bg-panel cards in dark theme. Fixed by swapping to the bg-panel surface token (same pattern as ds:Dialog/ds:DialogLayout fixes)."
+    },
+    {
+      "component": "ds:DefaultPageLayout",
+      "severity": "major",
+      "title": "Light theme background in dark mode",
+      "description": "Layout frame and canvas use light tokens instead of dark theme styling.",
+      "evidence": "Header and footer show white background with dark text surrounding dark content cards.",
+      "suggestion": "Apply dark background and typography tokens to the root page container.",
+      "pairId": "pair-160",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-160"
+      ],
+      "triage": "fix",
+      "triageNote": "Same root cause as pair-034: layout canvas hardcoded bg-[#ffffff], so the transparent header/footer bands rendered white in dark theme. Fixed by the same bg-panel token swap; light theme is pixel-identical (panel = white in light)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:DefaultPageLayout",
+      "severity": "major",
+      "title": "Inconsistent theme styling",
+      "description": "Page frame uses light background tokens while inner sections use dark mode styling.",
+      "evidence": "Header and footer regions render with white backgrounds around dark card containers.",
+      "suggestion": "Set consistent dark theme tokens on the outer page layout and header/footer containers.",
+      "pairId": "pair-034",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop"
+    },
+    {
+      "component": "ds:DefaultPageLayout",
+      "severity": "major",
+      "title": "Light theme background in dark mode",
+      "description": "Layout frame and canvas use light tokens instead of dark theme styling.",
+      "evidence": "Header and footer show white background with dark text surrounding dark content cards.",
+      "suggestion": "Apply dark background and typography tokens to the root page container.",
+      "pairId": "pair-160",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone"
+    }
+  ]
+}

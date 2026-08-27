@@ -1,0 +1,81 @@
+{
+  "id": "ui:dropdown-menu",
+  "name": "dropdown-menu",
+  "kind": "ui",
+  "importPath": "@/components/ui/dropdown-menu",
+  "sourceFiles": [
+    "src/components/ui/dropdown-menu.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/dropdown-menu/avatar.tsx",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ui:dropdown-menu",
+      "severity": "major",
+      "title": "Viewport edge collision and content obscuration",
+      "description": "Dropdown overlays section headers and touches the right screen boundary.",
+      "evidence": "Menu obscures 'Alert filt' and 'Choose whi' headings and hugs the right viewport edge.",
+      "suggestion": "Add boundary padding and constrain menu position relative to its activator.",
+      "pairId": "pair-102",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-102"
+      ],
+      "triage": "fix",
+      "triageNote": "Content obscuration is composition (page forces menu open via defaultOpen on a dense phone page — same pattern on pair-007/148/155). Edge-hugging NOT reproduced: measured menu keeps 8–16px gap from the right viewport edge with Radix avoidCollisions (no overflow) on 360/390px phones. Real component-level nit: when a collision does occur, Radix clamps flush to the edge with collisionPadding=0 (truly touching); added collisionPadding={8} default to DropdownMenuContent/SubContent so collision-clamped menus keep an 8px boundary inset (consumer-overridable)."
+    },
+    {
+      "component": "ui:dropdown-menu",
+      "severity": "minor",
+      "title": "Inconsistent menu item text alignment",
+      "description": "Menu items have uneven left margins due to missing icon alignment slots.",
+      "evidence": "'Snap to grid' text is left-aligned to the container edge while surrounding items are indented with icons.",
+      "suggestion": "Provide consistent icon indentation spacing across all menu items in the group.",
+      "pairId": "pair-155",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-155"
+      ],
+      "triage": "fix",
+      "triageNote": "LTR evidence contradicted by measurement: 'Snap to grid' text x=181px exactly matches icon-item text x=181px (indicator at 157px = icon slot), so LTR alignment is correct — auditor misread. Real underlying defect is the same physical-prop pattern context-menu had: pl-8/pr-2/left-2/ml-auto don't mirror in RTL (checkbox/radio text would sit 8px from the start edge while icon items indent 32px). Applied the same logical-prop fix (ps-8/pe-2/start-2/ms-auto) for RTL correctness and cross-component consistency."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:dropdown-menu",
+      "severity": "major",
+      "title": "Viewport edge collision and content obscuration",
+      "description": "Dropdown overlays section headers and touches the right screen boundary.",
+      "evidence": "Menu obscures 'Alert filt' and 'Choose whi' headings and hugs the right viewport edge.",
+      "suggestion": "Add boundary padding and constrain menu position relative to its activator.",
+      "pairId": "pair-102",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone"
+    },
+    {
+      "component": "ui:dropdown-menu",
+      "severity": "minor",
+      "title": "Inconsistent menu item text alignment",
+      "description": "Menu items have uneven left margins due to missing icon alignment slots.",
+      "evidence": "'Snap to grid' text is left-aligned to the container edge while surrounding items are indented with icons.",
+      "suggestion": "Provide consistent icon indentation spacing across all menu items in the group.",
+      "pairId": "pair-155",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    }
+  ]
+}

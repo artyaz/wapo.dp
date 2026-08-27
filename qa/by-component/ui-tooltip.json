@@ -1,0 +1,111 @@
+{
+  "id": "ui:tooltip",
+  "name": "tooltip",
+  "kind": "ui",
+  "importPath": "@/components/ui/tooltip",
+  "sourceFiles": [
+    "src/components/ui/tooltip.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/tooltip/disabled-button.tsx",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 3,
+    "minor": 0,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ui:tooltip",
+      "severity": "major",
+      "title": "Tooltip overlays card metric",
+      "description": "The tooltip popover renders directly on top of the primary KPI metric text.",
+      "evidence": "The dark tooltip box obscures the percentage value in the middle KPI card.",
+      "suggestion": "Configure tooltip placement to display above or beside the trigger with adequate offset.",
+      "pairId": "pair-086",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-086"
+      ],
+      "triage": "composition",
+      "triageNote": "Eval page forces the conversion-card tooltip open via defaultOpen with side=bottom; an open tooltip placed below a label naturally covers the metric beneath it. DOM-measured geometry is correct: arrow center x=411 exactly matches trigger center x=411, gap = sideOffset(8)+arrowHeight(10)=18px, content fully in viewport. Real tooltips are transient hover overlays — no component defect."
+    },
+    {
+      "component": "ui:tooltip",
+      "severity": "major",
+      "title": "Misplaced anchor and content obstruction",
+      "description": "The tooltip obscures descriptive text and its pointer does not align with the info trigger icon.",
+      "evidence": "Tooltip box covers card body copy while the arrow points downward away from the top-right info icon.",
+      "suggestion": "Reposition tooltip relative to the info trigger or present context inline on small screens.",
+      "pairId": "pair-102",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-102"
+      ],
+      "triage": "composition",
+      "triageNote": "Both tooltips on this page are forced open via defaultOpen; the header one (side=bottom) correctly covers the body copy below it, and the two open tooltips even overlap each other by 6px — impossible in real usage. Arrow alignment is NOT defective: measured arrow center x=337/324 exactly equals trigger center x=337/324; Radix collision handling also correctly flipped the second tooltip bottom→top near the viewport bottom. The 'arrow points downward' read is the shadcn diamond's inner half inside the tooltip box. No component defect."
+    },
+    {
+      "component": "ui:tooltip",
+      "severity": "major",
+      "title": "Tooltip obscures price breakdown",
+      "description": "The active tooltip overlaps the line items directly above its trigger icon, hiding rate details.",
+      "evidence": "Tooltip box covers text between Price breakdown and Total line in the right sidebar.",
+      "suggestion": "Reposition tooltip to display above or to the side with adequate clearance.",
+      "pairId": "pair-147",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-147"
+      ],
+      "triage": "composition",
+      "triageNote": "Eval page forces the total-row tooltip open via defaultOpen with side=top, so it correctly covers the price line items above the trigger — inherent to a top-opening tooltip held open in a static screenshot. Geometry verified: arrow center x=885 = trigger center x=885, gap 16.3px ≈ sideOffset(6)+arrowHeight(10), content in viewport. Transient hover overlay in real usage — no component defect."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:tooltip",
+      "severity": "major",
+      "title": "Tooltip overlays card metric",
+      "description": "The tooltip popover renders directly on top of the primary KPI metric text.",
+      "evidence": "The dark tooltip box obscures the percentage value in the middle KPI card.",
+      "suggestion": "Configure tooltip placement to display above or beside the trigger with adequate offset.",
+      "pairId": "pair-086",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "tablet-portrait"
+    },
+    {
+      "component": "ui:tooltip",
+      "severity": "major",
+      "title": "Misplaced anchor and content obstruction",
+      "description": "The tooltip obscures descriptive text and its pointer does not align with the info trigger icon.",
+      "evidence": "Tooltip box covers card body copy while the arrow points downward away from the top-right info icon.",
+      "suggestion": "Reposition tooltip relative to the info trigger or present context inline on small screens.",
+      "pairId": "pair-102",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone"
+    },
+    {
+      "component": "ui:tooltip",
+      "severity": "major",
+      "title": "Tooltip obscures price breakdown",
+      "description": "The active tooltip overlaps the line items directly above its trigger icon, hiding rate details.",
+      "evidence": "Tooltip box covers text between Price breakdown and Total line in the right sidebar.",
+      "suggestion": "Reposition tooltip to display above or to the side with adequate clearance.",
+      "pairId": "pair-147",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop"
+    }
+  ]
+}

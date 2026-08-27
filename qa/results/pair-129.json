@@ -1,0 +1,31 @@
+{
+  "pairId": "pair-129",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:alert",
+    "ui:message",
+    "ui:badge"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a media player with its playlist"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-129.jpg",
+    "qa/screenshots/pair-129-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:24:31.898Z",
+  "summary": "The mobile layout accurately implements dark mode styling, consistent typography, and proper component hierarchy without visual defects.",
+  "issues": []
+}

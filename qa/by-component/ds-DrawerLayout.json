@@ -1,0 +1,20 @@
+{
+  "id": "ds:DrawerLayout",
+  "name": "DrawerLayout",
+  "kind": "ds",
+  "importPath": "@/components/ds/DrawerLayout",
+  "sourceFiles": [
+    "src/components/ds/DrawerLayout/DrawerLayout.tsx"
+  ],
+  "demoFile": "src/components/ds/DrawerLayout/demo.tsx",
+  "metaFile": "src/components/ds/DrawerLayout/meta.ts",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

@@ -42,7 +42,7 @@ export function MessageAvatarDemo() {
           </Avatar>
         </MessageAvatar>
         <MessageContent>
-          <Bubble>
+          <Bubble align="end">
             <BubbleContent>Can you share the exact error?</BubbleContent>
           </Bubble>
         </MessageContent>

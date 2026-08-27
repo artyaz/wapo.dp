@@ -32,7 +32,7 @@ const AskBarRoot = React.forwardRef<HTMLDivElement, AskBarRootProps>(
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "group/5fc66882 flex w-full flex-col items-center px-4 pt-6 pb-[26px] bg-gradient-to-b from-transparent to-default-background",
+          "group/5fc66882 flex w-full flex-col items-center px-4 pt-6 pb-[max(26px,env(safe-area-inset-bottom))] bg-gradient-to-b from-transparent to-default-background",
           className
         )}
         ref={ref}
@@ -45,7 +45,11 @@ const AskBarRoot = React.forwardRef<HTMLDivElement, AskBarRootProps>(
         ) : null}
         <div className="flex w-full items-center gap-2">
           <TextField label="" helpText="" className="min-w-0 flex-1">
-            <TextField.Input placeholder={placeholder} value="" />
+            <TextField.Input
+              placeholder={placeholder}
+              defaultValue=""
+              className="text-ellipsis"
+            />
           </TextField>
           <div
             className={SubframeUtils.twClassNames(

@@ -1,0 +1,31 @@
+{
+  "pairId": "pair-070",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:scroll-area",
+    "ui:native-select",
+    "ds:StatusBadge"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-070.jpg",
+    "qa/screenshots/pair-070-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:04:51.602Z",
+  "summary": "The mobile interface cleanly showcases all components with consistent spacing, clear visual hierarchy, and correct status indicators.",
+  "issues": []
+}

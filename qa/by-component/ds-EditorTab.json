@@ -1,0 +1,20 @@
+{
+  "id": "ds:EditorTab",
+  "name": "EditorTab",
+  "kind": "ds",
+  "importPath": "@/components/ds/EditorTab",
+  "sourceFiles": [
+    "src/components/ds/EditorTab/EditorTab.tsx"
+  ],
+  "demoFile": "src/components/ds/EditorTab/demo.tsx",
+  "metaFile": "src/components/ds/EditorTab/meta.ts",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-115",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:toggle-group",
+    "ui:popover",
+    "ds:TransportBar"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "dense-content",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-115.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:02:13.420Z",
+  "summary": "The interface demonstrates high polish and adheres strictly to the Praxis liquid-glass dark theme aesthetic. The ToggleGroup, Popover, and TransportBar components are properly aligned, readable, and well-proportioned within the 1280x800 desktop viewport.",
+  "issues": []
+}

@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-149",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:StatTile",
+    "ui:item",
+    "ds:GlassDisplacement"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": "a user profile page"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-149.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:42:59.084Z",
+  "summary": "The page cleanly adheres to Praxis design system standards, fitting the viewport without overflow or alignment defects.",
+  "issues": []
+}

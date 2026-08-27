@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-111",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:drawer",
+    "ui:spinner",
+    "ui:chart"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a pricing comparison"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-111.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:42:25.553Z",
+  "summary": "The dark theme layout displays the drawer, chart, and spinner components cleanly with consistent monochrome styling and minor typography artifacts.",
+  "issues": [
+    {
+      "component": "ui:drawer",
+      "severity": "minor",
+      "title": "Typographical spacing in banner",
+      "description": "Unintended space inside the word 'instead' in the savings callout.",
+      "evidence": "The green banner reads 'ins tead of $216'.",
+      "suggestion": "Correct the text string spacing."
+    }
+  ]
+}

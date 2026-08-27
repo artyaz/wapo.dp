@@ -10,7 +10,7 @@ import { UserMessage } from "@/components/ds/UserMessage";
 
 export default function Demo() {
   return (
-    <div className="flex w-full flex-col items-stretch gap-3 rounded-lg bg-neutral-900 p-6">
+    <div className="flex w-full flex-col items-stretch gap-3 rounded-lg bg-neutral-900 p-6 dark:bg-neutral-100">
       <UserMessage>Add a liquid-glass variant to the settings panel.</UserMessage>
       <UserMessage>
         Please also audit the whole component library for contrast issues and

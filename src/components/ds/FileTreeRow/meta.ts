@@ -5,7 +5,7 @@ export default defineMeta({
   slug: "file-tree-row",
   category: "code-editor",
   description:
-    "A single row of an IDE file-tree sidebar. The row composes its own indentation: one 20px rail column per depth level, each drawn with a hairline right border, so a stack of rows reads as a real explorer tree. Folders get a filled-square glyph and an expand caret; files get a bordered 16px glyph slot carrying a monospace type mark (# for TypeScript, { } for JSON, ¶ for Markdown, ≡ for YAML), with git-status and unsaved dots docked to the right edge.",
+    "A single row of an IDE file-tree sidebar. The row composes its own indentation: one 20px rail column per depth level, each drawn with a hairline inline-end border, so a stack of rows reads as a real explorer tree. Folders get a filled-square glyph and an expand caret (▾ expanded / ▸ collapsed — never both); files get a bordered 16px glyph slot carrying a monospace type mark (# for TypeScript, { } for JSON, ¶ for Markdown, ≡ for YAML), with git-status and unsaved dots docked to the trailing edge. All spacing uses logical properties, so the tree mirrors correctly in RTL.",
   usage:
     "Stack rows inside a sidebar column and drive them from a flattened tree array — set depth and nodeType per entry, and reflect selection, git state and dirty flags through the props.",
   tags: ["file tree", "explorer", "sidebar", "ide", "row"],
@@ -21,35 +21,35 @@ export default defineMeta({
       type: '"folder" | "ts" | "json" | "md" | "yml"',
       default: '"ts"',
       description:
-        "Which glyph pair the row shows: folders render the square glyph and the ▸ caret; each file type renders its monospace type mark inside the bordered slot.",
+        "Which glyph pair the row shows: folders render the square glyph and the expand caret (▸ collapsed, ▾ expanded); each file type renders its monospace type mark inside the bordered slot.",
     },
     {
       name: "depth",
       type: '"0" | "1" | "2" | "3" | "4"',
       default: '"0"',
       description:
-        "Indentation level. Each level adds a 20px rail column with a right border before the caret cell.",
+        "Indentation level. Each level adds a 20px rail column with an inline-end border before the caret cell.",
     },
     {
       name: "expanded",
       type: "boolean",
       default: "false",
       description:
-        "Shows the ▾ collapsed-folder caret instead of ▸ (only rendered for folders).",
+        "Shows the ▾ open-folder caret instead of ▸ (only folders render a caret; exactly one is shown at a time).",
     },
     {
       name: "selected",
       type: "boolean",
       default: "false",
       description:
-        "Selected state: brand-primary left rail, brand-primary/5 background tint.",
+        "Selected state: brand-primary/5 background tint plus an inset rounded brand-primary indicator bar at the row's leading edge (logical start, so it mirrors in RTL and never touches the container border).",
     },
     {
       name: "gitStatus",
       type: '"none" | "modified" | "added" | "deleted"',
       default: '"none"',
       description:
-        "Right-edge status dot: warning for modified, success for added, destructive for deleted.",
+        "Trailing-edge status dot: warning for modified, success for added, destructive for deleted.",
     },
     {
       name: "dirty",

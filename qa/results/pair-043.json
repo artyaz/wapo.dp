@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-043",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:pagination",
+    "ds:CanvasNode",
+    "ui:table"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-043.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:44:04.394Z",
+  "summary": "The layout fits the 768x1024 viewport cleanly with no clipping or alignment issues across canvas, table, and pagination components.",
+  "issues": []
+}

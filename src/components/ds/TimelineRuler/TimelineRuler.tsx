@@ -29,39 +29,19 @@ const TimelineRulerRoot = React.forwardRef<
       ref={ref}
       {...otherProps}
     >
-      <span className="font-code text-[6px] font-[400] leading-[6px] text-neutral-400 absolute top-[2px] left-[180px]">
-        ◆
-      </span>
-      <span className="font-code text-[6px] font-[400] leading-[6px] text-neutral-400 absolute top-[2px] left-[420px]">
-        ◆
-      </span>
-      <span className="font-code text-[6px] font-[400] leading-[6px] text-neutral-400 absolute top-[2px] left-[600px]">
-        ◆
-      </span>
-      <span className="font-code text-[6px] font-[400] leading-[6px] text-neutral-400 absolute top-[2px] left-[860px]">
-        ◆
-      </span>
-      <span className="font-code text-[6px] font-[400] leading-[6px] text-neutral-400 absolute top-[2px] left-[1100px]">
-        ◆
-      </span>
-      <span className="font-code text-[6px] font-[400] leading-[6px] text-neutral-400 absolute top-[2px] left-[1340px]">
-        ◆
-      </span>
-      <span className="font-code text-[6px] font-[400] leading-[6px] text-neutral-400 absolute top-[2px] left-[1620px]">
-        ◆
-      </span>
-      <span className="font-code text-[6px] font-[400] leading-[6px] text-neutral-400 absolute top-[2px] left-[1860px]">
-        ◆
-      </span>
-      <span className="font-code text-[6px] font-[400] leading-[6px] text-neutral-400 absolute top-[2px] left-[2140px]">
-        ◆
-      </span>
-      <span className="font-code text-[6px] font-[400] leading-[6px] text-neutral-400 absolute top-[2px] left-[2380px]">
-        ◆
-      </span>
-      <span className="font-code text-[6px] font-[400] leading-[6px] text-neutral-400 absolute top-[2px] left-[2660px]">
-        ◆
-      </span>
+      {/* ◆ event markers — CSS diamonds (rotated squares) so the shape stays
+          legible at marker size; text glyphs blur into asterisk-like noise */}
+      <div className="absolute top-[2px] left-[180px] size-[5px] rotate-45 bg-neutral-400" />
+      <div className="absolute top-[2px] left-[420px] size-[5px] rotate-45 bg-neutral-400" />
+      <div className="absolute top-[2px] left-[600px] size-[5px] rotate-45 bg-neutral-400" />
+      <div className="absolute top-[2px] left-[860px] size-[5px] rotate-45 bg-neutral-400" />
+      <div className="absolute top-[2px] left-[1100px] size-[5px] rotate-45 bg-neutral-400" />
+      <div className="absolute top-[2px] left-[1340px] size-[5px] rotate-45 bg-neutral-400" />
+      <div className="absolute top-[2px] left-[1620px] size-[5px] rotate-45 bg-neutral-400" />
+      <div className="absolute top-[2px] left-[1860px] size-[5px] rotate-45 bg-neutral-400" />
+      <div className="absolute top-[2px] left-[2140px] size-[5px] rotate-45 bg-neutral-400" />
+      <div className="absolute top-[2px] left-[2380px] size-[5px] rotate-45 bg-neutral-400" />
+      <div className="absolute top-[2px] left-[2660px] size-[5px] rotate-45 bg-neutral-400" />
       <div className="flex h-px items-start bg-default-border absolute bottom-0 inset-x-0" />
       <div className="flex h-3 w-px flex-none items-start bg-default-font absolute bottom-0 left-0" />
       <span className="font-code text-[10px] font-[400] leading-[10px] text-neutral-500 absolute bottom-[16px] left-0 tabular-nums">

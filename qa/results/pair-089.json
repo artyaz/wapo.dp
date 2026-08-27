@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-089",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:ThoughtHeader",
+    "ui:slider",
+    "ui:typography"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "an onboarding wizard step"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-089.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T01:38:02.755Z",
+  "summary": "The page maintains a clear dark-theme visual structure, but exhibits typography kerning artifacts splitting words across components, alongside low-contrast text within the thought log container.",
+  "issues": [
+    {
+      "component": "ui:typography",
+      "severity": "major",
+      "title": "Unintended word splitting",
+      "description": "Font rendering or tracking issues insert extraneous spaces within words across multiple text elements.",
+      "evidence": "Visible spaces breaking words in 'finis hes', 'auto no mo us', 'Monda y', and 'c an retune'.",
+      "suggestion": "Correct font-tracking, letter-spacing properties, and string sanitization."
+    },
+    {
+      "component": "ds:ThoughtHeader",
+      "severity": "minor",
+      "title": "Low contrast status item",
+      "description": "Pending log text fails readability expectations against the dark card surface.",
+      "evidence": "Text reading 'Waiting on the tuning sliders before applying anything' is difficult to discern against the background.",
+      "suggestion": "Increase opacity or lighten the muted text token."
+    }
+  ]
+}

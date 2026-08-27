@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-057",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:PlayerBar",
+    "ds:ActivityEvent",
+    "ds:StatusBadge"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-057.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:52:45.354Z",
+  "summary": "The layout complies with the dark theme specifications and fits within the viewport. Spacing, typography, and component styling across PlayerBar, ActivityEvent, and StatusBadge are consistent and legible.",
+  "issues": []
+}

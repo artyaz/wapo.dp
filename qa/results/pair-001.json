@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-001",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:GlassMaterialProvider",
+    "ds:Sheet",
+    "ds:MethodChip"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a checkout / payment step"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-001.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:49:33.603Z",
+  "summary": "The checkout page exhibits low text contrast in the header glass bar and lacks a backdrop scrim for the sheet dialog, causing visual collision with underlying content.",
+  "issues": [
+    {
+      "component": "ds:GlassMaterialProvider",
+      "severity": "minor",
+      "title": "Low contrast header text",
+      "description": "Header labels inside the glass container lack sufficient luminance in dark mode.",
+      "evidence": "Text 'Praxis Cloud · Checkout' and 'Sandbox · test mode' blends into the dark background.",
+      "suggestion": "Increase text color token brightness for dark theme."
+    },
+    {
+      "component": "ds:Sheet",
+      "severity": "major",
+      "title": "Missing backdrop scrim",
+      "description": "The modal sheet renders directly over page content without a background overlay.",
+      "evidence": "The sheet overlaps the order summary and API calls panel without dimming or blurring background elements.",
+      "suggestion": "Add a dimmed backdrop scrim behind the sheet to isolate focus."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-017",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:SlaTimer",
+    "ui:select",
+    "ds:WaveformStrip"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-half",
+      "width": 390,
+      "height": 420,
+      "weight": 10,
+      "hint": "roughly HALF of a phone screen (very little vertical room)"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a notification center"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-017.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:29:18.961Z",
+  "summary": "The notification center cleanly showcases the required components within the compact 390x420 viewport with balanced hierarchy and proper alignment.",
+  "issues": [
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "Orphaned Title Text Wrapping",
+      "description": "Alert heading wraps a single acronym to a second line due to inline timer constraints.",
+      "evidence": "First card shows 'SLO' wrapped alone below 'Payment API latency breached'.",
+      "suggestion": "Adjust title typography sizing or flex layout to allow text to fit comfortably."
+    }
+  ]
+}

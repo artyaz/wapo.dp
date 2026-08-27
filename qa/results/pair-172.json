@@ -1,0 +1,55 @@
+{
+  "pairId": "pair-172",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:Card",
+    "ui:skeleton",
+    "ds:EntityTabs"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "dark",
+    "direction": "rtl",
+    "constraint": "no-scroll",
+    "scenario": "a data table view"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-172.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:49:36.853Z",
+  "summary": "The page exhibits RTL rendering defects including overlapping table headers, reversed timestamp strings, and disconnected status indicators across viewports.",
+  "issues": [
+    {
+      "component": "ds:Card",
+      "severity": "major",
+      "title": "Table header text collision",
+      "description": "Column headers 'Line' and 'State' overlap due to improper column spacing in RTL mode.",
+      "evidence": "'LineState' appears visually merged above the rightmost table column.",
+      "suggestion": "Apply proper column width constraints and spacing between header labels."
+    },
+    {
+      "component": "ds:Card",
+      "severity": "major",
+      "title": "RTL timestamp string reversal",
+      "description": "Relative time strings render in reversed word order under RTL formatting.",
+      "evidence": "The 'Updated' column displays 'h ago 2' instead of '2 h ago'.",
+      "suggestion": "Wrap relative time tokens in directional isolation containers."
+    },
+    {
+      "component": "page",
+      "severity": "major",
+      "title": "Misaligned sync status indicators",
+      "description": "Status indicators in the footer section are horizontally detached from their associated rows.",
+      "evidence": "A lone green dot and 'connecting' text float on the far left separate from the right-aligned source list.",
+      "suggestion": "Nest status badges directly inside the sync source row container."
+    }
+  ]
+}

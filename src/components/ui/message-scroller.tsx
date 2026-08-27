@@ -534,17 +534,48 @@ function MessageScrollerProvider({
   )
 }
 
-/** The scroll container: holds the viewport and the floating scroll button. */
-function MessageScroller({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * The scroll container: holds the viewport, the floating scroll button, and
+ * soft edge fades that dissolve bubbles running past the viewport edges
+ * instead of cutting them in half. Whenever the transcript can scroll, a
+ * footer lane is reserved under the viewport so the floating button never
+ * covers the lowest visible message. The fades only appear while there is
+ * content scrolled out of view on that side.
+ */
+function MessageScroller({ className, children, ...props }: React.ComponentProps<"div">) {
+  // Read the optional state context directly (rather than the throwing
+  // hook) so the container still renders when used without a provider.
+  const state = React.useContext(MessageScrollerStateContext)
+  const scrollable = Boolean(state && (state.start || state.end))
+
   return (
     <div
       data-slot="message-scroller"
       className={cn(
         "relative flex h-full min-h-0 w-full flex-col",
+        scrollable && "pb-12",
         className
       )}
       {...props}
-    />
+    >
+      <div
+        aria-hidden="true"
+        data-slot="message-scroller-fade-top"
+        className={cn(
+          "pointer-events-none absolute inset-x-0 top-0 z-[1] h-6 bg-gradient-to-b from-background to-transparent transition-opacity duration-200",
+          state?.start ? "opacity-100" : "opacity-0"
+        )}
+      />
+      <div
+        aria-hidden="true"
+        data-slot="message-scroller-fade-bottom"
+        className={cn(
+          "pointer-events-none absolute inset-x-0 bottom-12 z-[1] h-6 bg-gradient-to-t from-background to-transparent transition-opacity duration-200",
+          state?.end ? "opacity-100" : "opacity-0"
+        )}
+      />
+      {children}
+    </div>
   )
 }
 
@@ -698,9 +729,11 @@ function MessageScrollerItem({
 }
 
 /**
- * Floating "scroll to bottom" button. Hidden — and removed from the tab
- * order — while the reader is already at the bottom. Clicking it jumps to
- * the newest message and re-engages auto-scroll.
+ * Floating "scroll to bottom" button, anchored in the bottom-end corner of
+ * the footer lane the scroller reserves under the viewport, so it never
+ * sits over the reading flow of the lowest visible message. Hidden — and
+ * removed from the tab order — while the reader is already at the bottom.
+ * Clicking it jumps to the newest message and re-engages auto-scroll.
  */
 function MessageScrollerButton({
   className,
@@ -731,7 +764,7 @@ function MessageScrollerButton({
         }
       }}
       className={cn(
-        "absolute bottom-4 left-1/2 z-10 flex size-8 -translate-x-1/2 items-center justify-center rounded-full border border-input bg-background/80 text-foreground shadow-sm backdrop-blur-xs transition-all duration-200 outline-none select-none hover:bg-accent hover:text-accent-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0",
+        "absolute bottom-4 end-4 z-10 flex size-8 items-center justify-center rounded-full border border-input bg-background/80 text-foreground shadow-sm backdrop-blur-xs transition-all duration-200 outline-none select-none hover:bg-accent hover:text-accent-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0",
         atBottom && "pointer-events-none scale-75 opacity-0",
         className
       )}

@@ -1,0 +1,20 @@
+{
+  "id": "ds:SlaTimer",
+  "name": "SlaTimer",
+  "kind": "ds",
+  "importPath": "@/components/ds/SlaTimer",
+  "sourceFiles": [
+    "src/components/ds/SlaTimer/SlaTimer.tsx"
+  ],
+  "demoFile": "src/components/ds/SlaTimer/demo.tsx",
+  "metaFile": "src/components/ds/SlaTimer/meta.ts",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

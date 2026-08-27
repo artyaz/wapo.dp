@@ -4,7 +4,6 @@ import * as React from "react"
 import { CheckIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
 import { RenderSlot } from "@/lib/render-compat"
 import { cn } from "@/lib/utils"
 
@@ -710,11 +709,19 @@ export type QuestionnaireProgressRender = (
 export interface QuestionnaireProgressProps
   extends Omit<React.ComponentProps<"div">, "render"> {
   render?: QuestionnaireProgressRender
+  /**
+   * Step-counter label shown above the bar (also used as its accessible
+   * label). Pass a localized string — e.g. `"שאלה 1 מתוך 3"` — or a
+   * function of `{ current, total }` for full control. Defaults to
+   * `Question {current} of {total}`.
+   */
+  stepLabel?: string | ((state: QuestionnaireProgressState) => string)
 }
 
 function QuestionnaireProgress({
   className,
   render,
+  stepLabel,
   ...props
 }: QuestionnaireProgressProps) {
   const context = useQuestionnaireContext("QuestionnaireProgress")
@@ -733,21 +740,38 @@ function QuestionnaireProgress({
   }
 
   const percent = total > 0 ? Math.round((current / total) * 100) : 0
+  const label =
+    typeof stepLabel === "function"
+      ? stepLabel({ current, total })
+      : (stepLabel ?? `Question ${current} of ${total}`)
 
   return (
     <div {...slotProps}>
       <div className="flex items-center justify-between gap-2">
-        <p className="text-sm font-medium">
-          Question {current} of {total}
-        </p>
+        <p className="text-sm font-medium">{label}</p>
         <p className="text-muted-foreground text-sm tabular-nums">
           {percent}%
         </p>
       </div>
-      <Progress
-        value={percent}
-        aria-label={`Question ${current} of ${total}`}
-      />
+      {/* Local direction-aware track: the fill is anchored to the logical
+          `start` edge, so it mirrors automatically in RTL (the shared
+          <Progress> indicator offsets a full-width bar with a physical
+          translateX and therefore always fills from the left edge). */}
+      <div
+        data-slot="questionnaire-progress-bar"
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={percent}
+        aria-label={label}
+        className="bg-primary/20 relative h-2 w-full overflow-hidden rounded-full"
+      >
+        <div
+          data-slot="questionnaire-progress-bar-indicator"
+          className="bg-primary absolute inset-y-0 start-0 transition-[width] duration-150"
+          style={{ width: `${percent}%` }}
+        />
+      </div>
     </div>
   )
 }
@@ -1108,7 +1132,7 @@ function QuestionnaireActions({
     <div
       data-slot="questionnaire-actions"
       className={cn(
-        "flex flex-wrap items-center justify-end gap-2",
+        "flex flex-wrap items-center justify-end gap-2 mobile:flex-col mobile:items-stretch",
         className
       )}
       {...props}

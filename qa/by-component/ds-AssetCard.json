@@ -1,0 +1,20 @@
+{
+  "id": "ds:AssetCard",
+  "name": "AssetCard",
+  "kind": "ds",
+  "importPath": "@/components/ds/AssetCard",
+  "sourceFiles": [
+    "src/components/ds/AssetCard/AssetCard.tsx"
+  ],
+  "demoFile": "src/components/ds/AssetCard/demo.tsx",
+  "metaFile": "src/components/ds/AssetCard/meta.ts",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

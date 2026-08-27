@@ -1,0 +1,81 @@
+{
+  "id": "ui:combobox",
+  "name": "combobox",
+  "kind": "ui",
+  "importPath": "@/components/ui/combobox",
+  "sourceFiles": [
+    "src/components/ui/combobox.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/combobox/auto-highlight.tsx",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ui:combobox",
+      "severity": "minor",
+      "title": "Misaligned item counts",
+      "description": "Item counts do not align into a consistent column because the checkmark indicator displaces the count only on the selected item.",
+      "evidence": "The count '0' in the Inbox row is shifted left to accommodate the checkmark, whereas counts '5', '8', and '3' sit flush right.",
+      "suggestion": "Reserve a consistent trailing slot for the checkmark across all options.",
+      "pairId": "pair-078",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-tiny",
+      "occurrences": 1,
+      "pairs": [
+        "pair-078"
+      ],
+      "triage": "false-positive",
+      "triageNote": "ComboboxItem always renders the trailing 16px indicator slot on every row (opacity-0 when unselected), so all counts occupy the same column; the checkmark only changes opacity, never layout — auditor misread the reserved slot as displacement."
+    },
+    {
+      "component": "ui:combobox",
+      "severity": "minor",
+      "title": "Selected value not reflected in input",
+      "description": "The input shows placeholder text despite an active selection indicated in the dropdown.",
+      "evidence": "The input displays 'Search team sizes...' while '2–10 people' has an active checkmark in the menu.",
+      "suggestion": "Show the selected item value inside the input field when an option is selected.",
+      "pairId": "pair-112",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-112"
+      ],
+      "triage": "fix",
+      "triageNote": "ComboboxInput showed filterText (empty → placeholder) whenever the popup was open; now it mirrors the checked selection whenever no filter is active, and the first typed character selects-and-replaces the mirrored text."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:combobox",
+      "severity": "minor",
+      "title": "Misaligned item counts",
+      "description": "Item counts do not align into a consistent column because the checkmark indicator displaces the count only on the selected item.",
+      "evidence": "The count '0' in the Inbox row is shifted left to accommodate the checkmark, whereas counts '5', '8', and '3' sit flush right.",
+      "suggestion": "Reserve a consistent trailing slot for the checkmark across all options.",
+      "pairId": "pair-078",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-tiny"
+    },
+    {
+      "component": "ui:combobox",
+      "severity": "minor",
+      "title": "Selected value not reflected in input",
+      "description": "The input shows placeholder text despite an active selection indicated in the dropdown.",
+      "evidence": "The input displays 'Search team sizes...' while '2–10 people' has an active checkmark in the menu.",
+      "suggestion": "Show the selected item value inside the input field when an option is selected.",
+      "pairId": "pair-112",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "tablet-portrait"
+    }
+  ]
+}

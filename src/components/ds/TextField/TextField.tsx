@@ -34,6 +34,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
       placeholder={placeholder as string}
       value={value as string}
       ref={ref}
+      // dir="auto" lets the value/placeholder resolve their own base
+      // direction from the first strong character: Latin email addresses
+      // keep terminal punctuation and '@' on the correct side inside RTL
+      // pages, Arabic/Hebrew input mirrors fully — a consumer-passed dir
+      // still wins via otherProps
+      dir="auto"
       type={
         type === "search"
           ? "search"
@@ -78,6 +84,10 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
         placeholder={placeholder as string}
         value={value as string}
         ref={ref}
+        // dir="auto" — free-text prose resolves its own base direction so
+        // Latin paragraphs keep terminal punctuation on the correct line end
+        // when wrapped inside RTL pages; Arabic content mirrors fully
+        dir="auto"
         {...otherProps}
       />
     );
@@ -122,7 +132,14 @@ const TextFieldRoot = React.forwardRef<HTMLLabelElement, TextFieldRootProps>(
         {...otherProps}
       >
         {label ? (
-          <span className="text-caption font-caption text-neutral-500">
+          <span
+            className="text-caption font-caption text-neutral-500"
+            // dir="auto" isolates the caption as a directional island so Latin
+            // labels keep terminal punctuation on the correct side inside RTL
+            // pages (and Arabic/Hebrew labels mirror fully); a consumer-passed
+            // dir on the root still wins for the layout itself
+            dir="auto"
+          >
             {label}
           </span>
         ) : null}
@@ -153,6 +170,11 @@ const TextFieldRoot = React.forwardRef<HTMLLabelElement, TextFieldRootProps>(
               "text-caption font-caption text-neutral-500",
               { "text-destructive-500": error }
             )}
+            // dir="auto" isolates the help text as a directional island: Latin
+            // copy keeps its trailing punctuation on the correct side inside
+            // RTL pages (and vice versa) instead of the paragraph-level
+            // direction flipping it to the opposite edge
+            dir="auto"
           >
             {helpText}
           </span>

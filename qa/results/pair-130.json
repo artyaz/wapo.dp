@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-130",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:bubble",
+    "ui:attachment",
+    "ui:toggle"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-130.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T01:15:39.682Z",
+  "summary": "The mobile layout cleanly showcases bubble, attachment, and toggle components with consistent dark theme styling and alignment.",
+  "issues": []
+}

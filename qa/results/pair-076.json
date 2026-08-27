@@ -1,0 +1,31 @@
+{
+  "pairId": "pair-076",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:typography",
+    "ds:TextField",
+    "ui:table"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a voice memo recorder"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-076.jpg",
+    "qa/screenshots/pair-076-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:06:17.686Z",
+  "summary": "The mobile voice memo interface conforms well to design guidelines with balanced spacing, clear hierarchy, and proper component usage across the viewport.",
+  "issues": []
+}

@@ -1,0 +1,19 @@
+{
+  "id": "ui:empty",
+  "name": "empty",
+  "kind": "ui",
+  "importPath": "@/components/ui/empty",
+  "sourceFiles": [
+    "src/components/ui/empty.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/empty/avatar-group.tsx",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

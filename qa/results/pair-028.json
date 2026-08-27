@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-028",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:switch",
+    "ui:calendar",
+    "ui:context-menu"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-028.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:12:23.730Z",
+  "summary": "The layout adapts well to RTL with appropriate calendar column mirroring, clean spacing, and legible typography, showing only minor BiDi punctuation artifacts in English text.",
+  "issues": [
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "BiDi punctuation flipping in English copy",
+      "description": "English description strings inside RTL containers display periods at the wrong visual end of lines.",
+      "evidence": "Periods appear at the left side of text lines under Booking rules (e.g., '.session' and '.manual review').",
+      "suggestion": "Wrap English strings in dir='ltr' or use unicode isolation."
+    }
+  ]
+}

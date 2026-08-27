@@ -21,7 +21,7 @@ export function MessageHeaderFooterDemo() {
       </Message>
       <Message align="end">
         <MessageContent>
-          <Bubble>
+          <Bubble align="end">
             <BubbleContent>
               Send the report to the team. Ping @shadcn if you need help.
             </BubbleContent>

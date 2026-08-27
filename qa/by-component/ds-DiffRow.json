@@ -1,0 +1,52 @@
+{
+  "id": "ds:DiffRow",
+  "name": "DiffRow",
+  "kind": "ds",
+  "importPath": "@/components/ds/DiffRow",
+  "sourceFiles": [
+    "src/components/ds/DiffRow/DiffRow.tsx"
+  ],
+  "demoFile": "src/components/ds/DiffRow/demo.tsx",
+  "metaFile": "src/components/ds/DiffRow/meta.ts",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ds:DiffRow",
+      "severity": "major",
+      "title": "Code line truncation",
+      "description": "Diff lines truncate horizontally with ellipses rather than permitting horizontal scroll.",
+      "evidence": "Lines 13 and 14 clip identifiers to 'shouldArchive(...' and 'RETENTION_...'.",
+      "suggestion": "Enable horizontal scrolling for diff content on mobile viewports.",
+      "pairId": "pair-051",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-051"
+      ],
+      "triage": "fix",
+      "triageNote": "Verified in source: code span used whitespace-nowrap + overflow-hidden + text-ellipsis with 104px of fixed w-10/w-10/w-6 gutters, so ~32 mono chars fit at 390px and longer lines ellipsize. Fixed by narrowing gutters below sm (w-8 sm:w-10) and switching code to whitespace-pre-wrap + break-words with a hanging indent (pl-4 -indent-4), rows min-h-6 so wrapped rows grow; also fixed unflagged pair-064 note — hunk-header bg-neutral-50 is token-identical to default-background in BOTH themes, changed to bg-neutral-100 so the band is visible in light and dark."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:DiffRow",
+      "severity": "major",
+      "title": "Code line truncation",
+      "description": "Diff lines truncate horizontally with ellipses rather than permitting horizontal scroll.",
+      "evidence": "Lines 13 and 14 clip identifiers to 'shouldArchive(...' and 'RETENTION_...'.",
+      "suggestion": "Enable horizontal scrolling for diff content on mobile viewports.",
+      "pairId": "pair-051",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone"
+    }
+  ]
+}

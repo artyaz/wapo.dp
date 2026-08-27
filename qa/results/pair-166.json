@@ -1,0 +1,40 @@
+{
+  "pairId": "pair-166",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:attachment",
+    "ui:field",
+    "ds:Dialog"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a settings panel"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-166.jpg",
+    "qa/screenshots/pair-166-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:09:25.120Z",
+  "summary": "The page generally matches the design system, but the dialog in the Danger Zone has a critical text contrast failure in its header.",
+  "issues": [
+    {
+      "component": "ds:Dialog",
+      "severity": "major",
+      "title": "Low contrast dialog title",
+      "description": "The dialog title uses light text on a light background, rendering it illegible.",
+      "evidence": "The 'Delete account?' heading in the Danger Zone dialog blends into the white container background.",
+      "suggestion": "Update the dialog title color token to ensure sufficient contrast against the surface."
+    }
+  ]
+}

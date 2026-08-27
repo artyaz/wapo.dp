@@ -5,9 +5,9 @@ export default defineMeta({
   slug: "sheet",
   category: "surfaces",
   description:
-    "A bottom-anchored modal surface built on the Dialog primitive: the root paints a 34%-ink scrim across its container and docks Sheet.Content to the bottom edge. The content panel is a bordered, panel-colored sheet up to 544px wide and 88vh tall, scrolling internally when it grows past that. Reach for it when a decision or short form needs attention without leaving the page.",
+    "A bottom-anchored modal surface built on the Dialog primitive: the root paints a black scrim across its container — 34% in light theme, deepened to 60% in dark theme (matching the Dialog scrim) so the dimming stays visible over the near-black page; an ink-token scrim would invert to a near-white haze in dark theme. Sheet.Content docks to the bottom edge as a bordered, panel-colored sheet up to 544px wide and 88vh tall, scrolling internally when it grows past that. Reach for it when a decision or short form needs attention without leaving the page.",
   usage:
-    "Render Sheet with controlled open / onOpenChange and compose the panel through Sheet.Content; remaining Dialog props (modal, defaultOpen, …) pass through the root.",
+    "Render Sheet with controlled open / onOpenChange and compose the panel through Sheet.Content; remaining Dialog props (modal, defaultOpen, …) pass through the root. Keep alignment inside the sheet logical (justify-end / items-start / ps-* / pe-*): footer action rows built with justify-end are direction-aware and mirror to the trailing edge automatically in RTL, so never reach for physical left/right utilities.",
   tags: ["sheet", "dialog", "overlay", "surface"],
   props: [
     {

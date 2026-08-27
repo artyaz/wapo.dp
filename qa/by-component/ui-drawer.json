@@ -1,0 +1,111 @@
+{
+  "id": "ui:drawer",
+  "name": "drawer",
+  "kind": "ui",
+  "importPath": "@/components/ui/drawer",
+  "sourceFiles": [
+    "src/components/ui/drawer.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/drawer/custom-sizes.tsx",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ui:drawer",
+      "severity": "major",
+      "title": "Missing drawer overlay backdrop",
+      "description": "Drawer lacks a dimming overlay, causing high-contrast background content to bleed into the top header of the drawer.",
+      "evidence": "The collapsible card text remains visible directly above and behind the drawer top edge.",
+      "suggestion": "Add a dimmed backdrop overlay behind DrawerContent.",
+      "pairId": "pair-038",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-038"
+      ],
+      "triage": "composition",
+      "triageNote": "pair-038 deliberately uses modal={false} dismissible={false} (persistent bottom sheet); vaul and Radix Dialog render no overlay in non-modal mode by design, so the un-dimmed background is the documented pattern, not a component defect. Responded to the eval agent's open question with an additive opt-in: Drawer now accepts nonModalOverlay to render a pointer-events-none scrim behind non-modal sheets (src/components/ui/drawer.tsx + non-modal demo)."
+    },
+    {
+      "component": "ui:drawer",
+      "severity": "minor",
+      "title": "Insufficient bottom padding",
+      "description": "Drawer action buttons lack bottom safe area inset.",
+      "evidence": "Footer buttons touch close to the bottom viewport edge.",
+      "suggestion": "Add safe-area bottom padding to DrawerFooter.",
+      "pairId": "pair-038",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-038"
+      ],
+      "triage": "fix",
+      "triageNote": "DrawerFooter hardcoded p-4 with no safe-area support; replaced with px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] so notched devices reserve the home-indicator inset (no visual change where env()=0)."
+    },
+    {
+      "component": "ui:drawer",
+      "severity": "minor",
+      "title": "Typographical spacing in banner",
+      "description": "Unintended space inside the word 'instead' in the savings callout.",
+      "evidence": "The green banner reads 'ins tead of $216'.",
+      "suggestion": "Correct the text string spacing.",
+      "pairId": "pair-111",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-111"
+      ],
+      "triage": "false-positive",
+      "triageNote": "Source string in src/app/eval/pair-111/page.tsx is '$173/mo instead of $216.' with no internal space, and no word-break/hyphenation CSS exists in globals.css; the banner text cannot split mid-word — JPEG/vision misread."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:drawer",
+      "severity": "major",
+      "title": "Missing drawer overlay backdrop",
+      "description": "Drawer lacks a dimming overlay, causing high-contrast background content to bleed into the top header of the drawer.",
+      "evidence": "The collapsible card text remains visible directly above and behind the drawer top edge.",
+      "suggestion": "Add a dimmed backdrop overlay behind DrawerContent.",
+      "pairId": "pair-038",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone"
+    },
+    {
+      "component": "ui:drawer",
+      "severity": "minor",
+      "title": "Insufficient bottom padding",
+      "description": "Drawer action buttons lack bottom safe area inset.",
+      "evidence": "Footer buttons touch close to the bottom viewport edge.",
+      "suggestion": "Add safe-area bottom padding to DrawerFooter.",
+      "pairId": "pair-038",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone"
+    },
+    {
+      "component": "ui:drawer",
+      "severity": "minor",
+      "title": "Typographical spacing in banner",
+      "description": "Unintended space inside the word 'instead' in the savings callout.",
+      "evidence": "The green banner reads 'ins tead of $216'.",
+      "suggestion": "Correct the text string spacing.",
+      "pairId": "pair-111",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop"
+    }
+  ]
+}

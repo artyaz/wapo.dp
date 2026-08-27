@@ -36,7 +36,7 @@ export function ToggleRtl() {
 
   return (
     <Toggle aria-label="Toggle bookmark" size="sm" variant="outline" dir={dir}>
-      <BookmarkIcon className="group-aria-pressed/toggle:fill-foreground" />
+      <BookmarkIcon className="group-aria-pressed/toggle:fill-primary-foreground" />
       {t.label}
     </Toggle>
   )

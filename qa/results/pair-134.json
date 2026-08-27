@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-134",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:GlassChip",
+    "ds:CodePane",
+    "ds:StatTile"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-134.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:21:50.277Z",
+  "summary": "The page displays components cleanly with proper layout, consistent spacing, and good typographic hierarchy adhering to the design system.",
+  "issues": []
+}

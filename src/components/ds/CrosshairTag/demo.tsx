@@ -4,7 +4,9 @@
  * Demo — CrosshairTag over its own static chart-ish background: plain divs,
  * hairline gridlines, a quiet bar series. The value tag is the only glass
  * element in the composition; the frame stays crisp, per doctrine. All
- * content is fixed — no randomness, no clocks.
+ * content is fixed — no randomness, no clocks. The crosshair anchor is fixed
+ * too (the built-in 62% default, which sits on the tall bar of the 260px
+ * frame) — pass `crosshairPosition` to pin the read-out to a data bar.
  */
 
 import React from "react";

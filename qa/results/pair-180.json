@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-180",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:avatar",
+    "ui:carousel",
+    "ds:QueryInput"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-180.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:17:31.580Z",
+  "summary": "The layout adapts cleanly to the tablet viewport, though the focused query input suffers from cramped multi-line text wrapping within a fixed-height container.",
+  "issues": [
+    {
+      "component": "ds:QueryInput",
+      "severity": "minor",
+      "title": "Text wrapping in fixed-height input",
+      "description": "Multi-line query string wraps within a fixed-height field, resulting in cramped line spacing.",
+      "evidence": "Focused QueryInput shows two lines of text compressed within the same height as the single-line placeholder input.",
+      "suggestion": "Enable horizontal scrolling or auto-expand the input height when query text exceeds one line."
+    }
+  ]
+}

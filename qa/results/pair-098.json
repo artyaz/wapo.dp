@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-098",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:command",
+    "ui:context-menu",
+    "ds:StatTile"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-098.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:42:24.190Z",
+  "summary": "The RTL layout and components render cleanly with consistent monochrome styling, though minor alignment and card height discrepancies exist across sibling elements.",
+  "issues": [
+    {
+      "component": "ds:StatTile",
+      "severity": "minor",
+      "title": "Unequal tile heights in top row",
+      "description": "The right StatTile with the sparkline chart is taller than the two adjacent StatTiles, breaking the row baseline.",
+      "evidence": "The right stat card extends noticeably lower than the left and middle metric cards.",
+      "suggestion": "Apply flex stretch or a uniform minimum height across all stat tiles in the grid."
+    },
+    {
+      "component": "ui:context-menu",
+      "severity": "minor",
+      "title": "Ragged text indentation on iconless items",
+      "description": "Menu items without icons align to the far right margin, causing text misalignment with adjacent icon-prefixed items.",
+      "evidence": "'التوسيع التلقائي' and 'التنبيهات النشطة' lack right-side inset padding relative to items with action icons.",
+      "suggestion": "Add consistent right inset padding for iconless context menu items to align text baselines."
+    }
+  ]
+}

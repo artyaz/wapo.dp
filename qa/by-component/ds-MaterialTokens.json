@@ -1,0 +1,172 @@
+{
+  "id": "ds:MaterialTokens",
+  "name": "MaterialTokens",
+  "kind": "ds",
+  "importPath": "@/components/ds/MaterialTokens",
+  "sourceFiles": [
+    "src/components/ds/MaterialTokens/MaterialTokens.tsx"
+  ],
+  "demoFile": "src/components/ds/MaterialTokens/demo.tsx",
+  "metaFile": "src/components/ds/MaterialTokens/meta.ts",
+  "totals": {
+    "issues": 5,
+    "blocker": 0,
+    "major": 5,
+    "minor": 0,
+    "distinctPatterns": 5
+  },
+  "issues": [
+    {
+      "component": "ds:MaterialTokens",
+      "severity": "major",
+      "title": "Text collision in material hierarchy panel",
+      "description": "Specimen text and token metadata labels overlap horizontally due to constrained container width.",
+      "evidence": "Specimen text lines collide directly with ULTRATHIN, THIN, and REGULAR label columns in the preview card.",
+      "suggestion": "Adjust layout to stack metadata or hide underlying specimen text on narrow viewports.",
+      "pairId": "pair-014",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-014"
+      ],
+      "triage": "fix",
+      "triageNote": "fix — real: full-width specimen backdrop renders directly under the level labels (no separation), and at 360px the fixed pill+gap+spec-text row (~305px) overflows the 288px content box, clipping labels at the card edge."
+    },
+    {
+      "component": "ds:MaterialTokens",
+      "severity": "major",
+      "title": "Overlapping specimen text clashing with token labels",
+      "description": "Background specimen text extends across the full width of the material preview container, causing it to render directly behind and collide with the token hierarchy labels and spec details.",
+      "evidence": "Specimen strings such as 'jumps over the lazy dog', 'laid-object surfaces', and 'elevation by refraction' overlap with 'ULTRATHIN', 'THIN', 'REGULAR' and their associated 'panel/XX' spec text.",
+      "suggestion": "Constrain the background specimen text container to sit strictly behind the preview glass pills on the left, or clip and separate the specimen area from the right-hand metadata column.",
+      "pairId": "pair-036",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-036"
+      ],
+      "triage": "fix",
+      "triageNote": "fix — real: backdrop div is absolute -inset-x-2 across the whole stage, so specimen lines run under the right-hand ULTRATHIN/THIN/REGULAR label column even on desktop; confirmed in source."
+    },
+    {
+      "component": "ds:MaterialTokens",
+      "severity": "major",
+      "title": "Specimen overlap and label clipping",
+      "description": "Specimen descriptions collide with preview shapes and metadata labels overflow container boundaries.",
+      "evidence": "Specimen text renders behind pill elements and 'ULTRATHIN' collides with the right container edge.",
+      "suggestion": "Refactor layout into a single vertical stack and adjust container padding for narrow viewports.",
+      "pairId": "pair-072",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-tiny",
+      "occurrences": 1,
+      "pairs": [
+        "pair-072"
+      ],
+      "triage": "fix",
+      "triageNote": "fix — real: same full-width backdrop collision plus label column overflow at 320px (row needs ~305px vs 256px content), so ULTRATHIN/spec text hits the container edge."
+    },
+    {
+      "component": "ds:MaterialTokens",
+      "severity": "major",
+      "title": "Specimen text collision",
+      "description": "Background specimen text overlaps directly with preview pills and token metadata labels, creating illegible rendering.",
+      "evidence": "Specimen 01-06 lines run underneath the layered frosted pills and collide with right-aligned token labels.",
+      "suggestion": "Isolate background specimen text from the token overlay pills and adjust spacing to avoid visual collisions.",
+      "pairId": "pair-104",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-tiny",
+      "occurrences": 1,
+      "pairs": [
+        "pair-104"
+      ],
+      "triage": "fix",
+      "triageNote": "fix — real: same root cause; specimen 01-06 lines run beneath the pills AND the right-aligned token labels at 320px."
+    },
+    {
+      "component": "ds:MaterialTokens",
+      "severity": "major",
+      "title": "Overlapping specimen text",
+      "description": "Token labels and metrics render directly over background specimen body text, making both illegible.",
+      "evidence": "'ULTRATHIN', 'THIN', and 'REGULAR' labels collide directly with 'specimen 02' through '06' text.",
+      "suggestion": "Separate token items and specimen strings into distinct layout rows or columns.",
+      "pairId": "pair-120",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-half",
+      "occurrences": 1,
+      "pairs": [
+        "pair-120"
+      ],
+      "triage": "fix",
+      "triageNote": "fix — real: same root cause at 390px with the page's compact gap/padding overrides; labels render over specimen body text."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:MaterialTokens",
+      "severity": "major",
+      "title": "Text collision in material hierarchy panel",
+      "description": "Specimen text and token metadata labels overlap horizontally due to constrained container width.",
+      "evidence": "Specimen text lines collide directly with ULTRATHIN, THIN, and REGULAR label columns in the preview card.",
+      "suggestion": "Adjust layout to stack metadata or hide underlying specimen text on narrow viewports.",
+      "pairId": "pair-014",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    },
+    {
+      "component": "ds:MaterialTokens",
+      "severity": "major",
+      "title": "Overlapping specimen text clashing with token labels",
+      "description": "Background specimen text extends across the full width of the material preview container, causing it to render directly behind and collide with the token hierarchy labels and spec details.",
+      "evidence": "Specimen strings such as 'jumps over the lazy dog', 'laid-object surfaces', and 'elevation by refraction' overlap with 'ULTRATHIN', 'THIN', 'REGULAR' and their associated 'panel/XX' spec text.",
+      "suggestion": "Constrain the background specimen text container to sit strictly behind the preview glass pills on the left, or clip and separate the specimen area from the right-hand metadata column.",
+      "pairId": "pair-036",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ds:MaterialTokens",
+      "severity": "major",
+      "title": "Specimen overlap and label clipping",
+      "description": "Specimen descriptions collide with preview shapes and metadata labels overflow container boundaries.",
+      "evidence": "Specimen text renders behind pill elements and 'ULTRATHIN' collides with the right container edge.",
+      "suggestion": "Refactor layout into a single vertical stack and adjust container padding for narrow viewports.",
+      "pairId": "pair-072",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-tiny"
+    },
+    {
+      "component": "ds:MaterialTokens",
+      "severity": "major",
+      "title": "Specimen text collision",
+      "description": "Background specimen text overlaps directly with preview pills and token metadata labels, creating illegible rendering.",
+      "evidence": "Specimen 01-06 lines run underneath the layered frosted pills and collide with right-aligned token labels.",
+      "suggestion": "Isolate background specimen text from the token overlay pills and adjust spacing to avoid visual collisions.",
+      "pairId": "pair-104",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-tiny"
+    },
+    {
+      "component": "ds:MaterialTokens",
+      "severity": "major",
+      "title": "Overlapping specimen text",
+      "description": "Token labels and metrics render directly over background specimen body text, making both illegible.",
+      "evidence": "'ULTRATHIN', 'THIN', and 'REGULAR' labels collide directly with 'specimen 02' through '06' text.",
+      "suggestion": "Separate token items and specimen strings into distinct layout rows or columns.",
+      "pairId": "pair-120",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-half"
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "id": "ds:TimelineRuler",
+  "name": "TimelineRuler",
+  "kind": "ds",
+  "importPath": "@/components/ds/TimelineRuler",
+  "sourceFiles": [
+    "src/components/ds/TimelineRuler/TimelineRuler.tsx"
+  ],
+  "demoFile": "src/components/ds/TimelineRuler/demo.tsx",
+  "metaFile": "src/components/ds/TimelineRuler/meta.ts",
+  "totals": {
+    "issues": 4,
+    "blocker": 0,
+    "major": 1,
+    "minor": 3,
+    "distinctPatterns": 4
+  },
+  "issues": [
+    {
+      "component": "ds:TimelineRuler",
+      "severity": "major",
+      "title": "Ruler label and tick collision",
+      "description": "The timestamp marker text overlaps the vertical ruler tick line.",
+      "evidence": "The '01:50' text collides with the vertical marker line on the timeline.",
+      "suggestion": "Add vertical clearance between ruler tick lines and time labels.",
+      "pairId": "pair-058",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-058"
+      ],
+      "triage": "composition",
+      "triageNote": "Verified: the line crossing the '01:50' label is the eval page's own full-height overlay (selection band border-x border-brand-primary/50 at left-2664px + destructive marker line), not a ruler tick — the component's major ticks are h-3 bottom-anchored (top at y=22) while labels sit at bottom-[16px] (ink y≈8–18), leaving 4px clearance; no component defect."
+    },
+    {
+      "component": "ds:TimelineRuler",
+      "severity": "minor",
+      "title": "Inconsistent tick indicator symbol",
+      "description": "The intermediate marker uses an asterisk character instead of a standard ruler tick.",
+      "evidence": "An asterisk appears at the midpoint between 00:00 and 00:10 ticks.",
+      "suggestion": "Render standard vertical tick marks consistently across the ruler.",
+      "pairId": "pair-093",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-093"
+      ],
+      "triage": "fix",
+      "triageNote": "The ◆ event markers are an intentional documented feature, not stray ticks, but the 6px text glyph is illegible at marker size (auditor read 'asterisk'; independent VLM read saw 'dot/short tick' — nobody sees a diamond), so the shape itself is the defect; replaced the glyph spans with crisp rotate-45 CSS diamonds at identical positions/size/color."
+    },
+    {
+      "component": "ds:TimelineRuler",
+      "severity": "minor",
+      "title": "Awkward text wrapping",
+      "description": "The helper metadata wraps awkwardly onto a second line at 360px width.",
+      "evidence": "The phrase 'to pan' wraps alone to a new line at the card bottom.",
+      "suggestion": "Shorten label copy or reduce font size to maintain a single line.",
+      "pairId": "pair-094",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-094"
+      ],
+      "triage": "composition",
+      "triageNote": "The wrapping helper caption ('◆ 11 review comments · last viewed 00:05 · swipe to pan') is eval-page chrome — the component renders no captions; hardened the component demo's own caption to wrap at separator boundaries so the same pattern can't orphan words."
+    },
+    {
+      "component": "ds:TimelineRuler",
+      "severity": "minor",
+      "title": "Orphan text wrap in legend",
+      "description": "Legend description wraps with a single orphan word on the second line.",
+      "evidence": "The word 'pan' sits alone on the final line in the ruler footer.",
+      "suggestion": "Adjust container padding or reduce legend font size to fit in one line.",
+      "pairId": "pair-163",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-half",
+      "occurrences": 1,
+      "pairs": [
+        "pair-163"
+      ],
+      "triage": "composition",
+      "triageNote": "Same pattern as pair-094: the orphaning legend ('◆ deploy markers · major tick 10 s · swipe to pan') is eval-page text outside the component; demo caption hardening covers the analogous in-repo instance."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:TimelineRuler",
+      "severity": "major",
+      "title": "Ruler label and tick collision",
+      "description": "The timestamp marker text overlaps the vertical ruler tick line.",
+      "evidence": "The '01:50' text collides with the vertical marker line on the timeline.",
+      "suggestion": "Add vertical clearance between ruler tick lines and time labels.",
+      "pairId": "pair-058",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone"
+    },
+    {
+      "component": "ds:TimelineRuler",
+      "severity": "minor",
+      "title": "Inconsistent tick indicator symbol",
+      "description": "The intermediate marker uses an asterisk character instead of a standard ruler tick.",
+      "evidence": "An asterisk appears at the midpoint between 00:00 and 00:10 ticks.",
+      "suggestion": "Render standard vertical tick marks consistently across the ruler.",
+      "pairId": "pair-093",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ds:TimelineRuler",
+      "severity": "minor",
+      "title": "Awkward text wrapping",
+      "description": "The helper metadata wraps awkwardly onto a second line at 360px width.",
+      "evidence": "The phrase 'to pan' wraps alone to a new line at the card bottom.",
+      "suggestion": "Shorten label copy or reduce font size to maintain a single line.",
+      "pairId": "pair-094",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    },
+    {
+      "component": "ds:TimelineRuler",
+      "severity": "minor",
+      "title": "Orphan text wrap in legend",
+      "description": "Legend description wraps with a single orphan word on the second line.",
+      "evidence": "The word 'pan' sits alone on the final line in the ruler footer.",
+      "suggestion": "Adjust container padding or reduce legend font size to fit in one line.",
+      "pairId": "pair-163",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-half"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-048",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:pagination",
+    "ui:item",
+    "ui:command"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-tiny",
+      "width": 320,
+      "height": 480,
+      "weight": 5,
+      "hint": "a tiny 320px phone (extremely cramped)"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": "a multi-step form"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-048.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T01:12:13.562Z",
+  "summary": "The interface fits within the 320x480 viewport and presents a clean layout, with minor spacing and text-wrapping issues across the command and item lists.",
+  "issues": [
+    {
+      "component": "ui:command",
+      "severity": "minor",
+      "title": "Cramped bottom padding",
+      "description": "The list container lacks adequate bottom spacing below the final entry.",
+      "evidence": "The 'Full color' row sits directly flush against the bottom container border.",
+      "suggestion": "Add consistent bottom padding to the command list container."
+    },
+    {
+      "component": "ui:item",
+      "severity": "minor",
+      "title": "Awkward description wrapping",
+      "description": "Item metadata wraps prematurely leaving trailing punctuation.",
+      "evidence": "The description under 'Scalp treatment' breaks into '+15 min ·' and '$20 add-on'.",
+      "suggestion": "Adjust item content width or text wrapping to prevent orphaned delimiters."
+    }
+  ]
+}

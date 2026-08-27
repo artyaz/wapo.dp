@@ -53,7 +53,7 @@ export function MessageScrollerScrollable() {
           <CardContent className="flex-1 overflow-hidden p-0">
             <MessageScroller>
               <MessageScrollerViewport>
-                <MessageScrollerContent className="gap-4 p-(--card-spacing)">
+                <MessageScrollerContent className="gap-4 px-6 py-4">
                   <Transcript />
                 </MessageScrollerContent>
               </MessageScrollerViewport>

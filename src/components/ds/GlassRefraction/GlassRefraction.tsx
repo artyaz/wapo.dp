@@ -81,15 +81,18 @@ const GlassRefractionRoot = React.forwardRef<
           {children}
         </GlassSurfaceSubtle>
       </div>
+      {/* caption — semantic muted tokens: the neutral scale inverts in dark
+          theme, so hardcoded neutral-400/500 went near-illegible on dark
+          surfaces (muted-foreground resolves to a readable gray in both) */}
       <div className="flex flex-col items-center gap-1">
-        <span className="text-caption font-caption text-neutral-500">
+        <span className="text-caption font-caption text-muted-foreground">
           liquid glass surface
         </span>
         <div className="flex flex-wrap items-center justify-center">
-          <span className="font-code text-[11px] font-[400] leading-[16px] text-neutral-400 tabular-nums">
+          <span className="font-code text-[11px] font-[400] leading-[16px] text-muted-foreground tabular-nums">
             {`material ${material}`}
           </span>
-          <span className="font-code text-[11px] font-[400] leading-[16px] text-neutral-400 tabular-nums">
+          <span className="font-code text-[11px] font-[400] leading-[16px] text-muted-foreground tabular-nums">
             {` · ${strategy}`}
           </span>
         </div>

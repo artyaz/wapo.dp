@@ -1,0 +1,19 @@
+{
+  "id": "ui:badge",
+  "name": "badge",
+  "kind": "ui",
+  "importPath": "@/components/ui/badge",
+  "sourceFiles": [
+    "src/components/ui/badge.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/badge/custom-colors.tsx",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

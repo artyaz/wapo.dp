@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-143",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:PanelTile",
+    "ds:CanvasNode",
+    "ds:DrawerLayout"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": "an image gallery with metadata"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-143.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:28:40.546Z",
+  "summary": "The gallery view maintains a consistent structure and clean composition, with minor contrast adjustments needed on secondary node metadata.",
+  "issues": [
+    {
+      "component": "ds:CanvasNode",
+      "severity": "minor",
+      "title": "Low contrast node path text",
+      "description": "Footer metadata within the canvas nodes has low contrast against the card background.",
+      "evidence": "Faint text such as 'src/IMG_4821.cr3' and 'recipe/fjord-dusk' is difficult to read.",
+      "suggestion": "Increase text opacity or use a darker neutral token for node metadata."
+    }
+  ]
+}

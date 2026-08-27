@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-040",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:breadcrumb",
+    "ui:button-group",
+    "ui:button"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-040.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:42:14.215Z",
+  "summary": "The page cleanly implements the breadcrumb, button, and button-group components with proper alignment, spacing, and visual hierarchy.",
+  "issues": []
+}

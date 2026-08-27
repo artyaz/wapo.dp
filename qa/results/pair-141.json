@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-141",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:empty",
+    "ds:DialogLayout",
+    "ds:FormSection"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a pricing comparison"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-141.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:52:05.950Z",
+  "summary": "The page displays minor alignment and contrast issues, particularly within the dialog layout footer and table header contrast.",
+  "issues": [
+    {
+      "component": "ds:DialogLayout",
+      "severity": "major",
+      "title": "Asymmetrical inner layout",
+      "description": "Left-side plan badge column is misaligned with the primary content block, creating awkward spacing.",
+      "evidence": "The isolated 'P' icon, 'Pro plan', and price are vertically stacked awkwardly to the left of the main text and action buttons.",
+      "suggestion": "Restructure into a standard vertical stack or balanced horizontal card."
+    },
+    {
+      "component": "ds:FormSection",
+      "severity": "minor",
+      "title": "Low contrast text in table header",
+      "description": "Subtext beneath the column header has insufficient contrast against the dark background.",
+      "evidence": "The '$99/mo' text under 'Scale' is very dim and hard to read.",
+      "suggestion": "Increase font opacity or brightness for dark mode legibility."
+    }
+  ]
+}

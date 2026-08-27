@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-075",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:ActivityEvent",
+    "ui:resizable",
+    "ds:UserMessage"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-tiny",
+      "width": 320,
+      "height": 480,
+      "weight": 5,
+      "hint": "a tiny 320px phone (extremely cramped)"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-075.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:06:59.401Z",
+  "summary": "The mobile layout renders cleanly overall, but exhibits low contrast on secondary activity states.",
+  "issues": [
+    {
+      "component": "ds:ActivityEvent",
+      "severity": "major",
+      "title": "Low contrast text",
+      "description": "Secondary activity entry text lacks sufficient contrast against the dark theme background.",
+      "evidence": "The 'Export queued -> batch #4471' item is barely readable against the background.",
+      "suggestion": "Increase opacity or lighten the muted text token in dark mode."
+    }
+  ]
+}

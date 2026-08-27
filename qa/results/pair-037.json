@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-037",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:FloatingToolbar",
+    "ui:hover-card",
+    "ui:collapsible"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-037.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:44:57.798Z",
+  "summary": "The layout renders cleanly in dark theme with consistent liquid-glass styling, proper contrast, and well-aligned collapsible and floating components.",
+  "issues": []
+}

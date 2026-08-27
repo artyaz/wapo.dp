@@ -7,6 +7,9 @@
  * beneath. Authored at 224px wide — candles occupy the left ~190px and the
  * last ~34px form a quiet right-axis gutter for the price labels so gridline
  * text never collides with wicks or bodies. Fully static and deterministic.
+ * The chart container is dir="ltr"-isolated: candle geometry is physical and
+ * the price axis is authored on the right, so an RTL page context must not
+ * flip the gridline labels onto the candles.
  */
 
 import React from "react";
@@ -33,7 +36,10 @@ const CandleSeriesRoot = React.forwardRef<
       ref={ref}
       {...otherProps}
     >
-      <div className="flex h-[130px] w-[224px] flex-none items-start relative">
+      <div
+        dir="ltr"
+        className="flex h-[130px] w-[224px] flex-none items-start relative"
+      >
         <div className="flex flex-col items-start justify-between absolute inset-0 pointer-events-none">
           <div className="flex h-px w-full flex-none items-center">
             <div className="flex h-px flex-1 items-start bg-default-border" />

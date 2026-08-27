@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-081",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:popover",
+    "ui:field",
+    "ds:DefaultPageLayout"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-081.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:23:32.595Z",
+  "summary": "The layout, field states, and popover component render accurately with consistent spacing, proper alignment, and clear visual hierarchy across the page.",
+  "issues": []
+}

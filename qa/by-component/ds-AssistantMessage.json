@@ -1,0 +1,142 @@
+{
+  "id": "ds:AssistantMessage",
+  "name": "AssistantMessage",
+  "kind": "ds",
+  "importPath": "@/components/ds/AssistantMessage",
+  "sourceFiles": [
+    "src/components/ds/AssistantMessage/AssistantMessage.tsx"
+  ],
+  "demoFile": "src/components/ds/AssistantMessage/demo.tsx",
+  "metaFile": "src/components/ds/AssistantMessage/meta.ts",
+  "totals": {
+    "issues": 4,
+    "blocker": 1,
+    "major": 1,
+    "minor": 2,
+    "distinctPatterns": 4
+  },
+  "issues": [
+    {
+      "component": "ds:AssistantMessage",
+      "severity": "blocker",
+      "title": "Illegible text contrast",
+      "description": "Assistant message text color blends into the dark background, rendering it nearly unreadable.",
+      "evidence": "The body text starting with 'Yes — v2.7 is green...' and its bullet points are barely visible against the dark canvas.",
+      "suggestion": "Apply high-contrast dark theme text tokens for body copy.",
+      "pairId": "pair-092",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-half",
+      "occurrences": 1,
+      "pairs": [
+        "pair-092"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: static text-neutral-100 inverts to near-black (rgb 21 21 19) on the dark canvas (rgb 11 11 10) ≈ 1.1:1; fixed by theme-aware text-default-font ink over a root bg-default-background canvas token."
+    },
+    {
+      "component": "ds:AssistantMessage",
+      "severity": "major",
+      "title": "Illegible low-contrast body text",
+      "description": "Assistant message body copy fails WCAG contrast requirements against the dark canvas token.",
+      "evidence": "Paragraphs and bullet items below the copilot status header blend into the dark background.",
+      "suggestion": "Increase text color to a higher-contrast neutral token.",
+      "pairId": "pair-153",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-153"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: same root cause as pair-092 on the dark bg-default-background canvas (RTL page); fixed by the same semantic-token change."
+    },
+    {
+      "component": "ds:AssistantMessage",
+      "severity": "minor",
+      "title": "Low contrast callout text",
+      "description": "The blockquote text inside the assistant card has low contrast against the light container surface.",
+      "evidence": "Muted gray text 'WCAG 2.1 AA needs 4.5:1 for text.' on light beige card background.",
+      "suggestion": "Increase font weight or darken the text token to ensure WCAG AA compliance.",
+      "pairId": "pair-128",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-tiny",
+      "occurrences": 1,
+      "pairs": [
+        "pair-128"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect class: text-neutral-400 fails AA on the canvas in both themes (≈2.5:1 dark, ≈2.1:1 light); stepped the quote to neutral-600 (≈7.9:1 dark / ≈5.1:1 light over the component's canvas-token surface)."
+    },
+    {
+      "component": "ds:AssistantMessage",
+      "severity": "minor",
+      "title": "Unmirrored quote accent border in RTL",
+      "description": "The callout quote uses a physical left border rather than a logical inline-start border.",
+      "evidence": "Vertical accent line appears on the left edge while in RTL direction.",
+      "suggestion": "Use logical border-inline-start to mirror border placement in RTL.",
+      "pairId": "pair-153",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-153"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: physical border-l-2/pl-4 on the Quote; replaced with logical border-s-2/ps-4 so the accent strip mirrors to the inline-start edge in RTL."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:AssistantMessage",
+      "severity": "blocker",
+      "title": "Illegible text contrast",
+      "description": "Assistant message text color blends into the dark background, rendering it nearly unreadable.",
+      "evidence": "The body text starting with 'Yes — v2.7 is green...' and its bullet points are barely visible against the dark canvas.",
+      "suggestion": "Apply high-contrast dark theme text tokens for body copy.",
+      "pairId": "pair-092",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-half"
+    },
+    {
+      "component": "ds:AssistantMessage",
+      "severity": "minor",
+      "title": "Low contrast callout text",
+      "description": "The blockquote text inside the assistant card has low contrast against the light container surface.",
+      "evidence": "Muted gray text 'WCAG 2.1 AA needs 4.5:1 for text.' on light beige card background.",
+      "suggestion": "Increase font weight or darken the text token to ensure WCAG AA compliance.",
+      "pairId": "pair-128",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-tiny"
+    },
+    {
+      "component": "ds:AssistantMessage",
+      "severity": "major",
+      "title": "Illegible low-contrast body text",
+      "description": "Assistant message body copy fails WCAG contrast requirements against the dark canvas token.",
+      "evidence": "Paragraphs and bullet items below the copilot status header blend into the dark background.",
+      "suggestion": "Increase text color to a higher-contrast neutral token.",
+      "pairId": "pair-153",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait"
+    },
+    {
+      "component": "ds:AssistantMessage",
+      "severity": "minor",
+      "title": "Unmirrored quote accent border in RTL",
+      "description": "The callout quote uses a physical left border rather than a logical inline-start border.",
+      "evidence": "Vertical accent line appears on the left edge while in RTL direction.",
+      "suggestion": "Use logical border-inline-start to mirror border placement in RTL.",
+      "pairId": "pair-153",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait"
+    }
+  ]
+}

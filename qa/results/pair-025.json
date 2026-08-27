@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-025",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:aspect-ratio",
+    "ui:attachment",
+    "ui:button-group"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-025.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:34:47.155Z",
+  "summary": "The page cleanly executes the dark theme layout with well-aligned aspect ratio containers, attachment lists, and button groups. Spacing, contrast, and visual hierarchy are consistent across all showcased components.",
+  "issues": []
+}

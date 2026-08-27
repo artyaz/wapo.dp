@@ -5,10 +5,26 @@ import { Drawer as DrawerPrimitive } from "vaul"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * vaul (and Radix Dialog underneath it) render no overlay when `modal={false}`.
+ * This context lets `Drawer` opt into a visual scrim for non-modal drawers —
+ * set on the root so the scrim is only enabled when `modal` is actually false.
+ */
+const NonModalOverlayContext = React.createContext(false)
+
 function Drawer({
+  nonModalOverlay = false,
+  modal,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Root>) {
-  return <DrawerPrimitive.Root data-slot="drawer" {...props} />
+}: React.ComponentProps<typeof DrawerPrimitive.Root> & {
+  /** Dim the page behind the sheet even when `modal={false}` (scrim is pointer-events-none, so the page stays interactive). */
+  nonModalOverlay?: boolean
+}) {
+  return (
+    <NonModalOverlayContext.Provider value={nonModalOverlay && modal === false}>
+      <DrawerPrimitive.Root data-slot="drawer" modal={modal} {...props} />
+    </NonModalOverlayContext.Provider>
+  )
 }
 
 function DrawerTrigger({ render, children, ...props }: React.ComponentProps<typeof DrawerPrimitive.Trigger> &
@@ -62,9 +78,17 @@ function DrawerContent({
   children,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Content>) {
+  const showNonModalOverlay = React.useContext(NonModalOverlayContext)
   return (
     <DrawerPortal data-slot="drawer-portal">
       <DrawerOverlay />
+      {showNonModalOverlay ? (
+        <div
+          aria-hidden="true"
+          data-slot="drawer-non-modal-overlay"
+          className="animate-in fade-in-0 pointer-events-none fixed inset-0 z-50 bg-black/50"
+        />
+      ) : null}
       <DrawerPrimitive.Content
         data-slot="drawer-content"
         className={cn(
@@ -101,7 +125,10 @@ function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="drawer-footer"
-      className={cn("mt-auto flex flex-col gap-2 p-4", className)}
+      className={cn(
+        "mt-auto flex flex-col gap-2 px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]",
+        className
+      )}
       {...props}
     />
   )

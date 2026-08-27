@@ -32,6 +32,29 @@ type CarouselContextProps = {
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
 
+// useLayoutEffect on the client (direction must be detected before embla
+// initializes), plain useEffect during SSR to avoid the server warning.
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect
+
+/**
+ * Resolve the writing direction of a carousel from its DOM context:
+ * nearest ancestor with a `dir` attribute, falling back to computed style.
+ */
+function getComputedDirection(
+  el: HTMLElement | null
+): "ltr" | "rtl" | undefined {
+  if (!el) return undefined
+  const explicit = el
+    .closest("[dir]")
+    ?.getAttribute("dir")
+    ?.toLowerCase()
+  if (explicit === "rtl" || explicit === "ltr") return explicit
+  const computed = window.getComputedStyle(el).direction
+  if (computed === "rtl" || computed === "ltr") return computed
+  return undefined
+}
+
 function useCarousel() {
   const context = React.useContext(CarouselContext)
 
@@ -47,14 +70,32 @@ function Carousel({
   opts,
   setApi,
   plugins,
+  dir,
   className,
   children,
   ...props
 }: React.ComponentProps<"div"> & CarouselProps) {
+  const rootRef = React.useRef<HTMLDivElement | null>(null)
+  const [detectedDir, setDetectedDir] = React.useState<"ltr" | "rtl" | undefined>(
+    undefined
+  )
+
+  // Embla needs to know the writing direction, otherwise it measures the
+  // track as LTR inside an RTL flex container (empty snap list, disabled
+  // arrows). Priority: explicit `opts.direction`, then the `dir` prop, then
+  // the direction inherited from the closest [dir] ancestor.
+  const dirProp = dir === "rtl" || dir === "ltr" ? dir : undefined
+  const direction = opts?.direction ?? dirProp ?? detectedDir
+
+  useIsomorphicLayoutEffect(() => {
+    setDetectedDir(getComputedDirection(rootRef.current))
+  }, [])
+
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
       axis: orientation === "horizontal" ? "x" : "y",
+      direction,
     },
     plugins
   )
@@ -79,13 +120,16 @@ function Carousel({
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (event.key === "ArrowLeft") {
         event.preventDefault()
-        scrollPrev()
+        // In RTL the previous slide sits to the right, so the keys mirror.
+        if (direction === "rtl") scrollNext()
+        else scrollPrev()
       } else if (event.key === "ArrowRight") {
         event.preventDefault()
-        scrollNext()
+        if (direction === "rtl") scrollPrev()
+        else scrollNext()
       }
     },
-    [scrollPrev, scrollNext]
+    [scrollPrev, scrollNext, direction]
   )
 
   React.useEffect(() => {
@@ -119,11 +163,13 @@ function Carousel({
       }}
     >
       <div
+        ref={rootRef}
         onKeyDownCapture={handleKeyDown}
         className={cn("relative", className)}
         role="region"
         aria-roledescription="carousel"
         data-slot="carousel"
+        dir={dir}
         {...props}
       >
         {children}
@@ -144,7 +190,7 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
       <div
         className={cn(
           "flex",
-          orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
+          orientation === "horizontal" ? "-ms-4" : "-mt-4 flex-col",
           className
         )}
         {...props}
@@ -163,7 +209,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="carousel-item"
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
-        orientation === "horizontal" ? "pl-4" : "pt-4",
+        orientation === "horizontal" ? "ps-4" : "pt-4",
         className
       )}
       {...props}

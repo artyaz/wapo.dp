@@ -45,6 +45,10 @@ const UserMessageRoot = React.forwardRef<HTMLDivElement, UserMessageRootProps>(
         {...otherProps}
       >
         <div
+          // isolate the message's own direction from the page's, so LTR
+          // prompts keep trailing punctuation at the end under RTL locales
+          // (and RTL prompts render correctly under LTR ones)
+          dir="auto"
           className={SubframeUtils.twClassNames(
             // dark-slate pill over the near-black canvas; the flattened
             // bottom-right corner anchors it to the user's edge

@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-156",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:input-otp",
+    "ui:navigation-menu",
+    "ui:dialog"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-156.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:38:00.236Z",
+  "summary": "The page generally adheres to the RTL mobile layout, but exhibits styling inconsistencies on the OTP input groups.",
+  "issues": [
+    {
+      "component": "ui:input-otp",
+      "severity": "major",
+      "title": "Inconsistent OTP Group Styling",
+      "description": "The filled OTP slot group has an irregular outer border and padding artifact not present on the empty group.",
+      "evidence": "The right group of slots containing '4', 'K', '7' displays a thick outer border container, unlike the left group.",
+      "suggestion": "Normalize border tokens and container styles across all InputOTPGroup elements."
+    }
+  ]
+}

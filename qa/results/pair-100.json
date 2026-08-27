@@ -1,0 +1,55 @@
+{
+  "pairId": "pair-100",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:JumpToLatest",
+    "ds:DialogLayout",
+    "ds:Dialog"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a file browser"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-100.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:18:19.575Z",
+  "summary": "The file browser composition showcases the required components with good overall structure, but contains visual clipping artifacts on dialog elements, an overlapping jump-to-latest control, and recurring typography spacing defects.",
+  "issues": [
+    {
+      "component": "ds:Dialog",
+      "severity": "major",
+      "title": "Progress bar track overflows dialog bounds",
+      "description": "The storage progress track extends beyond the white card boundary into the dark container backdrop.",
+      "evidence": "The dark horizontal track line spans horizontally past both the left and right edges of the white storage dialog card.",
+      "suggestion": "Constrain the progress bar container width to 100% of the dialog inner padding."
+    },
+    {
+      "component": "ds:JumpToLatest",
+      "severity": "minor",
+      "title": "Button overlaps activity feed text",
+      "description": "The floating jump-to-latest button obscures the lowest feed entry text.",
+      "evidence": "The circular black button sits directly on top of the 'launch-budget.xlsx' label in the activity panel.",
+      "suggestion": "Add bottom padding to the scrollable feed or offset the button placement."
+    },
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "Unintended spaces in text strings",
+      "description": "Multiple labels exhibit unnatural word breaks and spacing.",
+      "evidence": "Sidebar shows 'Enginee ring' and table shows '20 25' and 'la unch-budget.xlsx'.",
+      "suggestion": "Fix string values and ensure consistent font kerning."
+    }
+  ]
+}

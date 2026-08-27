@@ -5,9 +5,9 @@ export default defineMeta({
   slug: "dialog-layout",
   category: "layouts",
   description:
-    "The layout variant of the Dialog surface. It renders the same scrim and floating panel pair as Dialog, but composes children as a horizontal row with a 24px gap inside Dialog.Content — a leading mark or summary block beside a title/body/actions column. Control props (open, onOpenChange, modal) are forwarded to the Dialog root, so it behaves exactly like its parent component while giving the panel's interior a two-column reading order.",
+    "The layout variant of the Dialog surface. It renders the same scrim and floating panel pair as Dialog, but composes children as a vertically centered horizontal row with a 24px gap inside Dialog.Content — a leading mark or summary block beside a title/body/actions column. The panel is themed with the panel/border tokens, so it stays legible in dark theme next to token-driven text. Control props (open, onOpenChange, modal) are forwarded to the Dialog root, so it behaves exactly like its parent component while giving the panel's interior a two-column reading order.",
   usage:
-    "Pass the Dialog control props (open, onOpenChange) and compose children left-to-right — a compact leading block, then the title/body/actions column.",
+    "Pass the Dialog control props (open, onOpenChange) and compose children left-to-right — a compact leading block, then the title/body/actions column. The row centers the two blocks vertically, so the leading mark sits level with the primary content instead of on its top edge.",
   tags: ["modal", "overlay", "scrim", "dialog", "layout"],
   props: [
     {

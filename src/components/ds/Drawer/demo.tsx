@@ -86,7 +86,14 @@ export default function Demo() {
           {open ? "Close drawer" : "Open drawer"}
         </Button>
         <span className="text-caption font-caption text-neutral-500">
-          Drag the sheet left or press Escape to dismiss.
+          {/* The sheet is anchored to the right edge, so the drag-to-dismiss
+              direction is toward the right; Esc only exists on keyboards. */}
+          <span className="mobile:hidden">
+            Drag the sheet right or press Escape to dismiss.
+          </span>
+          <span className="hidden mobile:inline">
+            Drag the sheet right to dismiss.
+          </span>
         </span>
       </div>
     </div>

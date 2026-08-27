@@ -1,0 +1,48 @@
+{
+  "pairId": "pair-107",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:AssistantMessage",
+    "ui:questionnaire",
+    "ui:dialog"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-107.jpg",
+    "qa/screenshots/pair-107-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:51:21.722Z",
+  "summary": "The page layout generally aligns with the design system, but exhibits localization inconsistencies and background scroll handling defects when the modal dialog is active.",
+  "issues": [
+    {
+      "component": "ui:questionnaire",
+      "severity": "minor",
+      "title": "Untranslated step counter label",
+      "description": "The questionnaire step indicator displays English copy within an otherwise localized Hebrew interface.",
+      "evidence": "Header shows English text 'Question 1 of 3' alongside Hebrew headings.",
+      "suggestion": "Localize the progress indicator text to match the active locale."
+    },
+    {
+      "component": "ui:dialog",
+      "severity": "major",
+      "title": "Incomplete modal overlay coverage",
+      "description": "The dialog overlay does not lock body scrolling, exposing unmasked page content below the initial viewport fold.",
+      "evidence": "AssistantMessage card below the fold appears outside the backdrop dimming layer.",
+      "suggestion": "Lock background scrolling and extend modal backdrop across the entire document height."
+    }
+  ]
+}

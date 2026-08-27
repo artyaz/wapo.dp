@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-030",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:ActionTraces",
+    "ds:MiniMap",
+    "ds:SlaTimer"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-030.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:31:21.613Z",
+  "summary": "The showcase page flawlessly presents ds:ActionTraces, ds:MiniMap, and ds:SlaTimer within the Praxis monochrome design system, exhibiting clean grid alignment, uniform spacing, and high legibility across all panels.",
+  "issues": []
+}

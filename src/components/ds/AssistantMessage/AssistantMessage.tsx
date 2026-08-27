@@ -3,10 +3,15 @@
 /**
  * AssistantMessage — the agent's final response block.
  *
- * Left-aligned structured markdown output: high-contrast white text,
- * standard bullet points (•), and clean vertical spacing between lists and
- * concluding remarks. Renders the deliverable natively on the chat canvas
- * without boxy container borders — scannability and contrast first.
+ * Start-aligned structured markdown output: high-contrast theme-aware text
+ * (the default-font ink over the default-background canvas token), standard
+ * bullet points (•), and clean vertical spacing between lists and
+ * concluding remarks. The root paints the chat-canvas token itself, so the
+ * copy keeps its contrast in both themes no matter what surface the page
+ * mounts it on — scannability and contrast first. The root also carries
+ * dir="auto", so the transcript resolves its own base direction from the
+ * first strong character (English messages read LTR with correct terminal
+ * punctuation even on RTL pages; Hebrew/Arabic messages mirror fully).
  *
  * Sub-exports give the common markdown shapes the right rhythm:
  *   AssistantMessage.Paragraph — a prose block
@@ -30,11 +35,18 @@ const AssistantMessageRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        // left-anchored, borderless — the deliverable sits directly on canvas
-        "flex w-full min-w-0 flex-col items-start gap-4 text-left",
+        // start-anchored, borderless — the deliverable sits directly on the
+        // canvas token (bg-default-background), which keeps the theme-aware
+        // default-font ink legible in both light and dark
+        "flex w-full min-w-0 flex-col items-start gap-4 rounded-lg",
+        "bg-default-background text-start text-default-font",
         className
       )}
       ref={ref}
+      // dir="auto" isolates the message as a directional island: Latin copy
+      // keeps its trailing punctuation on the correct side inside RTL pages
+      // (and vice versa); a consumer-passed dir still wins via otherProps
+      dir="auto"
       {...otherProps}
     >
       {children}
@@ -54,7 +66,7 @@ const Paragraph = React.forwardRef<
     <p
       ref={ref}
       className={SubframeUtils.twClassNames(
-        "w-full min-w-0 text-[14px] leading-[24px] text-neutral-100",
+        "w-full min-w-0 text-[14px] leading-[24px] text-default-font",
         className
       )}
       {...otherProps}
@@ -88,7 +100,7 @@ const List = React.forwardRef<HTMLUListElement, AssistantListProps>(
           ? items.map((item, i) => (
               <li
                 key={i}
-                className="flex w-full min-w-0 items-start gap-2.5 text-[14px] leading-[24px] text-neutral-100"
+                className="flex w-full min-w-0 items-start gap-2.5 text-[14px] leading-[24px] text-default-font"
               >
                 {/* standard bullet point • */}
                 <span
@@ -118,8 +130,10 @@ const Quote = React.forwardRef<
     <blockquote
       ref={ref}
       className={SubframeUtils.twClassNames(
-        "w-full min-w-0 border-l-2 border-neutral-700 py-0.5 pl-4",
-        "text-[13px] leading-[22px] text-neutral-400",
+        // border-s/ps mirror the accent strip to the inline-start edge in RTL;
+        // neutral-600 keeps AA contrast on the canvas token in both themes
+        "w-full min-w-0 border-s-2 border-neutral-700 py-0.5 ps-4",
+        "text-[13px] leading-[22px] text-neutral-600",
         className
       )}
       {...otherProps}

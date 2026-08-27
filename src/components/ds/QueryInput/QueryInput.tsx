@@ -33,7 +33,14 @@ const QueryInputRoot = React.forwardRef<HTMLDivElement, QueryInputRootProps>(
             FOCUSED
           </span>
           <div className="flex w-full overflow-hidden rounded-[3px] border-2 border-solid border-neutral-500 bg-panel items-stretch">
-            <div className="flex flex-wrap items-baseline px-3 py-2 flex-1">
+            {/* Query code is inherently LTR — isolate the line from the RTL
+                page direction so tokens neither mirror nor reorder, and let
+                the spans flow inline so inter-token spaces render and
+                wrapping happens on word boundaries. */}
+            <div
+              dir="ltr"
+              className="text-code font-code min-w-0 flex-1 px-3 py-2 text-start"
+            >
               <span className="text-code font-code text-neutral-500">rate</span>
               <span className="text-code font-code text-default-font">
                 (errors_total{" "}
@@ -80,7 +87,7 @@ const QueryInputRoot = React.forwardRef<HTMLDivElement, QueryInputRootProps>(
             PLACEHOLDER
           </span>
           <div className="flex w-full overflow-hidden rounded-[3px] border-2 border-solid border-default-border bg-panel items-stretch">
-            <div className="flex items-start px-3 py-2 flex-1">
+            <div dir="ltr" className="flex min-w-0 flex-1 items-start px-3 py-2 text-start">
               <span className="text-code font-code text-neutral-400">
                 query metrics, logs, traces…
               </span>

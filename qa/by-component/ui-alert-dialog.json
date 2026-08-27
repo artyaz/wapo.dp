@@ -1,0 +1,51 @@
+{
+  "id": "ui:alert-dialog",
+  "name": "alert-dialog",
+  "kind": "ui",
+  "importPath": "@/components/ui/alert-dialog",
+  "sourceFiles": [
+    "src/components/ui/alert-dialog.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/alert-dialog/basic.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:alert-dialog",
+      "severity": "major",
+      "title": "Backdrop overlay improperly scoped",
+      "description": "The dialog overlay dims only the left pane rather than covering the entire viewport.",
+      "evidence": "The dark scrim stops at the edge of the chat container while the dialog overlaps the drawer.",
+      "suggestion": "Position the dialog backdrop with fixed inset-0 over the entire viewport.",
+      "pairId": "pair-108",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-108"
+      ],
+      "triage": "composition",
+      "triageNote": "Not an alert-dialog defect: DOM probe on /eval/pair-108 (1024x768) shows the overlay is position:fixed, parent BODY (portaled), rect 0,0,1024x768 = full viewport, z-50, bg-black/50 — the suggested fix (fixed inset-0) is already exactly what the code does. Pixel sampling of the auditor's own archived screenshot confirms it: header/margins outside the chat container dim to 125 (uniform 50% dialog scrim) and the drawer sheet is dimmed to 127, contradicting 'dims only the left pane' and 'drawer un-dimmed'. The perceived seam (brightness step 125 -> 75 at the <main> edge) comes from the eval page composing ds:Drawer's own permanent bg-[#00000066] scrim (relative, z-50, scoped to <main>) beneath the full-viewport dialog overlay — a page-composition stacking artifact in src/app/eval/pair-108 (not editable), not a component bug. Same overlay verified full-viewport on pair-117 (390x844) and pair-161 (1440x900). No code change made."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:alert-dialog",
+      "severity": "major",
+      "title": "Backdrop overlay improperly scoped",
+      "description": "The dialog overlay dims only the left pane rather than covering the entire viewport.",
+      "evidence": "The dark scrim stops at the edge of the chat container while the dialog overlaps the drawer.",
+      "suggestion": "Position the dialog backdrop with fixed inset-0 over the entire viewport.",
+      "pairId": "pair-108",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "laptop"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "id": "ds:CrosshairTag",
+  "name": "CrosshairTag",
+  "kind": "ds",
+  "importPath": "@/components/ds/CrosshairTag",
+  "sourceFiles": [
+    "src/components/ds/CrosshairTag/CrosshairTag.tsx"
+  ],
+  "demoFile": "src/components/ds/CrosshairTag/demo.tsx",
+  "metaFile": "src/components/ds/CrosshairTag/meta.ts",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ds:CrosshairTag",
+      "severity": "major",
+      "title": "Unintended date text wrapping",
+      "description": "The timestamp string wraps awkwardly across multiple lines due to insufficient width or lack of nowrap styling.",
+      "evidence": "Under Latency P95, the date displays as '2025-06-' with '11' broken onto the following line.",
+      "suggestion": "Set white-space: nowrap on the timestamp container to prevent mid-date line breaks.",
+      "pairId": "pair-052",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-052"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: the abspos glass tag anchored at left-62% has only ~99px of shrink-to-fit width (min-w-96px doesn't help) so the 19-char mono timestamp wraps mid-date; fixed by adding whitespace-nowrap to the tag so it grows to fit the full timestamp on one line."
+    },
+    {
+      "component": "ds:CrosshairTag",
+      "severity": "minor",
+      "title": "Crosshair indicator misaligned with active bar",
+      "description": "The floating crosshair tag and its guideline do not align accurately with the highlighted chart column.",
+      "evidence": "The glass tooltip overlay floats centered across multiple bars while the vertical crosshair line sits offset behind it.",
+      "suggestion": "Snap the crosshair line and tag anchor directly to the selected data bar.",
+      "pairId": "pair-021",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-021"
+      ],
+      "triage": "fix",
+      "triageNote": "Partly perceptual (in the 260px frame the 62% anchor = 161.2px, within 0.2px of the tall bar's 161px center, and the tag is concentric with the line) but the anchor was hardcoded and drifts off the fixed px bars when the frame is resized; fixed additively with an optional crosshairPosition prop (guideline + tag move together) plus meta/demo docs of the fixed illustrative geometry."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:CrosshairTag",
+      "severity": "minor",
+      "title": "Crosshair indicator misaligned with active bar",
+      "description": "The floating crosshair tag and its guideline do not align accurately with the highlighted chart column.",
+      "evidence": "The glass tooltip overlay floats centered across multiple bars while the vertical crosshair line sits offset behind it.",
+      "suggestion": "Snap the crosshair line and tag anchor directly to the selected data bar.",
+      "pairId": "pair-021",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "laptop"
+    },
+    {
+      "component": "ds:CrosshairTag",
+      "severity": "major",
+      "title": "Unintended date text wrapping",
+      "description": "The timestamp string wraps awkwardly across multiple lines due to insufficient width or lack of nowrap styling.",
+      "evidence": "Under Latency P95, the date displays as '2025-06-' with '11' broken onto the following line.",
+      "suggestion": "Set white-space: nowrap on the timestamp container to prevent mid-date line breaks.",
+      "pairId": "pair-052",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "laptop"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "id": "ds:RecordHeader",
+  "name": "RecordHeader",
+  "kind": "ds",
+  "importPath": "@/components/ds/RecordHeader",
+  "sourceFiles": [
+    "src/components/ds/RecordHeader/RecordHeader.tsx"
+  ],
+  "demoFile": "src/components/ds/RecordHeader/demo.tsx",
+  "metaFile": "src/components/ds/RecordHeader/meta.ts",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ds:RecordHeader",
+      "severity": "minor",
+      "title": "Premature title truncation",
+      "description": "The primary incident title truncates aggressively on a single line instead of wrapping.",
+      "evidence": "Title renders as 'Checkout la...' despite available vertical space below it.",
+      "suggestion": "Allow the title text to wrap to a second line before applying truncation.",
+      "pairId": "pair-103",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-tiny",
+      "occurrences": 1,
+      "pairs": [
+        "pair-103"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: title span hardcoded whitespace-nowrap + single-line ellipsis. Fixed in RecordHeader.tsx: title now wraps (line-clamp-2 ≥30rem; wrap freely with the record-id chip on its own line below via mobile:line-clamp-none + mobile:flex-wrap/mobile:w-full <30rem). Confirmed at 320px: full title renders on 4 lines, no truncation; desktop unchanged (single line, chip beside title)."
+    }
+  ],
+  "notes": "Also addressed an unflagged pair-031 observation: the two action Buttons are component-owned (hardcoded size=small, 32px), not page-composed — added a phone-only (<30rem) invisible ::after hit-area expansion (40px tall, ui/sidebar idiom) to both buttons without changing their visual size. Note: pair-103 re-audit (2 runs used) still lists a ui:sidebar 'uncollapsed sidebar on narrow viewport' major — that is page composition in src/app/eval/pair-103/page.tsx (blocked-external for this agent).",
+  "allIssues": [
+    {
+      "component": "ds:RecordHeader",
+      "severity": "minor",
+      "title": "Premature title truncation",
+      "description": "The primary incident title truncates aggressively on a single line instead of wrapping.",
+      "evidence": "Title renders as 'Checkout la...' despite available vertical space below it.",
+      "suggestion": "Allow the title text to wrap to a second line before applying truncation.",
+      "pairId": "pair-103",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-tiny"
+    }
+  ]
+}

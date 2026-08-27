@@ -1,0 +1,142 @@
+{
+  "id": "ds:CanvasNode",
+  "name": "CanvasNode",
+  "kind": "ds",
+  "importPath": "@/components/ds/CanvasNode",
+  "sourceFiles": [
+    "src/components/ds/CanvasNode/CanvasNode.tsx"
+  ],
+  "demoFile": "src/components/ds/CanvasNode/demo.tsx",
+  "metaFile": "src/components/ds/CanvasNode/meta.ts",
+  "totals": {
+    "issues": 4,
+    "blocker": 0,
+    "major": 2,
+    "minor": 2,
+    "distinctPatterns": 4
+  },
+  "issues": [
+    {
+      "component": "ds:CanvasNode",
+      "severity": "major",
+      "title": "Node content and port escaping bounding container",
+      "description": "The secondary content section and output port of the bottom canvas node render completely outside the node's dashed border frame onto the raw canvas grid.",
+      "evidence": "In the 'Nightly reconciliation' node, the text 'Scheduled branch — detached from the live flow...' and its right-hand connector dot float outside the dashed node box.",
+      "suggestion": "Update CanvasNode layout so the bounding box encloses all internal branch metadata columns and handles internal overflow appropriately.",
+      "pairId": "pair-062",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-062"
+      ],
+      "triage": "composition",
+      "triageNote": "The 'Scheduled branch — detached…' text is a page-authored sibling <div> placed next to the CanvasNode in pair-062 (not component content), and the output port dot intentionally straddles the edge midpoint per the documented wiring contract; the node's own children/title/footer are fully enclosed (title ellipsizes via overflow-hidden + text-ellipsis)."
+    },
+    {
+      "component": "ds:CanvasNode",
+      "severity": "major",
+      "title": "Illegible low-contrast text on inactive node",
+      "description": "Text inside the inactive/paused canvas node is rendered in an extremely faint gray with virtually no contrast against the light canvas background.",
+      "evidence": "The body text 'Generates the finance reconciliation workbook...', metadata 'last run · 02:00 UTC 14m 06s', and footer 'report · finance-recon' in the bottom-left node fail readability and WCAG contrast thresholds.",
+      "suggestion": "Increase the text contrast token for muted/paused canvas nodes to ensure text maintains at least a 4.5:1 contrast ratio against the background.",
+      "pairId": "pair-062",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-062"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: the disabled variant's root opacity-40 dimmed every text token (body neutral-600 → ~1.7:1, footer neutral-400 → ~1.5:1 on the light canvas); replaced whole-node opacity with chrome-only dimming (dashed neutral-300 border + neutral-600 title) so content keeps full contrast."
+    },
+    {
+      "component": "ds:CanvasNode",
+      "severity": "minor",
+      "title": "Awkward line wrapping in node metric values",
+      "description": "Numeric metric values in the error node wrap mid-phrase onto separate lines, creating a fragmented and confusing readout.",
+      "evidence": "In the 'Sync to Snowflake war...' node, 'retries · 3 of' wraps with '3' on the line below, and 'backoff ·' wraps with '30s' below it.",
+      "suggestion": "Apply 'white-space: nowrap' to metric value pairs or provide sufficient column width within the node body.",
+      "pairId": "pair-062",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-062"
+      ],
+      "triage": "composition",
+      "triageNote": "The metric rows ('retries · 3 of 3' / 'backoff · 30s') are page-authored justify-between flex spans in pair-062 with no nowrap; the component's body slot is a generic padded column and cannot know page-authored spans are atomic metrics."
+    },
+    {
+      "component": "ds:CanvasNode",
+      "severity": "minor",
+      "title": "Low contrast node path text",
+      "description": "Footer metadata within the canvas nodes has low contrast against the card background.",
+      "evidence": "Faint text such as 'src/IMG_4821.cr3' and 'recipe/fjord-dusk' is difficult to read.",
+      "suggestion": "Increase text opacity or use a darker neutral token for node metadata.",
+      "pairId": "pair-143",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-143"
+      ],
+      "triage": "composition",
+      "triageNote": "The faint 'src/IMG_4821.cr3' / 'recipe/fjord-dusk' spans carry a page-authored text-neutral-400 class (2.2:1 on the white panel) inside the pass-through footer slot — eval pages are not editable; the component demo taught the same failing pattern, so demo.tsx footers were stepped up to neutral-600 (5.3:1 light / 7.3:1 dark)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:CanvasNode",
+      "severity": "major",
+      "title": "Node content and port escaping bounding container",
+      "description": "The secondary content section and output port of the bottom canvas node render completely outside the node's dashed border frame onto the raw canvas grid.",
+      "evidence": "In the 'Nightly reconciliation' node, the text 'Scheduled branch — detached from the live flow...' and its right-hand connector dot float outside the dashed node box.",
+      "suggestion": "Update CanvasNode layout so the bounding box encloses all internal branch metadata columns and handles internal overflow appropriately.",
+      "pairId": "pair-062",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide"
+    },
+    {
+      "component": "ds:CanvasNode",
+      "severity": "major",
+      "title": "Illegible low-contrast text on inactive node",
+      "description": "Text inside the inactive/paused canvas node is rendered in an extremely faint gray with virtually no contrast against the light canvas background.",
+      "evidence": "The body text 'Generates the finance reconciliation workbook...', metadata 'last run · 02:00 UTC 14m 06s', and footer 'report · finance-recon' in the bottom-left node fail readability and WCAG contrast thresholds.",
+      "suggestion": "Increase the text contrast token for muted/paused canvas nodes to ensure text maintains at least a 4.5:1 contrast ratio against the background.",
+      "pairId": "pair-062",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide"
+    },
+    {
+      "component": "ds:CanvasNode",
+      "severity": "minor",
+      "title": "Awkward line wrapping in node metric values",
+      "description": "Numeric metric values in the error node wrap mid-phrase onto separate lines, creating a fragmented and confusing readout.",
+      "evidence": "In the 'Sync to Snowflake war...' node, 'retries · 3 of' wraps with '3' on the line below, and 'backoff ·' wraps with '30s' below it.",
+      "suggestion": "Apply 'white-space: nowrap' to metric value pairs or provide sufficient column width within the node body.",
+      "pairId": "pair-062",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide"
+    },
+    {
+      "component": "ds:CanvasNode",
+      "severity": "minor",
+      "title": "Low contrast node path text",
+      "description": "Footer metadata within the canvas nodes has low contrast against the card background.",
+      "evidence": "Faint text such as 'src/IMG_4821.cr3' and 'recipe/fjord-dusk' is difficult to read.",
+      "suggestion": "Increase text opacity or use a darker neutral token for node metadata.",
+      "pairId": "pair-143",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop"
+    }
+  ]
+}

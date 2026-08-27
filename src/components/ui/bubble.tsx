@@ -124,7 +124,13 @@ function BubbleReactions({
   side = "bottom",
   ...props
 }: React.ComponentProps<"div"> & {
+  /**
+   * Horizontal placement of the reactions pill. Defaults to the alignment of
+   * the parent `Bubble` so reactions stay anchored beneath their message —
+   * only pass this to deliberately override the bubble's side.
+   */
   align?: BubbleAlign
+  /** Renders the pill overlapping the top edge of the bubble. */
   side?: "top" | "bottom"
 }) {
   const { align: bubbleAlign } = React.useContext(BubbleContext)

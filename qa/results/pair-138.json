@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-138",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:badge",
+    "ui:context-menu",
+    "ui:marker"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a media player with its playlist"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-138.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T23:30:45.009Z",
+  "summary": "The page layout and dark theme styling are mostly coherent, but the context menu exhibits text formatting and alignment inconsistencies.",
+  "issues": [
+    {
+      "component": "ui:context-menu",
+      "severity": "major",
+      "title": "Text spacing defects in menu labels",
+      "description": "Several context menu items display unintended spaces inside words.",
+      "evidence": "Labels render as 'Add to que ue', 'Downloade d', and 'Re move from playlist'.",
+      "suggestion": "Correct label strings to remove interior whitespace."
+    },
+    {
+      "component": "ui:context-menu",
+      "severity": "minor",
+      "title": "Uneven item indentation",
+      "description": "The item without an icon lacks inset alignment with adjacent icon-bearing items.",
+      "evidence": "'Downloaded' sits at an offset indentation compared to 'Add to playlist' and 'Add to queue'.",
+      "suggestion": "Apply consistent padding or reserve an icon slot across all items."
+    }
+  ]
+}

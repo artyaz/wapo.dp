@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-047",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:menubar",
+    "ui:input-otp",
+    "ui:kbd"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-047.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:42:18.322Z",
+  "summary": "The layout is well-structured, but the open menubar dropdown exhibits noticeable kerning and word spacing artifacts across multiple menu items.",
+  "issues": [
+    {
+      "component": "ui:menubar",
+      "severity": "major",
+      "title": "Broken text spacing in menu items",
+      "description": "Several menu item labels contain irregular spacing within words, breaking legibility.",
+      "evidence": "Labels render as 'N ew sec ure note', 'N ew f older', 'Lock wh en id le', and 'De le te this vault...'.",
+      "suggestion": "Remove extraneous spaces or reset tracking and letter-spacing styles on MenubarItem text."
+    }
+  ]
+}

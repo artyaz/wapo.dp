@@ -1,0 +1,19 @@
+{
+  "id": "ui:select",
+  "name": "select",
+  "kind": "ui",
+  "importPath": "@/components/ui/select",
+  "sourceFiles": [
+    "src/components/ui/select.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/select/align-item-with-trigger.tsx",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

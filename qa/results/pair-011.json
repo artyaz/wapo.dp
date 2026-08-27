@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-011",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:message-scroller",
+    "ui:input-group",
+    "ds:DialogLayout"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-011.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:51:15.311Z",
+  "summary": "The layout is generally coherent but exhibits minor alignment and component overlap defects within the dialog and message scroller.",
+  "issues": [
+    {
+      "component": "ui:message-scroller",
+      "severity": "major",
+      "title": "Scroll action overlaps message bubble",
+      "description": "Floating scroll-to-bottom button collides with the lower message container edge.",
+      "evidence": "Downward arrow icon overlaps the right side of the bottom message bubble.",
+      "suggestion": "Increase scroller viewport bottom-right padding to clear floating controls."
+    },
+    {
+      "component": "ds:DialogLayout",
+      "severity": "minor",
+      "title": "Header and actions center alignment mismatch",
+      "description": "Centered dialog header and footer clash with asymmetric body layout.",
+      "evidence": "Title and buttons are centered while body content is split into unequal columns.",
+      "suggestion": "Align header and footer elements consistently with body content axis."
+    }
+  ]
+}

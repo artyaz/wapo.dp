@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-113",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:QueryInput",
+    "ds:SlaTimer",
+    "ds:TerminalLine"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-113.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:59:32.712Z",
+  "summary": "The page cleanly showcases QueryInput, SlaTimer, and TerminalLine with consistent spacing, legible typography, and well-aligned layout hierarchy across both panels.",
+  "issues": []
+}

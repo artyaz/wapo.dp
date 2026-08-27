@@ -1,0 +1,48 @@
+{
+  "pairId": "pair-016",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:MediaClip",
+    "ds:TextField",
+    "ds:QueryInput"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "dense-content",
+    "scenario": "an email inbox list"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-016.jpg",
+    "qa/screenshots/pair-016-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:18:52.525Z",
+  "summary": "The page displays minor-to-major layout and alignment defects under RTL, including centered text alignment in input fields and cramped media clip metadata.",
+  "issues": [
+    {
+      "component": "ds:TextField",
+      "severity": "major",
+      "title": "Centered text in single-line inputs",
+      "description": "Input values in single-line text fields are centered instead of adhering to standard text direction alignment.",
+      "evidence": "The 'إلى' and 'نسخة إلى' fields display centered text strings rather than start-aligned text.",
+      "suggestion": "Set text alignment to start/right for RTL input fields."
+    },
+    {
+      "component": "ds:MediaClip",
+      "severity": "minor",
+      "title": "Cramped metadata and badge clipping in attachments",
+      "description": "Attachment clip headers have tight vertical margins against waveforms, and adjacent preview elements suffer from clipping.",
+      "evidence": "The first audio clip title overlaps closely with the waveform, and the third attachment pill truncates text prematurely.",
+      "suggestion": "Increase vertical spacing between clip metadata and waveform tracks, and allow adequate width for attachment labels."
+    }
+  ]
+}

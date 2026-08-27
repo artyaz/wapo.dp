@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-080",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:InspectorRow",
+    "ui:data-table",
+    "ui:hover-card"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-080.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:06:35.833Z",
+  "summary": "The dashboard demonstrates solid dark-mode styling and layout structure, with only minor truncation and pagination completeness issues.",
+  "issues": [
+    {
+      "component": "ui:hover-card",
+      "severity": "minor",
+      "title": "Premature text truncation",
+      "description": "User role string truncates prematurely with an ellipsis despite available card width.",
+      "evidence": "Hover card subtitle reads 'Incident Comma...'.",
+      "suggestion": "Increase max-width on the metadata line to allow full text display."
+    },
+    {
+      "component": "ui:data-table",
+      "severity": "minor",
+      "title": "Incomplete pagination controls",
+      "description": "Pagination footer provides row counts and page size selector but lacks navigation chevrons.",
+      "evidence": "Footer displays selection text and 'Rows per page 10' without next/previous buttons.",
+      "suggestion": "Render page navigation arrow buttons inside DataTablePagination."
+    }
+  ]
+}

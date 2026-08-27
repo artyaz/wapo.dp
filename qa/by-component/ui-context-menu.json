@@ -1,0 +1,111 @@
+{
+  "id": "ui:context-menu",
+  "name": "context-menu",
+  "kind": "ui",
+  "importPath": "@/components/ui/context-menu",
+  "sourceFiles": [
+    "src/components/ui/context-menu.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/context-menu/basic.tsx",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ui:context-menu",
+      "severity": "major",
+      "title": "Icon and label collision",
+      "description": "Leading icon collides directly with item label without spacing.",
+      "evidence": "The playlist icon touches the 'A' in 'Add to playlist' inside the context menu.",
+      "suggestion": "Apply standard horizontal margin between leading icons and item text.",
+      "pairId": "pair-138",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-138"
+      ],
+      "triage": "fix",
+      "triageNote": "Confirmed by DOM measurement: ContextMenuSubTrigger lacked gap-2 (icon ended x=767, text started x=767, zero gap); added gap-2."
+    },
+    {
+      "component": "ui:context-menu",
+      "severity": "minor",
+      "title": "Ragged text alignment across items",
+      "description": "Items lacking icons omit inset spacing, creating misaligned right-edge text baselines.",
+      "evidence": "Labels for 'التوسيع التلقائي' and 'التنبيهات النشطة' align further right than text in neighboring items with icons.",
+      "suggestion": "Apply uniform leading indentation or reserve an icon slot for all items.",
+      "pairId": "pair-098",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-098"
+      ],
+      "triage": "fix",
+      "triageNote": "Confirmed in RTL: CheckboxItem used physical pr-2/pl-8 + absolute left-2, so checkbox text sat 24px closer to the start edge than icon-item text; switched to logical pe-2/ps-8/start-2."
+    },
+    {
+      "component": "ui:context-menu",
+      "severity": "minor",
+      "title": "Inconsistent item indentation",
+      "description": "Item text alignment is ragged across items with and without leading icons.",
+      "evidence": "'Downloaded' text is shifted left compared to text labels in 'Play next' and 'Add to queue'.",
+      "suggestion": "Reserve leading icon slot spacing across all menu item rows for uniform alignment.",
+      "pairId": "pair-138",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-138"
+      ],
+      "triage": "fix",
+      "triageNote": "Ragged row was actually the SubTrigger (text at x=767 vs 775 for all other rows — same missing gap-2 root cause as the major issue; 'Downloaded' measured aligned at 775). Fixed by the same gap-2 addition."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:context-menu",
+      "severity": "minor",
+      "title": "Ragged text alignment across items",
+      "description": "Items lacking icons omit inset spacing, creating misaligned right-edge text baselines.",
+      "evidence": "Labels for 'التوسيع التلقائي' and 'التنبيهات النشطة' align further right than text in neighboring items with icons.",
+      "suggestion": "Apply uniform leading indentation or reserve an icon slot for all items.",
+      "pairId": "pair-098",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "desktop-wide"
+    },
+    {
+      "component": "ui:context-menu",
+      "severity": "major",
+      "title": "Icon and label collision",
+      "description": "Leading icon collides directly with item label without spacing.",
+      "evidence": "The playlist icon touches the 'A' in 'Add to playlist' inside the context menu.",
+      "suggestion": "Apply standard horizontal margin between leading icons and item text.",
+      "pairId": "pair-138",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop"
+    },
+    {
+      "component": "ui:context-menu",
+      "severity": "minor",
+      "title": "Inconsistent item indentation",
+      "description": "Item text alignment is ragged across items with and without leading icons.",
+      "evidence": "'Downloaded' text is shifted left compared to text labels in 'Play next' and 'Add to queue'.",
+      "suggestion": "Reserve leading icon slot spacing across all menu item rows for uniform alignment.",
+      "pairId": "pair-138",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop"
+    }
+  ]
+}

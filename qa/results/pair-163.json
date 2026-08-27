@@ -1,0 +1,40 @@
+{
+  "pairId": "pair-163",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:toggle-group",
+    "ds:TimelineRuler",
+    "ds:FormSection"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-half",
+      "width": 390,
+      "height": 420,
+      "weight": 10,
+      "hint": "roughly HALF of a phone screen (very little vertical room)"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "an analytics dashboard"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-163.jpg",
+    "qa/screenshots/pair-163-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:01:01.043Z",
+  "summary": "The layout renders cleanly within the constrained viewport with consistent spacing and styling, showing only minor legend text wrapping.",
+  "issues": [
+    {
+      "component": "ds:TimelineRuler",
+      "severity": "minor",
+      "title": "Orphan text wrap in legend",
+      "description": "Legend description wraps with a single orphan word on the second line.",
+      "evidence": "The word 'pan' sits alone on the final line in the ruler footer.",
+      "suggestion": "Adjust container padding or reduce legend font size to fit in one line."
+    }
+  ]
+}

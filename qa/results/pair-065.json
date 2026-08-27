@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-065",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:marker",
+    "ui:switch",
+    "ui:tooltip"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a checkout / payment step"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-065.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:06:24.239Z",
+  "summary": "The checkout page successfully implements the dark theme design system with clean visual hierarchy and correctly functioning components, exhibiting only minor layout asymmetry.",
+  "issues": [
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "Asymmetric alternative payment button",
+      "description": "The Apple Pay button occupies partial container width without an adjacent option, creating uneven spacing.",
+      "evidence": "The Apple Pay button terminates near mid-screen under the 'Or pay with' divider.",
+      "suggestion": "Set the button width to 100% or supply a secondary payment option in a two-column grid."
+    }
+  ]
+}

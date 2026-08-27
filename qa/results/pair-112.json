@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-112",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:sheet",
+    "ui:combobox",
+    "ui:radio-group"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "an onboarding wizard step"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-112.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:31:56.507Z",
+  "summary": "The onboarding sheet and form components are properly structured with clean alignment, clear visual hierarchy, and correct light theme contrast.",
+  "issues": []
+}

@@ -5,7 +5,7 @@ export default defineMeta({
   slug: "drawer",
   category: "surfaces",
   description:
-    "A side-sheet surface for secondary content that belongs to the page without interrupting it. The root renders a 40% black scrim anchored to the right edge, and Drawer.Content renders the sheet — full height, never wider than its container, with a hairline left border where it meets the page and internal scrolling when content grows past the panel. Because the sheet is plain, rows and metadata are composed from the text styles, which keeps detail panels quiet and scannable. The sheet is drag-dismissible in the direction it came from.",
+    "A side-sheet surface for secondary content that belongs to the page without interrupting it. The root renders a 40% black scrim anchored to the right edge, and Drawer.Content renders the sheet — full height, never wider than its container, with a hairline border on the edge facing the page and internal scrolling when content grows past the panel. On phone-width frames (below 30rem) the sheet stretches to fill its frame so page text never sits in a cramped scrimmed column. The sheet mounts client-side only (vaul touches `document` during render), so an open drawer server-renders safely. Because the sheet is plain, rows and metadata are composed from the text styles, which keeps detail panels quiet and scannable. The sheet is drag-dismissible in the direction it came from — drag it back toward its anchor edge to close it.",
   usage:
     "Control it with open/onOpenChange state (direction=\"right\" restores the Subframe side sheet), then fill a Drawer.Content with a heading and a few metadata rows.",
   tags: ["sheet", "overlay", "scrim", "side-panel", "surface"],
@@ -47,7 +47,8 @@ export default defineMeta({
     {
       name: "Content.className",
       type: "string",
-      description: "Classes merged onto the sheet (width overrides).",
+      description:
+        "Classes merged onto the sheet (width overrides; note the sheet is forced to full frame width below 30rem).",
     },
   ],
   subComponents: ["Content"],

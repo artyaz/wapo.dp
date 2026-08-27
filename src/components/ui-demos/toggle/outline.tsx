@@ -11,7 +11,7 @@ export function ToggleOutline() {
         <ItalicIcon />
         Italic
       </Toggle>
-      <Toggle variant="outline" aria-label="Toggle bold">
+      <Toggle variant="outline" defaultPressed aria-label="Toggle bold">
         <BoldIcon />
         Bold
       </Toggle>

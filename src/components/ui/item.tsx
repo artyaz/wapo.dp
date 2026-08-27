@@ -12,7 +12,16 @@ function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
     <div
       role="list"
       data-slot="item-group"
-      className={cn("group/item-group flex flex-col", className)}
+      className={cn(
+        "group/item-group flex flex-col",
+        // Border-collapse: pull each stacked child up 1px so an item's top
+        // border (or the separator hairline) coincides with the previous
+        // child's bottom border instead of doubling into a 2px line.
+        "[&>[data-slot=item]+[data-slot=item]]:-mt-px",
+        "[&>[data-slot=item]+[data-slot=item-separator]]:-mt-px",
+        "[&>[data-slot=item-separator]+[data-slot=item]]:-mt-px",
+        className
+      )}
       {...props}
     />
   )
@@ -140,7 +149,7 @@ function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="item-content"
       className={cn(
-        "flex flex-1 flex-col gap-1 [&+[data-slot=item-content]]:flex-none",
+        "flex min-w-0 flex-1 flex-col gap-1 [&+[data-slot=item-content]]:flex-none",
         className
       )}
       {...props}

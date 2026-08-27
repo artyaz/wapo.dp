@@ -2,7 +2,7 @@
 
 /**
  * AssistantMessage demo — a final response with prose, a bullet list, a
- * quote and a closing remark on the dark chat canvas.
+ * quote and a closing remark on the theme-aware chat canvas.
  */
 
 import React from "react";
@@ -10,7 +10,7 @@ import { AssistantMessage } from "@/components/ds/AssistantMessage";
 
 export default function Demo() {
   return (
-    <div className="flex w-full rounded-lg bg-neutral-900 p-6">
+    <div className="flex w-full rounded-lg border border-solid border-default-border bg-default-background p-6">
       <AssistantMessage className="max-w-[560px]">
         <AssistantMessage.Paragraph>
           The contrast audit is done. Twelve low-contrast text nodes were

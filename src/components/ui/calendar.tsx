@@ -6,10 +6,25 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "lucide-react"
-import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker"
+import {
+  DayButton,
+  DayPicker,
+  getDefaultClassNames,
+  type DateRange,
+  type Modifiers,
+} from "react-day-picker"
 
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
+
+type CalendarSelected = Date | Date[] | DateRange | undefined
+
+type CalendarOnSelect = (
+  selected: CalendarSelected,
+  triggerDate: Date,
+  modifiers: Modifiers,
+  e: React.MouseEvent | React.KeyboardEvent
+) => void
 
 function Calendar({
   className,
@@ -19,11 +34,41 @@ function Calendar({
   buttonVariant = "ghost",
   formatters,
   components,
+  defaultSelected,
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>["variant"]
+  defaultSelected?: CalendarSelected
 }) {
   const defaultClassNames = getDefaultClassNames()
+
+  // react-day-picker v9 dropped the uncontrolled `defaultSelected` prop, so
+  // passing it straight through would be silently ignored and no selection
+  // would render. Emulate the uncontrolled behavior instead: seed internal
+  // state with the default value and drive the selection ourselves when the
+  // caller does not control `selected`.
+  const [internalSelected, setInternalSelected] =
+    React.useState<CalendarSelected>(defaultSelected)
+  const controlledSelected = (props as { selected?: CalendarSelected })
+    .selected
+  const userOnSelect = (props as { onSelect?: CalendarOnSelect }).onSelect
+  const emulateDefaultSelected =
+    defaultSelected !== undefined && controlledSelected === undefined
+  const handleSelect: CalendarOnSelect = (
+    next,
+    triggerDate,
+    modifiers,
+    e
+  ) => {
+    setInternalSelected(next)
+    userOnSelect?.(next, triggerDate, modifiers, e)
+  }
+  const dayPickerProps = {
+    ...props,
+    ...(emulateDefaultSelected
+      ? { selected: internalSelected, onSelect: handleSelect }
+      : {}),
+  } as React.ComponentProps<typeof DayPicker>
 
   return (
     <DayPicker
@@ -118,7 +163,7 @@ function Calendar({
           defaultClassNames.outside
         ),
         disabled: cn(
-          "text-muted-foreground opacity-50",
+          "text-muted-foreground aria-selected:text-muted-foreground",
           defaultClassNames.disabled
         ),
         hidden: cn("invisible", defaultClassNames.hidden),
@@ -167,7 +212,7 @@ function Calendar({
         },
         ...components,
       }}
-      {...props}
+      {...dayPickerProps}
     />
   )
 }
@@ -201,7 +246,7 @@ function CalendarDayButton({
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 dark:hover:text-accent-foreground flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] data-[range-end=true]:rounded-md data-[range-end=true]:rounded-r-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-md data-[range-start=true]:rounded-l-md [&>span]:text-xs [&>span]:opacity-70",
+        "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 dark:hover:text-accent-foreground flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] disabled:opacity-100 data-[range-end=true]:rounded-md data-[range-end=true]:rounded-r-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-md data-[range-start=true]:rounded-l-md [&>span]:text-xs [&>span]:opacity-70",
         defaultClassNames.day,
         className
       )}

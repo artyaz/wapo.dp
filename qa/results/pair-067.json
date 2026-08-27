@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-067",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:FloatingToolbar",
+    "ds:TerminalLine",
+    "ui:progress"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-067.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:05:54.781Z",
+  "summary": "The page cleanly presents all components with proper visual hierarchy, balanced spacing, and well-executed dark-mode styling.",
+  "issues": []
+}

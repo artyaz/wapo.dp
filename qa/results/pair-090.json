@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-090",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:EditorTab",
+    "ui:context-menu",
+    "ds:AskBar"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-090.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:26:38.637Z",
+  "summary": "The page correctly showcases EditorTab, ContextMenu, and AskBar with consistent alignment, spacing, and contrast across all elements.",
+  "issues": []
+}

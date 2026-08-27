@@ -84,6 +84,7 @@ function CommandInput({
 
 function CommandList({
   className,
+  children,
   ...props
 }: React.ComponentProps<typeof CommandPrimitive.List>) {
   return (
@@ -94,7 +95,22 @@ function CommandList({
         className
       )}
       {...props}
-    />
+    >
+      {children}
+      {/**
+       * Soft bottom edge fade (same pattern as MessageScroller): sticky, so
+       * while rows run past the scroll edge the last visible row dissolves
+       * into the popover surface instead of being sliced mid-glyph against
+       * the card border. At rest it sits after the last row, where the
+       * popover-on-popover gradient is invisible but guarantees the final
+       * row never sits flush against the container's bottom border.
+       */}
+      <div
+        aria-hidden="true"
+        data-slot="command-list-fade"
+        className="pointer-events-none sticky bottom-0 h-3 bg-gradient-to-t from-popover to-transparent"
+      />
+    </CommandPrimitive.List>
   )
 }
 
@@ -147,7 +163,7 @@ function CommandItem({
     <CommandPrimitive.Item
       data-slot="command-item"
       className={cn(
-        "data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [unicode-bidi:plaintext] [&_*]:[unicode-bidi:plaintext]",
         className
       )}
       {...props}
@@ -163,7 +179,7 @@ function CommandShortcut({
     <span
       data-slot="command-shortcut"
       className={cn(
-        "text-muted-foreground ml-auto text-xs tracking-widest",
+        "text-muted-foreground ms-auto text-xs tracking-widest [unicode-bidi:plaintext]",
         className
       )}
       {...props}

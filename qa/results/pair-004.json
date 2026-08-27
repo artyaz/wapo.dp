@@ -1,0 +1,48 @@
+{
+  "pairId": "pair-004",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:avatar",
+    "ui:command",
+    "ui:progress"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "dark",
+    "direction": "rtl",
+    "constraint": "dense-content",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-004.jpg",
+    "qa/screenshots/pair-004-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:48:01.372Z",
+  "summary": "The page generally respects the dark theme and RTL layout, but exhibits RTL mirroring failures in progress bar fills and AvatarGroup stacking collisions.",
+  "issues": [
+    {
+      "component": "ui:progress",
+      "severity": "major",
+      "title": "Progress fill direction unmirrored in RTL",
+      "description": "Progress tracks fill from left to right instead of right to left under RTL direction.",
+      "evidence": "The 18% progress card shows active fill anchored to the left instead of the right.",
+      "suggestion": "Reverse progress fill origin to anchor from the right in RTL mode."
+    },
+    {
+      "component": "ui:avatar",
+      "severity": "major",
+      "title": "AvatarGroup overlap and counter collision in RTL",
+      "description": "AvatarGroup stack order and negative margins do not adapt to RTL, causing visual collision.",
+      "evidence": "Top-left avatar group shows the '6+' counter badge overlapping directly on top of the 'RM' avatar.",
+      "suggestion": "Use RTL-aware margin utilities and reversed stacking order for AvatarGroup."
+    }
+  ]
+}

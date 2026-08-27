@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-009",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:message-scroller",
+    "ui:button",
+    "ui:scroll-area"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-009.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T23:13:37.235Z",
+  "summary": "The page cleanly showcases ui:message-scroller, ui:button, and ui:scroll-area within a dark monochrome aesthetic. Alignment, contrast, typography, and component layouts are precise and visually balanced across the viewport with no detectable defects.",
+  "issues": []
+}

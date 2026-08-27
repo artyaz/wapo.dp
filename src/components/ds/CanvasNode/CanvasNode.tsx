@@ -38,7 +38,11 @@ const CanvasNodeRoot = React.forwardRef<HTMLDivElement, CanvasNodeRootProps>(
         className={SubframeUtils.twClassNames(
           "group/9eb4b63f flex w-[220px] flex-col rounded-[3px] border border-solid border-default-border bg-panel group/canvasnode relative items-stretch",
           {
-            "opacity-40": variant === "disabled",
+            // Disabled dims the chrome only (dashed hairline + muted title).
+            // A root opacity-40 pushed body/metric/footer text to ~1.7–2.6:1
+            // contrast on the light canvas, so the node content stays at full
+            // strength instead.
+            "border-dashed border-neutral-300": variant === "disabled",
             "border border-solid border-destructive-500": variant === "danger",
             "border-2 border-solid border-brand-primary bg-brand-primary/[0.03]":
               variant === "selected",
@@ -64,7 +68,14 @@ const CanvasNodeRoot = React.forwardRef<HTMLDivElement, CanvasNodeRootProps>(
             </div>
           </div>
           {title ? (
-            <span className="whitespace-nowrap font-body text-[13px] font-[600] leading-[19px] text-default-font flex-1 overflow-hidden text-ellipsis">
+            <span
+              className={SubframeUtils.twClassNames(
+                "whitespace-nowrap font-body text-[13px] font-[600] leading-[19px] text-default-font flex-1 overflow-hidden text-ellipsis",
+                // Still ≥5:1 contrast in both themes; a subtle muted cue for
+                // the disabled variant (replaces the old whole-node dimming).
+                { "text-neutral-600": variant === "disabled" }
+              )}
+            >
               {title}
             </span>
           ) : null}

@@ -5,7 +5,7 @@ export default defineMeta({
   slug: "track-header",
   category: "media",
   description:
-    "The fixed 180px label column for a timeline track: a type glyph tile (♪ audio / ▣ video / ¶ text), the track name, and M / S / L toggle squares that fill brand-primary when engaged, over a static twelve-bar level meter tinted through the neutral ramp. It docks to the left of a track lane and keeps the same panel surface as the lane body — a document, not a floating object.",
+    "The fixed 180px label column for a timeline track: a type glyph tile (♪ audio / ▣ video / ¶ text), the track name, and M / S / L toggle squares that fill brand-primary when engaged, over a static twelve-bar level meter tinted through the neutral ramp. Mute/solo squares and the level meter are audio-carrying affordances — they render for audio and video tracks only, while text/marker tracks show the glyph, the name and the L (lock) square. It docks to the left of a track lane and keeps the same panel surface as the lane body — a document, not a floating object.",
   usage:
     "Dock it left of a track lane row; the M/S/L squares are presentational, so wire their state from the editor.",
   tags: ["media", "timeline", "track", "label", "editor"],
@@ -19,19 +19,22 @@ export default defineMeta({
       name: "trackType",
       type: '"audio" | "video" | "text"',
       default: '"audio"',
-      description: "Pick of the glyph tile: ♪ for audio, ▣ for video, ¶ for text.",
+      description:
+        "Pick of the glyph tile: ♪ for audio, ▣ for video, ¶ for text. Text tracks omit the audio-only M/S squares and level meter.",
     },
     {
       name: "muted",
       type: "boolean",
       default: "false",
-      description: "Fills the M square with brand-primary when engaged.",
+      description:
+        "Fills the M square with brand-primary when engaged (audio/video tracks only — hidden on text tracks).",
     },
     {
       name: "solo",
       type: "boolean",
       default: "false",
-      description: "Fills the S square with brand-primary when engaged.",
+      description:
+        "Fills the S square with brand-primary when engaged (audio/video tracks only — hidden on text tracks).",
     },
     {
       name: "locked",

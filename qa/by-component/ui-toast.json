@@ -1,0 +1,59 @@
+{
+  "id": "ui:toast",
+  "name": "toast",
+  "kind": "ui",
+  "importPath": "@/components/ui/toast",
+  "sourceFiles": [
+    "src/components/ui/toast.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/toast/promise.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:toast",
+      "severity": "minor",
+      "title": "Toast viewport bottom spacing",
+      "description": "The bottommost toast container sits flush against the viewport edge without standard inset spacing.",
+      "evidence": "The red 'Webhook delivery failed' toast reaches the bottom screen border with zero offset.",
+      "suggestion": "Add consistent bottom padding to the toast container viewport.",
+      "pairId": "pair-154",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-154"
+      ],
+      "triage": "false-positive",
+      "triageNote": "Verified by live DOM measurement (viewport bottom-0 + p-4 gives exactly 16px inset; destructive toast bottom=884 vs innerHeight=900 at 1440x900) and by pixel analysis of the pair-154 screenshot itself (red toast ends at y=1175 of 1199 → 24 real px = 16 logical px gap; zero red pixels in the bottom 24 rows). The p-4 inset works as designed; 'zero offset' was a perception misread."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:toast",
+      "severity": "minor",
+      "title": "Toast viewport bottom spacing",
+      "description": "The bottommost toast container sits flush against the viewport edge without standard inset spacing.",
+      "evidence": "The red 'Webhook delivery failed' toast reaches the bottom screen border with zero offset.",
+      "suggestion": "Add consistent bottom padding to the toast container viewport.",
+      "pairId": "pair-154",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "triage": "false-positive"
+    }
+  ],
+  "fixLog": [
+    {
+      "issue": "known-context: destructive variant references text-destructive-foreground, which has no token in globals.css (dangling class → text inherits near-white on bright red bg)",
+      "triage": "fix",
+      "triageNote": "Confirmed: compiled CSS has no .text-destructive-foreground rule; computed text color rgb(241,239,233) on bg rgb(255,111,99) = 2.37:1 contrast (dark), ~3.1:1 in light — fails AA. Fixed in src/components/ui/toast.tsx by swapping to the defined theme-inverting token text-destructive-50 (light: #fef0ee on #b93a2c ≈ 4.9:1; dark: #36100c on #ff6f63 ≈ 6.2:1) for the toast root, ToastAction hover, and ToastClose destructive icon/ring colors (previously hardcoded red-300/red-50 that collapsed to 1.44:1 on the dark-theme salmon bg)."
+    }
+  ]
+}

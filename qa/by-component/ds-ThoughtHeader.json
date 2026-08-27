@@ -1,0 +1,82 @@
+{
+  "id": "ds:ThoughtHeader",
+  "name": "ThoughtHeader",
+  "kind": "ds",
+  "importPath": "@/components/ds/ThoughtHeader",
+  "sourceFiles": [
+    "src/components/ds/ThoughtHeader/ThoughtHeader.tsx"
+  ],
+  "demoFile": "src/components/ds/ThoughtHeader/demo.tsx",
+  "metaFile": "src/components/ds/ThoughtHeader/meta.ts",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ds:ThoughtHeader",
+      "severity": "major",
+      "title": "Misplaced list markers in RTL",
+      "description": "List bullet markers render at the trailing end of lines instead of leading each item.",
+      "evidence": "Bulleted items in the assistant panel show dots attached to the rightmost text edges.",
+      "suggestion": "Set proper list-style direction and margin mirroring for RTL items.",
+      "pairId": "pair-150",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-150"
+      ],
+      "triage": "false-positive",
+      "triageNote": "Playwright DOM measurement of /eval/pair-150 proves the marker renders at the LEADING edge: log row dir=rtl, dot x=974 vs paragraph x-range 701-964 with text-align:start, chevron x=969 (start side) — flexbox mirrors natively, no physical position utilities exist in the log lines; the auditor read the correct RTL-leading (rightmost) dots as 'trailing' using LTR reasoning. Hardening applied anyway: swapped the component's lone physical utility text-left -> text-start (zero visual change)."
+    },
+    {
+      "component": "ds:ThoughtHeader",
+      "severity": "minor",
+      "title": "Low text contrast on inactive log items",
+      "description": "The pending step description text has insufficient contrast against the card background.",
+      "evidence": "'Waiting on the tuning sliders before applying anything' is barely legible against the dark surface.",
+      "suggestion": "Increase the text color luminance for muted state entries.",
+      "pairId": "pair-089",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-089"
+      ],
+      "triage": "fix",
+      "triageNote": "Measured on /eval/pair-089: 'done' log text rgb(85,82,76) on the dark card = 2.53:1 and the flagged active line 'Waiting on the tuning sliders...' rgb(42,41,38) = 1.35:1 (near-invisible) — the LogLine pattern authored in ThoughtHeader's demo hardcodes light-theme neutrals (text-neutral-400/-200, bg-neutral-900) that invert to near-black in dark theme. Fixed the demo pattern with dark: counterparts (canvas dark:bg-neutral-100, done text dark:text-neutral-600, active dark:text-neutral-700, dots dark:bg-neutral-500/600) and fixed the component's own inverted neutrals (border-neutral-800 divider rendered near-white at 13.97:1 in dark -> border-default-border; hover:text-neutral-300 / group-hover:text-neutral-400 darkened on hover in dark -> added dark: counterparts). Note: /eval/pair-089 renders its own local LogLine copy (outside my edit scope), so that page's log pixels persist; the pattern source and the component itself are fixed."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:ThoughtHeader",
+      "severity": "minor",
+      "title": "Low text contrast on inactive log items",
+      "description": "The pending step description text has insufficient contrast against the card background.",
+      "evidence": "'Waiting on the tuning sliders before applying anything' is barely legible against the dark surface.",
+      "suggestion": "Increase the text color luminance for muted state entries.",
+      "pairId": "pair-089",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop"
+    },
+    {
+      "component": "ds:ThoughtHeader",
+      "severity": "major",
+      "title": "Misplaced list markers in RTL",
+      "description": "List bullet markers render at the trailing end of lines instead of leading each item.",
+      "evidence": "Bulleted items in the assistant panel show dots attached to the rightmost text edges.",
+      "suggestion": "Set proper list-style direction and margin mirroring for RTL items.",
+      "pairId": "pair-150",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "laptop"
+    }
+  ]
+}

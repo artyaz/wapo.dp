@@ -1,0 +1,51 @@
+{
+  "id": "ui:message",
+  "name": "message",
+  "kind": "ui",
+  "importPath": "@/components/ui/message",
+  "sourceFiles": [
+    "src/components/ui/message.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/message/accessibility.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:message",
+      "severity": "major",
+      "title": "Disconnected outgoing message elements",
+      "description": "Outgoing user message bubble is detached from its corresponding avatar and footer.",
+      "evidence": "Avatar 'أ' sits on the far left edge while the dark message bubble is pushed toward the right with wide empty space in between.",
+      "suggestion": "Group outgoing avatar, bubble, and status footer cohesively aligned to the start or end side.",
+      "pairId": "pair-170",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-170"
+      ],
+      "triage": "fix",
+      "triageNote": "Verified live in headless browser: align-less Bubble defaults to items-start, so inside Message align=end its w-fit content hugs inline-start — in RTL the far right edge, ~171px from the avatar/footer which sit at the end (left) side; Message's own flex-row-reverse/items-end geometry is correct and mirrors properly, root cause is missing align inheritance for child Bubbles (same flaw visible in LTR demos). Fixed via CSS inheritance in MessageContent + exported MessageAlignContext + explicit align=end in demos."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:message",
+      "severity": "major",
+      "title": "Disconnected outgoing message elements",
+      "description": "Outgoing user message bubble is detached from its corresponding avatar and footer.",
+      "evidence": "Avatar 'أ' sits on the far left edge while the dark message bubble is pushed toward the right with wide empty space in between.",
+      "suggestion": "Group outgoing avatar, bubble, and status footer cohesively aligned to the start or end side.",
+      "pairId": "pair-170",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone"
+    }
+  ]
+}

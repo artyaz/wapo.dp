@@ -1,0 +1,52 @@
+{
+  "id": "ds:TextField",
+  "name": "TextField",
+  "kind": "ds",
+  "importPath": "@/components/ds/TextField",
+  "sourceFiles": [
+    "src/components/ds/TextField/TextField.tsx"
+  ],
+  "demoFile": "src/components/ds/TextField/demo.tsx",
+  "metaFile": "src/components/ds/TextField/meta.ts",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ds:TextField",
+      "severity": "major",
+      "title": "Bidi punctuation flipping and adornment placement",
+      "description": "Helper texts misplace trailing punctuation to the left, and loading indicators sit detached on the far left.",
+      "evidence": "Periods precede helper text strings, and the work email input displays a spinner disconnected on the left.",
+      "suggestion": "Apply dir='auto' or unicode-bidi isolation and mirror start/end adornment slots.",
+      "pairId": "pair-150",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-150"
+      ],
+      "triage": "fix",
+      "triageNote": "Real bidi defect, verified by playwright geometry probe on pair-150 (trailing '.' of Latin help text rendered leftmost, before the sentence; re-audit also showed '@' flipping in 'nadia.haddad@'). Fixed with dir=\"auto\" on label/helpText spans and on Input/TextArea controls (Latin copy keeps terminal punctuation/'@' placement; Arabic content stays RTL — re-probed pair-016, unchanged). The 'spinner detached' half is a false positive: probe shows the spinner inside the field at the end edge, ~2px from vertical center, correctly mirrored trailing slot; the perceived gap was the start-aligned input text, and with dir=auto the LTR email now sits adjacent to the spinner."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:TextField",
+      "severity": "major",
+      "title": "Bidi punctuation flipping and adornment placement",
+      "description": "Helper texts misplace trailing punctuation to the left, and loading indicators sit detached on the far left.",
+      "evidence": "Periods precede helper text strings, and the work email input displays a spinner disconnected on the left.",
+      "suggestion": "Apply dir='auto' or unicode-bidi isolation and mirror start/end adornment slots.",
+      "pairId": "pair-150",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "laptop"
+    }
+  ]
+}

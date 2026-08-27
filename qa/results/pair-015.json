@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-015",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:checkbox",
+    "ui:sheet",
+    "ds:LayerTreeRow"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-015.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:20:49.426Z",
+  "summary": "The dark theme layout is mostly coherent, but checkbox controls with descriptive subtext exhibit vertical alignment defects.",
+  "issues": [
+    {
+      "component": "ui:checkbox",
+      "severity": "minor",
+      "title": "Checkbox icon vertically centered on multi-line text",
+      "description": "Checkboxes with description text center the indicator across both lines instead of aligning to the first line.",
+      "evidence": "The checkboxes for 'Export @2x assets' and 'Optimize file size' sit vertically centered beside the two-line text blocks.",
+      "suggestion": "Set vertical alignment to top or align with the label line-height."
+    }
+  ]
+}

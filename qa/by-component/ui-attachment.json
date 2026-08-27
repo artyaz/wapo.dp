@@ -1,0 +1,51 @@
+{
+  "id": "ui:attachment",
+  "name": "attachment",
+  "kind": "ui",
+  "importPath": "@/components/ui/attachment",
+  "sourceFiles": [
+    "src/components/ui/attachment.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/attachment/accessibility.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:attachment",
+      "severity": "minor",
+      "title": "Premature description truncation",
+      "description": "The error description truncates with ellipsis despite remaining container width.",
+      "evidence": "Text shows 'Upload failed · over 10 MB ...' before reaching the card edge.",
+      "suggestion": "Allow description container to expand across available horizontal space.",
+      "pairId": "pair-130",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-130"
+      ],
+      "triage": "fix",
+      "triageNote": "Verified real: AttachmentActions reserved in-flow width (52px + gap) while opacity-0, so AttachmentDescription truncated at 170px despite needing 181px and 62px of visibly empty card space; fixed by overlaying horizontal actions on the row end with a background scrim instead of reserving flex space."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:attachment",
+      "severity": "minor",
+      "title": "Premature description truncation",
+      "description": "The error description truncates with ellipsis despite remaining container width.",
+      "evidence": "Text shows 'Upload failed · over 10 MB ...' before reaching the card edge.",
+      "suggestion": "Allow description container to expand across available horizontal space.",
+      "pairId": "pair-130",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    }
+  ]
+}

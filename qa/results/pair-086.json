@@ -1,0 +1,48 @@
+{
+  "pairId": "pair-086",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:tooltip",
+    "ui:data-table",
+    "ui:chart"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-086.jpg",
+    "qa/screenshots/pair-086-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T23:08:35.381Z",
+  "summary": "The page aligns well with RTL guidelines overall, but contains an overlapping tooltip obscuring a KPI metric and text collision within the data table pagination controls.",
+  "issues": [
+    {
+      "component": "ui:tooltip",
+      "severity": "major",
+      "title": "Tooltip obscures metric value",
+      "description": "Tooltip container renders directly over the primary metric number in the conversion rate KPI card.",
+      "evidence": "Dark tooltip box overlaps and occludes the number beneath the card header.",
+      "suggestion": "Adjust tooltip placement offset to render clear of the metric value."
+    },
+    {
+      "component": "ui:data-table",
+      "severity": "major",
+      "title": "Pagination text collision",
+      "description": "Table pagination footer displays unspaced, colliding English text labels.",
+      "evidence": "Bottom footer displays 'Rows per page0 of 9 row(s) selected.' without separation.",
+      "suggestion": "Add proper margin between pagination elements and localize label strings."
+    }
+  ]
+}

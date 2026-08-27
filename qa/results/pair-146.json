@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-146",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:checkbox",
+    "ui:typography",
+    "ds:RelationshipGrid"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-146.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:46:36.016Z",
+  "summary": "The layout fits the 1440x900 viewport without scrolling in dark theme, but displays text formatting defects within grid cell contents.",
+  "issues": [
+    {
+      "component": "ds:RelationshipGrid",
+      "severity": "major",
+      "title": "Erratic word spacing in Title column",
+      "description": "Multiple records display unnatural gaps and split words in the Title column strings.",
+      "evidence": "Text contains splits such as 'Re place', 'Latenc y', 'te mp', 'mainte nance', and 'proc edure'.",
+      "suggestion": "Correct text string values or fix font kerning/wrapping rules inside grid title cells."
+    }
+  ]
+}

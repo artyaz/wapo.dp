@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-003",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:ReasoningLog",
+    "ds:InlineChips",
+    "ui:input-group"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "an image gallery with metadata"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-003.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:23:47.317Z",
+  "summary": "The interface cleanly implements the dark theme and typography, but the bottom input group is clipped at the viewport edge.",
+  "issues": [
+    {
+      "component": "ui:input-group",
+      "severity": "major",
+      "title": "Input clipped at bottom viewport boundary",
+      "description": "The caption refinement input box extends past the viewport, truncating its bottom border.",
+      "evidence": "The lower border of the 'refine caption' input group is cut off at the bottom right.",
+      "suggestion": "Add bottom padding or constrain the sidebar height with internal scrolling."
+    }
+  ]
+}

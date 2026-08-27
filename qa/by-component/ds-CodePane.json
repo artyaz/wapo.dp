@@ -1,0 +1,86 @@
+{
+  "id": "ds:CodePane",
+  "name": "CodePane",
+  "kind": "ds",
+  "importPath": "@/components/ds/CodePane",
+  "sourceFiles": [
+    "src/components/ds/CodePane/CodePane.tsx"
+  ],
+  "demoFile": "src/components/ds/CodePane/demo.tsx",
+  "metaFile": "src/components/ds/CodePane/meta.ts",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 2,
+    "minor": 0,
+    "distinctPatterns": 2
+  },
+  "fixNotes": [
+    "CodePane.tsx: HoverDocCard no longer absolutely positioned over the code — rendered in flow below the snippet, docked to the pane's trailing edge (self-end me-3 mb-3, logical utilities). Fixes both pair-049 (360px) and pair-071 (1280px) obscuring majors.",
+    "CodePane.tsx: CodeLine row h-6 -> min-h-6 so overlong lines soft-wrap and the row grows instead of the 40px wrapped text block spilling out of the fixed 24px row onto neighbouring lines (defect exposed at 360px once the doc card stopped covering lines 1-6; surfaced by the pair-049 re-audit)."
+  ],
+  "issues": [
+    {
+      "component": "ds:CodePane",
+      "severity": "major",
+      "title": "Hovercard obscures code pane content",
+      "description": "Documentation popover overlays code lines directly, causing severe text fragmentation and obscuring source contents on mobile.",
+      "evidence": "The definition popover floats directly across lines 1 through 10 in the Code Match card, squeezing background text into narrow broken fragments.",
+      "suggestion": "Disable automatic hovercards on touch viewports or present documentation cards below the active snippet in a modal sheet.",
+      "pairId": "pair-049",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "triage": "fix",
+      "triageNote": "Real defect: root unconditionally mounts HoverDocCard absolute right-3 top-3, overlapping the first ~6-10 code lines at 360px.",
+      "occurrences": 1,
+      "pairs": [
+        "pair-049"
+      ]
+    },
+    {
+      "component": "ds:CodePane",
+      "severity": "major",
+      "title": "Code popover obscures active source lines",
+      "description": "Hover popover renders directly over the inspected code tokens, obstructing lines 1 through 6.",
+      "evidence": "Popover container overlaps and hides code text in lines 1–6 of the pane.",
+      "suggestion": "Offset the popover above the token or adjust placement to prevent covering code.",
+      "pairId": "pair-071",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "triage": "fix",
+      "triageNote": "Same root cause corroborated at 1280px desktop dark: the absolute top-right card covers lines 1-6 regardless of viewport.",
+      "occurrences": 1,
+      "pairs": [
+        "pair-071"
+      ]
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:CodePane",
+      "severity": "major",
+      "title": "Hovercard obscures code pane content",
+      "description": "Documentation popover overlays code lines directly, causing severe text fragmentation and obscuring source contents on mobile.",
+      "evidence": "The definition popover floats directly across lines 1 through 10 in the Code Match card, squeezing background text into narrow broken fragments.",
+      "suggestion": "Disable automatic hovercards on touch viewports or present documentation cards below the active snippet in a modal sheet.",
+      "pairId": "pair-049",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    },
+    {
+      "component": "ds:CodePane",
+      "severity": "major",
+      "title": "Code popover obscures active source lines",
+      "description": "Hover popover renders directly over the inspected code tokens, obstructing lines 1 through 6.",
+      "evidence": "Popover container overlaps and hides code text in lines 1–6 of the pane.",
+      "suggestion": "Offset the popover above the token or adjust placement to prevent covering code.",
+      "pairId": "pair-071",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop"
+    }
+  ]
+}

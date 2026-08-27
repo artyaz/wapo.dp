@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-091",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:kbd",
+    "ds:StatusBadge",
+    "ds:Button"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-091.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:19:52.598Z",
+  "summary": "The interface exhibits critical contrast readability issues in the shortcuts section and vertical overflow clipping on 360x640 viewports.",
+  "issues": [
+    {
+      "component": "page",
+      "severity": "major",
+      "title": "Footer text clipped by viewport",
+      "description": "Bottom status line overflows screen bounds and gets cut off vertically.",
+      "evidence": "The text 'Auto-saving to cloud · highlights marked 4' is sliced at the bottom edge.",
+      "suggestion": "Reduce card padding or vertical gaps to ensure all content fits within 640px."
+    },
+    {
+      "component": "page",
+      "severity": "major",
+      "title": "Insufficient shortcut section contrast",
+      "description": "Labels and keyboard shortcut glyphs inside the bottom panel fail readability contrast against the dark background.",
+      "evidence": "Labels 'Pause / resume', 'Mute microphone', 'Save take', and their associated kbd caps are barely legible.",
+      "suggestion": "Use brighter text tokens for muted labels and increase border/text contrast on kbd elements."
+    }
+  ]
+}

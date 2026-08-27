@@ -1,0 +1,40 @@
+{
+  "pairId": "pair-170",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:CandleSeries",
+    "ds:MiniMap",
+    "ui:message"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-170.jpg",
+    "qa/screenshots/pair-170-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T01:49:58.653Z",
+  "summary": "The layout conforms well to RTL mobile standards with consistent spacing, clear typography, and proper component hierarchy across all sections.",
+  "issues": [
+    {
+      "component": "ds:MiniMap",
+      "severity": "minor",
+      "title": "BiDi filename punctuation",
+      "description": "File extension and period render with improper BiDi text direction.",
+      "evidence": "Header displays 'md . تقرير - السوق' with punctuation displaced.",
+      "suggestion": "Wrap mixed-script file names in LTR isolation or <bdi> tags."
+    }
+  ]
+}

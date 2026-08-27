@@ -67,13 +67,13 @@ const EntityTabsRoot = React.forwardRef<HTMLDivElement, EntityTabsRootProps>(
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "flex w-full items-end border-b border-solid border-default-border",
+          "flex w-full items-end gap-3 border-b border-solid border-default-border sm:gap-6",
           className
         )}
         ref={ref}
         {...otherProps}
       >
-        <div className="flex min-w-0 flex-1 items-end gap-3 overflow-x-auto pb-px sm:gap-6">
+        <div className="flex min-w-0 items-end gap-3 overflow-x-auto pb-px sm:gap-6">
           <TabItem label="Details" count="" active={true} />
           <TabItem label="Child Records" count="12" />
           <TabItem label="Activity" count="47" />

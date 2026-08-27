@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-087",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:EntityTabs",
+    "ui:menubar",
+    "ds:StatusBadge"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a kanban board card detail"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-087.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:20:15.871Z",
+  "summary": "The page cleanly implements all required components in dark mode with balanced hierarchy, consistent spacing, and good contrast.",
+  "issues": []
+}

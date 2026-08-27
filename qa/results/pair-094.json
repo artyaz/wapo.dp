@@ -1,0 +1,48 @@
+{
+  "pairId": "pair-094",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:TimelineRuler",
+    "ds:GlassRefraction",
+    "ui:switch"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a login screen"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-094.jpg",
+    "qa/screenshots/pair-094-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:30:34.790Z",
+  "summary": "The dark theme layout largely complies with system styling, but exhibits viewport clipping on smaller screens and awkward metadata text wrapping at the base of the page.",
+  "issues": [
+    {
+      "component": "page",
+      "severity": "major",
+      "title": "Content truncated at viewport bottom",
+      "description": "The timeline preview container is clipped by the fold on a 360x640 viewport.",
+      "evidence": "The viewport screenshot cuts off the bottom card midway through the timeline tick marks.",
+      "suggestion": "Reduce vertical spacing between form elements to ensure the preview card remains visible without scrolling."
+    },
+    {
+      "component": "ds:TimelineRuler",
+      "severity": "minor",
+      "title": "Orphaned text wrap in footer",
+      "description": "Instructional text below the ruler breaks onto a second line with awkward phrasing.",
+      "evidence": "The string 'to pan' wraps awkwardly onto a standalone line beneath the comment count.",
+      "suggestion": "Adjust container padding or font styling to allow the metadata string to render on a single line."
+    }
+  ]
+}

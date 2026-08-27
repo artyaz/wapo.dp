@@ -1,0 +1,82 @@
+{
+  "id": "ds:Sheet",
+  "name": "Sheet",
+  "kind": "ds",
+  "importPath": "@/components/ds/Sheet",
+  "sourceFiles": [
+    "src/components/ds/Sheet/Sheet.tsx"
+  ],
+  "demoFile": "src/components/ds/Sheet/demo.tsx",
+  "metaFile": "src/components/ds/Sheet/meta.ts",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 2,
+    "minor": 0,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ds:Sheet",
+      "severity": "major",
+      "title": "Modal misalignment and missing scrim",
+      "description": "The confirm payment sheet is positioned off-center and overlaps background panels without a backdrop scrim.",
+      "evidence": "The sheet sits over the right-hand API calls panel, partially obscuring the lower endpoints.",
+      "suggestion": "Center the sheet in the viewport and apply a standard backdrop overlay.",
+      "pairId": "pair-001",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-001"
+      ],
+      "triage": "fix",
+      "triageNote": "Real dark-theme defect: the bg-default-font/[0.34] scrim inverted with the ink token (near-white in dark) into a 34% white haze, so the sheet read as an un-scrimmed floating panel. Replaced with a black scrim — bg-[#00000057] in light (unchanged 34% ink strength) deepened to dark:bg-[#00000099] (60%, matching ds:Dialog) because a vision re-audit confirmed flat 34% black is still imperceptible over the near-black dark page. The 'off-center' half is the documented bottom-anchored, horizontally centered design — not a defect."
+    },
+    {
+      "component": "ds:Sheet",
+      "severity": "major",
+      "title": "RTL action alignment in modal footer",
+      "description": "The dialog actions are aligned to the left edge rather than the expected start edge in RTL layout.",
+      "evidence": "Footer buttons 'تأكيد الشراء' and 'إلغاء' sit at the bottom-left corner of the sheet.",
+      "suggestion": "Align modal footer actions to the start edge (right) or use a consistent full-width/RTL ordering.",
+      "pairId": "pair-021",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-021"
+      ],
+      "triage": "false-positive",
+      "triageNote": "justify-end is direction-aware flexbox (main-axis end = left edge in RTL), so confirm/cancel docking bottom-left in RTL is the correct mirrored position — same convention as ds:Dialog's demo footer and standard Material/Apple RTL mirroring. No physical classes exist in Sheet.tsx or demo.tsx; meta usage + demo comment updated to teach the logical-alignment pattern."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:Sheet",
+      "severity": "major",
+      "title": "Modal misalignment and missing scrim",
+      "description": "The confirm payment sheet is positioned off-center and overlaps background panels without a backdrop scrim.",
+      "evidence": "The sheet sits over the right-hand API calls panel, partially obscuring the lower endpoints.",
+      "suggestion": "Center the sheet in the viewport and apply a standard backdrop overlay.",
+      "pairId": "pair-001",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop"
+    },
+    {
+      "component": "ds:Sheet",
+      "severity": "major",
+      "title": "RTL action alignment in modal footer",
+      "description": "The dialog actions are aligned to the left edge rather than the expected start edge in RTL layout.",
+      "evidence": "Footer buttons 'تأكيد الشراء' and 'إلغاء' sit at the bottom-left corner of the sheet.",
+      "suggestion": "Align modal footer actions to the start edge (right) or use a consistent full-width/RTL ordering.",
+      "pairId": "pair-021",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "laptop"
+    }
+  ]
+}

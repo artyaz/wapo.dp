@@ -1,0 +1,63 @@
+{
+  "id": "ui:skeleton",
+  "name": "skeleton",
+  "kind": "ui",
+  "importPath": "@/components/ui/skeleton",
+  "sourceFiles": [
+    "src/components/ui/skeleton.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/skeleton/avatar.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:skeleton",
+      "severity": "minor",
+      "title": "Avatar skeleton vertical misalignment",
+      "description": "Avatar skeleton is misaligned with the accompanying text skeleton lines.",
+      "evidence": "Circular avatar starts below the top edge of the first horizontal skeleton line.",
+      "suggestion": "Align the top of the avatar skeleton with the top text skeleton line.",
+      "pairId": "pair-013",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-013"
+      ],
+      "triage": "composition",
+      "triageNote": "Root cause is pair-013's inline composition (src/app/eval/pair-013/page.tsx ~L85): a 40px avatar Skeleton centered against a 3-line text column (3×16px + 2×8px gap = 64px) via items-center, so the avatar top sits 12px below the first line. The component and its demo (ui-demos/skeleton/avatar.tsx: 2 lines = 40px = avatar) align exactly. Eval pages are QA-owned and not editable — one-line fix for the orchestrator: items-center → items-start on that flex row."
+    }
+  ],
+  "extraFixes": [
+    {
+      "component": "ui:skeleton",
+      "severity": "major",
+      "title": "Skeleton invisible on panel/card surfaces in dark theme",
+      "description": "Skeleton used bg-accent, which in dark theme resolves to --ds-color-neutral-100 = rgb(21 21 19) — exactly --ds-color-panel. Loading rows on Cards/panels (e.g. pair-172 skeleton table rows, pair-147 host/extras block on bg-card, sidebar menu loading) rendered at zero contrast in dark mode.",
+      "fix": "src/components/ui/skeleton.tsx: base class now 'bg-accent dark:bg-neutral-200 animate-pulse rounded-md' — dark skeleton is one step above the panel on the inverted neutral scale (rgb(42 41 38) on rgb(21 21 19)), mirroring the light-theme accent-on-white relationship. Note: dark:bg-neutral-800 was considered and rejected (neutral-800 is near-white rgb(221 217 207) in dark).",
+      "files": [
+        "src/components/ui/skeleton.tsx"
+      ]
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:skeleton",
+      "severity": "minor",
+      "title": "Avatar skeleton vertical misalignment",
+      "description": "Avatar skeleton is misaligned with the accompanying text skeleton lines.",
+      "evidence": "Circular avatar starts below the top edge of the first horizontal skeleton line.",
+      "suggestion": "Align the top of the avatar skeleton with the top text skeleton line.",
+      "pairId": "pair-013",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "tablet-portrait"
+    }
+  ]
+}

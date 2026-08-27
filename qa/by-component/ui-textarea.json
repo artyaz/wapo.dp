@@ -1,0 +1,19 @@
+{
+  "id": "ui:textarea",
+  "name": "textarea",
+  "kind": "ui",
+  "importPath": "@/components/ui/textarea",
+  "sourceFiles": [
+    "src/components/ui/textarea.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/textarea/button.tsx",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

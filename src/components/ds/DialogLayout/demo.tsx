@@ -45,8 +45,8 @@ export default function Demo() {
           modal={false}
           className="absolute inset-0"
         >
-          <div className="flex w-[104px] shrink-0 flex-col items-start gap-2 pt-1 max-sm:hidden">
-            <div className="flex h-10 w-10 items-center justify-center rounded-[4px] bg-neutral-100 font-code text-[13px] text-neutral-500">
+          <div className="flex w-[104px] shrink-0 flex-col items-start gap-2 max-sm:hidden">
+            <div className="flex h-10 w-10 items-center justify-center rounded-[4px] border border-solid border-default-border bg-neutral-100 font-code text-[13px] text-neutral-500">
               NL
             </div>
             <span className="text-caption font-caption text-neutral-500">
@@ -92,8 +92,8 @@ export default function Demo() {
 export const demoSource = `const [open, setOpen] = useState(true);
 
 <DialogLayout open={open} onOpenChange={setOpen}>
-  <div className="flex w-[104px] shrink-0 flex-col items-start gap-2 pt-1">
-    <div className="flex h-10 w-10 items-center justify-center rounded-[4px] bg-neutral-100 font-code text-[13px] text-neutral-500">
+  <div className="flex w-[104px] shrink-0 flex-col items-start gap-2">
+    <div className="flex h-10 w-10 items-center justify-center rounded-[4px] border border-solid border-default-border bg-neutral-100 font-code text-[13px] text-neutral-500">
       NL
     </div>
     <span className="text-caption font-caption text-neutral-500">

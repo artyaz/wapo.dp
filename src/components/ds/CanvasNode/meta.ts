@@ -15,7 +15,7 @@ export default defineMeta({
       type: '"default" | "selected" | "danger" | "disabled"',
       default: '"default"',
       description:
-        "Surface state: selected thickens the border to brand-primary with a 3% tint, danger outlines in destructive-500, disabled drops to 40% opacity.",
+        "Surface state: selected thickens the border to brand-primary with a 3% tint, danger outlines in destructive-500, disabled switches the border to a dashed neutral-300 hairline and steps the title down to neutral-600 while body/footer content keeps full contrast.",
     },
     {
       name: "title",

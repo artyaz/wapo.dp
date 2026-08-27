@@ -1,0 +1,52 @@
+{
+  "id": "ds:GlassMaterialProvider",
+  "name": "GlassMaterialProvider",
+  "kind": "ds",
+  "importPath": "@/components/ds/GlassMaterialProvider",
+  "sourceFiles": [
+    "src/components/ds/GlassMaterialProvider/GlassMaterialProvider.tsx"
+  ],
+  "demoFile": "src/components/ds/GlassMaterialProvider/demo.tsx",
+  "metaFile": "src/components/ds/GlassMaterialProvider/meta.ts",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ds:GlassMaterialProvider",
+      "severity": "minor",
+      "title": "Low contrast header text",
+      "description": "Header labels have insufficient contrast against the glass bar.",
+      "evidence": "Praxis Cloud and Sandbox text elements blend into the dark grey translucent header.",
+      "suggestion": "Increase text opacity or use a lighter foreground color token.",
+      "pairId": "pair-001",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-001"
+      ],
+      "triage": "fix",
+      "triageNote": "Real in-component defect fixed: StrategyBadge inactive label/dot used hardcoded neutral-400 (≈2.5:1 in dark) → theme-aware muted-foreground (≈5.8:1 in dark; verified rendering at rgb(143,140,132) on pair-077). The specific flagged captions are page-authored in the off-limits eval file and their tokens are AA-fine undimmed (Praxis Cloud = text-default-font ≈13:1; Sandbox = neutral-500 ≈5.3:1); pixel probe showed they read at ~40% brightness because the eval page's open non-modal ds:Sheet paints a z-50 rgba(0,0,0,0.6) overlay over the whole viewport — composition/blocked-external (ds:Sheet + eval page)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:GlassMaterialProvider",
+      "severity": "minor",
+      "title": "Low contrast header text",
+      "description": "Header labels have insufficient contrast against the glass bar.",
+      "evidence": "Praxis Cloud and Sandbox text elements blend into the dark grey translucent header.",
+      "suggestion": "Increase text opacity or use a lighter foreground color token.",
+      "pairId": "pair-001",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop"
+    }
+  ]
+}

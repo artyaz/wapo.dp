@@ -1,0 +1,52 @@
+{
+  "id": "ds:PanelTile",
+  "name": "PanelTile",
+  "kind": "ds",
+  "importPath": "@/components/ds/PanelTile",
+  "sourceFiles": [
+    "src/components/ds/PanelTile/PanelTile.tsx"
+  ],
+  "demoFile": "src/components/ds/PanelTile/demo.tsx",
+  "metaFile": "src/components/ds/PanelTile/meta.ts",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ds:PanelTile",
+      "severity": "minor",
+      "title": "Bidirectional punctuation error",
+      "description": "RTL text rendering places punctuation incorrectly before the deploy identifier.",
+      "evidence": "The string renders as '.#4217' instead of '#4217'.",
+      "suggestion": "Wrap technical identifiers in LTR directional isolation tags.",
+      "pairId": "pair-046",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-046"
+      ],
+      "triage": "composition",
+      "triageNote": "Verified via headless-browser DOM geometry at 390x844: the '#4217' identifier itself is already dir=\"ltr\"-isolated in the eval page; the '.#4217' artifact is the English sentence's trailing period resolving to the RTL paragraph direction and jumping to the left edge of the wrapped second line, adjacent to the isolated id. Root cause is the page-level <p> in src/app/eval/pair-046/page.tsx (eval pages are off-limits to fix agents — remedy: dir=\"ltr\" on that <p>). ds:PanelTile itself renders no values; its demo value-slot pattern was hardened with dir=\"ltr\" isolation and the meta usage now documents it."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:PanelTile",
+      "severity": "minor",
+      "title": "Bidirectional punctuation error",
+      "description": "RTL text rendering places punctuation incorrectly before the deploy identifier.",
+      "evidence": "The string renders as '.#4217' instead of '#4217'.",
+      "suggestion": "Wrap technical identifiers in LTR directional isolation tags.",
+      "pairId": "pair-046",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone"
+    }
+  ]
+}

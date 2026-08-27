@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-101",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:MethodChip",
+    "ui:select",
+    "ui:separator"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-half",
+      "width": 390,
+      "height": 420,
+      "weight": 10,
+      "hint": "roughly HALF of a phone screen (very little vertical room)"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a media player with its playlist"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-101.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:39:11.752Z",
+  "summary": "The layout fits the 390x420 viewport cleanly with balanced spacing, clear hierarchy, and correctly rendered Praxis components.",
+  "issues": []
+}

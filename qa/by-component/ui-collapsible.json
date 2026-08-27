@@ -1,0 +1,51 @@
+{
+  "id": "ui:collapsible",
+  "name": "collapsible",
+  "kind": "ui",
+  "importPath": "@/components/ui/collapsible",
+  "sourceFiles": [
+    "src/components/ui/collapsible.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/collapsible/basic.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:collapsible",
+      "severity": "minor",
+      "title": "Erroneous text spacing in table header",
+      "description": "The Starter column header contains an unintentional space.",
+      "evidence": "The header label displays as 'START ER'.",
+      "suggestion": "Correct string value to 'STARTER'.",
+      "pairId": "pair-137",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-half",
+      "occurrences": 1,
+      "pairs": [
+        "pair-137"
+      ],
+      "triage": "false-positive",
+      "triageNote": "Source string is 'Starter' (no space, rendered uppercase via CSS) in src/app/eval/pair-137/page.tsx inside a fixed 64px grid column — ~50px of text fits without wrapping; raw audit attributes the artifact to the page alongside a matching '/ mo nth' misread of tiny 10-11px text, i.e. a vision misread of page composition, not a component defect. Eval page is also outside editable scope."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:collapsible",
+      "severity": "minor",
+      "title": "Erroneous text spacing in table header",
+      "description": "The Starter column header contains an unintentional space.",
+      "evidence": "The header label displays as 'START ER'.",
+      "suggestion": "Correct string value to 'STARTER'.",
+      "pairId": "pair-137",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-half"
+    }
+  ]
+}

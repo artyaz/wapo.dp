@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-167",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:GlassRefraction",
+    "ds:PlayerBar",
+    "ui:native-select"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "dark",
+    "direction": "rtl",
+    "constraint": "no-scroll",
+    "scenario": "an AI chat interface"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-167.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:08:28.321Z",
+  "summary": "The dark-theme layout fits within the viewport and adheres to the liquid-glass aesthetic with proper RTL layout mirroring and readable contrast across all components.",
+  "issues": [
+    {
+      "component": "ds:GlassRefraction",
+      "severity": "minor",
+      "title": "Specimen order mismatch",
+      "description": "The specimen order conflicts with the subheader label sequence in the refraction showcase.",
+      "evidence": "Header lists 'thin · thick' while the cards below are arranged with THICK on the left and THIN on the right.",
+      "suggestion": "Align the header label order with the physical card layout."
+    },
+    {
+      "component": "ds:PlayerBar",
+      "severity": "minor",
+      "title": "Playback duration anomaly",
+      "description": "The progress timestamp displays an elapsed time greater than total duration.",
+      "evidence": "Timestamp reads '18:40 / 03:12 LIVE' in the player header.",
+      "suggestion": "Adjust playback timer values to reflect valid elapsed and total duration."
+    }
+  ]
+}

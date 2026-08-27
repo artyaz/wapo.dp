@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-022",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:textarea",
+    "ds:FormSection",
+    "ds:GlassDisplacement"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "an empty-state + recovery flow"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-022.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:33:15.920Z",
+  "summary": "The page cleanly executes the light theme recovery scenario with well-proportioned layout hierarchy, legible form controls, and properly rendered glass displacement effects.",
+  "issues": []
+}

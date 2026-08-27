@@ -37,7 +37,7 @@ export default function Demo() {
     <div className="flex w-full max-w-[520px] flex-wrap items-center justify-center gap-x-7 gap-y-4">
       {/* The mapped surface: a quiet wireframe document */}
       <div className="flex flex-col gap-2">
-        <span className="font-code text-[11px] tracking-[0.04em] text-neutral-500">
+        <span className="font-code text-[11px] tracking-[0.04em] text-neutral-600 dark:text-neutral-500">
           report-draft.md
         </span>
         <div className="relative h-[220px] w-[260px] overflow-hidden rounded-lg border border-solid border-default-border bg-default-background">

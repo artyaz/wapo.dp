@@ -1,0 +1,52 @@
+{
+  "id": "ds:FloatingToolbar",
+  "name": "FloatingToolbar",
+  "kind": "ds",
+  "importPath": "@/components/ds/FloatingToolbar",
+  "sourceFiles": [
+    "src/components/ds/FloatingToolbar/FloatingToolbar.tsx"
+  ],
+  "demoFile": "src/components/ds/FloatingToolbar/demo.tsx",
+  "metaFile": "src/components/ds/FloatingToolbar/meta.ts",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ds:FloatingToolbar",
+      "severity": "major",
+      "title": "Floating toolbar overlaps card boundary",
+      "description": "Toolbar elements overlay card borders and sit too close to the bottom screen edge.",
+      "evidence": "Share and Alert actions overlap the card boundary while the Clear button sits directly beneath near the edge.",
+      "suggestion": "Anchor toolbar with proper safe-area padding away from card borders.",
+      "pairId": "pair-042",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-042"
+      ],
+      "triage": "fix",
+      "triageNote": "The straddle placement itself is deliberate page composition, but the flagged evidence (Clear orphaned on a second row, capsule grown to 86px tall and hanging near the screen edge) is a real component defect: with the common left-1/2 -translate-x-1/2 centering, shrink-to-fit caps the toolbar at half the card width (~178px of 358px), so the inner flex-wrap breaks into ragged rows on narrow surfaces. Fixed by making the root w-max (existing max-w-full clamps to the surface): the capsule now keeps its single-row natural width (254px, measured) and only wraps when the surface itself is narrower than the content."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:FloatingToolbar",
+      "severity": "major",
+      "title": "Floating toolbar overlaps card boundary",
+      "description": "Toolbar elements overlay card borders and sit too close to the bottom screen edge.",
+      "evidence": "Share and Alert actions overlap the card boundary while the Clear button sits directly beneath near the edge.",
+      "suggestion": "Anchor toolbar with proper safe-area padding away from card borders.",
+      "pairId": "pair-042",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone"
+    }
+  ]
+}

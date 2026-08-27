@@ -1,0 +1,111 @@
+{
+  "id": "ui:questionnaire",
+  "name": "questionnaire",
+  "kind": "ui",
+  "importPath": "@/components/ui/questionnaire",
+  "sourceFiles": [
+    "src/components/ui/questionnaire.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/questionnaire/animated-items.tsx",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ui:questionnaire",
+      "severity": "major",
+      "title": "Progress bar not mirrored for RTL",
+      "description": "The progress indicator fills from left to right instead of right to left in RTL mode.",
+      "evidence": "The 33% fill begins at the left boundary of the progress track.",
+      "suggestion": "Reverse progress track fill direction to originate from the right in RTL.",
+      "pairId": "pair-107",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-107"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: default progress rendering delegates to ui/progress whose indicator uses a physical translateX, so the fill stays anchored to the left edge in RTL; fixed inside questionnaire.tsx by rendering a direction-aware track (logical start-0 + width) instead of delegating."
+    },
+    {
+      "component": "ui:questionnaire",
+      "severity": "minor",
+      "title": "Misaligned questionnaire actions",
+      "description": "Supplementary action button is awkwardly stacked beneath primary navigation controls.",
+      "evidence": "The 'Lock in pricing' button sits right-aligned directly underneath 'Next' rather than in a cohesive action group.",
+      "suggestion": "Restructure QuestionnaireActions into a balanced horizontal or full-width button group.",
+      "pairId": "pair-010",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-010"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: QuestionnaireActions uses flex-wrap + justify-end, so on narrow phones the wrapped supplementary action lands alone on a right-aligned second row; fixed by stacking actions as a full-width group on mobile (<30rem) viewports."
+    },
+    {
+      "component": "ui:questionnaire",
+      "severity": "minor",
+      "title": "Untranslated step counter",
+      "description": "The step counter displays in English instead of Hebrew.",
+      "evidence": "Header displays 'Question 1 of 3' amidst Hebrew UI text.",
+      "suggestion": "Localize the step counter string into Hebrew.",
+      "pairId": "pair-107",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-107"
+      ],
+      "triage": "fix",
+      "triageNote": "Real localizability defect: the step counter was hardcoded English with no override prop (every other questionnaire string is consumer-supplied); fixed by adding an additive stepLabel prop (string or ({current,total}) => string). The pair-107 eval page itself is off-limits (src/app/eval/**) and keeps the English default, but the component is now localizable per the DS useTranslation RTL-demo convention."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:questionnaire",
+      "severity": "minor",
+      "title": "Misaligned questionnaire actions",
+      "description": "Supplementary action button is awkwardly stacked beneath primary navigation controls.",
+      "evidence": "The 'Lock in pricing' button sits right-aligned directly underneath 'Next' rather than in a cohesive action group.",
+      "suggestion": "Restructure QuestionnaireActions into a balanced horizontal or full-width button group.",
+      "pairId": "pair-010",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    },
+    {
+      "component": "ui:questionnaire",
+      "severity": "major",
+      "title": "Progress bar not mirrored for RTL",
+      "description": "The progress indicator fills from left to right instead of right to left in RTL mode.",
+      "evidence": "The 33% fill begins at the left boundary of the progress track.",
+      "suggestion": "Reverse progress track fill direction to originate from the right in RTL.",
+      "pairId": "pair-107",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone"
+    },
+    {
+      "component": "ui:questionnaire",
+      "severity": "minor",
+      "title": "Untranslated step counter",
+      "description": "The step counter displays in English instead of Hebrew.",
+      "evidence": "Header displays 'Question 1 of 3' amidst Hebrew UI text.",
+      "suggestion": "Localize the step counter string into Hebrew.",
+      "pairId": "pair-107",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone"
+    }
+  ]
+}

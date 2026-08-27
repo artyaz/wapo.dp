@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-024",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:JsonTreeNode",
+    "ui:calendar",
+    "ui:slider"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-024.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:35:25.908Z",
+  "summary": "The layout and dark theme presentation are mostly well-structured, but the slider component exhibits a visual state synchronization defect.",
+  "issues": [
+    {
+      "component": "ui:slider",
+      "severity": "major",
+      "title": "Thumb handle detached from progress track",
+      "description": "In the Failure threshold slider, the handle position does not match the active filled bar.",
+      "evidence": "The filled track terminates at the 75% mark while the circular thumb handle is positioned near the 98% mark.",
+      "suggestion": "Align the thumb handle position with the active track width based on the current value."
+    }
+  ]
+}

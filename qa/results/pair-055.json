@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-055",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:FileTreeRow",
+    "ui:textarea",
+    "ui:dropdown-menu"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a user profile page"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-055.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:55:51.304Z",
+  "summary": "The profile page accurately renders the dark-theme liquid-glass aesthetic across all required components with proper contrast, alignment, and spacing.",
+  "issues": []
+}

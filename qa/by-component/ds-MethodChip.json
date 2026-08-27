@@ -1,0 +1,20 @@
+{
+  "id": "ds:MethodChip",
+  "name": "MethodChip",
+  "kind": "ds",
+  "importPath": "@/components/ds/MethodChip",
+  "sourceFiles": [
+    "src/components/ds/MethodChip/MethodChip.tsx"
+  ],
+  "demoFile": "src/components/ds/MethodChip/demo.tsx",
+  "metaFile": "src/components/ds/MethodChip/meta.ts",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

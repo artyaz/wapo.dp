@@ -1,0 +1,56 @@
+{
+  "pairId": "pair-147",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:aspect-ratio",
+    "ui:skeleton",
+    "ui:tooltip"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "dense-content",
+    "scenario": "a booking flow"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-147.jpg",
+    "qa/screenshots/pair-147-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:45:23.285Z",
+  "summary": "The booking layout has minor contrast and positioning issues, notably a tooltip obstructing price details and primary actions sitting below the initial viewport fold.",
+  "issues": [
+    {
+      "component": "ui:tooltip",
+      "severity": "major",
+      "title": "Tooltip obscures price breakdown",
+      "description": "The active tooltip overlaps the line items directly above its trigger icon, hiding rate details.",
+      "evidence": "Tooltip box covers text between Price breakdown and Total line in the right sidebar.",
+      "suggestion": "Reposition tooltip to display above or to the side with adequate clearance."
+    },
+    {
+      "component": "ui:aspect-ratio",
+      "severity": "major",
+      "title": "Illegible thumbnail caption overlay",
+      "description": "Text inside the first media card lacks sufficient contrast against the dark gradient.",
+      "evidence": "'Bedroom · king bed' text in the left thumbnail is nearly invisible against dark background.",
+      "suggestion": "Increase contrast or adjust text color token for dark theme legibility."
+    },
+    {
+      "component": "page",
+      "severity": "major",
+      "title": "Primary booking CTAs below the fold",
+      "description": "Main conversion buttons are pushed below standard 800px viewport height.",
+      "evidence": "Confirm & pay button is cut off in 1280x800 view and requires scrolling.",
+      "suggestion": "Tighten vertical spacing in the summary card to keep primary actions above fold."
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "id": "ds:PlayerBar",
+  "name": "PlayerBar",
+  "kind": "ds",
+  "importPath": "@/components/ds/PlayerBar",
+  "sourceFiles": [
+    "src/components/ds/PlayerBar/PlayerBar.tsx"
+  ],
+  "demoFile": "src/components/ds/PlayerBar/demo.tsx",
+  "metaFile": "src/components/ds/PlayerBar/meta.ts",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ds:PlayerBar",
+      "severity": "major",
+      "title": "RTL punctuation and truncation artifacts",
+      "description": "English transcript text exhibits RTL punctuation flipping and broken leading ellipsis under right-to-left layout.",
+      "evidence": "Widget displays '..n the eu-central-1' and wrapped '.dropped' with leading period.",
+      "suggestion": "Set dir='ltr' or unicode-bidi isolation on transcript text containers.",
+      "pairId": "pair-168",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-168"
+      ],
+      "triage": "fix",
+      "triageNote": "Real bidi defect: excerpt <p> and error <span> had no directional isolation, so English prose on RTL pages got punctuation flipped and the line-clamp ellipsis rendered at the leading edge; fixed with dir=\"auto\" on both text slots (Arabic content still resolves RTL)."
+    },
+    {
+      "component": "ds:PlayerBar",
+      "severity": "minor",
+      "title": "Playback duration anomaly",
+      "description": "The progress timestamp displays an elapsed time greater than total duration.",
+      "evidence": "Timestamp reads '18:40 / 03:12 LIVE' in the player header.",
+      "suggestion": "Adjust playback timer values to reflect valid elapsed and total duration.",
+      "pairId": "pair-167",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-167"
+      ],
+      "triage": "fix",
+      "triageNote": "Not a data anomaly — the position string 03:12 / 18:40 is a weak-direction numeric run: in an RTL paragraph the bidi algorithm reorders it to read 18:40 / 03:12; fixed with dir=\"ltr\" isolation on the position span (plus ml-auto→ms-auto on the header close button so it pins to the inline-end in RTL)."
+    },
+    {
+      "component": "ds:PlayerBar",
+      "severity": "minor",
+      "title": "Inverted playback skip controls (found in post-fix re-audit of pair-168)",
+      "description": "Under RTL the flex row mirrored the transport, so skip-forward sat left of play and skip-backward right of play.",
+      "evidence": "Re-audit pair-168: 'The skip forward icon appears on the left of play, while skip backward appears on the right.'",
+      "pairId": "pair-168",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-168"
+      ],
+      "triage": "fix",
+      "triageNote": "Real RTL mirroring defect surfaced by the post-fix vision re-audit; the three rings are now wrapped in a dir=\"ltr\" cluster so the transport keeps standard media order (prev · play · next) matching the LTR timecode, while the explain pill stays at the row's inline-end. LTR pages are visually unchanged."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:PlayerBar",
+      "severity": "minor",
+      "title": "Playback duration anomaly",
+      "description": "The progress timestamp displays an elapsed time greater than total duration.",
+      "evidence": "Timestamp reads '18:40 / 03:12 LIVE' in the player header.",
+      "suggestion": "Adjust playback timer values to reflect valid elapsed and total duration.",
+      "pairId": "pair-167",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait"
+    },
+    {
+      "component": "ds:PlayerBar",
+      "severity": "major",
+      "title": "RTL punctuation and truncation artifacts",
+      "description": "English transcript text exhibits RTL punctuation flipping and broken leading ellipsis under right-to-left layout.",
+      "evidence": "Widget displays '..n the eu-central-1' and wrapped '.dropped' with leading period.",
+      "suggestion": "Set dir='ltr' or unicode-bidi isolation on transcript text containers.",
+      "pairId": "pair-168",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop"
+    }
+  ]
+}

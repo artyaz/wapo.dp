@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-118",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:Card",
+    "ds:WaveformStrip",
+    "ds:ToolSummaryRow"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a checkout / payment step"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-118.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:01:07.551Z",
+  "summary": "The checkout layout demonstrates consistent styling and clear hierarchy, with minor typography spacing and vertical gap discrepancies.",
+  "issues": [
+    {
+      "component": "ds:Card",
+      "severity": "minor",
+      "title": "Header Kerning Artifacts",
+      "description": "Unintended letter spacing creates visible gaps within header text words.",
+      "evidence": "Text displays as 'Delivera ble' and 'assistan t' in card header labels.",
+      "suggestion": "Normalize font tracking and kerning across card header typography styles."
+    },
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "Inconsistent Row Gutter Spacing",
+      "description": "Top-row cards have unequal heights, creating mismatched vertical spacing before the second row.",
+      "evidence": "The gap above the payment card is visibly narrower than the gap above the assistant card.",
+      "suggestion": "Equalize card heights across columns or use consistent row gap constraints."
+    }
+  ]
+}

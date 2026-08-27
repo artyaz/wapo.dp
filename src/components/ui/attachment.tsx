@@ -183,7 +183,14 @@ function AttachmentActions({ className, ...props }: React.ComponentProps<"div">)
       data-slot="attachment-actions"
       className={cn(
         "relative z-10 flex items-center gap-1 opacity-0 transition-opacity group-focus-within/attachment:opacity-100 group-hover/attachment:opacity-100",
-        orientation === "vertical" ? "self-end" : "ml-auto",
+        orientation === "vertical"
+          ? "self-end"
+          : // Overlaid on the row's end edge (above the trigger layer, z-10)
+            // instead of reserving flow space, so the title/description can use
+            // the full card width while the actions are hidden. The scrim fades
+            // the text out beneath the revealed buttons, and pointer-events are
+            // re-enabled on the buttons so the fade zone stays click-through.
+            "pointer-events-none absolute inset-y-0 end-0 rounded-e-lg ps-8 [&>*]:pointer-events-auto ltr:bg-linear-to-r rtl:bg-linear-to-l from-transparent to-background to-[45%]",
         className
       )}
       {...props}

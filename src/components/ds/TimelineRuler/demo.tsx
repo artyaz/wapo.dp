@@ -25,10 +25,17 @@ export default function Demo() {
         <div className="overflow-x-auto">
           <TimelineRuler />
         </div>
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-panel to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 end-0 w-10 bg-gradient-to-l from-panel to-transparent" />
       </div>
-      <p className="mt-3 font-code text-[11px] text-neutral-400">
-        major tick every 10 s · minor every 2 s · ◆ event markers · scroll to pan
+      {/* segments wrap as whole units so narrow cards never orphan a word */}
+      <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 font-code text-[11px] text-neutral-400">
+        <span>major tick every 10 s</span>
+        <span aria-hidden="true">·</span>
+        <span>minor every 2 s</span>
+        <span aria-hidden="true">·</span>
+        <span>◆ event markers</span>
+        <span aria-hidden="true">·</span>
+        <span>scroll to pan</span>
       </p>
     </div>
   );
@@ -38,5 +45,5 @@ export const demoSource = `<div className="relative">
   <div className="overflow-x-auto">
     <TimelineRuler />
   </div>
-  <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-panel to-transparent" />
+  <div className="pointer-events-none absolute inset-y-0 end-0 w-10 bg-gradient-to-l from-panel to-transparent" />
 </div>`;

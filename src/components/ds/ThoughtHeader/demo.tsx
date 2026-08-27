@@ -3,7 +3,8 @@
 /**
  * ThoughtHeader demo — a collapsed and an expanded execution header on the
  * dark chat canvas; the expanded one reveals a short reasoning log styled
- * for the dark surface.
+ * for the dark surface. Colors carry `dark:` counterparts so the canvas stays
+ * dark and every log line keeps ≥4.5:1 contrast in both themes.
  */
 
 import React from "react";
@@ -22,15 +23,15 @@ function LogLine({
         aria-hidden="true"
         className={
           state === "done"
-            ? "mt-[7px] h-[5px] w-[5px] flex-none rounded-full bg-neutral-600"
-            : "mt-[6px] h-[7px] w-[7px] flex-none animate-[pulse-dot_1.6s_ease-in-out_infinite] rounded-full bg-neutral-400 motion-reduce:animate-none"
+            ? "mt-[7px] h-[5px] w-[5px] flex-none rounded-full bg-neutral-600 dark:bg-neutral-500"
+            : "mt-[6px] h-[7px] w-[7px] flex-none animate-[pulse-dot_1.6s_ease-in-out_infinite] rounded-full bg-neutral-400 dark:bg-neutral-600 motion-reduce:animate-none"
         }
       />
       <p
         className={
           state === "done"
-            ? "min-w-0 text-[13px] leading-[20px] text-neutral-400"
-            : "min-w-0 text-[13px] leading-[20px] text-neutral-200"
+            ? "min-w-0 text-[13px] leading-[20px] text-neutral-400 dark:text-neutral-600"
+            : "min-w-0 text-[13px] leading-[20px] text-neutral-200 dark:text-neutral-700"
         }
       >
         {children}
@@ -41,7 +42,7 @@ function LogLine({
 
 export default function Demo() {
   return (
-    <div className="flex w-full flex-col gap-8 rounded-lg bg-neutral-900 p-6">
+    <div className="flex w-full flex-col gap-8 rounded-lg bg-neutral-900 p-6 dark:bg-neutral-100">
       <ThoughtHeader label="Worked for 3m 51s" defaultOpen>
         <div className="flex flex-col gap-2.5">
           <LogLine state="done">

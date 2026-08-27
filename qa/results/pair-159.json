@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-159",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:label",
+    "ds:MediaClip",
+    "ui:toggle-group"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-159.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:37:41.832Z",
+  "summary": "The mobile layout adheres well to the Praxis design language with proper hierarchy, alignment, and readable typography across all components.",
+  "issues": []
+}

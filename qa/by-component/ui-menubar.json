@@ -1,0 +1,81 @@
+{
+  "id": "ui:menubar",
+  "name": "menubar",
+  "kind": "ui",
+  "importPath": "@/components/ui/menubar",
+  "sourceFiles": [
+    "src/components/ui/menubar.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/menubar/checkbox.tsx",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 2,
+    "minor": 0,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ui:menubar",
+      "severity": "major",
+      "title": "Broken text spacing in menu items",
+      "description": "Several menu item labels contain irregular spacing within words, breaking legibility.",
+      "evidence": "Labels render as 'N ew sec ure note', 'N ew f older', 'Lock wh en id le', and 'De le te this vault...'.",
+      "suggestion": "Remove extraneous spaces or reset tracking and letter-spacing styles on MenubarItem text.",
+      "pairId": "pair-047",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-047"
+      ],
+      "triage": "false-positive",
+      "triageNote": "Source strings are clean ('New secure note', 'New folder', 'Lock when idle', 'Delete this vault…') and no tracking/letter-spacing is applied to MenubarItem labels (only MenubarShortcut has intentional tracking-widest on ⌘-chips); the only letter-spacing rules on pair-047 are InputOTP's noscript fallback and hidden autofill input; eval-agent DOM inspection found letter/word-spacing normal — classic JPEG misread of small antialiased text."
+    },
+    {
+      "component": "ui:menubar",
+      "severity": "major",
+      "title": "Icon and label collision",
+      "description": "The filter icon overlaps directly with the label text.",
+      "evidence": "The sliders icon touches the letter 'F' in 'Filters' inside the menubar.",
+      "suggestion": "Add horizontal spacing between the icon and the text label.",
+      "pairId": "pair-144",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-half",
+      "occurrences": 1,
+      "pairs": [
+        "pair-144"
+      ],
+      "triage": "fix",
+      "triageNote": "MenubarTrigger had 'flex items-center' but no gap, so icon children (SlidersHorizontalIcon) rendered flush against trigger text; added gap-2, matching DropdownMenuItem/SubTrigger treatment. Also converted physical utilities (pl-8/pr-2/left-2/ml-auto) to logical RTL-safe ones (ps-8/pe-2/start-2/ms-auto) to mirror the dropdown-menu fixes."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:menubar",
+      "severity": "major",
+      "title": "Broken text spacing in menu items",
+      "description": "Several menu item labels contain irregular spacing within words, breaking legibility.",
+      "evidence": "Labels render as 'N ew sec ure note', 'N ew f older', 'Lock wh en id le', and 'De le te this vault...'.",
+      "suggestion": "Remove extraneous spaces or reset tracking and letter-spacing styles on MenubarItem text.",
+      "pairId": "pair-047",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ui:menubar",
+      "severity": "major",
+      "title": "Icon and label collision",
+      "description": "The filter icon overlaps directly with the label text.",
+      "evidence": "The sliders icon touches the letter 'F' in 'Filters' inside the menubar.",
+      "suggestion": "Add horizontal spacing between the icon and the text label.",
+      "pairId": "pair-144",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-half"
+    }
+  ]
+}

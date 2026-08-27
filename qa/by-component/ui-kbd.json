@@ -1,0 +1,81 @@
+{
+  "id": "ui:kbd",
+  "name": "kbd",
+  "kind": "ui",
+  "importPath": "@/components/ui/kbd",
+  "sourceFiles": [
+    "src/components/ui/kbd.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/kbd/button.tsx",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ui:kbd",
+      "severity": "major",
+      "title": "Kbd glyph collision",
+      "description": "The keyboard shortcut glyphs inside the secondary button overlap each other.",
+      "evidence": "The 'S' and '⌘' characters collide inside the draft save button.",
+      "suggestion": "Add proper horizontal gap between key glyphs.",
+      "pairId": "pair-058",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-058"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: inside an RTL parent the bidi algorithm reorders the '⌘S' glyphs (⌘ is direction-neutral) so they render inverted/cramped; fixed by isolating Kbd content with a default dir=\"ltr\"."
+    },
+    {
+      "component": "ui:kbd",
+      "severity": "minor",
+      "title": "Inverted shortcut modifier order in RTL",
+      "description": "Modifier keys appear after trigger keys inside shortcut badges rather than preceding them.",
+      "evidence": "Search bar displays 'K Ctrl' instead of 'Ctrl K'; bottom action displays 'S ⌘' instead of '⌘ S'.",
+      "suggestion": "Ensure shortcut container retains LTR ordering for key combinations in RTL contexts.",
+      "pairId": "pair-162",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-162"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: RTL flex row on KbdGroup places first DOM child (Ctrl) on the right, rendering 'K Ctrl'; and '⌘S' inside a single Kbd reorders to 'S ⌘'. Fixed with default dir=\"ltr\" on both Kbd and KbdGroup (same class of bug as pair-058)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:kbd",
+      "severity": "major",
+      "title": "Kbd glyph collision",
+      "description": "The keyboard shortcut glyphs inside the secondary button overlap each other.",
+      "evidence": "The 'S' and '⌘' characters collide inside the draft save button.",
+      "suggestion": "Add proper horizontal gap between key glyphs.",
+      "pairId": "pair-058",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone"
+    },
+    {
+      "component": "ui:kbd",
+      "severity": "minor",
+      "title": "Inverted shortcut modifier order in RTL",
+      "description": "Modifier keys appear after trigger keys inside shortcut badges rather than preceding them.",
+      "evidence": "Search bar displays 'K Ctrl' instead of 'Ctrl K'; bottom action displays 'S ⌘' instead of '⌘ S'.",
+      "suggestion": "Ensure shortcut container retains LTR ordering for key combinations in RTL contexts.",
+      "pairId": "pair-162",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop-wide"
+    }
+  ]
+}

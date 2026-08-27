@@ -1,0 +1,112 @@
+{
+  "id": "ds:DialogLayout",
+  "name": "DialogLayout",
+  "kind": "ds",
+  "importPath": "@/components/ds/DialogLayout",
+  "sourceFiles": [
+    "src/components/ds/DialogLayout/DialogLayout.tsx"
+  ],
+  "demoFile": "src/components/ds/DialogLayout/demo.tsx",
+  "metaFile": "src/components/ds/DialogLayout/meta.ts",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 2,
+    "minor": 1,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ds:DialogLayout",
+      "severity": "major",
+      "title": "Inline modal container obscures main table view",
+      "description": "The dialog layout container is embedded directly over the lower section of the file list, blocking table content.",
+      "evidence": "A large dark container holding the storage dialog occupies the bottom half of the file listing area.",
+      "suggestion": "Render the dialog inside a standard overlay portal or modal backdrop instead of interrupting inline content flow.",
+      "pairId": "pair-100",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-100"
+      ],
+      "triage": "composition",
+      "triageNote": "The dark container over the file list on pair-100 is the page's own ds:Dialog storage dialog embedded open-in-place (deliberate non-modal clipped-frame pattern); DialogLayout's usage there is the framed right-rail preview panel and does not touch the table — the flaw is page composition, not the component."
+    },
+    {
+      "component": "ds:DialogLayout",
+      "severity": "major",
+      "title": "Illegible header text contrast",
+      "description": "The dialog title lacks sufficient contrast against the white dialog background.",
+      "evidence": "The 'Switch to Pro?' header is rendered in light text against a white background, making it nearly invisible.",
+      "suggestion": "Apply dark text color tokens to match the light surface.",
+      "pairId": "pair-141",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-141"
+      ],
+      "triage": "fix",
+      "triageNote": "Confirmed in source: the panel inherited from Dialog.Content hardcodes bg-[#ffffff]/border-[#e5e5e5] while the title uses text-default-font (near-white in dark); fixed by overriding the DialogLayout panel with bg-panel/border-default-border tokens."
+    },
+    {
+      "component": "ds:DialogLayout",
+      "severity": "minor",
+      "title": "Uneven column alignment in dialog body",
+      "description": "The left profile column and right textual content have mismatched vertical baselines.",
+      "evidence": "The user badge column sits awkwardly high relative to the main heading and body copy.",
+      "suggestion": "Align the left profile column vertically with the primary dialog content block.",
+      "pairId": "pair-011",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-011"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: the row top-aligned the leading mark column (demo's own pt-1 nudge pattern), leaving the short mark column pinned high beside the taller title/body/actions column; fixed by centering the row (items-center) and removing the pt-1 pattern from the demo."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:DialogLayout",
+      "severity": "minor",
+      "title": "Uneven column alignment in dialog body",
+      "description": "The left profile column and right textual content have mismatched vertical baselines.",
+      "evidence": "The user badge column sits awkwardly high relative to the main heading and body copy.",
+      "suggestion": "Align the left profile column vertically with the primary dialog content block.",
+      "pairId": "pair-011",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide"
+    },
+    {
+      "component": "ds:DialogLayout",
+      "severity": "major",
+      "title": "Inline modal container obscures main table view",
+      "description": "The dialog layout container is embedded directly over the lower section of the file list, blocking table content.",
+      "evidence": "A large dark container holding the storage dialog occupies the bottom half of the file listing area.",
+      "suggestion": "Render the dialog inside a standard overlay portal or modal backdrop instead of interrupting inline content flow.",
+      "pairId": "pair-100",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop-wide"
+    },
+    {
+      "component": "ds:DialogLayout",
+      "severity": "major",
+      "title": "Illegible header text contrast",
+      "description": "The dialog title lacks sufficient contrast against the white dialog background.",
+      "evidence": "The 'Switch to Pro?' header is rendered in light text against a white background, making it nearly invisible.",
+      "suggestion": "Apply dark text color tokens to match the light surface.",
+      "pairId": "pair-141",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone"
+    }
+  ]
+}

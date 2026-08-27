@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-068",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:Sheet",
+    "ds:InspectorRow",
+    "ui:tooltip"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-half",
+      "width": 390,
+      "height": 420,
+      "weight": 10,
+      "hint": "roughly HALF of a phone screen (very little vertical room)"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "an image gallery with metadata"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-068.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:11:13.257Z",
+  "summary": "The page cleanly showcases the Sheet, InspectorRow, and Tooltip components within the compact 390x420 dark viewport. Alignment, typography hierarchy, contrast, and spacing are consistent and well-proportioned with no visual defects.",
+  "issues": []
+}

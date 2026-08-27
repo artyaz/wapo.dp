@@ -7,7 +7,7 @@ export default defineMeta({
   description:
     "A windowed panel: a bordered, panel-colored frame with a compact 36px title bar carrying overflow, expand, and close affordances, over a padded body region. The focused variant raises a brand-primary rail along the top edge to mark the active pane. Use it for inspector panes, tool windows, and dashboard cells that read as documents rather than dialogs.",
   usage:
-    "Pass a short title (it ellipsizes when cramped) and stack label/value rows or any content in the body; switch to the focused variant to indicate selection or activity.",
+    "Pass a short title (it ellipsizes when cramped) and stack label/value rows or any content in the body; switch to the focused variant to indicate selection or activity. In RTL contexts, isolate inherently LTR technical values and identifiers (deploy ids like #4217, sizes like 18.2 GB) with dir=\"ltr\" or <bdi> so punctuation and units don't reorder — see the demo's Row pattern.",
   tags: ["panel", "window", "surface", "tile"],
   props: [
     {

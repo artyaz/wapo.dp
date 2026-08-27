@@ -1,0 +1,111 @@
+{
+  "id": "ui:checkbox",
+  "name": "checkbox",
+  "kind": "ui",
+  "importPath": "@/components/ui/checkbox",
+  "sourceFiles": [
+    "src/components/ui/checkbox.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/checkbox/basic.tsx",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ui:checkbox",
+      "severity": "major",
+      "title": "Low contrast unchecked state",
+      "description": "Unchecked checkbox indicators have insufficient contrast against dark glass background.",
+      "evidence": "Unchecked boxes beside Desktop alerts, Prefer reduced transparency, and Telemetry are nearly invisible.",
+      "suggestion": "Increase stroke contrast for unchecked checkbox borders in dark mode.",
+      "pairId": "pair-077",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-077"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: in dark theme --input resolves to rgb(42 41 38) (neutral-200) which is ~1.26:1 against the dark glass panel, so unchecked borders are nearly invisible; fixed by scoping the unchecked border to muted-foreground (neutral-500, ~5.4:1) in dark via dark:data-[state=unchecked]:not-aria-invalid:border-muted-foreground in checkbox.tsx."
+    },
+    {
+      "component": "ui:checkbox",
+      "severity": "minor",
+      "title": "Checkbox icon vertically centered on multi-line text",
+      "description": "Checkboxes with description text center the indicator across both lines instead of aligning to the first line.",
+      "evidence": "The checkboxes for 'Export @2x assets' and 'Optimize file size' sit vertically centered beside the two-line text blocks.",
+      "suggestion": "Set vertical alignment to top or align with the label line-height.",
+      "pairId": "pair-015",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-015"
+      ],
+      "triage": "blocked-external",
+      "triageNote": "Alignment is decided by the consuming layout: ui/field.tsx FIELD_ORIENTATION_CLASSES.horizontal uses 'flex-row items-center' (line 62), which centers the 16px Checkbox against the whole label+description block; Checkbox itself sets no alignment. Root cause lives in src/components/ui/field.tsx (ui:field) and the flagged instance is in the frozen eval page pair-015 — recommend ui:field switch horizontal to items-start (or add an align prop)."
+    },
+    {
+      "component": "ui:checkbox",
+      "severity": "minor",
+      "title": "RTL text punctuation inversion",
+      "description": "Helper descriptions display inverted punctuation due to forced RTL direction on English text.",
+      "evidence": "Leading periods appear before text lines like .Notify me and .Every workspace member.",
+      "suggestion": "Set dir=\"auto\" or apply bidi isolation to localized string containers.",
+      "pairId": "pair-077",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-077"
+      ],
+      "triage": "composition",
+      "triageNote": "The Checkbox renders no text; the inverted periods come from English copy in the eval page's own SettingRow <p> under dir=rtl (bidi-inherent to the page composition, same artifact hit ds:UserMessage on the same page). Fix would be dir=\"auto\"/bdi on the page copy, which lives in the frozen eval page."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:checkbox",
+      "severity": "minor",
+      "title": "Checkbox icon vertically centered on multi-line text",
+      "description": "Checkboxes with description text center the indicator across both lines instead of aligning to the first line.",
+      "evidence": "The checkboxes for 'Export @2x assets' and 'Optimize file size' sit vertically centered beside the two-line text blocks.",
+      "suggestion": "Set vertical alignment to top or align with the label line-height.",
+      "pairId": "pair-015",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "tablet-portrait"
+    },
+    {
+      "component": "ui:checkbox",
+      "severity": "major",
+      "title": "Low contrast unchecked state",
+      "description": "Unchecked checkbox indicators have insufficient contrast against dark glass background.",
+      "evidence": "Unchecked boxes beside Desktop alerts, Prefer reduced transparency, and Telemetry are nearly invisible.",
+      "suggestion": "Increase stroke contrast for unchecked checkbox borders in dark mode.",
+      "pairId": "pair-077",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ui:checkbox",
+      "severity": "minor",
+      "title": "RTL text punctuation inversion",
+      "description": "Helper descriptions display inverted punctuation due to forced RTL direction on English text.",
+      "evidence": "Leading periods appear before text lines like .Notify me and .Every workspace member.",
+      "suggestion": "Set dir=\"auto\" or apply bidi isolation to localized string containers.",
+      "pairId": "pair-077",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "id": "ds:RelationshipGrid",
+  "name": "RelationshipGrid",
+  "kind": "ds",
+  "importPath": "@/components/ds/RelationshipGrid",
+  "sourceFiles": [
+    "src/components/ds/RelationshipGrid/RelationshipGrid.tsx"
+  ],
+  "demoFile": "src/components/ds/RelationshipGrid/demo.tsx",
+  "metaFile": "src/components/ds/RelationshipGrid/meta.ts",
+  "totals": {
+    "issues": 5,
+    "blocker": 0,
+    "major": 4,
+    "minor": 1,
+    "distinctPatterns": 5
+  },
+  "issues": [
+    {
+      "component": "ds:RelationshipGrid",
+      "severity": "major",
+      "title": "Severe text truncation",
+      "description": "Table columns truncate title text excessively on mobile viewports.",
+      "evidence": "Nearly all title entries end with ellipses (e.g., 'Replace BGP session ...', 'Schedule maintenanc...').",
+      "suggestion": "Enable multiline text wrapping or stack row metadata for narrow screens.",
+      "pairId": "pair-007",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-007"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: 176px of fixed leading columns (checkbox w-10 + expander w-9 + ID w-[100px]) left ~160px for the truncated flexible title at 390px; added a compact sub-sm variant — narrower leading columns (w-8/w-7/w-[92px] px-2), auto-height rows (min-h-9, sm:h-9) and a wrapping title (sm:truncate) instead of ellipsis."
+    },
+    {
+      "component": "ds:RelationshipGrid",
+      "severity": "major",
+      "title": "Erratic whitespace in title cells",
+      "description": "Text strings in the Title column contain unnatural spaces inside words.",
+      "evidence": "Words render as 'Re place', 'us-we st-2', 'tem p fire wall', and 'Ve rify' across multiple rows.",
+      "suggestion": "Fix font rendering or string formatting to remove spurious whitespace.",
+      "pairId": "pair-020",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-020"
+      ],
+      "triage": "false-positive",
+      "triageNote": "Source strings contain no spurious spaces and title cells use text-body-medium with letter-spacing 0em; independent eval re-check found the dark-theme rendering clean — JPEG compression misread by the vision audit."
+    },
+    {
+      "component": "ds:RelationshipGrid",
+      "severity": "major",
+      "title": "Erratic word spacing in Title column",
+      "description": "Multiple records display unnatural gaps and split words in the Title column strings.",
+      "evidence": "Text contains splits such as 'Re place', 'Latenc y', 'te mp', 'mainte nance', and 'proc edure'.",
+      "suggestion": "Correct text string values or fix font kerning/wrapping rules inside grid title cells.",
+      "pairId": "pair-146",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-146"
+      ],
+      "triage": "false-positive",
+      "triageNote": "Same pattern as pair-020: no intra-word whitespace exists in the authored titles, no tracking on title text, no justify/wrap rules that could inject gaps; re-verified clean — vision-model misread of compressed screenshot text."
+    },
+    {
+      "component": "ds:RelationshipGrid",
+      "severity": "major",
+      "title": "Missing nested content for expanded row",
+      "description": "Row PRB-0087 shows an expanded disclosure chevron without rendering nested child records or details.",
+      "evidence": "Downward-pointing chevron on PRB-0087 with immediate sequence to RITM-5540.",
+      "suggestion": "Render child rows beneath the expanded parent or revert chevron state to collapsed.",
+      "pairId": "pair-158",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-158"
+      ],
+      "triage": "fix",
+      "triageNote": "Real content defect: PRB-0087's expander glyph was ▾ (expanded) in the static demo content with no child rows; reverted to collapsed ▸ (adding child rows would contradict the surrounding '7 records' copy on the eval pages)."
+    },
+    {
+      "component": "ds:RelationshipGrid",
+      "severity": "minor",
+      "title": "Multiline text wrapping in status badge",
+      "description": "Status label text wraps into two vertical lines within a single cell.",
+      "evidence": "'IN PROGRESS' status renders stacked across two lines.",
+      "suggestion": "Increase column width or set white-space to nowrap with proper badge padding.",
+      "pairId": "pair-158",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-158"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: the 'In Progress' StatusBadge (dot + gap + 11px/0.14em tracked label ≈ 100px) exceeded the 120px column's 96px content box; widened the status column to w-[136px] and added whitespace-nowrap so the badge renders on one line."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:RelationshipGrid",
+      "severity": "major",
+      "title": "Severe text truncation",
+      "description": "Table columns truncate title text excessively on mobile viewports.",
+      "evidence": "Nearly all title entries end with ellipses (e.g., 'Replace BGP session ...', 'Schedule maintenanc...').",
+      "suggestion": "Enable multiline text wrapping or stack row metadata for narrow screens.",
+      "pairId": "pair-007",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone"
+    },
+    {
+      "component": "ds:RelationshipGrid",
+      "severity": "major",
+      "title": "Erratic whitespace in title cells",
+      "description": "Text strings in the Title column contain unnatural spaces inside words.",
+      "evidence": "Words render as 'Re place', 'us-we st-2', 'tem p fire wall', and 'Ve rify' across multiple rows.",
+      "suggestion": "Fix font rendering or string formatting to remove spurious whitespace.",
+      "pairId": "pair-020",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop-wide"
+    },
+    {
+      "component": "ds:RelationshipGrid",
+      "severity": "major",
+      "title": "Erratic word spacing in Title column",
+      "description": "Multiple records display unnatural gaps and split words in the Title column strings.",
+      "evidence": "Text contains splits such as 'Re place', 'Latenc y', 'te mp', 'mainte nance', and 'proc edure'.",
+      "suggestion": "Correct text string values or fix font kerning/wrapping rules inside grid title cells.",
+      "pairId": "pair-146",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop-wide"
+    },
+    {
+      "component": "ds:RelationshipGrid",
+      "severity": "major",
+      "title": "Missing nested content for expanded row",
+      "description": "Row PRB-0087 shows an expanded disclosure chevron without rendering nested child records or details.",
+      "evidence": "Downward-pointing chevron on PRB-0087 with immediate sequence to RITM-5540.",
+      "suggestion": "Render child rows beneath the expanded parent or revert chevron state to collapsed.",
+      "pairId": "pair-158",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ds:RelationshipGrid",
+      "severity": "minor",
+      "title": "Multiline text wrapping in status badge",
+      "description": "Status label text wraps into two vertical lines within a single cell.",
+      "evidence": "'IN PROGRESS' status renders stacked across two lines.",
+      "suggestion": "Increase column width or set white-space to nowrap with proper badge padding.",
+      "pairId": "pair-158",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop"
+    }
+  ]
+}

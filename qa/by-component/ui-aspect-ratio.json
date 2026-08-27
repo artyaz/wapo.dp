@@ -1,0 +1,55 @@
+{
+  "id": "ui:aspect-ratio",
+  "name": "aspect-ratio",
+  "kind": "ui",
+  "importPath": "@/components/ui/aspect-ratio",
+  "sourceFiles": [
+    "src/components/ui/aspect-ratio.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/aspect-ratio/portrait.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:aspect-ratio",
+      "severity": "major",
+      "title": "Illegible thumbnail caption overlay",
+      "description": "Text inside the first media card lacks sufficient contrast against the dark gradient.",
+      "evidence": "'Bedroom · king bed' text in the left thumbnail is nearly invisible against dark background.",
+      "suggestion": "Increase contrast or adjust text color token for dark theme legibility.",
+      "pairId": "pair-147",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-147"
+      ],
+      "triage": "composition",
+      "triageNote": "Root cause is entirely in the read-only eval page pair-147 (src/app/eval/pair-147/page.tsx:217): the caption uses hardcoded neutral classes (text-neutral-200 over a from-neutral-600...to-neutral-950 gradient + bg-black/40) which invert in dark theme; the component contributes no styling to the caption, and eval pages may not be edited (blocked-external for the fix)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:aspect-ratio",
+      "severity": "major",
+      "title": "Illegible thumbnail caption overlay",
+      "description": "Text inside the first media card lacks sufficient contrast against the dark gradient.",
+      "evidence": "'Bedroom · king bed' text in the left thumbnail is nearly invisible against dark background.",
+      "suggestion": "Increase contrast or adjust text color token for dark theme legibility.",
+      "pairId": "pair-147",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop"
+    }
+  ],
+  "apiErgonomics": {
+    "summary": "Two audited API traps (documented on pair-082 and pair-095, both pairs ultimately passed using wrapper workarounds): (1) user className/style land on the INNER absolutely-positioned layer of Radix AspectRatio, so width utilities and margins do not size or space the ratio box; (2) the box is width:100% of its PARENT with padding-bottom ratio height, so a fixed width must be applied to a width-constrained parent. Verified live: docs demos rendered 160x1817 and 192x1022 slivers before the fix.",
+    "fix": "Demos portrait/square now use the width-constrained-parent pattern; component source carries JSDoc API notes teaching the pattern. Verified 160x284 (9/16) and 192x192 (1/1) after the fix."
+  }
+}

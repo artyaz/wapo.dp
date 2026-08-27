@@ -1,0 +1,82 @@
+{
+  "id": "ds:GlassRefraction",
+  "name": "GlassRefraction",
+  "kind": "ds",
+  "importPath": "@/components/ds/GlassRefraction",
+  "sourceFiles": [
+    "src/components/ds/GlassRefraction/GlassRefraction.tsx"
+  ],
+  "demoFile": "src/components/ds/GlassRefraction/demo.tsx",
+  "metaFile": "src/components/ds/GlassRefraction/meta.ts",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ds:GlassRefraction",
+      "severity": "minor",
+      "title": "Low contrast metadata text",
+      "description": "Secondary captions beneath preview cards have insufficient contrast against the background.",
+      "evidence": "Labels such as 'material ultrathin' and 'svg-displacement' blend into the dark card surface.",
+      "suggestion": "Increase opacity or lighten token color for dark mode readability.",
+      "pairId": "pair-041",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-041"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: baked-in specimen caption used hardcoded text-neutral-400/500, and the neutral scale inverts in dark theme (neutral-400 → rgb(85 82 76) on dark surfaces ≈2.3:1, near-illegible). Replaced with the semantic text-muted-foreground token in GlassRefraction.tsx (dark ≈5.2:1); also resolves the same caption flagged via pair-094/pair-106."
+    },
+    {
+      "component": "ds:GlassRefraction",
+      "severity": "minor",
+      "title": "Specimen order mismatch",
+      "description": "The specimen order conflicts with the subheader label sequence in the refraction showcase.",
+      "evidence": "Header lists 'thin · thick' while the cards below are arranged with THICK on the left and THIN on the right.",
+      "suggestion": "Align the header label order with the physical card layout.",
+      "pairId": "pair-167",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-167"
+      ],
+      "triage": "blocked-external",
+      "triageNote": "Root cause is page composition in src/app/eval/pair-167/page.tsx (line 94 'thin · thick' Latin label vs the page's own RTL grid-cols-2 at line 97); the label and grid are not in the component and eval pages are off-limits to fix agents. Page-level remedy: reverse the label to 'thick · thin', isolate it with dir=\"ltr\", or pin the specimen grid dir=\"ltr\" so label order matches visual order."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:GlassRefraction",
+      "severity": "minor",
+      "title": "Low contrast metadata text",
+      "description": "Secondary captions beneath preview cards have insufficient contrast against the background.",
+      "evidence": "Labels such as 'material ultrathin' and 'svg-displacement' blend into the dark card surface.",
+      "suggestion": "Increase opacity or lighten token color for dark mode readability.",
+      "pairId": "pair-041",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ds:GlassRefraction",
+      "severity": "minor",
+      "title": "Specimen order mismatch",
+      "description": "The specimen order conflicts with the subheader label sequence in the refraction showcase.",
+      "evidence": "Header lists 'thin · thick' while the cards below are arranged with THICK on the left and THIN on the right.",
+      "suggestion": "Align the header label order with the physical card layout.",
+      "pairId": "pair-167",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "tablet-portrait"
+    }
+  ]
+}

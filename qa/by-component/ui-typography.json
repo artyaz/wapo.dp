@@ -1,0 +1,51 @@
+{
+  "id": "ui:typography",
+  "name": "typography",
+  "kind": "ui",
+  "importPath": "@/components/ui/typography",
+  "sourceFiles": [
+    "src/components/ui/typography.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/typography/accessibility-and-dark-mode.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:typography",
+      "severity": "major",
+      "title": "Erratic intra-word kerning and spacing",
+      "description": "Certain text strings render with unintended spaces splitting words.",
+      "evidence": "Visible gaps in 'Fully auto no mo us', 'finis hes', and 's ummary'.",
+      "suggestion": "Fix font-rendering/tracking CSS or string token concatenation.",
+      "pairId": "pair-089",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-089"
+      ],
+      "triage": "false-positive",
+      "triageNote": "JPEG/vision misread: char-level DOM Range rects on pair-089 (dark, 1024x768, dsf 1.5) show max intra-word gap = 0px for every cited string ('Fully autonomous', 'finishes', 'summary', plus re-audit's 'Monday', 'can retune'); letter-spacing normal, word-spacing 0, no justify, no mid-string line breaks; real space chars measure 3-4px so a phantom space would be visible. The 3 originally cited strings are not even inside .typeset (computed text-wrap: wrap, not pretty), and typeset text with text-wrap: pretty also measures 0px intra-word gaps. Re-audit re-reported 'word splitting' on a DIFFERENT set of words against an identical DOM — nondeterministic misread of JPEG q88 artifacts on ~16px-tall glyphs. No code change made."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:typography",
+      "severity": "major",
+      "title": "Erratic intra-word kerning and spacing",
+      "description": "Certain text strings render with unintended spaces splitting words.",
+      "evidence": "Visible gaps in 'Fully auto no mo us', 'finis hes', and 's ummary'.",
+      "suggestion": "Fix font-rendering/tracking CSS or string token concatenation.",
+      "pairId": "pair-089",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "laptop"
+    }
+  ]
+}

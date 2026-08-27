@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-056",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:JsonTreeNode",
+    "ui:label",
+    "ds:TextField"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-half",
+      "width": 390,
+      "height": 420,
+      "weight": 10,
+      "hint": "roughly HALF of a phone screen (very little vertical room)"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": "a command palette overlay"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-056.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T01:03:01.248Z",
+  "summary": "The layout mostly fits the viewport, but there are clear RTL text alignment and bidirectional formatting artifacts in the input and list components.",
+  "issues": [
+    {
+      "component": "ds:TextField",
+      "severity": "major",
+      "title": "RTL placeholder punctuation artifact",
+      "description": "Placeholder text renders with a misplaced leading dot due to unresolved bidirectional directionality in RTL mode.",
+      "evidence": "Input field shows '.Search commands and events' with the dot positioned on the left.",
+      "suggestion": "Set base text direction to RTL and isolate neutral punctuation characters."
+    },
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "Inconsistent action item mirroring",
+      "description": "Command items show disjointed spacing with left-pinned shortcut badges and right-pinned text and icons.",
+      "evidence": "Rows show shortcut badges pinned to the left edge while titles and icons cluster at the right edge.",
+      "suggestion": "Align shortcut keys to the far end according to standard RTL mirroring conventions."
+    }
+  ]
+}

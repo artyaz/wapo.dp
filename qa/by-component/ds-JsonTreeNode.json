@@ -1,0 +1,52 @@
+{
+  "id": "ds:JsonTreeNode",
+  "name": "JsonTreeNode",
+  "kind": "ds",
+  "importPath": "@/components/ds/JsonTreeNode",
+  "sourceFiles": [
+    "src/components/ds/JsonTreeNode/JsonTreeNode.tsx"
+  ],
+  "demoFile": "src/components/ds/JsonTreeNode/demo.tsx",
+  "metaFile": "src/components/ds/JsonTreeNode/meta.ts",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ds:JsonTreeNode",
+      "severity": "major",
+      "title": "Inverted JSON syntax under RTL",
+      "description": "JSON key-value pairs, braces, and guide lines are improperly mirrored, breaking code readability.",
+      "evidence": "Braces are inverted ({ at bottom, } at top), keys and values are swapped, and the tree guide line is isolated on the far left.",
+      "suggestion": "Enforce LTR text direction on code and JSON tree containers.",
+      "pairId": "pair-056",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone-half",
+      "occurrences": 1,
+      "pairs": [
+        "pair-056"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: Branch/Leaf inherit page dir, so under RTL the flex row order reverses (keys/values swap, braces mirror) and the physical border-l/pl-4/ml-[7px] indent rail strands on the far left; JSON is inherently LTR — enforce dir=\"ltr\" on node roots and switch the indent rail to logical properties."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:JsonTreeNode",
+      "severity": "major",
+      "title": "Inverted JSON syntax under RTL",
+      "description": "JSON key-value pairs, braces, and guide lines are improperly mirrored, breaking code readability.",
+      "evidence": "Braces are inverted ({ at bottom, } at top), keys and values are swapped, and the tree guide line is isolated on the far left.",
+      "suggestion": "Enforce LTR text direction on code and JSON tree containers.",
+      "pairId": "pair-056",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone-half"
+    }
+  ]
+}

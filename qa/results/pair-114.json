@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-114",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:ActionTraces",
+    "ds:ToolSummaryRow",
+    "ui:collapsible"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": "a login screen"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-114.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T01:23:32.185Z",
+  "summary": "The page displays noticeable RTL rendering defects, including punctuation inversion on English copy and inconsistent text alignment within trace items.",
+  "issues": [
+    {
+      "component": "ds:ActionTraces",
+      "severity": "major",
+      "title": "Inconsistent Row Alignment",
+      "description": "Trace rows show mixed horizontal alignments within the same container.",
+      "evidence": "The GET endpoint row is left-aligned while other tool rows are right-aligned.",
+      "suggestion": "Standardize text direction and alignment for all trace rows."
+    },
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "Punctuation Misplacement in RTL",
+      "description": "English strings in an RTL context place trailing punctuation at line starts.",
+      "evidence": "Leading periods on '.nothing runs silently' and '?Forgot password'.",
+      "suggestion": "Apply dir=\"ltr\" to English text nodes or containers."
+    }
+  ]
+}

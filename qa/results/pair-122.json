@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-122",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:MiniMap",
+    "ds:Drawer",
+    "ui:scroll-area"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-122.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:06:42.300Z",
+  "summary": "The drawer contains desktop-oriented dismissal copy with incorrect gesture guidance for a mobile viewport.",
+  "issues": [
+    {
+      "component": "ds:Drawer",
+      "severity": "minor",
+      "title": "Desktop dismissal copy on mobile",
+      "description": "Footer hint mentions the Esc key and suggests an incorrect drag direction for a right-anchored drawer.",
+      "evidence": "Base of drawer reads 'Drag the sheet left or press Esc to dismiss'.",
+      "suggestion": "Update copy to touch-relevant dismiss gestures with the correct swipe direction."
+    }
+  ]
+}

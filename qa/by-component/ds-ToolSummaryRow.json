@@ -1,0 +1,20 @@
+{
+  "id": "ds:ToolSummaryRow",
+  "name": "ToolSummaryRow",
+  "kind": "ds",
+  "importPath": "@/components/ds/ToolSummaryRow",
+  "sourceFiles": [
+    "src/components/ds/ToolSummaryRow/ToolSummaryRow.tsx"
+  ],
+  "demoFile": "src/components/ds/ToolSummaryRow/demo.tsx",
+  "metaFile": "src/components/ds/ToolSummaryRow/meta.ts",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

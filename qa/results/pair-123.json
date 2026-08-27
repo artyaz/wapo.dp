@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-123",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:TransportBar",
+    "ui:command",
+    "ds:SlaTimer"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-half",
+      "width": 390,
+      "height": 420,
+      "weight": 10,
+      "hint": "roughly HALF of a phone screen (very little vertical room)"
+    },
+    "theme": "dark",
+    "direction": "rtl",
+    "constraint": "dense-content",
+    "scenario": "a file browser"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-123.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:00:42.723Z",
+  "summary": "The viewport suffers from layout overlap where the floating transport bar obscures command list content, along with bi-directional text truncation artifacts in file items.",
+  "issues": [
+    {
+      "component": "page",
+      "severity": "major",
+      "title": "Transport bar occludes command content",
+      "description": "The floating transport bar overlays the command component list and active playback status line due to limited vertical space.",
+      "evidence": "The 'الملفات الأخيرة' header and audio track status text are clipped and partially hidden behind the transport bar card.",
+      "suggestion": "Add proper bottom scroll padding or dock the transport bar to prevent content obstruction."
+    },
+    {
+      "component": "ui:command",
+      "severity": "minor",
+      "title": "LTR string truncation defect in RTL layout",
+      "description": "Mixed-direction folder names truncate awkwardly at the start of LTR strings instead of using end-truncation.",
+      "evidence": "Ellipsis appears at the start of '...d_Guidelines_and_Identity_System_01' and '... Q4 Product Shoot'.",
+      "suggestion": "Enforce consistent text direction isolation and proper text-overflow truncation for mixed-directional labels."
+    }
+  ]
+}

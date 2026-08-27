@@ -6,13 +6,48 @@ import { CircleIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Radix defaults the group's `dir` to "ltr" and renders it as an attribute,
+ * which breaks direction inheritance: on RTL pages the radio-group subtree
+ * keeps an LTR layout (labels packed at the inline start of an LTR row) while
+ * the rest of the page mirrors, leaving the control visually disconnected at
+ * the wrong edge. When no explicit `dir` prop is given we resolve the
+ * direction from the DOM ancestor and forward it so the group mirrors with
+ * the page and Radix's arrow-key navigation matches.
+ */
+function useInheritedDirection(
+  dir: "ltr" | "rtl" | undefined,
+  ref: React.RefObject<HTMLDivElement | null>
+): "ltr" | "rtl" | undefined {
+  const [inheritedDir, setInheritedDir] = React.useState<
+    "ltr" | "rtl" | undefined
+  >(undefined)
+
+  React.useLayoutEffect(() => {
+    if (dir != null) return
+    const parent = ref.current?.parentElement
+    if (!parent) return
+    const resolved =
+      getComputedStyle(parent).direction === "rtl" ? "rtl" : "ltr"
+    setInheritedDir((prev) => (prev === resolved ? prev : resolved))
+  }, [dir, ref])
+
+  return dir ?? inheritedDir
+}
+
 function RadioGroup({
   className,
+  dir,
   ...props
 }: React.ComponentProps<typeof RadioGroupPrimitive.Root>) {
+  const rootRef = React.useRef<HTMLDivElement | null>(null)
+  const resolvedDir = useInheritedDirection(dir, rootRef)
+
   return (
     <RadioGroupPrimitive.Root
       data-slot="radio-group"
+      ref={rootRef}
+      dir={resolvedDir}
       className={cn("grid gap-3", className)}
       {...props}
     />

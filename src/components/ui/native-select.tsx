@@ -23,6 +23,9 @@ function NativeSelect({
         data-slot="native-select"
         className={cn(
           "border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 w-full appearance-none rounded-md border bg-transparent py-2 ps-3 pe-8 text-sm shadow-xs transition-[color,box-shadow] outline-none",
+          // Native selects hard-clip overflowing values; force ellipsis so long
+          // labels truncate cleanly instead of running under the chevron.
+          "truncate",
           "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
           "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
           "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",

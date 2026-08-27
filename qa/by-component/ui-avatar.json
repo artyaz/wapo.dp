@@ -1,0 +1,81 @@
+{
+  "id": "ui:avatar",
+  "name": "avatar",
+  "kind": "ui",
+  "importPath": "@/components/ui/avatar",
+  "sourceFiles": [
+    "src/components/ui/avatar.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/avatar/avatar-group-count.tsx",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ui:avatar",
+      "severity": "minor",
+      "title": "Avatar group stacking order not mirrored",
+      "description": "AvatarGroup elements overlap using LTR order instead of RTL.",
+      "evidence": "Avatar group in top header displays '+6' count on the far left overlapping adjacent avatars.",
+      "suggestion": "Mirror negative margins and stacking index for RTL direction.",
+      "pairId": "pair-004",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-004"
+      ],
+      "triage": "false-positive",
+      "triageNote": "Verified false positive: Tailwind v4 -space-x-2 compiles to logical margin-inline-end on :not(:last-child), so the negative margins DO mirror in RTL. Playwright probe on live /eval/pair-004 (dark/RTL): every adjacent pair overlaps exactly 8px and the later-DOM element paints on top — the exact mirror of LTR; the '+6' count sitting far left is the correct mirrored position (far right in LTR). VLM inspection of the cropped header confirms uniform, correctly-mirrored stacking. No code change needed."
+    },
+    {
+      "component": "ui:avatar",
+      "severity": "minor",
+      "title": "Low contrast avatar fallbacks",
+      "description": "Avatar fallback text lacks sufficient contrast against circular backgrounds in dark mode.",
+      "evidence": "Initials MA, JD, SC and +5 badge use dark gray text on near-black fills.",
+      "suggestion": "Increase font color brightness token for dark theme avatars.",
+      "pairId": "pair-137",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-half",
+      "occurrences": 1,
+      "pairs": [
+        "pair-137"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect: AvatarFallback/AvatarGroupCount used text-muted-foreground (dark: rgb 143 140 132) on bg-muted (dark: rgb 21 21 19) — pixel-confirmed in screenshot; soft/illegible at text-sm in size-8 circles. Fixed in src/components/ui/avatar.tsx: dark:text-neutral-600 (rgb 168 164 155, ~7.3:1) on both, plus dark:after:border-neutral-300 on the Avatar ring (was a ~20-level whisper hairline in dark). Verified by re-audit: ui:avatar issue gone."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:avatar",
+      "severity": "minor",
+      "title": "Avatar group stacking order not mirrored",
+      "description": "AvatarGroup elements overlap using LTR order instead of RTL.",
+      "evidence": "Avatar group in top header displays '+6' count on the far left overlapping adjacent avatars.",
+      "suggestion": "Mirror negative margins and stacking index for RTL direction.",
+      "pairId": "pair-004",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ui:avatar",
+      "severity": "minor",
+      "title": "Low contrast avatar fallbacks",
+      "description": "Avatar fallback text lacks sufficient contrast against circular backgrounds in dark mode.",
+      "evidence": "Initials MA, JD, SC and +5 badge use dark gray text on near-black fills.",
+      "suggestion": "Increase font color brightness token for dark theme avatars.",
+      "pairId": "pair-137",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-half"
+    }
+  ]
+}

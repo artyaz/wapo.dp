@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-046",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:PanelTile",
+    "ds:Sparkline",
+    "ds:FileTreeRow"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "weight": 15,
+      "hint": "a modern phone screen"
+    },
+    "theme": "light",
+    "direction": "rtl",
+    "constraint": "none",
+    "scenario": "a notification center"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-046.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:43:36.858Z",
+  "summary": "The interface shows layout and bidirectional text issues under RTL orientation, notably detached status indicators in the file tree and bidirectional punctuation artifacts.",
+  "issues": [
+    {
+      "component": "ds:FileTreeRow",
+      "severity": "major",
+      "title": "Detached status indicators in RTL",
+      "description": "Status dots remain anchored to the far left instead of aligning adjacent to tree nodes on the right.",
+      "evidence": "Amber, green, and black status dots appear on the far left margin while file labels indent from the right.",
+      "suggestion": "Mirror status indicator placement to follow row indentation in RTL."
+    },
+    {
+      "component": "ds:PanelTile",
+      "severity": "minor",
+      "title": "Bidirectional punctuation error",
+      "description": "RTL text rendering places punctuation incorrectly before the deploy identifier.",
+      "evidence": "The string renders as '.#4217' instead of '#4217'.",
+      "suggestion": "Wrap technical identifiers in LTR directional isolation tags."
+    }
+  ]
+}

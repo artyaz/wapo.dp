@@ -1,0 +1,82 @@
+{
+  "id": "ds:TimeScrubber",
+  "name": "TimeScrubber",
+  "kind": "ds",
+  "importPath": "@/components/ds/TimeScrubber",
+  "sourceFiles": [
+    "src/components/ds/TimeScrubber/TimeScrubber.tsx"
+  ],
+  "demoFile": "src/components/ds/TimeScrubber/demo.tsx",
+  "metaFile": "src/components/ds/TimeScrubber/meta.ts",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 1,
+    "minor": 1,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ds:TimeScrubber",
+      "severity": "major",
+      "title": "Range selector overlaps data visualization",
+      "description": "The time range filter buttons overlay and obscure the histogram bars in the lower section of the chart.",
+      "evidence": "The '1D 1H 1W 1M' button group sits directly over the vertical graph bars.",
+      "suggestion": "Position the range selector outside the histogram plotting area.",
+      "pairId": "pair-093",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-093"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: root gap-2 left only 8px between the bottom-aligned h-12 bars (which touch the container's bottom edge) and the right-aligned 1D/1H/1W/1M pill row, so the pills read as sitting on the bars; increased root gap to gap-4 (16px)."
+    },
+    {
+      "component": "ds:TimeScrubber",
+      "severity": "minor",
+      "title": "Redundant timestamp indicators",
+      "description": "The time range is duplicated within close proximity, adding minor visual noise over the waveform.",
+      "evidence": "Timestamps '13:12 - 20:24' appear both in the section header and inside the scrubber graph area.",
+      "suggestion": "Remove the floating chips or the header timestamp to streamline data presentation.",
+      "pairId": "pair-054",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-054"
+      ],
+      "triage": "fix",
+      "triageNote": "Real (partly composition): eval pages render the range in a header AND pass it to the tags; tags were already optional via rangeStart/rangeEnd, but the solid brand-primary chips (near-white blocks in dark theme) amplified the duplication into noise — restyled tags as quiet hairline panel chips and de-duplicated the demo header (eval headers are not editable)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:TimeScrubber",
+      "severity": "minor",
+      "title": "Redundant timestamp indicators",
+      "description": "The time range is duplicated within close proximity, adding minor visual noise over the waveform.",
+      "evidence": "Timestamps '13:12 - 20:24' appear both in the section header and inside the scrubber graph area.",
+      "suggestion": "Remove the floating chips or the header timestamp to streamline data presentation.",
+      "pairId": "pair-054",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone"
+    },
+    {
+      "component": "ds:TimeScrubber",
+      "severity": "major",
+      "title": "Range selector overlaps data visualization",
+      "description": "The time range filter buttons overlay and obscure the histogram bars in the lower section of the chart.",
+      "evidence": "The '1D 1H 1W 1M' button group sits directly over the vertical graph bars.",
+      "suggestion": "Position the range selector outside the histogram plotting area.",
+      "pairId": "pair-093",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop"
+    }
+  ]
+}

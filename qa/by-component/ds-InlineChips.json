@@ -1,0 +1,52 @@
+{
+  "id": "ds:InlineChips",
+  "name": "InlineChips",
+  "kind": "ds",
+  "importPath": "@/components/ds/InlineChips",
+  "sourceFiles": [
+    "src/components/ds/InlineChips/InlineChips.tsx"
+  ],
+  "demoFile": "src/components/ds/InlineChips/demo.tsx",
+  "metaFile": "src/components/ds/InlineChips/meta.ts",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ds:InlineChips",
+      "severity": "major",
+      "title": "Low contrast text in baseline card",
+      "description": "Prose text wrapping inline chips fails dark-theme legibility standards.",
+      "evidence": "Text such as 'Rates read from' and 'applied at checkout' is nearly invisible against the dark card surface.",
+      "suggestion": "Increase text color luminance to achieve at least 4.5:1 contrast.",
+      "pairId": "pair-010",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-010"
+      ],
+      "triage": "composition",
+      "triageNote": "Verified real but page-authored: pair-010's <p> hardcodes text-neutral-300 around the chips, which inverts to near-black rgb(58 56 53) in dark (~1.6:1 on the bg-muted/20 card) — the eval page is off-limits to fix agents. Component atoms are self-contained (bg+text pairs invert together, ≥4.5:1 both themes; pair-084 dark audit clean). The demo carried the same anti-pattern (bg-neutral-900 canvas flips near-white in dark, prose neutral-300 flips near-black, FileRef link/path would drop to ~2.1:1) — fixed in demo.tsx with dark: counterparts (dark:bg-neutral-100 canvas, dark:text-neutral-600 prose) matching the ThoughtHeader demo convention; no dark: counterparts needed in the chip tokens themselves."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:InlineChips",
+      "severity": "major",
+      "title": "Low contrast text in baseline card",
+      "description": "Prose text wrapping inline chips fails dark-theme legibility standards.",
+      "evidence": "Text such as 'Rates read from' and 'applied at checkout' is nearly invisible against the dark card surface.",
+      "suggestion": "Increase text color luminance to achieve at least 4.5:1 contrast.",
+      "pairId": "pair-010",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "pairId": "pair-078",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:empty",
+    "ui:combobox",
+    "ui:popover"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-tiny",
+      "width": 320,
+      "height": 480,
+      "weight": 5,
+      "hint": "a tiny 320px phone (extremely cramped)"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-078.jpg",
+    "qa/screenshots/pair-078-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T20:14:41.610Z",
+  "summary": "The interface generally adapts well to the cramped viewport, but the combobox menu exhibits column misalignment for list item metadata.",
+  "issues": [
+    {
+      "component": "ui:combobox",
+      "severity": "minor",
+      "title": "Misaligned item counts",
+      "description": "Item counts do not align into a consistent column because the checkmark indicator displaces the count only on the selected item.",
+      "evidence": "The count '0' in the Inbox row is shifted left to accommodate the checkmark, whereas counts '5', '8', and '3' sit flush right.",
+      "suggestion": "Reserve a consistent trailing slot for the checkmark across all options."
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "id": "ui:slider",
+  "name": "slider",
+  "kind": "ui",
+  "importPath": "@/components/ui/slider",
+  "sourceFiles": [
+    "src/components/ui/slider.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/slider/controlled.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:slider",
+      "severity": "major",
+      "title": "Thumb handle detached from progress track",
+      "description": "In the Failure threshold slider, the handle position does not match the active filled bar.",
+      "evidence": "The filled track terminates at the 75% mark while the circular thumb handle is positioned near the 98% mark.",
+      "suggestion": "Align the thumb handle position with the active track width based on the current value.",
+      "pairId": "pair-024",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-024"
+      ],
+      "triage": "false-positive",
+      "triageNote": "Direct DOM measurement on /eval/pair-024 (dark, 1512x900): Failure threshold slider fill = 0→75.0%, thumb center = 74.5% (thumb spans 652–668px, fill end 664.5px is INSIDE the thumb); the ≤4px inward offset is Radix's built-in getThumbInBoundsOffset (keeps thumb inside track near edges) — standard upstream behavior. Auditor's 'thumb near 98%' claim contradicted by measurement; same alignment confirmed on pair-053/089/151 (all thumb centers within 0.8% of fill endpoints). No code change."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:slider",
+      "severity": "major",
+      "title": "Thumb handle detached from progress track",
+      "description": "In the Failure threshold slider, the handle position does not match the active filled bar.",
+      "evidence": "The filled track terminates at the 75% mark while the circular thumb handle is positioned near the 98% mark.",
+      "suggestion": "Align the thumb handle position with the active track width based on the current value.",
+      "pairId": "pair-024",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop"
+    }
+  ]
+}

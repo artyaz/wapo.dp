@@ -1,0 +1,111 @@
+{
+  "id": "ui:command",
+  "name": "command",
+  "kind": "ui",
+  "importPath": "@/components/ui/command",
+  "sourceFiles": [
+    "src/components/ui/command.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/command/basic.tsx",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 1,
+    "minor": 2,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ui:command",
+      "severity": "major",
+      "title": "Bottom padding clipping",
+      "description": "The last item lacks bottom container padding and touches the bottom card border.",
+      "evidence": "The 'Full color' row is flush against the bottom border of the search container.",
+      "suggestion": "Add consistent bottom padding inside the command list container.",
+      "pairId": "pair-048",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-tiny",
+      "occurrences": 1,
+      "pairs": [
+        "pair-048"
+      ],
+      "triage": "fix",
+      "triageNote": "Real component-side defect (verified by pixel-probing the audit screenshot: the last row was hard-sliced mid-glyph flush against the card's bottom border; a plain pb-* scrolls away with content and provably changed nothing — byte-identical screenshot). Fixed with a sticky bottom edge fade (MessageScroller pattern) that dissolves rows running past the scroll edge and guarantees a resting inset. Post-fix re-audit: the padding/slice defect is gone; the remaining 'partial last row' is imposed by the eval page allocating the card less height than its content at 320x480 (flex-1 min-h-0, no-scroll constraint) — that residual clipping is composition-level and cannot be removed from the component without overflowing the page."
+    },
+    {
+      "component": "ui:command",
+      "severity": "minor",
+      "title": "Misaligned keyboard shortcuts in RTL",
+      "description": "Command item shortcuts and search elements exhibit improper LTR placement.",
+      "evidence": "Shortcut keys (e.g., 1 ⌘) sit on the left edge while item text is right-aligned.",
+      "suggestion": "Adjust flex layout and BiDi properties for command item slot positioning.",
+      "pairId": "pair-004",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-004"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect in RTL: physical ml-auto pinned the shortcut next to the item text instead of the row's end, and the RTL paragraph reordered '⌘1' into '1 ⌘'. Fixed with logical ms-auto (shortcut pinned to the inline-end edge) plus unicode-bidi:plaintext isolation so keycaps render '⌘1' LTR (verified via per-character client rects)."
+    },
+    {
+      "component": "ui:command",
+      "severity": "minor",
+      "title": "LTR string truncation defect in RTL layout",
+      "description": "Mixed-direction folder names truncate awkwardly at the start of LTR strings instead of using end-truncation.",
+      "evidence": "Ellipsis appears at the start of '...d_Guidelines_and_Identity_System_01' and '... Q4 Product Shoot'.",
+      "suggestion": "Enforce consistent text direction isolation and proper text-overflow truncation for mixed-directional labels.",
+      "pairId": "pair-123",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "phone-half",
+      "occurrences": 1,
+      "pairs": [
+        "pair-123"
+      ],
+      "triage": "fix",
+      "triageNote": "Real defect in RTL: English filenames inherited the RTL base direction, so overflow truncation cut the leading end and produced a leading ellipsis. Fixed by first-strong (unicode-bidi:plaintext) bidi isolation on command-item content — LTR filenames now start-truncate with a trailing ellipsis (verified via per-character client rects)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:command",
+      "severity": "minor",
+      "title": "Misaligned keyboard shortcuts in RTL",
+      "description": "Command item shortcuts and search elements exhibit improper LTR placement.",
+      "evidence": "Shortcut keys (e.g., 1 ⌘) sit on the left edge while item text is right-aligned.",
+      "suggestion": "Adjust flex layout and BiDi properties for command item slot positioning.",
+      "pairId": "pair-004",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ui:command",
+      "severity": "major",
+      "title": "Bottom padding clipping",
+      "description": "The last item lacks bottom container padding and touches the bottom card border.",
+      "evidence": "The 'Full color' row is flush against the bottom border of the search container.",
+      "suggestion": "Add consistent bottom padding inside the command list container.",
+      "pairId": "pair-048",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-tiny"
+    },
+    {
+      "component": "ui:command",
+      "severity": "minor",
+      "title": "LTR string truncation defect in RTL layout",
+      "description": "Mixed-direction folder names truncate awkwardly at the start of LTR strings instead of using end-truncation.",
+      "evidence": "Ellipsis appears at the start of '...d_Guidelines_and_Identity_System_01' and '... Q4 Product Shoot'.",
+      "suggestion": "Enforce consistent text direction isolation and proper text-overflow truncation for mixed-directional labels.",
+      "pairId": "pair-123",
+      "theme": "dark",
+      "dir": "rtl",
+      "viewport": "phone-half"
+    }
+  ]
+}

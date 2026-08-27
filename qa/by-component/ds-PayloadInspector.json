@@ -1,0 +1,82 @@
+{
+  "id": "ds:PayloadInspector",
+  "name": "PayloadInspector",
+  "kind": "ds",
+  "importPath": "@/components/ds/PayloadInspector",
+  "sourceFiles": [
+    "src/components/ds/PayloadInspector/PayloadInspector.tsx"
+  ],
+  "demoFile": "src/components/ds/PayloadInspector/demo.tsx",
+  "metaFile": "src/components/ds/PayloadInspector/meta.ts",
+  "totals": {
+    "issues": 2,
+    "blocker": 0,
+    "major": 2,
+    "minor": 0,
+    "distinctPatterns": 2
+  },
+  "issues": [
+    {
+      "component": "ds:PayloadInspector",
+      "severity": "major",
+      "title": "Bottom container clipping",
+      "description": "The payload inspector extends beyond the bottom edge, clipping the container border and code content.",
+      "evidence": "The lower border of the payload container is truncated at the bottom of the viewport.",
+      "suggestion": "Reduce vertical padding or row height across the page so the full inspector fits without overflow.",
+      "pairId": "pair-069",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-069"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: with maxHeightClass=max-h-[104px] the body clips mid-line (scrollHeight 216 vs clientHeight 104) with zero scroll affordance — added a fade mask + centered expand control (click toggles full payload); container-border-at-viewport-edge portion is page height (eval page off-limits). Also pinned the syntax/border palette to literals: DS neutrals invert in dark theme and rendered numbers invisible + glaring border on the fixed near-black surface."
+    },
+    {
+      "component": "ds:PayloadInspector",
+      "severity": "major",
+      "title": "Corrupted RTL code formatting",
+      "description": "Code content inherits RTL direction, causing right-aligned code, misplaced punctuation, and inverted syntax.",
+      "evidence": "JSON brackets, commas, and wrapped strings are right-aligned and disorganized inside the payload box.",
+      "suggestion": "Enforce dir=\"ltr\" and left text alignment on the code container.",
+      "pairId": "pair-099",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-099"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: the <pre> body inherited dir=rtl from EvalShell so JSON brackets/commas/indentation bidi-reordered — isolated the code body with dir=ltr + text-start (same pattern as ds:QueryInput)."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:PayloadInspector",
+      "severity": "major",
+      "title": "Bottom container clipping",
+      "description": "The payload inspector extends beyond the bottom edge, clipping the container border and code content.",
+      "evidence": "The lower border of the payload container is truncated at the bottom of the viewport.",
+      "suggestion": "Reduce vertical padding or row height across the page so the full inspector fits without overflow.",
+      "pairId": "pair-069",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    },
+    {
+      "component": "ds:PayloadInspector",
+      "severity": "major",
+      "title": "Corrupted RTL code formatting",
+      "description": "Code content inherits RTL direction, causing right-aligned code, misplaced punctuation, and inverted syntax.",
+      "evidence": "JSON brackets, commas, and wrapped strings are right-aligned and disorganized inside the payload box.",
+      "suggestion": "Enforce dir=\"ltr\" and left text alignment on the code container.",
+      "pairId": "pair-099",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone-small"
+    }
+  ]
+}

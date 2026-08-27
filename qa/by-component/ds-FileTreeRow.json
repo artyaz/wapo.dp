@@ -1,0 +1,142 @@
+{
+  "id": "ds:FileTreeRow",
+  "name": "FileTreeRow",
+  "kind": "ds",
+  "importPath": "@/components/ds/FileTreeRow",
+  "sourceFiles": [
+    "src/components/ds/FileTreeRow/FileTreeRow.tsx"
+  ],
+  "demoFile": "src/components/ds/FileTreeRow/demo.tsx",
+  "metaFile": "src/components/ds/FileTreeRow/meta.ts",
+  "totals": {
+    "issues": 4,
+    "blocker": 0,
+    "major": 2,
+    "minor": 2,
+    "distinctPatterns": 4
+  },
+  "issues": [
+    {
+      "component": "ds:FileTreeRow",
+      "severity": "major",
+      "title": "Folder chevron state mismatch",
+      "description": "The 'exports' and 'translate' folders display collapsed chevron icons while child items are expanded.",
+      "evidence": "Right-pointing chevrons shown for 'exports' and 'translate' despite child rows visible underneath.",
+      "suggestion": "Sync chevron orientation to reflect expanded child row visibility.",
+      "pairId": "pair-032",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-032"
+      ],
+      "triage": "fix",
+      "triageNote": "Confirmed in source: expanded folders set BOTH caret spans to inline (▾ and ▸ render simultaneously, lines ~96-113), so expanded folders like 'exports' show a collapsed-looking ▸ next to visible children; made the two carets mutually exclusive."
+    },
+    {
+      "component": "ds:FileTreeRow",
+      "severity": "major",
+      "title": "Detached status indicators in RTL",
+      "description": "Status dots remain anchored to the far left instead of aligning adjacent to tree nodes on the right.",
+      "evidence": "Amber, green, and black status dots appear on the far left margin while file labels indent from the right.",
+      "suggestion": "Mirror status indicator placement to follow row indentation in RTL.",
+      "pairId": "pair-046",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-046"
+      ],
+      "triage": "fix",
+      "triageNote": "Physical properties not mirrored in RTL, verified by pixel measurement: dots container used physical pr-2.5 (no inline-end padding in RTL, dots sit ~2px off the card's left border), selection rail used physical border-l-2 (rendered on the far-left edge x≈34-37 while the tree indents from the right), and rails used physical border-r (outer guide line buried under the card's right border); converted all to logical utilities (pe-2.5, border-s-2/border-e-0, border-e, ms-1.5)."
+    },
+    {
+      "component": "ds:FileTreeRow",
+      "severity": "minor",
+      "title": "Active state indicator boundary collision",
+      "description": "The active selection bar for selected rows extends flush to the outer container border rather than respecting item padding.",
+      "evidence": "The solid black bar beside report-draft.md touches the card's left boundary abruptly.",
+      "suggestion": "Inset the active indicator bar to align with row padding.",
+      "pairId": "pair-074",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-074"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: selected rows colored a 2px border-l-2 brand bar that sits exactly on the container's inner border (rows are direct children of the bordered card with no padding); replaced the flush border with an inset rounded indicator bar (absolute, inset-y/start 3px, logical start so it also mirrors in RTL) while keeping the 2px transparent border slot so row layout never shifts."
+    },
+    {
+      "component": "ds:FileTreeRow",
+      "severity": "minor",
+      "title": "Tree guideline icon collision",
+      "description": "Vertical tree guide line collides with the file icon.",
+      "evidence": "The left hierarchy guide line intersects the package.json file icon border.",
+      "suggestion": "Increase left padding on the row content to clear the guide line.",
+      "pairId": "pair-171",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-171"
+      ],
+      "triage": "fix",
+      "triageNote": "Verified by pixel measurement on the screenshot: the depth-1 guide line (x≈76-77) ends at the top of package.json's row and its column continues as the file glyph box's left border (x≈78-79) — depth-d glyph borders sit ~1px from the depth-(d+1) rail guide line; added ms-1 clearance before both glyph containers so icon boxes clear the guide-line column at every depth."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ds:FileTreeRow",
+      "severity": "major",
+      "title": "Folder chevron state mismatch",
+      "description": "The 'exports' and 'translate' folders display collapsed chevron icons while child items are expanded.",
+      "evidence": "Right-pointing chevrons shown for 'exports' and 'translate' despite child rows visible underneath.",
+      "suggestion": "Sync chevron orientation to reflect expanded child row visibility.",
+      "pairId": "pair-032",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ds:FileTreeRow",
+      "severity": "major",
+      "title": "Detached status indicators in RTL",
+      "description": "Status dots remain anchored to the far left instead of aligning adjacent to tree nodes on the right.",
+      "evidence": "Amber, green, and black status dots appear on the far left margin while file labels indent from the right.",
+      "suggestion": "Mirror status indicator placement to follow row indentation in RTL.",
+      "pairId": "pair-046",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone"
+    },
+    {
+      "component": "ds:FileTreeRow",
+      "severity": "minor",
+      "title": "Active state indicator boundary collision",
+      "description": "The active selection bar for selected rows extends flush to the outer container border rather than respecting item padding.",
+      "evidence": "The solid black bar beside report-draft.md touches the card's left boundary abruptly.",
+      "suggestion": "Inset the active indicator bar to align with row padding.",
+      "pairId": "pair-074",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    },
+    {
+      "component": "ds:FileTreeRow",
+      "severity": "minor",
+      "title": "Tree guideline icon collision",
+      "description": "Vertical tree guide line collides with the file icon.",
+      "evidence": "The left hierarchy guide line intersects the package.json file icon border.",
+      "suggestion": "Increase left padding on the row content to clear the guide line.",
+      "pairId": "pair-171",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    }
+  ]
+}

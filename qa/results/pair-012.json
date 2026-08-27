@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-012",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:empty",
+    "ui:skeleton",
+    "ds:AskBar"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-012.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:18:36.073Z",
+  "summary": "The layout generally follows design specifications, but exhibits minor clipping of footer text in the sidebar.",
+  "issues": [
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "Sidebar footer clipping",
+      "description": "Footer metadata at the bottom of the navigation sidebar is cut off by the viewport edge.",
+      "evidence": "Partial text reading '7 members' is truncated vertically along the bottom-left boundary.",
+      "suggestion": "Add proper bottom padding to the sidebar container to prevent content overflow."
+    }
+  ]
+}

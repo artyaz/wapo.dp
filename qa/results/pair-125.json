@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-125",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:breadcrumb",
+    "ds:AtmosphereScrim",
+    "ui:data-table"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "weight": 15,
+      "hint": "a portrait tablet"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-125.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T21:06:18.310Z",
+  "summary": "The page is well-composed overall but suffers from a layout defect where the data table pagination overlays and obscures the bottom row of data.",
+  "issues": [
+    {
+      "component": "ui:data-table",
+      "severity": "major",
+      "title": "Pagination overlaps table data",
+      "description": "Floating pagination control overlaps the final row content instead of rendering in a separate container below the table.",
+      "evidence": "The floating pill displaying 'Showing 10 of 12 | < 1/2 >' is positioned directly on top of the tenth row, obscuring text in the Merchant and Date columns.",
+      "suggestion": "Position pagination in a dedicated footer area below the data rows with sufficient vertical spacing."
+    }
+  ]
+}

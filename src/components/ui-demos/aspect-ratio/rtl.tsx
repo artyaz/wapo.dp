@@ -35,6 +35,8 @@ export function AspectRatioRtl() {
   const { dir, t } = useTranslation(translations, "ar")
 
   return (
+    // Correct pattern: the <figure> is the width-constrained parent — the
+    // ratio box fills it, so only surface classes go on <AspectRatio>.
     <figure className="w-full max-w-sm" dir={dir}>
       <AspectRatio ratio={16 / 9} className="rounded-lg bg-muted">
         <Image

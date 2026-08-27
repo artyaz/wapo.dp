@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-064",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:InspectorRow",
+    "ds:DiffRow",
+    "ds:GlassMaterialProvider"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-half",
+      "width": 390,
+      "height": 420,
+      "weight": 10,
+      "hint": "roughly HALF of a phone screen (very little vertical room)"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-064.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:55:09.895Z",
+  "summary": "The dark viewport composition generally fits constraints but exhibits a collision between the color preview indicator and hex text label.",
+  "issues": [
+    {
+      "component": "ds:InspectorRow",
+      "severity": "minor",
+      "title": "Color Swatch Text Collision",
+      "description": "The preview swatch collides with the hex string.",
+      "evidence": "In the accent row, the square color indicator overlaps the '#' character of '#737373'.",
+      "suggestion": "Add horizontal spacing between the color preview tile and the hex label."
+    }
+  ]
+}

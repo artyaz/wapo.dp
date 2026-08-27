@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-120",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:switch",
+    "ui:sheet",
+    "ds:MaterialTokens"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-half",
+      "width": 390,
+      "height": 420,
+      "weight": 10,
+      "hint": "roughly HALF of a phone screen (very little vertical room)"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "no-scroll",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-120.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:48:45.775Z",
+  "summary": "The sheet layout fits the constrained viewport, but the MaterialTokens preview exhibits severe text overlapping and alignment issues inside the glass specimen stack.",
+  "issues": [
+    {
+      "component": "ds:MaterialTokens",
+      "severity": "major",
+      "title": "Overlapping specimen text",
+      "description": "Specimen text layers collide and overlap directly inside the preview pill container, making the labels unreadable.",
+      "evidence": "Stacked text rows ('specimen 01' through 'specimen 06') render on top of each other over the first pill layer.",
+      "suggestion": "Adjust line-height and vertical spacing so each specimen label aligns neatly with its respective material tier pill."
+    }
+  ]
+}

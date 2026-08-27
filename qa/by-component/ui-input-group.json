@@ -1,0 +1,51 @@
+{
+  "id": "ui:input-group",
+  "name": "input-group",
+  "kind": "ui",
+  "importPath": "@/components/ui/input-group",
+  "sourceFiles": [
+    "src/components/ui/input-group.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/input-group/align.tsx",
+  "totals": {
+    "issues": 1,
+    "blocker": 0,
+    "major": 1,
+    "minor": 0,
+    "distinctPatterns": 1
+  },
+  "issues": [
+    {
+      "component": "ui:input-group",
+      "severity": "major",
+      "title": "Input clipped at bottom viewport boundary",
+      "description": "The caption refinement input box extends past the viewport, truncating its bottom border.",
+      "evidence": "The lower border of the 'refine caption' input group is cut off at the bottom right.",
+      "suggestion": "Add bottom padding or constrain the sidebar height with internal scrolling.",
+      "pairId": "pair-003",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-003"
+      ],
+      "triage": "composition",
+      "triageNote": "Playwright measurement (1280x800): the eval page's 380px inspector aside is 744px tall with overflow-y:auto but holds 803px of content (59px over-full) and pins the caption section to the fold via mt-auto — section bottom y=846.5 vs viewport 800 (46.5px overhang, matching the auditor's ~47px). The component itself is healthy: InputGroup root is flex-shrink:1/w-full/flex-wrap with zero horizontal overflow (scrollW==clientW), min-w-0 present on both InputGroupInput and InputGroupTextarea, and the textarea renders at its designed min-h-16 (64px; content-driven height would be 56px — only 8px of the 46.5px overhang). Root cause lives in src/app/eval/pair-003/page.tsx (off-limits); no component fix would resolve it."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:input-group",
+      "severity": "major",
+      "title": "Input clipped at bottom viewport boundary",
+      "description": "The caption refinement input box extends past the viewport, truncating its bottom border.",
+      "evidence": "The lower border of the 'refine caption' input group is cut off at the bottom right.",
+      "suggestion": "Add bottom padding or constrain the sidebar height with internal scrolling.",
+      "pairId": "pair-003",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop"
+    }
+  ]
+}

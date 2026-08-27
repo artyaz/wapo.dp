@@ -1,0 +1,141 @@
+{
+  "id": "ui:dialog",
+  "name": "dialog",
+  "kind": "ui",
+  "importPath": "@/components/ui/dialog",
+  "sourceFiles": [
+    "src/components/ui/dialog.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/dialog/custom-close-button.tsx",
+  "totals": {
+    "issues": 4,
+    "blocker": 0,
+    "major": 1,
+    "minor": 3,
+    "distinctPatterns": 4
+  },
+  "issues": [
+    {
+      "component": "ui:dialog",
+      "severity": "major",
+      "title": "Mismatched URL field styling",
+      "description": "The link inside the input element renders in an inverted black box with sharp corners, causing irregular nested padding and visual inconsistency.",
+      "evidence": "Black rectangular background wrapping the URL text inside the rounded input container.",
+      "suggestion": "Use standard input text styling with consistent padding and background tokens.",
+      "pairId": "pair-019",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-019"
+      ],
+      "triage": "fix",
+      "triageNote": "Verified: Radix FocusScope auto-focus select()s the first tabbable input on open (probe showed selection 0..28 on the read-only link field); with ui:input's selection:bg-primary the whole URL painted as an inverted near-black block. Fixed in dialog.tsx by collapsing the auto-selection (focus kept) in a composed onOpenAutoFocus guard."
+    },
+    {
+      "component": "ui:dialog",
+      "severity": "minor",
+      "title": "Input text clipped",
+      "description": "The memo name text field clips overflowing string content at its right edge without internal padding or truncation indicators.",
+      "evidence": "The text '(trimme' cuts off abruptly against the inner right border of the input container.",
+      "suggestion": "Apply proper right padding and text truncation styles to the text input.",
+      "pairId": "pair-073",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-073"
+      ],
+      "triage": "false-positive",
+      "triageNote": "Native <input> behavior: the 55-char default value is slightly wider than the field and clips without ellipsis (inputs never ellipsize; value is scrollable/selectable); px-3 padding exists in ui:input. Nothing defective in dialog.tsx (auto-select that also painted the value dark is now collapsed by the pair-019 fix)."
+    },
+    {
+      "component": "ui:dialog",
+      "severity": "minor",
+      "title": "Low contrast metadata text",
+      "description": "Secondary monospace description text in pricing cards lacks sufficient contrast against the white surface.",
+      "evidence": "Text reading 'liquid glass surface material...' is faint light gray on white background.",
+      "suggestion": "Increase font weight or darken text color to meet contrast thresholds.",
+      "pairId": "pair-106",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-106"
+      ],
+      "triage": "blocked-external",
+      "triageNote": "The faint 'liquid glass surface / material ...' caption is rendered by ds:GlassRefraction (text-neutral-500 / text-neutral-400 in src/components/ds/GlassRefraction/GlassRefraction.tsx) inside the dialog's pricing cards — root cause is outside ui:dialog's files; belongs to the ds:GlassRefraction owner."
+    },
+    {
+      "component": "ui:dialog",
+      "severity": "minor",
+      "title": "Close button not mirrored for RTL",
+      "description": "The dialog dismiss icon remains anchored to the top right.",
+      "evidence": "The 'X' icon sits at the top right of the dialog container.",
+      "suggestion": "Reposition the close button to the top left corner for RTL layouts.",
+      "pairId": "pair-107",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-107"
+      ],
+      "triage": "fix",
+      "triageNote": "Real: built-in close button used physical right-4 so it stayed top-right under dir=rtl. Fixed to logical end-4 (plus sm:text-left -> sm:text-start in DialogHeader); verified mirrored (16px from left edge in RTL) and re-audit no longer flags it."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:dialog",
+      "severity": "major",
+      "title": "Mismatched URL field styling",
+      "description": "The link inside the input element renders in an inverted black box with sharp corners, causing irregular nested padding and visual inconsistency.",
+      "evidence": "Black rectangular background wrapping the URL text inside the rounded input container.",
+      "suggestion": "Use standard input text styling with consistent padding and background tokens.",
+      "pairId": "pair-019",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone"
+    },
+    {
+      "component": "ui:dialog",
+      "severity": "minor",
+      "title": "Input text clipped",
+      "description": "The memo name text field clips overflowing string content at its right edge without internal padding or truncation indicators.",
+      "evidence": "The text '(trimme' cuts off abruptly against the inner right border of the input container.",
+      "suggestion": "Apply proper right padding and text truncation styles to the text input.",
+      "pairId": "pair-073",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ui:dialog",
+      "severity": "minor",
+      "title": "Low contrast metadata text",
+      "description": "Secondary monospace description text in pricing cards lacks sufficient contrast against the white surface.",
+      "evidence": "Text reading 'liquid glass surface material...' is faint light gray on white background.",
+      "suggestion": "Increase font weight or darken text color to meet contrast thresholds.",
+      "pairId": "pair-106",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ui:dialog",
+      "severity": "minor",
+      "title": "Close button not mirrored for RTL",
+      "description": "The dialog dismiss icon remains anchored to the top right.",
+      "evidence": "The 'X' icon sits at the top right of the dialog container.",
+      "suggestion": "Reposition the close button to the top left corner for RTL layouts.",
+      "pairId": "pair-107",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone"
+    }
+  ]
+}

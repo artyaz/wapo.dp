@@ -1,0 +1,47 @@
+{
+  "pairId": "pair-020",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:resizable",
+    "ds:RelationshipGrid",
+    "ds:JumpToLatest"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-020.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:28:52.695Z",
+  "summary": "The page displays several visual defects in dark theme, notably broken letter spacing/accidental spaces in the relationship grid titles and severe text contrast issues in the header metrics and breadcrumbs.",
+  "issues": [
+    {
+      "component": "ds:RelationshipGrid",
+      "severity": "major",
+      "title": "Erratic whitespace in title cells",
+      "description": "Text strings in the Title column contain unnatural spaces inside words.",
+      "evidence": "Words render as 'Re place', 'us-we st-2', 'tem p fire wall', and 'Ve rify' across multiple rows.",
+      "suggestion": "Fix font rendering or string formatting to remove spurious whitespace."
+    },
+    {
+      "component": "page",
+      "severity": "minor",
+      "title": "Low contrast breadcrumb text and card label",
+      "description": "Breadcrumb description and the first metric card's label have insufficient contrast against their backgrounds.",
+      "evidence": "'Latency spike on us-west-2 cluster' in the top bar is nearly black on black, and 'PRIORITY' label inside the first light card is illegible.",
+      "suggestion": "Apply proper dark theme color tokens for secondary text and card headers."
+    }
+  ]
+}

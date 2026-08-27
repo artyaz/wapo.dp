@@ -1,0 +1,20 @@
+{
+  "id": "ds:ReasoningLog",
+  "name": "ReasoningLog",
+  "kind": "ds",
+  "importPath": "@/components/ds/ReasoningLog",
+  "sourceFiles": [
+    "src/components/ds/ReasoningLog/ReasoningLog.tsx"
+  ],
+  "demoFile": "src/components/ds/ReasoningLog/demo.tsx",
+  "metaFile": "src/components/ds/ReasoningLog/meta.ts",
+  "totals": {
+    "issues": 0,
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "distinctPatterns": 0
+  },
+  "issues": [],
+  "allIssues": []
+}

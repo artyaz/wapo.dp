@@ -1,0 +1,30 @@
+{
+  "pairId": "pair-035",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:marker",
+    "ui:accordion",
+    "ds:DrawerLayout"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop-wide",
+      "width": 1440,
+      "height": 900,
+      "weight": 15,
+      "hint": "a wide desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "a notification center"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-035.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:43:50.596Z",
+  "summary": "The notification drawer layout is well-structured with clear visual hierarchy, consistent spacing, and correctly implemented accordion and marker components.",
+  "issues": []
+}

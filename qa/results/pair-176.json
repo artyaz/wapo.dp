@@ -1,0 +1,31 @@
+{
+  "pairId": "pair-176",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ds:PayloadInspector",
+    "ui:tabs",
+    "ds:ActionTraces"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-176.jpg",
+    "qa/screenshots/pair-176-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T22:04:17.639Z",
+  "summary": "The page cleanly implements the Praxis design system with well-aligned components, balanced spacing, and clear visual hierarchy across all trace and payload views.",
+  "issues": []
+}

@@ -1,0 +1,141 @@
+{
+  "id": "ui:data-table",
+  "name": "data-table",
+  "kind": "ui",
+  "importPath": "@/components/ui/data-table",
+  "sourceFiles": [
+    "src/components/ui/data-table.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/data-table/cell-formatting.tsx",
+  "totals": {
+    "issues": 4,
+    "blocker": 0,
+    "major": 2,
+    "minor": 2,
+    "distinctPatterns": 4
+  },
+  "issues": [
+    {
+      "component": "ui:data-table",
+      "severity": "major",
+      "title": "Untranslated and inverted RTL pagination text",
+      "description": "Pagination controls display untranslated English strings with bi-directional punctuation rendering issues.",
+      "evidence": "The footer displays '.of 9 row(s) selected 0', 'Page 1 of 2', and 'Rows per page' in an RTL interface.",
+      "suggestion": "Translate pagination labels to Hebrew and set proper text direction.",
+      "pairId": "pair-086",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-086"
+      ],
+      "triage": "fix",
+      "triageNote": "Real component defects: footer strings were hardcoded English with no override path, and neutral punctuation ('.', '()') inside the RTL paragraph re-ordered the bidi runs ('.of 9 row(s) selected 0'). Fixed with new paginationLabels/labels props (incl. sr-only button labels), dir=ltr isolation for the default English labels, physical→logical margins (-ms-3/ms-auto), and rtl:rotate-180 chevron mirroring; the translated text itself must be supplied by the consumer via the new prop."
+    },
+    {
+      "component": "ui:data-table",
+      "severity": "major",
+      "title": "Pagination overlaps table data",
+      "description": "Floating pagination control overlaps the final row content instead of rendering in a separate container below the table.",
+      "evidence": "The floating pill displaying 'Showing 10 of 12 | < 1/2 >' is positioned directly on top of the tenth row, obscuring text in the Merchant and Date columns.",
+      "suggestion": "Position pagination in a dedicated footer area below the data rows with sufficient vertical spacing.",
+      "pairId": "pair-125",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "tablet-portrait",
+      "occurrences": 1,
+      "pairs": [
+        "pair-125"
+      ],
+      "triage": "composition",
+      "triageNote": "Overlap comes from the eval page's own footer render prop, which deliberately docks an absolutely-positioned pill (absolute inset-x-0 bottom-4 z-10) over the last rows ('pagination pill docks on the blur field'); the built-in DataTablePagination renders in normal flow below the rows and never overlaps."
+    },
+    {
+      "component": "ui:data-table",
+      "severity": "minor",
+      "title": "Low contrast account text",
+      "description": "Account email text uses dark gray tokens with insufficient contrast against the dark background.",
+      "evidence": "Email addresses in the Account column are dim and hard to distinguish from the row background.",
+      "suggestion": "Increase font brightness for muted column content to meet standard contrast guidelines.",
+      "pairId": "pair-069",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-069"
+      ],
+      "triage": "blocked-external",
+      "triageNote": "The email cells are styled 'text-xs text-muted-foreground' by the eval page's own column defs (src/app/eval/pair-069 — off-limits), and the token maps to --ds-color-neutral-500 in globals.css (orchestrator-owned); rgb(143 140 132) computes ≈5.9:1 on the dark background (WCAG AA pass), so the perceived dimness is a shared-token / page-styling tradeoff outside this component's editable files."
+    },
+    {
+      "component": "ui:data-table",
+      "severity": "minor",
+      "title": "Incomplete pagination controls",
+      "description": "Pagination footer provides row counts and page size selector but lacks navigation chevrons.",
+      "evidence": "Footer displays selection text and 'Rows per page 10' without next/previous buttons.",
+      "suggestion": "Render page navigation arrow buttons inside DataTablePagination.",
+      "pairId": "pair-080",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop",
+      "occurrences": 1,
+      "pairs": [
+        "pair-080"
+      ],
+      "triage": "fix",
+      "triageNote": "The 8-row single-page table rendered all four chevron buttons disabled at opacity-50 (Button base disabled styles), which read as missing/incomplete controls. Fixed by hiding the nav group when !canPrevious && !canNext so a single-page footer renders as a coherent 'Page 1 of 1' footer; Button disabled styling itself is owned by ui/button.tsx."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:data-table",
+      "severity": "minor",
+      "title": "Low contrast account text",
+      "description": "Account email text uses dark gray tokens with insufficient contrast against the dark background.",
+      "evidence": "Email addresses in the Account column are dim and hard to distinguish from the row background.",
+      "suggestion": "Increase font brightness for muted column content to meet standard contrast guidelines.",
+      "pairId": "pair-069",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    },
+    {
+      "component": "ui:data-table",
+      "severity": "minor",
+      "title": "Incomplete pagination controls",
+      "description": "Pagination footer provides row counts and page size selector but lacks navigation chevrons.",
+      "evidence": "Footer displays selection text and 'Rows per page 10' without next/previous buttons.",
+      "suggestion": "Render page navigation arrow buttons inside DataTablePagination.",
+      "pairId": "pair-080",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop"
+    },
+    {
+      "component": "ui:data-table",
+      "severity": "major",
+      "title": "Untranslated and inverted RTL pagination text",
+      "description": "Pagination controls display untranslated English strings with bi-directional punctuation rendering issues.",
+      "evidence": "The footer displays '.of 9 row(s) selected 0', 'Page 1 of 2', and 'Rows per page' in an RTL interface.",
+      "suggestion": "Translate pagination labels to Hebrew and set proper text direction.",
+      "pairId": "pair-086",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "tablet-portrait"
+    },
+    {
+      "component": "ui:data-table",
+      "severity": "major",
+      "title": "Pagination overlaps table data",
+      "description": "Floating pagination control overlaps the final row content instead of rendering in a separate container below the table.",
+      "evidence": "The floating pill displaying 'Showing 10 of 12 | < 1/2 >' is positioned directly on top of the tenth row, obscuring text in the Merchant and Date columns.",
+      "suggestion": "Position pagination in a dedicated footer area below the data rows with sufficient vertical spacing.",
+      "pairId": "pair-125",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "tablet-portrait"
+    }
+  ]
+}

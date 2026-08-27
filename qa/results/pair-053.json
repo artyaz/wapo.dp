@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-053",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ui:slider",
+    "ds:PlayerBar",
+    "ui:sidebar"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "desktop",
+      "width": 1280,
+      "height": 800,
+      "weight": 20,
+      "hint": "a standard desktop window"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "dense-content",
+    "scenario": null
+  },
+  "screenshots": [
+    "qa/screenshots/pair-053.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T23:25:55.315Z",
+  "summary": "The page is well-structured with dark theme styling, but the multi-thumb range slider displays an improper fill highlight spanning from the track origin rather than isolating the selected range.",
+  "issues": [
+    {
+      "component": "ui:slider",
+      "severity": "major",
+      "title": "Incorrect fill segment on range slider",
+      "description": "The active track fill on the dual-thumb slider renders from the left boundary instead of between the two thumbs.",
+      "evidence": "The 'Ambient bed ducking window' slider fills solid white from 0% to the upper thumb, covering the inactive area before the lower thumb.",
+      "suggestion": "Constrain the active highlight track to span only between the lower and upper thumb values."
+    }
+  ]
+}

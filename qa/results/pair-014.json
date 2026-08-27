@@ -1,0 +1,40 @@
+{
+  "pairId": "pair-014",
+  "status": "evaluated",
+  "verdict": "fail",
+  "components": [
+    "ds:MaterialTokens",
+    "ui:date-picker",
+    "ui:field"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "phone-small",
+      "width": 360,
+      "height": 640,
+      "weight": 10,
+      "hint": "a small phone screen"
+    },
+    "theme": "dark",
+    "direction": "ltr",
+    "constraint": "dense-content",
+    "scenario": "a live transcript / captions view"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-014.jpg",
+    "qa/screenshots/pair-014-full.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-26T19:20:45.249Z",
+  "summary": "The layout renders cleanly across mobile viewport except for text overlap defects in the MaterialTokens showcase component.",
+  "issues": [
+    {
+      "component": "ds:MaterialTokens",
+      "severity": "major",
+      "title": "Text collision in material hierarchy panel",
+      "description": "Specimen text and token metadata labels overlap horizontally due to constrained container width.",
+      "evidence": "Specimen text lines collide directly with ULTRATHIN, THIN, and REGULAR label columns in the preview card.",
+      "suggestion": "Adjust layout to stack metadata or hide underlying specimen text on narrow viewports."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "pairId": "pair-052",
+  "status": "evaluated",
+  "verdict": "pass",
+  "components": [
+    "ui:radio-group",
+    "ds:CrosshairTag",
+    "ui:spinner"
+  ],
+  "conditions": {
+    "viewport": {
+      "label": "laptop",
+      "width": 1024,
+      "height": 768,
+      "weight": 10,
+      "hint": "a laptop window"
+    },
+    "theme": "light",
+    "direction": "ltr",
+    "constraint": "none",
+    "scenario": "an analytics dashboard"
+  },
+  "screenshots": [
+    "qa/screenshots/pair-052.jpg"
+  ],
+  "model": "agy-image",
+  "auditedAt": "2026-08-27T00:12:48.439Z",
+  "summary": "The dashboard demonstrates clean composition and typography adhering to the design system, with minor vertical alignment inconsistencies in radio list items.",
+  "issues": [
+    {
+      "component": "ui:radio-group",
+      "severity": "minor",
+      "title": "Radio button vertical misalignment",
+      "description": "Radio inputs are centered across multiline labels instead of top-aligning with primary label text.",
+      "evidence": "Radio circles in 'Hourly', 'Daily', and 'Weekly' sit at varying vertical baselines relative to primary titles.",
+      "suggestion": "Align radio indicators to the top line or baseline of the item title."
+    }
+  ]
+}

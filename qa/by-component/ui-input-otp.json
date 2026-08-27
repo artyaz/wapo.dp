@@ -1,0 +1,111 @@
+{
+  "id": "ui:input-otp",
+  "name": "input-otp",
+  "kind": "ui",
+  "importPath": "@/components/ui/input-otp",
+  "sourceFiles": [
+    "src/components/ui/input-otp.tsx"
+  ],
+  "demoFile": "src/components/ui-demos/input-otp/alphanumeric.tsx",
+  "totals": {
+    "issues": 3,
+    "blocker": 0,
+    "major": 2,
+    "minor": 1,
+    "distinctPatterns": 3
+  },
+  "issues": [
+    {
+      "component": "ui:input-otp",
+      "severity": "major",
+      "title": "Missing slot in OTP group",
+      "description": "The OTP input displays only five total slots despite specifying a 6-character code requirement.",
+      "evidence": "Right OTP group contains only two slots (one populated with '2' and one empty slot), leaving 5 slots total across the control.",
+      "suggestion": "Add the missing sixth InputOTPSlot to complete the second InputOTPGroup.",
+      "pairId": "pair-135",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop-wide",
+      "occurrences": 1,
+      "pairs": [
+        "pair-135"
+      ],
+      "triage": "fix",
+      "triageNote": "No slot is actually missing (eval page and demo both render 6 slots); the real defect is that empty inactive slot borders are near-invisible in dark theme (border-input rgb(42 41 38) over a near-black canvas ≈ 1.3:1), so the last empty slot read as absent — stepped the dark resting border to muted-foreground/70 (≈3.3:1) with brighter dark active/invalid counterparts."
+    },
+    {
+      "component": "ui:input-otp",
+      "severity": "major",
+      "title": "Inconsistent OTP Group Styling",
+      "description": "The filled OTP slot group has an irregular outer border and padding artifact not present on the empty group.",
+      "evidence": "The right group of slots containing '4', 'K', '7' displays a thick outer border container, unlike the left group.",
+      "suggestion": "Normalize border tokens and container styles across all InputOTPGroup elements.",
+      "pairId": "pair-156",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone",
+      "occurrences": 1,
+      "pairs": [
+        "pair-156"
+      ],
+      "triage": "fix",
+      "triageNote": "Confirmed by eval agent: physical border-r / first:border-l / first:rounded-l-md / last:rounded-r-md do not mirror in RTL, so each group's outer edge loses border+rounding on one side (plus a doubled inner divider); replaced with logical border-e / first:border-s / first:rounded-s-md / last:rounded-e-md (same idiom as ui/button-group)."
+    },
+    {
+      "component": "ui:input-otp",
+      "severity": "minor",
+      "title": "Inconsistent slot group styling",
+      "description": "The first and second OTP groups render with mismatched slot container styles and backgrounds.",
+      "evidence": "Slots 1-3 display as distinct white cards, whereas slots 4-6 render inside a single connected grey container.",
+      "suggestion": "Apply consistent slot background and border tokens across both groups.",
+      "pairId": "pair-171",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small",
+      "occurrences": 1,
+      "pairs": [
+        "pair-171"
+      ],
+      "triage": "false-positive",
+      "triageNote": "Both groups render with identical token classes and LTR output is unchanged; the perceived mismatch is the standard segmented grouping dividers plus the by-design active-slot highlight (ring-[3px] + border-ring on the next empty slot, index 3 for value 'K7A')."
+    }
+  ],
+  "allIssues": [
+    {
+      "component": "ui:input-otp",
+      "severity": "major",
+      "title": "Missing slot in OTP group",
+      "description": "The OTP input displays only five total slots despite specifying a 6-character code requirement.",
+      "evidence": "Right OTP group contains only two slots (one populated with '2' and one empty slot), leaving 5 slots total across the control.",
+      "suggestion": "Add the missing sixth InputOTPSlot to complete the second InputOTPGroup.",
+      "pairId": "pair-135",
+      "theme": "dark",
+      "dir": "ltr",
+      "viewport": "desktop-wide"
+    },
+    {
+      "component": "ui:input-otp",
+      "severity": "major",
+      "title": "Inconsistent OTP Group Styling",
+      "description": "The filled OTP slot group has an irregular outer border and padding artifact not present on the empty group.",
+      "evidence": "The right group of slots containing '4', 'K', '7' displays a thick outer border container, unlike the left group.",
+      "suggestion": "Normalize border tokens and container styles across all InputOTPGroup elements.",
+      "pairId": "pair-156",
+      "theme": "light",
+      "dir": "rtl",
+      "viewport": "phone"
+    },
+    {
+      "component": "ui:input-otp",
+      "severity": "minor",
+      "title": "Inconsistent slot group styling",
+      "description": "The first and second OTP groups render with mismatched slot container styles and backgrounds.",
+      "evidence": "Slots 1-3 display as distinct white cards, whereas slots 4-6 render inside a single connected grey container.",
+      "suggestion": "Apply consistent slot background and border tokens across both groups.",
+      "pairId": "pair-171",
+      "theme": "light",
+      "dir": "ltr",
+      "viewport": "phone-small"
+    }
+  ]
+}
