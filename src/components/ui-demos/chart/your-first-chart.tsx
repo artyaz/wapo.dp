@@ -23,11 +23,11 @@ const chartData = [
 const chartConfig = {
   desktop: {
     label: "Desktop",
-    color: "#2563eb",
+    color: "var(--chart-1)",
   },
   mobile: {
     label: "Mobile",
-    color: "#60a5fa",
+    color: "var(--chart-2)",
   },
 } satisfies ChartConfig
 
@@ -45,8 +45,8 @@ export function ChartBarDemoLegend() {
         />
         <ChartTooltip content={<ChartTooltipContent />} />
         <ChartLegend content={<ChartLegendContent />} />
-        <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-        <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+        <Bar dataKey="desktop" fill="var(--color-desktop)" radius={3} />
+        <Bar dataKey="mobile" fill="var(--color-mobile)" radius={3} />
       </BarChart>
     </ChartContainer>
   )

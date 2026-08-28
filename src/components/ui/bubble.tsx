@@ -34,7 +34,7 @@ const bubbleVariants: Record<BubbleVariant, string> = {
   muted: "border border-input bg-transparent text-foreground",
   tinted: "bg-primary/10 text-primary",
   outline: "border border-input bg-background text-foreground shadow-xs",
-  destructive: "bg-destructive text-white",
+  destructive: "bg-destructive text-white dark:bg-destructive/60",
   ghost: "w-full max-w-full bg-transparent px-0 py-0 text-foreground",
 }
 
@@ -89,6 +89,10 @@ function BubbleContent({
       className={cn(
         "block w-fit max-w-lg rounded-lg px-3.5 py-2.5 text-sm leading-relaxed",
         bubbleVariants[variant],
+        // Interactive bubbles (`render={<button/>}`) need a visible keyboard
+        // focus ring; inert bubbles are unaffected (never focusable).
+        render &&
+          "outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50",
         className
       )}
       {...props}

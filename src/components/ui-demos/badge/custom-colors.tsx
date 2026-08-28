@@ -2,23 +2,28 @@
 
 import { Badge } from "@/components/ui/badge"
 
+/**
+ * Custom colors — semantic tokens only (Praxis: monochrome first; success /
+ * warning / destructive are a budget spent where meaning demands it).
+ * The token scales flip automatically in dark theme, so no dark: overrides.
+ */
 export function BadgeCustomColors() {
   return (
     <div className="flex flex-wrap gap-2">
-      <Badge className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
-        Blue
+      <Badge className="border-transparent bg-success-100 text-success-700">
+        Recovering
       </Badge>
-      <Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
-        Green
+      <Badge className="border-transparent bg-warning-100 text-warning-700">
+        Follow-up
       </Badge>
-      <Badge className="bg-sky-50 text-sky-700 dark:bg-sky-950 dark:text-sky-300">
-        Sky
+      <Badge className="border-transparent bg-destructive-100 text-destructive-700">
+        Allergic
       </Badge>
-      <Badge className="bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300">
-        Purple
+      <Badge className="border-transparent bg-neutral-100 text-neutral-700">
+        Neutral
       </Badge>
-      <Badge className="bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300">
-        Red
+      <Badge className="border-transparent bg-neutral-800 text-neutral-100">
+        High contrast
       </Badge>
     </div>
   )

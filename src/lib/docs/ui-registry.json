@@ -645,6 +645,32 @@
     ]
   },
   {
+    "slug": "code-block",
+    "name": "Code Block",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "CodeBlockBasic"
+      },
+      {
+        "slug": "syntax-highlight",
+        "title": "Syntax Highlight",
+        "export": "CodeBlockSyntaxHighlight"
+      },
+      {
+        "slug": "with-copy",
+        "title": "With Copy",
+        "export": "CodeBlockWithCopy"
+      },
+      {
+        "slug": "line-numbers",
+        "title": "Line Numbers",
+        "export": "CodeBlockLineNumbers"
+      }
+    ]
+  },
+  {
     "slug": "checkbox",
     "name": "Checkbox",
     "variants": [
@@ -1008,6 +1034,27 @@
     ]
   },
   {
+    "slug": "direction",
+    "name": "Direction",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "DirectionProviderDemo"
+      },
+      {
+        "slug": "rtl",
+        "title": "Rtl",
+        "export": "DirectionRtlDemo"
+      },
+      {
+        "slug": "hook",
+        "title": "Hook",
+        "export": "DirectionHookDemo"
+      }
+    ]
+  },
+  {
     "slug": "drawer",
     "name": "Drawer",
     "variants": [
@@ -1223,6 +1270,58 @@
         "slug": "validation-and-errors",
         "title": "Validation And Errors",
         "export": "ValidationAndErrorsDemo"
+      }
+    ]
+  },
+  {
+    "slug": "filter-bar",
+    "name": "Filter Bar",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "FilterBarBasic"
+      },
+      {
+        "slug": "query-builder",
+        "title": "Query Builder",
+        "export": "FilterBarQueryBuilder"
+      },
+      {
+        "slug": "sort-rules",
+        "title": "Sort Rules",
+        "export": "FilterBarSortRules"
+      },
+      {
+        "slug": "saved-filters",
+        "title": "Saved Filters",
+        "export": "FilterBarSavedFilters"
+      }
+    ]
+  },
+  {
+    "slug": "file-upload",
+    "name": "File Upload",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "FileUploadBasic"
+      },
+      {
+        "slug": "dropzone",
+        "title": "Dropzone",
+        "export": "FileUploadDropzone"
+      },
+      {
+        "slug": "image-preview",
+        "title": "Image Preview",
+        "export": "FileUploadImagePreview"
+      },
+      {
+        "slug": "restrictions",
+        "title": "Restrictions",
+        "export": "FileUploadRestrictions"
       }
     ]
   },
@@ -1497,6 +1596,27 @@
     ]
   },
   {
+    "slug": "kanban",
+    "name": "Kanban Board",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "KanbanBasic"
+      },
+      {
+        "slug": "columns",
+        "title": "Columns",
+        "export": "KanbanColumns"
+      },
+      {
+        "slug": "card-details",
+        "title": "Card Details",
+        "export": "KanbanCardDetails"
+      }
+    ]
+  },
+  {
     "slug": "kbd",
     "name": "Kbd",
     "variants": [
@@ -1586,6 +1706,32 @@
         "slug": "with-icon",
         "title": "With Icon",
         "export": "MarkerIconDemo"
+      }
+    ]
+  },
+  {
+    "slug": "mention",
+    "name": "Mention Input",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "MentionBasic"
+      },
+      {
+        "slug": "hashtag",
+        "title": "Hashtag",
+        "export": "MentionHashtag"
+      },
+      {
+        "slug": "popup",
+        "title": "Popup",
+        "export": "MentionPopup"
+      },
+      {
+        "slug": "with-avatars",
+        "title": "With Avatars",
+        "export": "MentionWithAvatars"
       }
     ]
   },
@@ -2214,6 +2360,32 @@
     ]
   },
   {
+    "slug": "stepper",
+    "name": "Stepper",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "StepperBasic"
+      },
+      {
+        "slug": "vertical",
+        "title": "Vertical",
+        "export": "StepperVertical"
+      },
+      {
+        "slug": "clickable",
+        "title": "Clickable",
+        "export": "StepperClickable"
+      },
+      {
+        "slug": "with-content",
+        "title": "With Content",
+        "export": "StepperWithContent"
+      }
+    ]
+  },
+  {
     "slug": "switch",
     "name": "Switch",
     "variants": [
@@ -2417,6 +2589,32 @@
         "slug": "vertical",
         "title": "Vertical",
         "export": "ToggleGroupVertical"
+      }
+    ]
+  },
+  {
+    "slug": "timeline",
+    "name": "Timeline",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "TimelineBasic"
+      },
+      {
+        "slug": "with-icons",
+        "title": "With Icons",
+        "export": "TimelineWithIcons"
+      },
+      {
+        "slug": "alternating",
+        "title": "Alternating",
+        "export": "TimelineAlternating"
+      },
+      {
+        "slug": "compact",
+        "title": "Compact",
+        "export": "TimelineCompact"
       }
     ]
   },

@@ -46,7 +46,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "rtl",
         "title": "Rtl",
         "export": "AccordionRtl"
-      }
+      },
     ]
   },
   {
@@ -77,7 +77,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "rtl",
         "title": "Rtl",
         "export": "AlertRtl"
-      }
+      },
     ]
   },
   {
@@ -113,7 +113,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "small",
         "title": "Small",
         "export": "AlertDialogSmall"
-      }
+      },
     ]
   },
   {
@@ -134,7 +134,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "square",
         "title": "Square",
         "export": "AspectRatioSquare"
-      }
+      },
     ]
   },
   {
@@ -170,7 +170,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "trigger",
         "title": "Trigger",
         "export": "TriggerDemo"
-      }
+      },
     ]
   },
   {
@@ -221,7 +221,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "sizes",
         "title": "Sizes",
         "export": "AvatarSizeExample"
-      }
+      },
     ]
   },
   {
@@ -257,7 +257,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "with-spinner",
         "title": "With Spinner",
         "export": "BadgeWithSpinner"
-      }
+      },
     ]
   },
   {
@@ -293,7 +293,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "rtl",
         "title": "Rtl",
         "export": "BreadcrumbRtl"
-      }
+      },
     ]
   },
   {
@@ -344,7 +344,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "variants",
         "title": "Variants",
         "export": "BubbleVariantsDemo"
-      }
+      },
     ]
   },
   {
@@ -420,7 +420,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "with-icon",
         "title": "With Icon",
         "export": "ButtonWithIcon"
-      }
+      },
     ]
   },
   {
@@ -486,7 +486,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "split",
         "title": "Split",
         "export": "ButtonGroupSplit"
-      }
+      },
     ]
   },
   {
@@ -547,7 +547,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "week-numbers",
         "title": "Week Numbers",
         "export": "CalendarWeekNumbers"
-      }
+      },
     ]
   },
   {
@@ -573,7 +573,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "spacing",
         "title": "Spacing",
         "export": "CardEdgeToEdge"
-      }
+      },
     ]
   },
   {
@@ -614,7 +614,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "spacing",
         "title": "Spacing",
         "export": "SpacingDemo"
-      }
+      },
     ]
   },
   {
@@ -655,7 +655,33 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "your-first-chart",
         "title": "Your First Chart",
         "export": "ChartBarDemoLegend"
-      }
+      },
+    ]
+  },
+  {
+    "slug": "code-block",
+    "name": "Code Block",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "CodeBlockBasic"
+      },
+      {
+        "slug": "syntax-highlight",
+        "title": "Syntax Highlight",
+        "export": "CodeBlockSyntaxHighlight"
+      },
+      {
+        "slug": "with-copy",
+        "title": "With Copy",
+        "export": "CodeBlockWithCopy"
+      },
+      {
+        "slug": "line-numbers",
+        "title": "Line Numbers",
+        "export": "CodeBlockLineNumbers"
+      },
     ]
   },
   {
@@ -701,7 +727,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "table",
         "title": "Table",
         "export": "CheckboxInTable"
-      }
+      },
     ]
   },
   {
@@ -732,7 +758,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "settings-panel",
         "title": "Settings Panel",
         "export": "CollapsibleSettings"
-      }
+      },
     ]
   },
   {
@@ -798,7 +824,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "rtl",
         "title": "Rtl",
         "export": "ComboboxRtl"
-      }
+      },
     ]
   },
   {
@@ -829,7 +855,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "shortcuts",
         "title": "Shortcuts",
         "export": "CommandWithShortcuts"
-      }
+      },
     ]
   },
   {
@@ -885,7 +911,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "submenu",
         "title": "Submenu",
         "export": "ContextMenuSubmenu"
-      }
+      },
     ]
   },
   {
@@ -946,7 +972,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "visibility",
         "title": "Visibility",
         "export": "VisibilityDemo"
-      }
+      },
     ]
   },
   {
@@ -987,7 +1013,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "time-picker",
         "title": "Time Picker",
         "export": "DatePickerTime"
-      }
+      },
     ]
   },
   {
@@ -1018,7 +1044,28 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "sticky-footer",
         "title": "Sticky Footer",
         "export": "DialogStickyFooter"
-      }
+      },
+    ]
+  },
+  {
+    "slug": "direction",
+    "name": "Direction",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "DirectionProviderDemo"
+      },
+      {
+        "slug": "rtl",
+        "title": "Rtl",
+        "export": "DirectionRtlDemo"
+      },
+      {
+        "slug": "hook",
+        "title": "Hook",
+        "export": "DirectionHookDemo"
+      },
     ]
   },
   {
@@ -1059,7 +1106,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "swipe-handle",
         "title": "Swipe Handle",
         "export": "DrawerSwipeHandle"
-      }
+      },
     ]
   },
   {
@@ -1125,7 +1172,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "submenu",
         "title": "Submenu",
         "export": "DropdownMenuSubmenu"
-      }
+      },
     ]
   },
   {
@@ -1161,7 +1208,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "rtl",
         "title": "Rtl",
         "export": "EmptyRtl"
-      }
+      },
     ]
   },
   {
@@ -1237,7 +1284,59 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "validation-and-errors",
         "title": "Validation And Errors",
         "export": "ValidationAndErrorsDemo"
-      }
+      },
+    ]
+  },
+  {
+    "slug": "filter-bar",
+    "name": "Filter Bar",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "FilterBarBasic"
+      },
+      {
+        "slug": "query-builder",
+        "title": "Query Builder",
+        "export": "FilterBarQueryBuilder"
+      },
+      {
+        "slug": "sort-rules",
+        "title": "Sort Rules",
+        "export": "FilterBarSortRules"
+      },
+      {
+        "slug": "saved-filters",
+        "title": "Saved Filters",
+        "export": "FilterBarSavedFilters"
+      },
+    ]
+  },
+  {
+    "slug": "file-upload",
+    "name": "File Upload",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "FileUploadBasic"
+      },
+      {
+        "slug": "dropzone",
+        "title": "Dropzone",
+        "export": "FileUploadDropzone"
+      },
+      {
+        "slug": "image-preview",
+        "title": "Image Preview",
+        "export": "FileUploadImagePreview"
+      },
+      {
+        "slug": "restrictions",
+        "title": "Restrictions",
+        "export": "FileUploadRestrictions"
+      },
     ]
   },
   {
@@ -1268,7 +1367,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "trigger-delays",
         "title": "Trigger Delays",
         "export": "TriggerDelaysDemo"
-      }
+      },
     ]
   },
   {
@@ -1344,7 +1443,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "rtl",
         "title": "Rtl",
         "export": "InputRtl"
-      }
+      },
     ]
   },
   {
@@ -1400,7 +1499,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "textarea",
         "title": "Textarea",
         "export": "InputGroupTextareaExample"
-      }
+      },
     ]
   },
   {
@@ -1451,7 +1550,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "separator",
         "title": "Separator",
         "export": "InputOTPWithSeparator"
-      }
+      },
     ]
   },
   {
@@ -1507,7 +1606,28 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "variant",
         "title": "Variant",
         "export": "ItemVariant"
-      }
+      },
+    ]
+  },
+  {
+    "slug": "kanban",
+    "name": "Kanban Board",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "KanbanBasic"
+      },
+      {
+        "slug": "columns",
+        "title": "Columns",
+        "export": "KanbanColumns"
+      },
+      {
+        "slug": "card-details",
+        "title": "Card Details",
+        "export": "KanbanCardDetails"
+      },
     ]
   },
   {
@@ -1538,7 +1658,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "tooltip",
         "title": "Tooltip",
         "export": "KbdTooltip"
-      }
+      },
     ]
   },
   {
@@ -1554,7 +1674,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "rtl",
         "title": "Rtl",
         "export": "LabelRtl"
-      }
+      },
     ]
   },
   {
@@ -1600,7 +1720,33 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "with-icon",
         "title": "With Icon",
         "export": "MarkerIconDemo"
-      }
+      },
+    ]
+  },
+  {
+    "slug": "mention",
+    "name": "Mention Input",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "MentionBasic"
+      },
+      {
+        "slug": "hashtag",
+        "title": "Hashtag",
+        "export": "MentionHashtag"
+      },
+      {
+        "slug": "popup",
+        "title": "Popup",
+        "export": "MentionPopup"
+      },
+      {
+        "slug": "with-avatars",
+        "title": "With Avatars",
+        "export": "MentionWithAvatars"
+      },
     ]
   },
   {
@@ -1631,7 +1777,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "with-icons",
         "title": "With Icons",
         "export": "MenubarIcons"
-      }
+      },
     ]
   },
   {
@@ -1667,7 +1813,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "header-and-footer",
         "title": "Header And Footer",
         "export": "MessageHeaderFooterDemo"
-      }
+      },
     ]
   },
   {
@@ -1683,7 +1829,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "core-concepts",
         "title": "Core Concepts",
         "export": "MessageScrollerScrollable"
-      }
+      },
     ]
   },
   {
@@ -1709,7 +1855,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "rtl",
         "title": "Rtl",
         "export": "NativeSelectRtl"
-      }
+      },
     ]
   },
   {
@@ -1725,7 +1871,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "rtl",
         "title": "Rtl",
         "export": "NavigationMenuRtl"
-      }
+      },
     ]
   },
   {
@@ -1746,7 +1892,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "simple",
         "title": "Simple",
         "export": "PaginationSimple"
-      }
+      },
     ]
   },
   {
@@ -1772,7 +1918,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "with-form",
         "title": "With Form",
         "export": "PopoverForm"
-      }
+      },
     ]
   },
   {
@@ -1793,7 +1939,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "rtl",
         "title": "Rtl",
         "export": "ProgressRtl"
-      }
+      },
     ]
   },
   {
@@ -1864,7 +2010,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "shortcuts",
         "title": "Shortcuts",
         "export": "QuestionnaireShortcuts"
-      }
+      },
     ]
   },
   {
@@ -1900,7 +2046,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "rtl",
         "title": "Rtl",
         "export": "RadioGroupRtl"
-      }
+      },
     ]
   },
   {
@@ -1921,7 +2067,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "vertical",
         "title": "Vertical",
         "export": "ResizableVertical"
-      }
+      },
     ]
   },
   {
@@ -1937,7 +2083,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "rtl",
         "title": "Rtl",
         "export": "ScrollAreaRtl"
-      }
+      },
     ]
   },
   {
@@ -1973,7 +2119,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "scrollable",
         "title": "Scrollable",
         "export": "SelectScrollable"
-      }
+      },
     ]
   },
   {
@@ -1999,7 +2145,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "vertical",
         "title": "Vertical",
         "export": "SeparatorVertical"
-      }
+      },
     ]
   },
   {
@@ -2020,7 +2166,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "side",
         "title": "Side",
         "export": "SheetSide"
-      }
+      },
     ]
   },
   {
@@ -2111,7 +2257,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "usesidebar",
         "title": "Usesidebar",
         "export": "AppSidebar"
-      }
+      },
     ]
   },
   {
@@ -2147,7 +2293,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "text",
         "title": "Text",
         "export": "SkeletonText"
-      }
+      },
     ]
   },
   {
@@ -2183,7 +2329,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "vertical",
         "title": "Vertical",
         "export": "SliderVertical"
-      }
+      },
     ]
   },
   {
@@ -2224,7 +2370,33 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "size",
         "title": "Size",
         "export": "SpinnerSize"
-      }
+      },
+    ]
+  },
+  {
+    "slug": "stepper",
+    "name": "Stepper",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "StepperBasic"
+      },
+      {
+        "slug": "vertical",
+        "title": "Vertical",
+        "export": "StepperVertical"
+      },
+      {
+        "slug": "clickable",
+        "title": "Clickable",
+        "export": "StepperClickable"
+      },
+      {
+        "slug": "with-content",
+        "title": "With Content",
+        "export": "StepperWithContent"
+      },
     ]
   },
   {
@@ -2260,7 +2432,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "size",
         "title": "Size",
         "export": "SwitchSizes"
-      }
+      },
     ]
   },
   {
@@ -2281,7 +2453,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "rtl",
         "title": "Rtl",
         "export": "TableRtl"
-      }
+      },
     ]
   },
   {
@@ -2312,7 +2484,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "vertical",
         "title": "Vertical",
         "export": "TabsVertical"
-      }
+      },
     ]
   },
   {
@@ -2343,7 +2515,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "rtl",
         "title": "Rtl",
         "export": "TextareaRtl"
-      }
+      },
     ]
   },
   {
@@ -2359,7 +2531,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "types",
         "title": "Types",
         "export": "ToastTypes"
-      }
+      },
     ]
   },
   {
@@ -2390,7 +2562,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "with-text",
         "title": "With Text",
         "export": "ToggleText"
-      }
+      },
     ]
   },
   {
@@ -2431,7 +2603,33 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "vertical",
         "title": "Vertical",
         "export": "ToggleGroupVertical"
-      }
+      },
+    ]
+  },
+  {
+    "slug": "timeline",
+    "name": "Timeline",
+    "variants": [
+      {
+        "slug": "basic",
+        "title": "Basic",
+        "export": "TimelineBasic"
+      },
+      {
+        "slug": "with-icons",
+        "title": "With Icons",
+        "export": "TimelineWithIcons"
+      },
+      {
+        "slug": "alternating",
+        "title": "Alternating",
+        "export": "TimelineAlternating"
+      },
+      {
+        "slug": "compact",
+        "title": "Compact",
+        "export": "TimelineCompact"
+      },
     ]
   },
   {
@@ -2457,7 +2655,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "with-keyboard-shortcut",
         "title": "With Keyboard Shortcut",
         "export": "TooltipKeyboard"
-      }
+      },
     ]
   },
   {
@@ -2503,7 +2701,7 @@ export const UI_REGISTRY: UIComponentEntry[] = [
         "slug": "streaming-cursor",
         "title": "Streaming Cursor",
         "export": "StreamingCursorDemo"
-      }
+      },
     ]
-  }
+  },
 ];

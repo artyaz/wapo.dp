@@ -12,7 +12,8 @@ export function BadgeDemo() {
       <Avatar>
         <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
         <AvatarFallback>CN</AvatarFallback>
-        <AvatarBadge className="bg-green-600 dark:bg-green-800" />
+        {/* Praxis: online-presence dot uses the theme-aware success scale */}
+        <AvatarBadge className="bg-success-500" />
       </Avatar>
     </div>
   )

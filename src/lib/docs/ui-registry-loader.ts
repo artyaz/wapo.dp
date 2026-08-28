@@ -73,6 +73,14 @@ const COMPONENT_LOADERS: Record<string, () => Promise<{ loadVariant(v: string): 
   "toggle-group": () => import("./ui-loaders/toggle-group"),
   "tooltip": () => import("./ui-loaders/tooltip"),
   "typography": () => import("./ui-loaders/typography"),
+  "code-block": () => import("./ui-loaders/code-block"),
+  "direction": () => import("./ui-loaders/direction"),
+  "file-upload": () => import("./ui-loaders/file-upload"),
+  "kanban": () => import("./ui-loaders/kanban"),
+  "mention": () => import("./ui-loaders/mention"),
+  "stepper": () => import("./ui-loaders/stepper"),
+  "filter-bar": () => import("./ui-loaders/filter-bar"),
+  "timeline": () => import("./ui-loaders/timeline"),
 };
 
 export interface DemoModule {
