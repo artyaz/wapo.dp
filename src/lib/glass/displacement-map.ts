@@ -272,6 +272,49 @@ function renderSpecularMap(
 }
 
 /* ------------------------------------------------------------------ */
+/* Frost mask — candidate C's rim gradient as an alpha map            */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Renders the progressive-frost rim mask: white RGB with an alpha ramp
+ * that stays 0 over the core and rises to 1 at the rim, on the ELLIPSE
+ * inscribed in the element — the canvas twin of the base tier's
+ * `radial-gradient(closest-side, transparent 55%, black 85% / 78%..98%)`
+ * bands. Inside the SVG displacement filter the rim-blur layer is
+ * composited through this mask (feComposite operator="in"), so the
+ * Chromium tier gets the same sharp-core / frosted-edge falloff the CSS
+ * tier has, while the tuned kube.io centre blur is left untouched.
+ *
+ * The single ramp (0.55 -> 0.98 of the inscribed ellipse) merges the CSS
+ * tier's mid and rim bands into one smooth progression — the stacked-band
+ * structure exists in CSS because each band is a separate element; inside
+ * one filter chain a smooth mask reads the same and costs one node less.
+ */
+function renderFrostMask(w: number, h: number, dpr: number): string | null {
+  const mw = Math.max(2, Math.round(w * dpr));
+  const mh = Math.max(2, Math.round(h * dpr));
+  const canvas = document.createElement("canvas");
+  canvas.width = mw;
+  canvas.height = mh;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
+
+  // Unit circle scaled to the inscribed ellipse: the gradient's percentage
+  // stops then measure the closest-side distance per axis, exactly like
+  // radial-gradient(closest-side, ...) does in CSS.
+  ctx.translate(mw / 2, mh / 2);
+  ctx.scale(mw / 2, mh / 2);
+  const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+  gradient.addColorStop(0, "rgba(255,255,255,0)");
+  gradient.addColorStop(0.55, "rgba(255,255,255,0)");
+  gradient.addColorStop(0.98, "rgba(255,255,255,1)");
+  gradient.addColorStop(1, "rgba(255,255,255,1)");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(-1, -1, 2, 2);
+  return canvas.toDataURL("image/png");
+}
+
+/* ------------------------------------------------------------------ */
 /* Generation + cache                                                  */
 /* ------------------------------------------------------------------ */
 
@@ -280,6 +323,8 @@ export interface GeneratedMaps {
   displacementUrl: string;
   /** specular rim map data URL (grayscale rgb, alpha = rim strength) */
   specularUrl: string;
+  /** progressive-frost rim mask data URL (white rgb, alpha ramp) */
+  frostMaskUrl: string;
   /** the shipped constant for the resolved level — feDisplacementMap
    *  scale = maximumDisplacement x scaleRatio */
   maximumDisplacement: number;
@@ -367,6 +412,8 @@ export function generateDisplacementMaps(
     effDpr
   );
   if (!specMap) return null;
+  const frostMaskUrl = renderFrostMask(spec.width, spec.height, effDpr);
+  if (!frostMaskUrl) return null;
 
   const canvas = document.createElement("canvas");
   canvas.width = disp.width;
@@ -384,6 +431,7 @@ export function generateDisplacementMaps(
   const maps: GeneratedMaps = {
     displacementUrl,
     specularUrl,
+    frostMaskUrl,
     maximumDisplacement: MAX_DISPLACEMENT[level],
   };
   if (mapCache.size > 48) mapCache.clear();

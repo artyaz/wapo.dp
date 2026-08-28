@@ -525,13 +525,16 @@ function SeparateLayers() {
             function, one token, nothing to take down with it — on a layer
             of its own. If the reference ever fails, that layer voids itself
             and the surface degrades to the saturate-and-tint tier instead
-            of to nothing. The frost itself lives INSIDE the filter, exactly
-            as kube.io builds it: one <Token>feGaussianBlur</Token> whose
-            stdDeviation stays between 0 and 1px, applied to the backdrop
-            before the displacement map bends it. The center of the surface
-            stays crisp because the baked bezel curve — not a mask — decides
-            where the lens has any effect at all; the old global blur is
-            what made the material read as bloom.
+            of to nothing. The frost itself lives INSIDE the filter: the
+            tuned kube.io <Token>feGaussianBlur</Token> (stdDeviation 0..1px)
+            still carries the core, and the progressive frost knob adds a
+            rim copy of the source — blurred to the frost radius, saturated,
+            and composited in through an elliptical alpha mask — so the
+            edge softens the way the CSS tier&rsquo;s stacked bands do while
+            the centre the lens occupies stays crisp. The center of the
+            surface stays sharp because the baked bezel curve — not a mask —
+            decides where the lens has any effect at all; the old global
+            blur is what made the material read as bloom.
           </p>
         </div>
 

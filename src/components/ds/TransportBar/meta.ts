@@ -83,7 +83,7 @@ export default defineMeta({
       type: "{ blur?: number; saturate?: number }",
       default: "per material level (2..10px, 1.5)",
       description:
-        "Universal base-tier optics. blur is the RIM radius of the progressive frost — three stacked backdrop-filter bands at 0.1x / 0.4x / 1x of it, so the centre stays legible while the edge goes soft — and saturate lands on the rim band only. Renders when neither the Chromium displacement tier nor a WebGL backdrop image is available, and is the only optical knob that bites on every tier's fallback.",
+        "The ONE optical knob that bites on EVERY tier. blur is the RIM radius of the progressive frost — sharp core, blur rising into the edge: masked backdrop-filter bands on the base tier, a masked rim blur inside the SVG filter chain, the shader’s progressive blur radius on WebGL. saturate lands on the rim band only.",
     },
     {
       name: "backdrop",
@@ -95,9 +95,9 @@ export default defineMeta({
     {
       name: "finish",
       type: "GlassFinish",
-      default: "sheen .5 · light 160 · rim .5 · tint per level",
+      default: "sheen .5 · light 160 · rim .5 · border .5 · tint per level",
       description:
-        "The lighting on top of the material, on every tier — paint, not a filter, so no texture or engine negotiation is involved. sheen: dual specular gradient strength. lightAngle: rotates both gradients so the highlight can sit on any corner. rim: the crisp 1px highlights that read as corner lighting. tint: white overlay alpha. inner: the inset vignette. shadow: the outer drop shadow.",
+        "The lighting on top of the material, on every tier — paint, not a filter, so no texture or engine negotiation is involved. sheen: dual specular gradient strength. lightAngle: rotates both gradients so the highlight can sit on any corner. rim: the crisp 1px highlights that read as corner lighting. border: the hairline 1px ring, white over near-black so it reads on light and dark. tint: white overlay alpha. inner: the inset vignette. shadow: the outer drop shadow, painted on the surface root so it is never clipped.",
     },
   ],
   status: "stable",

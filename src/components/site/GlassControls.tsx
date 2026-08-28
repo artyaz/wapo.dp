@@ -45,6 +45,7 @@ const FINISH_SLIDERS: Array<{
   { key: "sheen", label: "sheen", min: 0, max: 1, step: 0.02 },
   { key: "lightAngle", label: "light", min: 0, max: 360, step: 5 },
   { key: "rim", label: "rim", min: 0, max: 1, step: 0.02 },
+  { key: "border", label: "border", min: 0, max: 1, step: 0.02 },
   { key: "tint", label: "tint", min: 0, max: 0.3, step: 0.01 },
   { key: "inner", label: "inner", min: 0, max: 1.6, step: 0.05 },
   { key: "shadow", label: "shadow", min: 0, max: 2, step: 0.05 },
@@ -221,7 +222,8 @@ export function GlassControls({ children }: { children: React.ReactNode }) {
               />
               {!intensityLive ? (
                 <p className="text-[11px] text-neutral-500">
-                  Intensity scales the displacement lens — Chromium tier only.
+                  Intensity scales the displacement lens on Chromium and the
+                  lens thickness on the WebGL tier.
                 </p>
               ) : null}
               <Slider
@@ -242,6 +244,12 @@ export function GlassControls({ children }: { children: React.ReactNode }) {
                   setFrost((previous) => ({ ...previous, saturate }))
                 }
               />
+              {strategy === "webgl-refraction" && webglTexture ? (
+                <p className="text-[11px] text-neutral-500">
+                  Frost is the shader&rsquo;s progressive blur — sharp core, blur
+                  rising into the rim.
+                </p>
+              ) : null}
               <Slider
                 label="bounce"
                 min={0}
@@ -279,9 +287,10 @@ export function GlassControls({ children }: { children: React.ReactNode }) {
                 />
               ))}
               <p className="text-[11px] text-neutral-500">
-                Sheen, rim, tint, inner shading and shadow are paint, so they
-                bite on every tier. Light rotates both sheen gradients, so the
-                highlight can sit on any corner.
+                Sheen, rim, border, tint, inner shading and shadow are paint,
+                so they bite on every tier. Light rotates both sheen gradients,
+                so the highlight can sit on any corner; border is the hairline
+                ring; shadow is the outer drop shadow on the surface root.
               </p>
             </div>
           </div>

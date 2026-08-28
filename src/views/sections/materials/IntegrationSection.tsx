@@ -475,13 +475,19 @@ function DeviationsNote() {
         Deviations, stated plainly.
       </span>{" "}
       This site&rsquo;s WebGL tier does not rasterise arbitrary DOM like the
-      commercial library. In <Token>full</Token> mode the shader refracts a
-      procedural backdrop — a base fill with two radial accents, the same
-      warm-gray gradients every demo stage carries — and in <Token>edge</Token>{" "}
-      mode it renders only the bevel band over the live page, interior
-      transparent, so the base material shows through beneath. The{" "}
-      <Token>backdrop-filter</Token> tier is untouched and universal: whatever
-      the negotiation lands on, the tier-3 frost renders.
+      commercial library — no browser exposes live DOM as a WebGL texture.
+      The shader refracts the nearest ancestor background image (or one
+      passed explicitly via <Token>backdrop</Token>), and only while a
+      texture has actually landed: without an image there is nothing to
+      bend, the canvas stays hidden, and the CSS material underneath IS the
+      material — in <Token>edge</Token> and <Token>full</Token> mode alike.
+      While it paints, the shader also carries the progressive frost (the
+      same sharp-core / frosted-rim progression the CSS tier builds with
+      masked bands) and the finish tint; the border ring, rims, sheen and
+      the outer shadow stay CSS paint on top, identical to every other
+      tier. The <Token>backdrop-filter</Token> tier is untouched and
+      universal: whatever the negotiation lands on, the tier-3 frost
+      renders.
     </Note>
   );
 }

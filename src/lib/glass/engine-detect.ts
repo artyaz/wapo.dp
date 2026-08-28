@@ -166,6 +166,11 @@ export function resetStrategyCache(): void {
  * highlights, tint and shadow — so they render identically on the Chromium
  * displacement tier, the WebGL tier and the universal frost. Every value is
  * a plain number, so they can be driven from a control panel.
+ *
+ * The outer drop shadow (`shadow`) is painted on the surface ROOT, not an
+ * inner layer: the root carries overflow-hidden to clip content to the
+ * rounded box, and that would clip any descendant's outer box-shadow to
+ * nothing. On the root the shadow falls outside the box and survives.
  */
 export interface GlassFinish {
   /** dual specular sheen strength, 0 (none) .. 1 */
@@ -174,6 +179,8 @@ export interface GlassFinish {
   lightAngle?: number;
   /** crisp 1px rim highlight strength, 0 .. 1 — the corner lighting */
   rim?: number;
+  /** hairline border ring strength, 0 (none) .. 1 — a 1px lit stroke inside the edge */
+  border?: number;
   /** white tint alpha over the surface, 0 .. 1 */
   tint?: number;
   /** inset vignette strength, 0 .. 1 (the kube magnifier's inner shading) */
@@ -187,6 +194,7 @@ export interface ResolvedFinish {
   sheen: number;
   lightAngle: number;
   rim: number;
+  border: number;
   tint: number;
   inner: number;
   shadow: number;
@@ -195,9 +203,11 @@ export interface ResolvedFinish {
 /**
  * Sheen defaults: 160deg is the DS's documented key-light direction, and the
  * gradient stops are the ones the side-by-side picked (candidate D's sheen
- * over candidate C's progressive blur).
+ * over candidate C's progressive blur). The border default draws the subtle
+ * 1px lit stroke that replaced the static ring-1 hairline — a white stroke
+ * over a black one so it reads on light AND dark backdrops.
  */
-export const FINISH_DEFAULTS = { sheen: 0.5, lightAngle: 160, rim: 0.5, inner: 1, shadow: 1 } as const;
+export const FINISH_DEFAULTS = { sheen: 0.5, lightAngle: 160, rim: 0.5, border: 0.5, tint: 0, inner: 1, shadow: 1 } as const;
 
 /* ------------------------------------------------------------------ */
 /* Material ramp — kube.io's shipped component constants, verbatim     */

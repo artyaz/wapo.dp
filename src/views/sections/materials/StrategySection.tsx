@@ -319,10 +319,10 @@ interface LayerBar {
 /** Top of the stack first — matches z-order, content floating at z-10. */
 const LAYERS: LayerBar[] = [
   { name: "content", spec: "z-10", kind: "content" },
-  { name: "rim", spec: "20%", kind: "light" },
+  { name: "rim + border ring", spec: "1px · lit", kind: "light" },
   { name: "dual sheen", spec: "2 gradients", kind: "light" },
   { name: "displacement layer", spec: "url(#)", kind: "displacement" },
-  { name: "base blur", spec: "3px + tint", kind: "base" },
+  { name: "progressive frost", spec: "core 0.1x · rim 1x", kind: "base" },
 ];
 
 function LayerAnatomy() {

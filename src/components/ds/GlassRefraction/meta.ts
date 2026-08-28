@@ -45,7 +45,7 @@ export default defineMeta({
       type: '"subtle" | "medium" | "strong"',
       default: '"medium"',
       description:
-        "Refraction fork — multiplies the level's refraction (0.55 / 1.0 / 1.6) and so the feDisplacementMap scale.",
+        "Refraction fork — multiplies the level's refraction (0.55 / 1.0 / 1.6): the feDisplacementMap scale on Chromium, the lens thickness on the WebGL tier.",
     },
     {
       name: "stretchable",
@@ -71,9 +71,9 @@ export default defineMeta({
     {
       name: "frost",
       type: "{ blur?: number; saturate?: number }",
-      default: "per material level (2..10px, 1.5)",
+      default: "per material level (5..14px, 1.5)",
       description:
-        "Universal base-tier optics. blur is the RIM radius of the progressive frost — three stacked backdrop-filter bands at 0.1x / 0.4x / 1x of it, so the centre stays legible while the edge goes soft — and saturate lands on the rim band only. Renders when neither the Chromium displacement tier nor a WebGL backdrop image is available, and is the only optical knob that bites on every tier's fallback.",
+        "The ONE optical knob that bites on EVERY tier. blur is the RIM radius of the progressive frost — candidate C's shape, sharp core with blur rising into the edge: the base tier stacks three masked backdrop-filter bands at 0.1x / 0.4x / 1x of it, the SVG displacement tier composites a masked rim blur inside the filter chain (the tuned centre blur untouched), and the WebGL shader drives its blur radius on the same 0.55 / 0.85 / 0.98 band ratios. saturate lands on the rim band only.",
     },
     {
       name: "backdrop",
@@ -85,9 +85,9 @@ export default defineMeta({
     {
       name: "finish",
       type: "GlassFinish",
-      default: "sheen .5 · light 160 · rim .5 · tint per level",
+      default: "sheen .5 · light 160 · rim .5 · border .5 · tint per level",
       description:
-        "The lighting on top of the material, on every tier — paint, not a filter, so no texture or engine negotiation is involved. sheen: dual specular gradient strength. lightAngle: rotates both gradients so the highlight can sit on any corner. rim: the crisp 1px highlights that read as corner lighting. tint: white overlay alpha. inner: the inset vignette. shadow: the outer drop shadow.",
+        "The lighting on top of the material, on every tier — paint, not a filter, so no texture or engine negotiation is involved. sheen: dual specular gradient strength. lightAngle: rotates both gradients so the highlight can sit on any corner. rim: the crisp 1px highlights that read as corner lighting. border: the hairline 1px ring, white over near-black so it reads on light and dark. tint: white overlay alpha (fed to the shader's uTint on a textured WebGL surface). inner: the inset vignette. shadow: the outer drop shadow, painted on the surface root so it is never clipped.",
     },
   ],
   status: "stable",

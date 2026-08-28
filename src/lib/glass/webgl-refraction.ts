@@ -145,6 +145,16 @@ export interface LiquidGlassOptions {
   /** overrides on top of the material's parameter set */
   params?: Partial<RefractionParams>;
   /**
+   * Progressive frost — candidate C ported into the shader. `blur` is the
+   * RIM radius in px: the sampled backdrop stays near-sharp over the core
+   * (0.1x) and the blur rises to the full radius at the rim, on the same
+   * 0.55 / 0.85 / 0.98 band ratios the CSS tier's masks use. `saturate`
+   * (CSS semantics, ~1..2) lands on the rim band only. Defaults to off —
+   * the reference implementation has no frost; GlassSurface feeds it the
+   * material ramp's cssBlur / cssSaturate so both tiers share one knob.
+   */
+  frost?: { blur?: number; saturate?: number };
+  /**
    * Fires after the first render and again once the backdrop image lands.
    * `true` means the shader is refracting a real texture and owns the whole
    * surface; `false` means there was no image to refract, so the CSS
@@ -159,6 +169,8 @@ export interface LiquidGlassHandle {
   destroy(): void;
   setMaterial(level: MaterialLevel): void;
   setParams(params: Partial<RefractionParams>): void;
+  /** retargets the progressive frost without rebuilding the GL context */
+  setFrost(frost: { blur?: number; saturate?: number }): void;
   render(): void;
 }
 
@@ -189,6 +201,8 @@ uniform float uBezel;
 uniform float uThickness;
 uniform float uIOR;
 uniform float uBlur;
+uniform float uFrost;          // progressive frost rim radius, px (0 = off)
+uniform float uFrostSat;       // rim-band saturate, CSS semantics (1 = off)
 uniform float uSpecular;
 uniform float uTint;
 uniform float uShadow;
@@ -246,6 +260,15 @@ vec3 sampleBgBlurred(vec2 uv, float radius) {
   for (int i = 0; i < 16; i++) {
     sum += sampleBg(uv + offsets[i] * radius * px);
   }
+  // Progressive frost runs the radius up past the reference's 12px, where a
+  // single 16-tap Poisson disc shows speckle. A second half-radius ring
+  // smooths it for the price of 8 taps, and only while frost is active.
+  if (radius > 4.0) {
+    for (int i = 0; i < 16; i += 2) {
+      sum += sampleBg(uv + offsets[i] * radius * 0.5 * px);
+    }
+    return sum / 24.0;
+  }
   return sum / 16.0;
 }
 
@@ -266,6 +289,15 @@ void main() {
   float distFromEdge = -sd;
   float bezel = min(uBezel, min(uRadius, min(halfSize.x, halfSize.y)) - 1.0);
   float t = clamp(distFromEdge / bezel, 0.0, 1.0);
+
+  // Progressive frost — candidate C's band ratios, measured on the ellipse
+  // inscribed in the surface (the shader twin of the CSS tier's
+  // radial-gradient(closest-side) masks): 0 over the core, rising through
+  // the 0.55..0.85 mid band and the 0.78..0.98 rim band to the full radius.
+  float dNorm = length(abs(p) / halfSize);
+  float frostMid = smoothstep(0.55, 0.85, dNorm);
+  float frostRim = smoothstep(0.78, 0.98, dNorm);
+  float frostRadius = uFrost * (0.1 + 0.3 * frostMid + 0.6 * frostRim);
 
   float h = surfaceHeight(t);
   float dt = 0.001;
@@ -289,7 +321,12 @@ void main() {
   vec2 screenUV = screenPx / uResolution;
   vec2 refractedUV = screenUV + offset;
 
-  vec3 color = sampleBgBlurred(refractedUV, uBlur);
+  vec3 color = sampleBgBlurred(refractedUV, uBlur + frostRadius);
+
+  // Rim-band saturate — CSS frost semantics: the colour strengthens toward
+  // the edge and the core is left alone (mix weight 1 in the centre).
+  float luma = dot(color, vec3(0.213, 0.715, 0.072));
+  color = mix(vec3(luma), color, mix(1.0, uFrostSat, frostRim));
 
   vec2 lightDir = normalize(vec2(0.5, -0.7));
   float rimDot = abs(dot(grad, lightDir));
@@ -431,6 +468,10 @@ export function createLiquidGlass(opts: LiquidGlassOptions): LiquidGlassHandle {
     canvas.style.width = "100%";
     canvas.style.height = "100%";
     canvas.style.pointerEvents = "none";
+    // Below the finish paint layer (z 1) and the content (z 10) — the canvas
+    // is appended imperatively, so without an explicit index DOM order would
+    // paint it above the React-rendered layers at the same level.
+    canvas.style.zIndex = "0";
     // Hidden until there is a backdrop image. Without one the shader would
     // paint the flat base colour at full alpha — an opaque near-white pill
     // over the CSS material, which is exactly wrong.
@@ -487,6 +528,8 @@ export function createLiquidGlass(opts: LiquidGlassOptions): LiquidGlassHandle {
     thickness: u("uThickness"),
     ior: u("uIOR"),
     blur: u("uBlur"),
+    frost: u("uFrost"),
+    frostSat: u("uFrostSat"),
     specular: u("uSpecular"),
     tint: u("uTint"),
     shadow: u("uShadow"),
@@ -501,6 +544,7 @@ export function createLiquidGlass(opts: LiquidGlassOptions): LiquidGlassHandle {
   let textureAspect = 1;
   let level: MaterialLevel = opts.material ?? "regular";
   let overrides: Partial<RefractionParams> = { ...opts.params };
+  let frostState = { ...opts.frost };
 
   /* ---- backdrop resolution ---- */
   const declared = opts.backdrop ?? {};
@@ -604,6 +648,8 @@ export function createLiquidGlass(opts: LiquidGlassOptions): LiquidGlassHandle {
     gl.uniform1f(uniforms.thickness, p.thickness);
     gl.uniform1f(uniforms.ior, p.ior);
     gl.uniform1f(uniforms.blur, p.blur);
+    gl.uniform1f(uniforms.frost, frostState.blur ?? 0);
+    gl.uniform1f(uniforms.frostSat, frostState.saturate ?? 1);
     gl.uniform1f(uniforms.specular, p.specular);
     gl.uniform1f(uniforms.tint, p.tint);
     gl.uniform1f(uniforms.shadow, p.shadow);
@@ -680,6 +726,10 @@ export function createLiquidGlass(opts: LiquidGlassOptions): LiquidGlassHandle {
     },
     setParams(next: Partial<RefractionParams>) {
       overrides = { ...overrides, ...next };
+      render();
+    },
+    setFrost(next: { blur?: number; saturate?: number }) {
+      frostState = { ...frostState, ...next };
       render();
     },
     render,

@@ -34,6 +34,7 @@ import { generateDisplacementMaps } from "./displacement-map";
 export type { GlassFinish };
 import {
   createLiquidGlass,
+  MATERIAL_PARAMS,
   type LiquidGlassHandle,
   type BackdropSpec,
   type RefractionParams,
@@ -105,6 +106,24 @@ import {
  * value is composited through the rim mask inside the displacement chain,
  * and applied to a whole surface it washes the page gold instead of
  * frosting it.
+ *
+ * ONE frost knob, every tier. `frost.blur` is the rim radius, and each tier
+ * implements the same candidate-C progression with the tools it has: the
+ * base tier stacks its masked backdrop-filter bands, the SVG tier blurs a
+ * rim copy of the source and composites it through an elliptical alpha
+ * mask inside the filter chain (the tuned kube.io centre blur untouched
+ * underneath), and the WebGL shader drives its Poisson blur radius on the
+ * same 0.55/0.85/0.98 band ratios. `frost.saturate` lands on the rim band
+ * on every tier that can isolate one.
+ *
+ * The finish is paint and therefore tier-independent, but two of its
+ * members need the right host: the outer drop shadow is painted on the
+ * ROOT (an inner layer's box-shadow is clipped away by the root's own
+ * overflow-hidden, so the shadow the springs animate would never show),
+ * and on a textured WebGL surface the white tint is fed to the shader's
+ * uTint instead of a CSS overlay so it is not paid twice. The hairline
+ * border ring (finish.border) replaced the old static ring-1 class — a
+ * white stroke over a dark one, visible on light and dark backdrops.
  */
 
 export interface GlassSurfaceProps
@@ -128,19 +147,21 @@ export interface GlassSurfaceProps
    */
   refraction?: Partial<RefractionParams>;
   /**
-   * Universal base-tier overrides. `blur` is the RIM radius of the
-   * progressive frost — the core and mid bands derive from it at 0.1x and
-   * 0.4x — and `saturate` applies to the rim band only. Defaults to the
-   * material level's cssBlur / cssSaturate. This is the only optical knob
-   * that bites on EVERY tier's fallback, so it is the one to reach for when
-   * the surface is not on Chromium and has no backdrop image.
+   * Universal frost overrides — the ONE optical knob that bites on EVERY
+   * tier. `blur` is the RIM radius of the progressive frost (candidate C's
+   * shape: sharp core, mid and rim bands rising toward the edge) — the base
+   * tier stacks its masked backdrop-filter bands, the SVG tier composites a
+   * masked rim blur inside the filter chain, and the WebGL shader runs its
+   * blur radius on the same band ratios. `saturate` lands on the rim band
+   * only. Defaults to the material level's cssBlur / cssSaturate.
    */
   frost?: { blur?: number; saturate?: number };
   /**
    * The lighting on top of the material, on every tier. Real knobs, no
    * texture involved: the dual specular sheen and its direction, the crisp
-   * 1px rim highlights that read as corner lighting, the white tint, the
-   * inset vignette, and the outer drop shadow.
+   * 1px rim highlights that read as corner lighting, the hairline border
+   * ring, the white tint, the inset vignette, and the outer drop shadow
+   * (painted on the root so it is never clipped by the rounded-box clip).
    */
   finish?: GlassFinish;
   /**
@@ -164,10 +185,12 @@ export interface GlassSurfaceProps
  * surface — everything about the Liquid Glass material that is not layout:
  *
  *   material     thickness level, and with it the whole shipped constant set
- *   intensity    refraction fork (0.55 / 1.0 / 1.6)
+ *   intensity    refraction fork (0.55 / 1.0 / 1.6) — the displacement
+ *                scale on Chromium, the lens thickness on WebGL
  *   refraction   WebGL optics: thickness, bezel, ior, blur, specular, tint,
  *                shadow — the reference implementation's own control set
- *   frost        base-tier blur + saturate, the knob that works on any tier
+ *   frost        the progressive frost's rim blur + rim saturate — the one
+ *                optical knob that bites on every tier
  *   backdrop     the image the WebGL shader refracts
  *   stretchable  elastic pull on/off
  *   bounce       release overshoot
@@ -177,9 +200,10 @@ export interface GlassSurfaceProps
  * wrapper inventing its own vocabulary. Shape and radius stay out — those
  * belong to each component's own layout language.
  *
- * Which knobs actually bite depends on the negotiated tier: `refraction` only
- * on WebGL (and only with a backdrop image), `intensity` only on the Chromium
- * displacement tier, `frost` on the universal base.
+ * Which knobs actually bite still depends on the negotiated tier — `frost`
+ * and `finish` render on every tier; `refraction` only on WebGL (and only
+ * with a backdrop image); `intensity` on the Chromium displacement tier and
+ * as the WebGL lens thickness.
  */
 export type GlassMaterialControls = Pick<
   GlassSurfaceProps,
@@ -240,6 +264,15 @@ function reducedMotion(): boolean {
     window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
 }
+
+/**
+ * Layout-phase effect — runs before the browser paints, so a finish slider
+ * drag never splits the frame (plain styles like sheen/tint commit with the
+ * DOM; the motion-value shadows update when the nonce bumps). Aliased to
+ * useEffect on the server, where useLayoutEffect is a no-op that warns.
+ */
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect;
 
 /** Saturating resistance along the pull: travel asymptotically reaches budget. */
 function saturatePull(delta: number, budget: number): number {
@@ -379,17 +412,38 @@ export function GlassSurface({
   const cssRadius = shape === "capsule" ? "9999px" : `${shapeRadius}px`;
   const ramp = MATERIAL_RAMP[material];
 
+  // The frost — the ONE optical knob that bites on every tier. `frostRim` is
+  // candidate C's rim radius; every tier derives its bands from it (see the
+  // header note). Computed before the tier effects because the WebGL engine
+  // takes it as a creation-time parameter.
+  const frostRim = frost?.blur ?? ramp.cssBlur;
+  const frostSaturate = frost?.saturate ?? ramp.cssSaturate;
+  // On the SVG displacement tier the frost rides INSIDE the filter chain as
+  // a masked rim blur over the tuned kube.io centre. The rim radius maps to
+  // feGaussianBlur's stdDeviation at 0.15x — deliberately softer than the
+  // CSS/WebGL rim, because the displacement lens lives at that edge and a
+  // full-radius frost would smear the bezel refraction the tier exists to
+  // draw. The knob tracks the same 0..24 range with a gentler slope.
+  const svgFrostStd = frostRim * 0.15;
+
   // The finish is pure paint, so it resolves the same way on every tier.
   const finish: ResolvedFinish = {
     sheen: finishOverride?.sheen ?? FINISH_DEFAULTS.sheen,
     lightAngle: finishOverride?.lightAngle ?? FINISH_DEFAULTS.lightAngle,
     rim: finishOverride?.rim ?? FINISH_DEFAULTS.rim,
+    border: finishOverride?.border ?? FINISH_DEFAULTS.border,
     tint: finishOverride?.tint ?? ramp.tint / 100,
     inner: finishOverride?.inner ?? FINISH_DEFAULTS.inner,
     shadow: finishOverride?.shadow ?? FINISH_DEFAULTS.shadow,
   };
+  // Kept current before every paint (NOT written during render — the
+  // React Compiler lint rightly flags that) for the animation-time readers:
+  // the shadow transforms and the WebGL retarget. Declared before every
+  // effect that reads it, so they always see the latest render's values.
   const finishRef = React.useRef(finish);
-  finishRef.current = finish;
+  useIsomorphicLayoutEffect(() => {
+    finishRef.current = finish;
+  });
 
   /**
    * Dual specular sheen — candidate D's gradients, rotated by lightAngle so
@@ -412,11 +466,12 @@ export function GlassSurface({
   const activeStrategy = glass ? strategy : "backdrop-filter";
   const isSvg = activeStrategy === "svg-displacement";
   const isWebgl = activeStrategy === "webgl-refraction";
-  // The WebGL tier owns the whole surface once it has a backdrop image to
-  // refract; with no image the CSS material underneath stays visible and
-  // carries the blur (there is nothing for the shader to refract).
+  // The WebGL tier owns the whole surface only while its canvas is actually
+  // painting — that is, once a backdrop image has landed. With no image the
+  // shader has nothing to bend, the canvas stays hidden, and the CSS
+  // material underneath carries the surface (even in "full" mode).
   const [webglTextured, setWebglTextured] = React.useState(false);
-  const webglFull = isWebgl && (webglMode === "full" || webglTextured);
+  const webglPainting = isWebgl && webglTextured;
 
   /* ------------ measured geometry + generated maps ------------------ */
   const [geo, setGeo] = React.useState<{ w: number; h: number } | null>(null);
@@ -425,6 +480,7 @@ export function GlassSurface({
     height: number;
     displacementUrl: string;
     specularUrl: string;
+    frostMaskUrl: string;
   } | null>(null);
 
   React.useEffect(() => {
@@ -463,6 +519,7 @@ export function GlassSurface({
       height: h,
       displacementUrl: generated.displacementUrl,
       specularUrl: generated.specularUrl,
+      frostMaskUrl: generated.frostMaskUrl,
     });
   }, [glass, geo, shape, shapeRadius, material, ramp.bezel]);
 
@@ -527,24 +584,49 @@ export function GlassSurface({
   // slider needs a motion value of its own or the shadow would not repaint
   // until the next hover.
   const finishNonce = useMotionValue(0);
-  React.useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     finishNonce.set(finishNonce.get() + 1);
-  }, [finishNonce, finish.rim, finish.inner, finish.shadow]);
+  }, [finishNonce, finish.rim, finish.border, finish.inner, finish.shadow]);
 
-  const boxShadow = useTransform(
-    [shadowX, shadowY, shadowBlur, shadowAlpha, insetAlpha, finishNonce],
+  // The OUTER drop shadow rides on the root element. An inner layer's
+  // box-shadow is clipped away by the root's own overflow-hidden (the
+  // rounded-box clip that keeps content inside the capsule), so the shadow
+  // the hold springs animate would never actually show on any tier — moved
+  // to the root, it falls outside the box and survives everywhere.
+  const outerShadow = useTransform(
+    [shadowX, shadowY, shadowBlur, shadowAlpha, finishNonce],
     (values: number[]) => {
-      const [x, y, blur, alpha, inset] = values;
-      const { inner, shadow, rim } = finishRef.current;
-      return (
-        `${x}px ${y}px ${blur}px rgba(0,0,0,${(alpha * shadow).toFixed(4)}), ` +
-        `inset ${x / 2}px ${y / 2}px 24px rgba(0,0,0,${(inset * inner).toFixed(4)}), ` +
-        `inset ${-x / 2}px ${-y / 2}px 24px rgba(255,255,255,${(inset * inner).toFixed(4)}), ` +
+      const [x, y, blur, alpha] = values;
+      const { shadow } = finishRef.current;
+      return `${x}px ${y}px ${blur}px rgba(0,0,0,${(alpha * shadow).toFixed(4)})`;
+    }
+  );
+
+  // The inset finish — vignette, corner-lighting rims and the hairline
+  // border ring — stays on the paint layer inside the rounded box. The
+  // border is two stacked 1px inset strokes, white over near-black, so the
+  // ring reads on light AND dark backdrops (the old static ring-1 class
+  // could only pick one and was not configurable).
+  const insetShadow = useTransform(
+    [shadowX, shadowY, insetAlpha, finishNonce],
+    (values: number[]) => {
+      const [x, y, inset] = values;
+      const { inner, rim, border } = finishRef.current;
+      const parts = [
+        `inset ${x / 2}px ${y / 2}px 24px rgba(0,0,0,${(inset * inner).toFixed(4)})`,
+        `inset ${-x / 2}px ${-y / 2}px 24px rgba(255,255,255,${(inset * inner).toFixed(4)})`,
         // the crisp 1px rims — the corner lighting that makes an edge read as
         // a lit bevel rather than as a border
-        `inset 0 1px 0 0 rgba(255,255,255,${(0.5 * rim).toFixed(3)}), ` +
-        `inset 0 -1px 0 0 rgba(255,255,255,${(0.22 * rim).toFixed(3)})`
-      );
+        `inset 0 1px 0 0 rgba(255,255,255,${(0.5 * rim).toFixed(3)})`,
+        `inset 0 -1px 0 0 rgba(255,255,255,${(0.22 * rim).toFixed(3)})`,
+      ];
+      if (border > 0) {
+        parts.push(
+          `inset 0 0 0 1px rgba(255,255,255,${(0.16 * border).toFixed(3)})`,
+          `inset 0 0 0 1px rgba(15,15,20,${(0.07 * border).toFixed(3)})`
+        );
+      }
+      return parts.join(", ");
     }
   );
 
@@ -772,8 +854,46 @@ export function GlassSurface({
 
   /* ------------ Safari/Firefox tier: bind the WebGL engine ----------- */
   const webglHandle = React.useRef<LiquidGlassHandle | null>(null);
+  // Latest-value refs for the engine effects below (creation + retarget),
+  // synced before paint — same contract as finishRef above.
   const refractionRef = React.useRef(refraction);
-  refractionRef.current = refraction;
+  useIsomorphicLayoutEffect(() => {
+    refractionRef.current = refraction;
+  });
+  const frostRef = React.useRef(frost);
+  useIsomorphicLayoutEffect(() => {
+    frostRef.current = frost;
+  });
+
+  // The engine's resolved frost — the shared knob, not a WebGL-only one.
+  const engineFrost = () => ({
+    blur: frostRef.current?.blur ?? ramp.cssBlur,
+    saturate: frostRef.current?.saturate ?? ramp.cssSaturate,
+  });
+
+  // Merged WebGL optics, FULLY RESOLVED every field: explicit refraction
+  // overrides win per-field, and the shared knobs carry where the reference
+  // set is silent — finish.tint feeds the shader's uTint (the CSS paint layer
+  // over a textured canvas omits its own tint so the knob is not paid
+  // twice), and intensity — otherwise a Chromium-only knob — scales the lens
+  // thickness, which is the WebGL tier's own refraction dial. Resolving all
+  // seven fields means the retarget's setParams merge can never leave a
+  // stale value behind when a refraction field is removed.
+  const resolveEngineParams = (): RefractionParams => {
+    const base = refractionRef.current;
+    const level = MATERIAL_PARAMS[material];
+    return {
+      thickness:
+        (base?.thickness ?? level.thickness) * INTENSITY_BASE_SCALE[intensity],
+      bezel: base?.bezel ?? level.bezel,
+      ior: base?.ior ?? level.ior,
+      blur: base?.blur ?? level.blur,
+      specular: base?.specular ?? level.specular,
+      tint: base?.tint ?? finish.tint,
+      shadow: base?.shadow ?? level.shadow,
+    };
+  };
+
   React.useEffect(() => {
     if (!glass || strategy !== "webgl-refraction") return;
     const el = rootRef.current;
@@ -786,7 +906,8 @@ export function GlassSurface({
         material,
         mode: webglMode,
         backdrop,
-        params: refractionRef.current,
+        params: resolveEngineParams(),
+        frost: engineFrost(),
         onBackdropReady: (found) => {
           setWebglTextured(found);
           useGlassRuntime.getState().setWebglTexture(found);
@@ -804,12 +925,20 @@ export function GlassSurface({
   }, [glass, strategy, material, webglMode, backdrop]);
 
   // Parameter changes retarget the live engine instead of rebuilding it — an
-  // inline `refraction={{...}}` object must not recreate the GL context.
-  const refractionKey = JSON.stringify(refraction ?? null);
+  // inline `refraction={{...}}` object must not recreate the GL context. The
+  // key covers every shared input the merge reads: refraction and frost
+  // overrides, the finish tint and the intensity fork (material changes
+  // rebuild the engine through the effect above).
+  const engineKey = JSON.stringify({
+    refraction: refraction ?? null,
+    frost: frost ?? null,
+    tint: finish.tint,
+    intensity,
+  });
   React.useEffect(() => {
-    if (refraction) webglHandle.current?.setParams(refraction);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refractionKey]);
+    webglHandle.current?.setParams(resolveEngineParams());
+    webglHandle.current?.setFrost(engineFrost());
+  }, [engineKey]);
 
   /* ------------ animated feDisplacementMap scale --------------------- */
   // framer-motion treats a `scale` prop as a transform, so the attribute is
@@ -839,10 +968,8 @@ export function GlassSurface({
   // fixed fractions of it (the 1 / 4 / 10 shape that read as glass rather
   // than as a frosted card). Saturate lands on the rim layer only, so a warm
   // page cannot be washed through the whole surface.
-  const frostRim = frost?.blur ?? ramp.cssBlur;
   const frostMid = frostRim * 0.4;
   const frostCore = frostRim * 0.1;
-  const frostSaturate = frost?.saturate ?? ramp.cssSaturate;
 
   return (
     <MotionTag
@@ -857,6 +984,10 @@ export function GlassSurface({
       style={{
         borderRadius: cssRadius,
         ...style,
+        // the outer drop shadow lives HERE — see the outerShadow note. It
+        // sits after the style spread so the spring-animated shadow the
+        // component owns always wins over a stray inline boxShadow.
+        boxShadow: outerShadow,
       }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
@@ -892,12 +1023,56 @@ export function GlassSurface({
                     result="balanced_source"
                   />
                 ) : null}
-                {/* the only frost — kube.io keeps stdDeviation in 0..1 */}
+                {/* the core frost — kube.io keeps stdDeviation in 0..1
+                    (the only frost the reference construction carries) */}
                 <feGaussianBlur
                   in={baseChroma ? "balanced_source" : "SourceGraphic"}
                   stdDeviation={ramp.blur}
                   result="blurred_source"
                 />
+                {/* the progressive frost — the rim band blurred to the frost
+                    radius and faded in through the elliptical mask: the
+                    filter-chain twin of the base tier's stacked bands, so
+                    the frost knob bites on the Chromium tier too. The
+                    tuned centre blur is left untouched underneath. */}
+                {svgFrostStd >= 0.05 ? (
+                  <>
+                    <feGaussianBlur
+                      in={baseChroma ? "balanced_source" : "SourceGraphic"}
+                      stdDeviation={ramp.blur + svgFrostStd}
+                      result="frost_blur"
+                    />
+                    {/* saturate on the rim band only — CSS frost
+                        semantics, same range as the other tiers */}
+                    <feColorMatrix
+                      in="frost_blur"
+                      type="saturate"
+                      values={String(frostSaturate)}
+                      result="frost_saturated"
+                    />
+                    <feImage
+                      href={maps.frostMaskUrl}
+                      x={0}
+                      y={0}
+                      width={maps.width}
+                      height={maps.height}
+                      result="frost_mask"
+                      preserveAspectRatio="none"
+                    />
+                    <feComposite
+                      in="frost_saturated"
+                      in2="frost_mask"
+                      operator="in"
+                      result="frost_rim"
+                    />
+                    <feBlend
+                      in="frost_rim"
+                      in2="blurred_source"
+                      mode="normal"
+                      result="frosted_source"
+                    />
+                  </>
+                ) : null}
                 <feImage
                   href={maps.displacementUrl}
                   x={0}
@@ -909,7 +1084,7 @@ export function GlassSurface({
                 />
                 <feDisplacementMap
                   ref={dispMapRef}
-                  in="blurred_source"
+                  in={svgFrostStd >= 0.05 ? "frosted_source" : "blurred_source"}
                   in2="displacement_map"
                   scale={restingScale}
                   xChannelSelector="R"
@@ -967,14 +1142,14 @@ export function GlassSurface({
               hairline, the magnifying-glass markup verbatim */}
           <motion.div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 ring-1 ring-black/10 dark:ring-white/10"
+            className="pointer-events-none absolute inset-0"
             style={{
               borderRadius: cssRadius,
               backdropFilter: `url(#${filterId})`,
               WebkitBackdropFilter: `url(#${filterId})`,
               backgroundColor: tintColor,
               backgroundImage: sheenBackground,
-              boxShadow,
+              boxShadow: insetShadow,
               zIndex: 0,
             }}
           />
@@ -986,8 +1161,10 @@ export function GlassSurface({
           blur — three stacked backdrop-filter layers, sharp core, blur
           rising toward the rim. The gradient masks fade each layer in, so
           the backdrop reads as bending into the edge instead of sitting
-          behind a uniform frosted card. */}
-      {!isSvg && !webglFull ? (
+          behind a uniform frosted card. Rendered whenever the WebGL canvas
+          is NOT painting the surface (no texture to refract — including
+          "full" mode before an image lands). */}
+      {!isSvg && !webglPainting ? (
         <>
           <div
             aria-hidden="true"
@@ -1027,16 +1204,35 @@ export function GlassSurface({
               unblurred — the finish is paint, not a filter */}
           <motion.div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 ring-1 ring-black/10 dark:ring-white/10"
+            className="pointer-events-none absolute inset-0"
             style={{
               borderRadius: cssRadius,
               backgroundColor: tintColor,
               backgroundImage: sheenBackground,
-              boxShadow,
-              zIndex: 0,
+              boxShadow: insetShadow,
+              zIndex: 1,
             }}
           />
         </>
+      ) : null}
+
+      {/* WebGL tier, actively painting: the canvas (z 0, appended by the
+          engine) carries the refracted, progressively frosted backdrop;
+          the finish paint rides on top WITHOUT its own tint — the shader's
+          uTint owns the white overlay, fed from finish.tint above, so the
+          knob is not paid twice. The border ring, rims, sheen and vignette
+          are the same paint every other tier gets. */}
+      {webglPainting ? (
+        <motion.div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            borderRadius: cssRadius,
+            backgroundImage: sheenBackground,
+            boxShadow: insetShadow,
+            zIndex: 1,
+          }}
+        />
       ) : null}
 
       {/* Content sits above every layer, crisp. It stretches visually
