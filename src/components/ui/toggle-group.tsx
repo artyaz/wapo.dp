@@ -63,6 +63,17 @@ function ToggleGroupItem({
         // Rounding/borders use logical (start/end) utilities so the segmented
         // group mirrors correctly in RTL (see ui/input-otp.tsx for the idiom).
         "min-w-0 flex-1 shrink-0 rounded-none shadow-none first:rounded-s-md last:rounded-e-md focus:z-10 focus-visible:z-10 data-[variant=outline]:border-s-0 data-[variant=outline]:first:border-s",
+        // Pressed = inverted primary chip, mirroring ui/toggle.tsx: the shared
+        // toggleVariants' `data-[state=on]:bg-accent` fill is the same color as
+        // card/panel surfaces in dark theme (~1.1:1 in light), so the segmented
+        // on-state would be effectively invisible. The hover compounds keep the
+        // pressed fill stable while hovering (outline's hover:bg-accent would
+        // otherwise win by source order).
+        "data-[state=on]:bg-primary data-[state=on]:text-primary-foreground hover:data-[state=on]:bg-primary hover:data-[state=on]:text-primary-foreground",
+        // Color-only transitions (150-200ms default) — overrides the variant's
+        // transition-[color,box-shadow], which animated the focus ring's
+        // box-shadow; matches the audited input/checkbox/textarea siblings.
+        "transition-colors",
         className
       )}
       {...props}

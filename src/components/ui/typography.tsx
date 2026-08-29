@@ -198,7 +198,7 @@ const TYPESET_CSS = `@layer theme, base, components, utilities;
   .typeset :not(pre) > code {
     background-color: var(--muted);
     border: 1px solid var(--border);
-    border-radius: calc(var(--radius, 8px) - 4px);
+    border-radius: var(--radius-sm, 3px);
     padding: 0.1em 0.4em;
     font-size: 0.85em;
     white-space: nowrap;
@@ -288,7 +288,7 @@ const TYPESET_CSS = `@layer theme, base, components, utilities;
     background-color: var(--muted);
     border: 1px solid var(--border);
     border-block-end-width: 2px;
-    border-radius: calc(var(--radius, 8px) - 4px);
+    border-radius: var(--radius-sm, 3px);
     padding: 0.1em 0.4em;
   }
 

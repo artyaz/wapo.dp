@@ -5,6 +5,12 @@ import * as SliderPrimitive from "@radix-ui/react-slider"
 
 import { cn } from "@/lib/utils"
 
+// Praxis audit: compliant — monochrome tokens only (bg-muted track, bg-primary
+// range, bg-background/border-primary thumb), capsule geometry matches the
+// Switch/Progress family, focus-visible ring present, disabled states via
+// data-[disabled]/disabled opacity. Transition narrowed to colors only: the
+// ring is a focus affordance, not a depth effect, so it must never animate
+// (Praxis: color/opacity only — never animate shadows).
 function Slider({
   className,
   defaultValue,
@@ -53,7 +59,7 @@ function Slider({
         <SliderPrimitive.Thumb
           data-slot="slider-thumb"
           key={index}
-          className="border-primary bg-background ring-ring/50 block size-4 shrink-0 rounded-full border shadow-sm transition-[color,box-shadow] hover:ring-4 focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50"
+          className="border-primary bg-background ring-ring/50 block size-4 shrink-0 rounded-full border shadow-sm transition-colors hover:ring-4 focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50"
         />
       ))}
     </SliderPrimitive.Root>

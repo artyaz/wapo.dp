@@ -8,13 +8,17 @@ import type {
   ToastProps,
 } from "@/components/ui/toast"
 
-const TOAST_LIMIT = 1
+// Praxis: stacked notifications — keep up to 5 live toasts in the viewport
+// (one toast at a time hid the stacking affordance the component exists for).
+const TOAST_LIMIT = 5
 const TOAST_REMOVE_DELAY = 1000000
 
 type ToasterToast = ToastProps & {
   id: string
   title?: React.ReactNode
   description?: React.ReactNode
+  /** Optional leading status icon (rendered by <Toaster /> next to the text). */
+  icon?: React.ReactNode
   action?: ToastActionElement
 }
 
