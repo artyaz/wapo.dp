@@ -1085,7 +1085,10 @@ function ComboboxItem({
       data-selected={isSelected || undefined}
       data-disabled={disabled || undefined}
       className={cn(
-        "data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground relative flex w-full cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        // Dark theme: `--accent` equals the popover panel color, so the
+        // highlight would be invisible — lift it to neutral-200, the same
+        // dark accent surface the system uses for `--sidebar-accent`.
+        "data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground dark:data-[highlighted]:bg-neutral-200 relative flex w-full cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className
       )}
       onClick={(event) => {

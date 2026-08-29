@@ -42,7 +42,7 @@ export function InputGroupButtonExample() {
           </InputGroupButton>
         </InputGroupAddon>
       </InputGroup>
-      <InputGroup className="[--radius:9999px]">
+      <InputGroup>
         <Popover>
           <PopoverTrigger
             render={
@@ -72,7 +72,9 @@ export function InputGroupButtonExample() {
           >
             <IconStar
               data-favorite={isFavorite}
-              className="data-[favorite=true]:fill-blue-600 data-[favorite=true]:stroke-blue-600"
+              // Praxis: monochrome — favoriting reads through weight/fill,
+              // never a second accent hue.
+              className="data-[favorite=true]:fill-foreground"
             />
           </InputGroupButton>
         </InputGroupAddon>

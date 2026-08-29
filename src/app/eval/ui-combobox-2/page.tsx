@@ -208,18 +208,26 @@ export default function Page() {
                       placeholder="Search destinations…"
                       showClear
                     />
-                    <ComboboxContent className="shadow-lg">
+                    <ComboboxContent>
                       <ComboboxEmpty>No destinations match.</ComboboxEmpty>
                       <ComboboxList className="max-h-none">
                         {(group, index) => (
-                          <ComboboxGroup key={group.value} items={group.items}>
+                          <ComboboxGroup
+                            key={group.value}
+                            items={group.items}
+                            className={
+                              index === destinations.length - 1
+                                ? "pb-0"
+                                : undefined
+                            }
+                          >
                             <ComboboxLabel>{group.value}</ComboboxLabel>
                             <ComboboxCollection>
                               {(item) => (
                                 <ComboboxItem
                                   key={item.code}
                                   value={item}
-                                  className="gap-3 dark:data-[highlighted]:bg-[#2a2926]!"
+                                  className="gap-3"
                                 >
                                   <span className="w-9 shrink-0 font-code text-xs text-muted-foreground">
                                     {item.code}

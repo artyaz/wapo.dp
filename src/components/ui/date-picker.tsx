@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { format as formatDate, type Locale as DateFnsLocale } from "date-fns"
+import { format as formatDate, isSameDay, type Locale as DateFnsLocale } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import {
   type DateRange,
@@ -116,6 +116,16 @@ export type DatePickerProps =
 // DatePicker
 // ---------------------------------------------------------------------------
 
+/**
+ * In dark theme the bridged `--accent` / `--secondary` tokens resolve to
+ * neutral-100, which is the *same* value as the popover panel — range fills,
+ * the today marker and preset chips would vanish on the overlay. Re-map them
+ * to a visible step of the neutral ramp *inside the popover only*; in-flow
+ * surfaces keep the global tokens.
+ */
+const popoverSurface =
+  "dark:[--accent:var(--ds-color-neutral-300)] dark:[--secondary:var(--ds-color-neutral-200)]"
+
 export function DatePicker(props: DatePickerProps) {
   const {
     id,
@@ -204,21 +214,32 @@ export function DatePicker(props: DatePickerProps) {
         data-slot="date-picker-presets"
         className="flex flex-wrap gap-2 border-b p-3"
       >
-        {rangePresets.map((preset) => (
-          <Button
-            key={preset.label}
-            variant="secondary"
-            size="sm"
-            className="h-7"
-            disabled={disabled}
-            onClick={() => {
-              onValueChange?.(preset.range)
-              if (closeOnSelect) handleOpenChange(false)
-            }}
-          >
-            {preset.label}
-          </Button>
-        ))}
+        {rangePresets.map((preset) => {
+          const active =
+            value?.from !== undefined &&
+            preset.range.from !== undefined &&
+            isSameDay(value.from, preset.range.from) &&
+            ((value.to === undefined && preset.range.to === undefined) ||
+              (value.to !== undefined &&
+                preset.range.to !== undefined &&
+                isSameDay(value.to, preset.range.to)))
+          return (
+            <Button
+              key={preset.label}
+              variant={active ? "secondary" : "ghost"}
+              size="sm"
+              className="h-7"
+              aria-pressed={active}
+              disabled={disabled}
+              onClick={() => {
+                onValueChange?.(preset.range)
+                if (closeOnSelect) handleOpenChange(false)
+              }}
+            >
+              {preset.label}
+            </Button>
+          )
+        })}
       </div>
     ) : null
 
@@ -279,21 +300,25 @@ export function DatePicker(props: DatePickerProps) {
         data-slot="date-picker-presets"
         className="flex flex-wrap gap-2 border-b p-3"
       >
-        {datePresets.map((preset) => (
-          <Button
-            key={preset.label}
-            variant="secondary"
-            size="sm"
-            className="h-7"
-            disabled={disabled}
-            onClick={() => {
-              onValueChange?.(preset.date)
-              if (closeOnSelect) handleOpenChange(false)
-            }}
-          >
-            {preset.label}
-          </Button>
-        ))}
+        {datePresets.map((preset) => {
+          const active = value !== undefined && isSameDay(value, preset.date)
+          return (
+            <Button
+              key={preset.label}
+              variant={active ? "secondary" : "ghost"}
+              size="sm"
+              className="h-7"
+              aria-pressed={active}
+              disabled={disabled}
+              onClick={() => {
+                onValueChange?.(preset.date)
+                if (closeOnSelect) handleOpenChange(false)
+              }}
+            >
+              {preset.label}
+            </Button>
+          )
+        })}
       </div>
     ) : null
 
@@ -333,7 +358,7 @@ export function DatePicker(props: DatePickerProps) {
         {label}
       </PopoverTrigger>
       <PopoverContent
-        className={cn("w-auto p-0", className)}
+        className={cn("w-auto p-0", popoverSurface, className)}
         align={contentAlign}
         side={contentSide}
         alignOffset={contentAlignOffset}
@@ -477,7 +502,11 @@ export function DatePickerInput({
             }
           />
           <PopoverContent
-            className="w-auto overflow-hidden p-0"
+            className={cn(
+              "w-auto overflow-hidden p-0",
+              popoverSurface,
+              className
+            )}
             align="end"
             alignOffset={-8}
             sideOffset={10}

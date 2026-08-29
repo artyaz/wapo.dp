@@ -267,7 +267,11 @@ function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
   return (
     <fieldset
       data-slot="field-set"
-      className={cn("grid w-full gap-4 rounded-md border p-4", className)}
+      className={cn(
+        // Praxis: 8px panel radius (a fieldset is a bordered panel, like Card).
+        "grid w-full gap-4 rounded-lg border p-4",
+        className
+      )}
       {...props}
     />
   )
@@ -290,6 +294,10 @@ function FieldLegend({
       data-slot="field-legend"
       data-variant={variant}
       className={cn(
+        // `float-left w-full` opts the legend out of the browser's
+        // "rendered legend" slot so the fieldset's top border no longer
+        // cuts through the text — it lays out as a normal first row.
+        "float-left w-full",
         "text-foreground text-sm leading-none font-semibold select-none",
         variant === "label" && "font-medium",
         className

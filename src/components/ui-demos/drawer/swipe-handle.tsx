@@ -23,7 +23,7 @@ export function DrawerSwipeHandle() {
           <DrawerDescription>Drawer with a swipe handle.</DrawerDescription>
         </DrawerHeader>
         <div className="flex-1 p-4">
-          <div className="size-full rounded-2xl bg-muted" />
+          <div className="size-full rounded-lg bg-muted" />
         </div>
         <DrawerFooter>
           <DrawerClose render={<Button>Close</Button>} />

@@ -1,12 +1,5 @@
 "use client"
 
-import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp"
- 
-;<InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
-  ...
-</InputOTP>
-
-
 import { REGEXP_ONLY_DIGITS } from "input-otp"
 
 import { Field, FieldLabel } from "@/components/ui/field"

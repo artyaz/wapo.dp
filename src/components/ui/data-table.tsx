@@ -297,7 +297,9 @@ export function DataTable<TData extends RowData>({
           {toolbarContent}
         </div>
       ) : null}
-      <div className="overflow-hidden rounded-md border">
+      {/* Praxis: the table is in-flow panel content — 8px radius + hairline
+          border, no shadow (optical separation, not cast). */}
+      <div className="overflow-hidden rounded-lg border">
         <UiTable>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -531,11 +533,26 @@ export function DataTablePagination<TData extends RowData>({
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
-              {[10, 20, 25, 30, 40, 50].map((pageSize) => (
-                <SelectItem key={pageSize} value={`${pageSize}`}>
-                  {pageSize}
-                </SelectItem>
-              ))}
+              {/* Include the active page size in the options — otherwise a
+                  consumer running e.g. pageSize 5 or 8 renders a trigger with
+                  a value that matches no SelectItem and shows up blank. */}
+              {Array.from(
+                new Set([
+                  10,
+                  20,
+                  25,
+                  30,
+                  40,
+                  50,
+                  table.getState().pagination.pageSize,
+                ])
+              )
+                .sort((a, b) => a - b)
+                .map((pageSize) => (
+                  <SelectItem key={pageSize} value={`${pageSize}`}>
+                    {pageSize}
+                  </SelectItem>
+                ))}
             </SelectContent>
           </Select>
         </div>
