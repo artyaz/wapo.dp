@@ -15,3 +15,4 @@ actual `SCORE: 10/10` to `1`. The model's verbatim raw output (`VERDICT: PASS,
 SCORE: 10/10, ISSUES: none`) is preserved in
 [ui-button-group-2.md](ui-button-group-2.md); the scores here are corrected to
 match it.
+| [ui-button-group-1](ui-button-group-1.md) | restaurant reservation system | 1280x800 | dark | PASS | 10/10 |

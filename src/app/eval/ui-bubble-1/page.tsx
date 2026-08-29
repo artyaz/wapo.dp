@@ -1,6 +1,9 @@
 "use client";
 
 // EVAL page — bubble p1 — HR onboarding checklist for new hires — 390x844 dark (phone)
+// Layout: fixed-height shell, non-scrolling chrome (app bar + checklist strip +
+// composer) and a bottom-anchored thread that is hard-clipped to its own lane
+// (overflow-hidden) so chat content can never render over the header.
 
 import {
   ArrowLeftIcon,
@@ -15,7 +18,6 @@ import { Badge } from "@/components/ui/badge";
 import {
   Bubble,
   BubbleContent,
-  BubbleGroup,
   BubbleReactions,
 } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
@@ -33,7 +35,7 @@ import { Progress } from "@/components/ui/progress";
 export default function Page() {
   return (
     <EvalShell theme="dark" dir="ltr">
-      <div className="mx-auto flex h-[844px] w-full max-w-[390px] flex-col overflow-hidden bg-background">
+      <div className="mx-auto flex h-[844px] w-full max-w-[390px] flex-col overflow-hidden bg-background text-foreground">
         {/* App bar */}
         <header className="flex h-14 shrink-0 items-center gap-2 border-b px-3">
           <Button
@@ -44,11 +46,13 @@ export default function Page() {
           >
             <ArrowLeftIcon />
           </Button>
-          <Avatar size="default">
+          <Avatar>
             <AvatarFallback>DW</AvatarFallback>
           </Avatar>
           <div className="min-w-0 flex-1 leading-tight">
-            <p className="truncate text-sm font-medium">Dana Whitfield</p>
+            <h1 className="truncate text-heading-3 font-heading-3">
+              Dana Whitfield
+            </h1>
             <p className="truncate text-xs text-muted-foreground">
               People Ops · Onboarding buddy
             </p>
@@ -67,109 +71,78 @@ export default function Page() {
             </span>
           </div>
           <Progress value={37} aria-label="3 of 8 onboarding tasks complete" />
-          <p className="mt-2 text-xs text-muted-foreground">
+          <p className="mt-2 text-xs text-foreground/70">
             Badge photo · Laptop pickup · Benefits enrollment
           </p>
         </div>
 
-        {/* Thread */}
-        <main className="flex min-h-0 flex-1 flex-col justify-end gap-4 px-4 py-4">
-          <MessageGroup>
+        {/* Thread — bottom-anchored, clipped below the chrome */}
+        <main className="flex min-h-0 flex-1 flex-col justify-end overflow-hidden px-4 py-3">
+          <MessageGroup className="gap-3">
             <Message>
               <MessageAvatar>
-                <Avatar size="default">
+                <Avatar>
                   <AvatarFallback>DW</AvatarFallback>
                 </Avatar>
               </MessageAvatar>
-              <MessageContent>
+              <MessageContent className="gap-1.5">
                 <MessageHeader className="text-xs text-muted-foreground">
                   Dana · People Ops
                 </MessageHeader>
                 <Bubble variant="muted">
                   <BubbleContent>
-                    Morning Priya! Welcome to Northwind Health. I&apos;m your
-                    onboarding buddy for the next two weeks — ping me here with
-                    anything, big or small.
+                    Morning Priya! Welcome to Northwind Health. Today&apos;s
+                    list: badge photo at reception, laptop pickup at 10:30, and
+                    benefits enrollment opens at noon.
                   </BubbleContent>
+                  <MessageFooter className="text-xs">
+                    <span className="font-code">9:02 AM</span>
+                  </MessageFooter>
                 </Bubble>
-                <BubbleGroup>
-                  <Bubble variant="muted">
-                    <BubbleContent>
-                      Three things on today&apos;s list: badge photo at
-                      reception, laptop pickup at 10:30, and benefits
-                      enrollment opens at noon.
-                    </BubbleContent>
-                  </Bubble>
-                  <Bubble variant="muted">
-                    <BubbleContent>
-                      Which one are you knocking out first?
-                    </BubbleContent>
-                    <MessageFooter className="text-xs">
-                      <span className="font-code">9:02 AM</span>
-                    </MessageFooter>
-                  </Bubble>
-                </BubbleGroup>
               </MessageContent>
             </Message>
 
             <Message align="end">
-              <MessageContent>
-                <MessageHeader className="text-xs text-muted-foreground">
-                  Priya Raman
-                </MessageHeader>
-                <BubbleGroup>
-                  <Bubble align="end">
-                    <BubbleContent>
-                      Morning Dana! Badge photo is done — the line at reception
-                      was short.
-                    </BubbleContent>
-                  </Bubble>
-                  <Bubble align="end">
-                    <BubbleContent>
-                      Heading to the 4th floor IT desk now for the laptop.
-                    </BubbleContent>
-                    <MessageFooter className="text-xs">
-                      <span className="font-code">9:12 AM</span>
-                      <span>·</span>
-                      <span>Delivered</span>
-                    </MessageFooter>
-                  </Bubble>
-                </BubbleGroup>
-              </MessageContent>
               <MessageAvatar>
-                <Avatar size="default">
+                <Avatar>
                   <AvatarFallback>PR</AvatarFallback>
                 </Avatar>
               </MessageAvatar>
+              <MessageContent className="items-end gap-1.5">
+                <Bubble align="end" variant="secondary">
+                  <BubbleContent>
+                    Morning Dana! Badge photo is done — heading to the 4th
+                    floor IT desk for the laptop now.
+                  </BubbleContent>
+                  <MessageFooter className="text-xs">
+                    <span className="font-code">9:12 AM</span>
+                    <span>·</span>
+                    <span>Delivered</span>
+                  </MessageFooter>
+                </Bubble>
+              </MessageContent>
             </Message>
 
             <Message>
               <MessageAvatar>
-                <Avatar size="default">
+                <Avatar>
                   <AvatarFallback>DW</AvatarFallback>
                 </Avatar>
               </MessageAvatar>
-              <MessageContent>
+              <MessageContent className="gap-1.5">
+                <MessageHeader className="text-xs text-muted-foreground">
+                  Dana · People Ops
+                </MessageHeader>
                 <Bubble variant="muted">
                   <BubbleContent>
-                    Perfect pace. Two down, one to go — enrollment closes
+                    Perfect pace — two down, one to go. Enrollment closes
                     Friday at 5 PM.
                   </BubbleContent>
-                  <BubbleReactions
-                    role="img"
-                    aria-label="Reaction: thumbs up"
-                    align="start"
-                  >
-                    <span>👍</span>
-                  </BubbleReactions>
-                  <MessageFooter className="text-xs">
-                    <span className="font-code">9:47 AM</span>
-                  </MessageFooter>
                 </Bubble>
 
                 {/* Inline task card */}
-                <Card className="gap-3 rounded-lg py-4">
-                  <CardContent className="flex flex-col gap-3 px-4">
+                <Card className="w-full max-w-[300px] gap-2.5 rounded-lg py-3.5">
+                  <CardContent className="flex flex-col gap-2.5 px-4">
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
                         <CheckIcon className="size-4 text-muted-foreground" />
@@ -179,69 +152,39 @@ export default function Page() {
                       </div>
                       <Badge variant="secondary">Task 3 of 8</Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      Pick your medical, dental, and HSA options in the Workday
-                      portal. Auto-enrolls in the default plan on Mar 14.
+                    <p className="text-xs leading-relaxed text-muted-foreground">
+                      Pick your medical, dental, and HSA options in Workday —
+                      auto-enrolls Mar 14.
                     </p>
                     <Button variant="outline" size="sm" className="self-start">
                       Open task in Workday
                     </Button>
                   </CardContent>
                 </Card>
+
+                <MessageFooter className="text-xs">
+                  <BubbleReactions
+                    role="img"
+                    aria-label="Reaction: thumbs up"
+                    className="self-auto"
+                  >
+                    <span>👍</span>
+                  </BubbleReactions>
+                  <span className="font-code">9:47 AM</span>
+                </MessageFooter>
               </MessageContent>
             </Message>
 
             <Message align="end">
-              <MessageContent>
-                <Bubble align="end">
-                  <BubbleContent>
-                    Quick question — can I pick the HSA option now and change
-                    it later?
-                  </BubbleContent>
-                  <MessageFooter className="text-xs">
-                    <span className="font-code">10:05 AM</span>
-                  </MessageFooter>
-                </Bubble>
-              </MessageContent>
               <MessageAvatar>
-                <Avatar size="default">
+                <Avatar>
                   <AvatarFallback>PR</AvatarFallback>
                 </Avatar>
               </MessageAvatar>
-            </Message>
-
-            <Message>
-              <MessageAvatar>
-                <Avatar size="default">
-                  <AvatarFallback>DW</AvatarFallback>
-                </Avatar>
-              </MessageAvatar>
-              <MessageContent>
-                <Bubble variant="muted">
+              <MessageContent className="items-end gap-1.5">
+                <Bubble align="end" variant="secondary">
                   <BubbleContent>
-                    Yes — HSA is editable until Mar 14, then it locks until
-                    open enrollment in October. Enroll today and you can keep
-                    tweaking all week.
-                  </BubbleContent>
-                  <BubbleReactions
-                    role="img"
-                    aria-label="Reaction: party popper"
-                    align="start"
-                  >
-                    <span>🎉</span>
-                  </BubbleReactions>
-                  <MessageFooter className="text-xs">
-                    <span className="font-code">10:09 AM</span>
-                  </MessageFooter>
-                </Bubble>
-              </MessageContent>
-            </Message>
-
-            <Message align="end">
-              <MessageContent>
-                <Bubble align="end">
-                  <BubbleContent>
-                    Enrolling right now then. Thanks Dana!
+                    Enrolling right now — thanks Dana!
                   </BubbleContent>
                   <MessageFooter className="text-xs">
                     <span className="font-code">10:14 AM</span>
@@ -250,11 +193,6 @@ export default function Page() {
                   </MessageFooter>
                 </Bubble>
               </MessageContent>
-              <MessageAvatar>
-                <Avatar size="default">
-                  <AvatarFallback>PR</AvatarFallback>
-                </Avatar>
-              </MessageAvatar>
             </Message>
           </MessageGroup>
         </main>
@@ -272,7 +210,7 @@ export default function Page() {
           <div className="flex h-9 flex-1 items-center rounded-md border border-input px-3 text-sm text-muted-foreground">
             Ask Dana anything…
           </div>
-          <Button size="icon-sm" aria-label="Send message">
+          <Button variant="secondary" size="icon-sm" aria-label="Send message">
             <SendIcon />
           </Button>
         </footer>

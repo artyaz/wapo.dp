@@ -107,14 +107,12 @@ function BubbleGroup({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="bubble-group"
       className={cn(
+        // Praxis geometry: every bubble keeps the full 8px panel radius
+        // (rounded-lg). Consecutive bubbles separate with a tight 2px rhythm
+        // instead of reduced inner corners, so the strict 3px/8px radius scale
+        // stays legible at 1x (mixed 3px/8px corners on one bubble read as
+        // inconsistent geometry).
         "flex w-full flex-col gap-0.5",
-        // Consecutive start-aligned bubbles: reduce the leading (left) corners
-        // where the bubbles stack, keeping the outer edge rounded.
-        "[&>[data-slot=bubble][data-align=start]+[data-slot=bubble][data-align=start]_[data-slot=bubble-content]]:rounded-tl-sm",
-        "[&>[data-slot=bubble][data-align=start]:has(+[data-slot=bubble][data-align=start])_[data-slot=bubble-content]]:rounded-bl-sm",
-        // Consecutive end-aligned bubbles: reduce the trailing (right) corners.
-        "[&>[data-slot=bubble][data-align=end]+[data-slot=bubble][data-align=end]_[data-slot=bubble-content]]:rounded-tr-sm",
-        "[&>[data-slot=bubble][data-align=end]:has(+[data-slot=bubble][data-align=end])_[data-slot=bubble-content]]:rounded-br-sm",
         className
       )}
       {...props}
@@ -134,7 +132,7 @@ function BubbleReactions({
    * only pass this to deliberately override the bubble's side.
    */
   align?: BubbleAlign
-  /** Renders the pill overlapping the top edge of the bubble. */
+  /** Renders the pill in its own reserved slot above the bubble (4px offset). */
   side?: "top" | "bottom"
 }) {
   const { align: bubbleAlign } = React.useContext(BubbleContext)
@@ -146,7 +144,7 @@ function BubbleReactions({
       className={cn(
         "relative flex items-center gap-1 rounded-full border border-input bg-background px-1.5 py-0.5 text-xs text-muted-foreground shadow-xs",
         effectiveAlign === "end" ? "self-end" : "self-start",
-        side === "top" && "z-10 -mb-2 order-first",
+        side === "top" && "order-first mb-1",
         className
       )}
       {...props}

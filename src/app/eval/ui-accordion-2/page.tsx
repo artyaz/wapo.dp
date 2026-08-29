@@ -191,7 +191,7 @@ export default function Page() {
         <main className="flex min-w-0 flex-1 flex-col overflow-y-auto px-10 py-8">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-muted-foreground font-code text-code">
+              <p className="text-foreground/60 font-code text-code">
                 SATURDAY · MAR 14, 2026
               </p>
               <h1 className="text-heading-1 font-heading-1 mt-1">
@@ -253,7 +253,7 @@ export default function Page() {
                     </span>
                     <span className="flex items-center gap-2.5">
                       <Badge variant="outline">{plant.room}</Badge>
-                      <span className="text-muted-foreground font-code text-code">
+                      <span className="text-foreground/60 font-code text-code">
                         H₂O {plant.moisture}
                       </span>
                     </span>
@@ -273,7 +273,7 @@ export default function Page() {
                           </span>
                           <span
                             className={`font-code text-code ${
-                              task.danger ? "text-destructive" : "text-muted-foreground"
+                              task.danger ? "text-destructive" : "text-foreground/60"
                             }`}
                           >
                             {task.meta}
@@ -281,7 +281,7 @@ export default function Page() {
                         </li>
                       ))}
                     </ul>
-                    <div className="text-muted-foreground flex items-center justify-between border-t pt-2.5 font-code text-code">
+                    <div className="text-foreground/60 flex items-center justify-between border-t pt-2.5 font-code text-code">
                       <span>LAST WATERED {plant.lastWatered}</span>
                       <span className="flex items-center gap-1.5">
                         <CheckIcon className="size-3" />
@@ -297,7 +297,7 @@ export default function Page() {
                 <AccordionTrigger>
                   <span className="flex flex-1 items-center justify-between gap-4 pr-4">
                     <span className="flex items-baseline gap-2.5">{plant.name}</span>
-                    <span className="text-muted-foreground font-code text-code">
+                    <span className="text-foreground/60 font-code text-code">
                       {plant.meta}
                     </span>
                   </span>
@@ -319,7 +319,7 @@ export default function Page() {
         </main>
 
         {/* Right rail — schedule + reminders */}
-        <aside className="flex w-[380px] shrink-0 flex-col gap-5 overflow-y-auto border-l px-8 py-8">
+        <aside className="flex w-[420px] shrink-0 flex-col gap-5 overflow-y-auto border-l px-6 py-8">
           <Card className="gap-3 rounded-lg py-5">
             <CardHeader>
               <CardTitle className="text-heading-3 font-heading-3">
@@ -336,22 +336,22 @@ export default function Page() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="h-8 text-xs">Day</TableHead>
+                    <TableHead className="h-8 pl-0 text-xs">Day</TableHead>
                     <TableHead className="h-8 text-xs">Plant</TableHead>
                     <TableHead className="h-8 text-xs">Task</TableHead>
-                    <TableHead className="h-8 text-right text-xs">At</TableHead>
+                    <TableHead className="h-8 text-right text-xs">Time</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {week.map((row) => (
                     <TableRow key={row.day}>
-                      <TableCell className="py-2.5 font-code text-code">
+                      <TableCell className="py-2.5 pl-0 pr-3 font-code text-code">
                         {row.day}
                       </TableCell>
-                      <TableCell className="py-2.5 text-sm">
+                      <TableCell className="py-2.5 pr-3 text-sm whitespace-normal">
                         {row.plant}
                       </TableCell>
-                      <TableCell className="py-2.5 text-sm">
+                      <TableCell className="py-2.5 pr-3 text-sm">
                         {row.task}
                       </TableCell>
                       <TableCell className="py-2.5 text-right font-code text-code">
@@ -383,7 +383,7 @@ export default function Page() {
                 >
                   <div className="min-w-0">
                     <p className="text-sm font-medium">{item.label}</p>
-                    <p className="text-muted-foreground font-code text-code">
+                    <p className="text-foreground/60 font-code text-code">
                       {item.meta}
                     </p>
                   </div>

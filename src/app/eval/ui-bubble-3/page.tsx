@@ -1,6 +1,10 @@
 "use client";
 
 // EVAL page — bubble p3 — podcast recording studio console — 1280x800 light
+// Layout: fixed-height shell; global transport header + per-pane headers are
+// non-scrolling. The studio-chat thread is bottom-anchored inside its own
+// clipped lane (overflow-hidden) between the pane header and the composer, so
+// bubbles can never occlude the "Studio chat" header or the top transport bar.
 
 import {
   MicIcon,
@@ -55,13 +59,13 @@ const notes = [
 export default function Page() {
   return (
     <EvalShell theme="light" dir="ltr">
-      <div className="flex h-[800px] w-full flex-col overflow-hidden bg-background">
-        {/* Console header */}
+      <div className="flex h-[800px] w-full flex-col overflow-hidden bg-background text-foreground">
+        {/* Transport header */}
         <header className="flex h-14 shrink-0 items-center gap-4 border-b px-6">
           <div className="flex items-center gap-3">
             <MicIcon className="size-5 text-muted-foreground" />
             <div className="leading-tight">
-              <p className="font-heading-3 text-heading-3">The Signal Path</p>
+              <h1 className="font-heading-3 text-heading-3">The Signal Path</h1>
               <p className="text-xs text-muted-foreground">
                 Ep. 112 · Field Recordings in Lisbon
               </p>
@@ -93,7 +97,7 @@ export default function Page() {
 
         <div className="flex min-h-0 flex-1">
           {/* Left rail — rundown */}
-          <aside className="flex w-72 shrink-0 flex-col border-r">
+          <aside className="flex w-80 shrink-0 flex-col border-r">
             <div className="flex items-baseline justify-between px-4 pt-4">
               <p className="text-caption font-caption text-muted-foreground">
                 Rundown
@@ -142,13 +146,13 @@ export default function Page() {
             <div className="flex h-12 shrink-0 items-center gap-3 border-b px-6">
               <p className="text-sm font-medium">Studio chat</p>
               <AvatarGroup>
-                <Avatar size="sm">
+                <Avatar>
                   <AvatarFallback>NK</AvatarFallback>
                 </Avatar>
-                <Avatar size="sm">
+                <Avatar>
                   <AvatarFallback>MW</AvatarFallback>
                 </Avatar>
-                <Avatar size="sm">
+                <Avatar>
                   <AvatarFallback>ID</AvatarFallback>
                 </Avatar>
               </AvatarGroup>
@@ -165,26 +169,26 @@ export default function Page() {
               </Button>
             </div>
 
-            <div className="flex min-h-0 flex-1 flex-col justify-end gap-4 px-6 py-4">
-              <MessageGroup>
+            {/* Thread — bottom-anchored, clipped to its lane */}
+            <div className="flex min-h-0 flex-1 flex-col justify-end overflow-hidden px-6 py-4">
+              <MessageGroup className="gap-3">
                 <Message>
                   <MessageAvatar>
-                    <Avatar size="default">
+                    <Avatar>
                       <AvatarFallback>NK</AvatarFallback>
                     </Avatar>
                   </MessageAvatar>
-                  <MessageContent>
+                  <MessageContent className="gap-1.5">
                     <MessageHeader className="text-xs text-muted-foreground">
                       Nadia Kaur · Producer
                     </MessageHeader>
                     <Bubble variant="muted">
                       <BubbleContent>
-                        Marcus, you&apos;re peaking at −12 dB — sounding great.
-                        Inês, I&apos;m easing your channel 2 dB, you were a
-                        touch hot on the last take.
+                        Marcus, you&apos;re peaking at −12 dB — sounding
+                        great. Inês, I&apos;m easing your channel 2 dB.
                       </BubbleContent>
                       <MessageFooter className="text-xs">
-                        <span className="font-code">10:58</span>
+                        <span className="font-code text-[13px]">10:58</span>
                       </MessageFooter>
                     </Bubble>
                   </MessageContent>
@@ -192,69 +196,40 @@ export default function Page() {
 
                 <Message>
                   <MessageAvatar>
-                    <Avatar size="default">
+                    <Avatar>
                       <AvatarFallback>ID</AvatarFallback>
                     </Avatar>
                   </MessageAvatar>
-                  <MessageContent>
+                  <MessageContent className="gap-1.5">
                     <MessageHeader className="text-xs text-muted-foreground">
                       Inês Duarte · Guest · Lisbon
                     </MessageHeader>
                     <Bubble variant="muted">
                       <BubbleContent>
-                        Obrigada, Nadia. Is the room tone still rolling for the
-                        outro?
+                        Obrigada, Nadia. Is the room tone still rolling for
+                        the outro?
                       </BubbleContent>
                       <MessageFooter className="text-xs">
-                        <span className="font-code">11:01</span>
+                        <span className="font-code text-[13px]">11:01</span>
                       </MessageFooter>
                     </Bubble>
                   </MessageContent>
                 </Message>
 
                 <Message align="end">
-                  <MessageContent>
-                    <MessageHeader className="text-xs text-muted-foreground">
-                      Marcus Webb · Host
-                    </MessageHeader>
-                    <Bubble align="end">
-                      <BubbleContent>
-                        Rolling until 11:40 station time. Let&apos;s take the
-                        ad break right after the Alfama segment.
-                      </BubbleContent>
-                      <MessageFooter className="text-xs">
-                        <span className="font-code">11:02</span>
-                      </MessageFooter>
-                    </Bubble>
-                  </MessageContent>
                   <MessageAvatar>
-                    <Avatar size="default">
+                    <Avatar>
                       <AvatarFallback>MW</AvatarFallback>
                     </Avatar>
                   </MessageAvatar>
-                </Message>
-
-                <Message>
-                  <MessageAvatar>
-                    <Avatar size="default">
-                      <AvatarFallback>NK</AvatarFallback>
-                    </Avatar>
-                  </MessageAvatar>
-                  <MessageContent>
-                    <Bubble variant="muted">
+                  <MessageContent className="items-end gap-1.5">
+                    <Bubble align="end" variant="primary">
                       <BubbleContent>
-                        Segment 4 in 90 seconds — two minutes of ambience, then
-                        I&apos;ll bring in the tram tape.
+                        Rolling until 11:40 station time — ad break right
+                        after Alfama.
                       </BubbleContent>
-                      <BubbleReactions
-                        role="img"
-                        aria-label="Reaction: headphones"
-                        align="start"
-                      >
-                        <span>🎧</span>
-                      </BubbleReactions>
                       <MessageFooter className="text-xs">
-                        <span className="font-code">11:03</span>
+                        <span className="font-code text-[13px]">11:02</span>
                       </MessageFooter>
                     </Bubble>
                   </MessageContent>
@@ -262,55 +237,65 @@ export default function Page() {
 
                 <Message>
                   <MessageAvatar>
-                    <Avatar size="default">
-                      <AvatarFallback>ID</AvatarFallback>
+                    <Avatar>
+                      <AvatarFallback>NK</AvatarFallback>
                     </Avatar>
                   </MessageAvatar>
-                  <MessageContent>
+                  <MessageContent className="gap-1.5">
+                    <MessageHeader className="text-xs text-muted-foreground">
+                      Nadia Kaur · Producer
+                    </MessageHeader>
                     <Bubble variant="muted">
                       <BubbleContent>
-                        Perfect. I&apos;ll pitch the tram anecdote there — it
-                        recorded beautifully on the RØDE.
+                        Segment 4 in 90 seconds — two minutes of ambience,
+                        then the tram tape.
                       </BubbleContent>
                       <MessageFooter className="text-xs">
-                        <span className="font-code">11:04</span>
+                        <BubbleReactions
+                          role="img"
+                          aria-label="Reaction: headphones"
+                          className="self-auto"
+                        >
+                          <span>🎧</span>
+                        </BubbleReactions>
+                        <span className="font-code text-[13px]">11:03</span>
                       </MessageFooter>
                     </Bubble>
                   </MessageContent>
                 </Message>
 
                 <Message align="end">
-                  <MessageContent>
+                  <MessageAvatar>
+                    <Avatar>
+                      <AvatarFallback>MW</AvatarFallback>
+                    </Avatar>
+                  </MessageAvatar>
+                  <MessageContent className="items-end gap-1.5">
                     <BubbleGroup>
-                      <Bubble align="end">
+                      <Bubble align="end" variant="primary">
                         <BubbleContent>
                           Yes — that&apos;s our cold open for Ep. 113.
                         </BubbleContent>
                       </Bubble>
-                      <Bubble align="end">
+                      <Bubble align="end" variant="primary">
                         <BubbleContent>
                           Nadia, mark this take as Print, please.
                         </BubbleContent>
-                        <BubbleReactions
-                          role="img"
-                          aria-label="Reaction: OK hand"
-                          side="top"
-                        >
-                          <span>👌</span>
-                        </BubbleReactions>
                         <MessageFooter className="text-xs">
-                          <span className="font-code">11:05</span>
+                          <BubbleReactions
+                            role="img"
+                            aria-label="Reaction: OK hand"
+                            className="self-auto"
+                          >
+                            <span>👌</span>
+                          </BubbleReactions>
+                          <span className="font-code text-[13px]">11:05</span>
                           <span>·</span>
                           <span>Printed</span>
                         </MessageFooter>
                       </Bubble>
                     </BubbleGroup>
                   </MessageContent>
-                  <MessageAvatar>
-                    <Avatar size="default">
-                      <AvatarFallback>MW</AvatarFallback>
-                    </Avatar>
-                  </MessageAvatar>
                 </Message>
               </MessageGroup>
             </div>

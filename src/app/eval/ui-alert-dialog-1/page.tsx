@@ -187,7 +187,7 @@ export default function Page() {
       <AlertDialog defaultOpen>
       <div className="flex h-screen overflow-hidden bg-background text-foreground">
         {/* Sidebar */}
-        <aside className="flex w-60 shrink-0 flex-col gap-6 border-e p-4">
+        <aside className="flex w-64 shrink-0 flex-col gap-6 border-e p-4">
           <div className="flex items-center gap-2.5 px-2 pt-1">
             <span className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
               <HouseIcon className="size-4" />
@@ -241,24 +241,26 @@ export default function Page() {
             ))}
           </div>
 
-          <div className="mt-auto flex items-center gap-3 rounded-lg border p-3">
-            <Avatar size="sm">
-              <AvatarFallback>DW</AvatarFallback>
-            </Avatar>
-            <div className="flex min-w-0 flex-col">
-              <p className="truncate text-sm font-medium">Dana Whitfield</p>
-              <p className="truncate text-xs text-muted-foreground">
-                Your agent · Lic. 471-022188
-              </p>
+          <div className="mt-auto flex flex-col gap-2.5 rounded-lg border p-3">
+            <div className="flex items-center gap-3">
+              <Avatar size="sm">
+                <AvatarFallback>DW</AvatarFallback>
+              </Avatar>
+              <div className="flex min-w-0 flex-1 flex-col">
+                <p className="truncate text-sm font-medium">Dana Whitfield</p>
+                <p className="text-xs text-muted-foreground">Your agent</p>
+              </div>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                aria-label="Message agent"
+              >
+                <MessageSquareIcon />
+              </Button>
             </div>
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              className="ms-auto"
-              aria-label="Message agent"
-            >
-              <MessageSquareIcon />
-            </Button>
+            <p className="font-code text-[11px] text-muted-foreground">
+              IL Lic. 471-022188
+            </p>
           </div>
         </aside>
 

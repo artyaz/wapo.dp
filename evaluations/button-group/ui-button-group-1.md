@@ -8,18 +8,17 @@
 | Viewport | 1280x800 |
 | Theme | dark |
 | Model | agy-image via https://omni.chmyl.com/v1 |
-| Date | 2026-08-28T19:36:26.092Z |
+| Date | 2026-08-29T11:14:35.486Z |
 | Verdict | **PASS** |
-| Score | 9/10 |
+| Score | 10/10 |
 
 ## Screenshot: ui-button-group-1.png
 
-- Verdict: PASS (score 9/10)
+- Verdict: PASS (score 10/10)
 
 ```
 VERDICT: PASS
-SCORE: 9/10
-ISSUES:
-1. [minor] Stray/truncated text ("84") is visible to the right of the meal period button group (`Lunch | Dinner | Late`), indicating an overflow or misaligned secondary metric in the filter bar.
+SCORE: 10
+ISSUES: none
 ```
 

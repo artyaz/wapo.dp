@@ -301,9 +301,12 @@ export default function Page() {
                 Late
               </Button>
             </ButtonGroup>
-            <p className="text-muted-foreground ms-auto text-xs">
-              84 of 120 covers booked · synced{" "}
-              <span className="font-code">19:02</span>
+            <Badge variant="outline" className="gap-1.5 px-2.5 py-1">
+              <UsersIcon />
+              <span className="font-code">84 / 120</span> covers booked
+            </Badge>
+            <p className="text-muted-foreground text-xs">
+              synced <span className="font-code">19:02</span>
             </p>
           </div>
 

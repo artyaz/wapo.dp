@@ -129,9 +129,36 @@ const samples = [
   },
 ]
 
+// Line-style legend markers: ChartLegendContent / ChartTooltipContent render
+// the config `icon` instead of the default square swatch, so the legend
+// mirrors the plot strokes — Received solid, Reported dashed.
+function ReceivedMarker() {
+  return (
+    <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <line x1="1.5" y1="6" x2="10.5" y2="6" stroke="var(--chart-1)" strokeWidth="2" />
+    </svg>
+  )
+}
+
+function ReportedMarker() {
+  return (
+    <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <line
+        x1="1.5"
+        y1="6"
+        x2="10.5"
+        y2="6"
+        stroke="var(--chart-5)"
+        strokeWidth="2"
+        strokeDasharray="3 2.4"
+      />
+    </svg>
+  )
+}
+
 const throughputConfig = {
-  received: { label: "Received", color: "var(--chart-1)" },
-  reported: { label: "Reported", color: "var(--chart-5)" },
+  received: { label: "Received", color: "var(--chart-1)", icon: ReceivedMarker },
+  reported: { label: "Reported", color: "var(--chart-5)", icon: ReportedMarker },
 } satisfies ChartConfig
 
 const queueConfig = {

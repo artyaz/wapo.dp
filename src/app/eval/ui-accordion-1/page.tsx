@@ -145,7 +145,7 @@ export default function Page() {
         </header>
 
         {/* Main */}
-        <main className="mx-auto grid w-full max-w-[1180px] flex-1 grid-cols-[minmax(0,1fr)_330px] gap-8 px-8 py-4">
+        <main className="mx-auto grid w-full max-w-[1180px] flex-1 grid-cols-[minmax(0,1fr)_360px] gap-8 px-8 py-4">
           {/* Left — pass picker */}
           <section className="flex min-w-0 flex-col">
             <div>
@@ -174,7 +174,7 @@ export default function Page() {
                       </span>
                       <span className="flex items-baseline gap-2">
                         {tier.wasPrice ? (
-                          <span className="text-muted-foreground font-code text-code line-through">
+                          <span className="text-foreground/70 font-code text-code line-through">
                             {tier.wasPrice}
                           </span>
                         ) : null}
@@ -237,7 +237,7 @@ export default function Page() {
                   Order summary
                 </CardTitle>
                 <CardDescription className="text-sm">
-                  Standard pass · Workshop bundle
+                  Standard pass · workshop seat
                 </CardDescription>
                 <CardAction>
                   <Badge variant="outline">3 items</Badge>
@@ -247,7 +247,7 @@ export default function Page() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="h-8 text-xs">Item</TableHead>
+                      <TableHead className="h-8 pl-0 text-xs">Item</TableHead>
                       <TableHead className="h-8 text-right text-xs">
                         Qty
                       </TableHead>
@@ -258,7 +258,7 @@ export default function Page() {
                   </TableHeader>
                   <TableBody>
                     <TableRow>
-                      <TableCell className="py-2.5 text-sm">
+                      <TableCell className="py-2.5 pl-0 pr-3 text-sm whitespace-normal">
                         Standard pass
                       </TableCell>
                       <TableCell className="py-2.5 text-right font-code text-code">
@@ -269,8 +269,8 @@ export default function Page() {
                       </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell className="py-2.5 text-sm">
-                        Workshop · Designing calm interfaces
+                      <TableCell className="py-2.5 pl-0 pr-3 text-sm whitespace-normal">
+                        Workshop · Calm interfaces
                       </TableCell>
                       <TableCell className="py-2.5 text-right font-code text-code">
                         1
@@ -282,7 +282,7 @@ export default function Page() {
                   </TableBody>
                   <TableFooter>
                     <TableRow>
-                      <TableCell className="py-2.5 text-sm" colSpan={2}>
+                      <TableCell className="py-2.5 pl-0 text-sm" colSpan={2}>
                         Subtotal
                       </TableCell>
                       <TableCell className="py-2.5 text-right font-code text-code">
@@ -290,7 +290,7 @@ export default function Page() {
                       </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell className="py-2.5 text-sm" colSpan={2}>
+                      <TableCell className="py-2.5 pl-0 text-sm" colSpan={2}>
                         VAT 21%
                       </TableCell>
                       <TableCell className="py-2.5 text-right font-code text-code">

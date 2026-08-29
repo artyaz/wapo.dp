@@ -75,7 +75,12 @@ function Attachment({
           "group/attachment relative flex w-full items-center gap-3 rounded-lg border border-input bg-background p-3 text-sm transition-colors hover:bg-accent/50",
           size === "sm" && "gap-2.5 p-2.5",
           size === "xs" && "gap-2 p-2",
-          orientation === "vertical" && "flex-col items-stretch gap-2",
+          // Vertical cards lay out as a two-column grid: the media spans the
+          // full first row while the content and the actions share the second
+          // row, so the action stays vertically centered against the
+          // title/description block — mirroring the horizontal rows.
+          orientation === "vertical" &&
+            "grid grid-cols-[minmax(0,1fr)_auto] gap-2",
           state === "error" && "border-destructive/50",
           className
         )}
@@ -122,6 +127,7 @@ function AttachmentMedia({
             : size === "xs"
               ? "size-7"
               : "size-9",
+        orientation === "vertical" && "col-span-2 col-start-1 row-start-1",
         !isImage && state === "error" && "bg-destructive/10 text-destructive",
         className
       )}
@@ -131,10 +137,16 @@ function AttachmentMedia({
 }
 
 function AttachmentContent({ className, ...props }: React.ComponentProps<"div">) {
+  const { orientation } = useAttachmentContext()
+
   return (
     <div
       data-slot="attachment-content"
-      className={cn("flex min-w-0 flex-1 flex-col gap-0.5", className)}
+      className={cn(
+        "flex min-w-0 flex-1 flex-col gap-0.5",
+        orientation === "vertical" && "col-start-1 row-start-2",
+        className
+      )}
       {...props}
     />
   )
@@ -147,7 +159,9 @@ function AttachmentTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="attachment-title"
       className={cn(
-        "truncate font-medium leading-none",
+        // Type role 3: a filename is data/a token — IBM Plex Mono via
+        // font-code (same law as kbd keycaps and filter-bar values).
+        "truncate font-code font-medium leading-none",
         size === "xs" ? "text-xs" : "text-sm",
         className
       )}
@@ -184,7 +198,9 @@ function AttachmentActions({ className, ...props }: React.ComponentProps<"div">)
       className={cn(
         "relative z-10 flex items-center gap-1 opacity-0 transition-opacity group-focus-within/attachment:opacity-100 group-hover/attachment:opacity-100",
         orientation === "vertical"
-          ? "self-end"
+          ? // Second grid row, end column: vertically centered against the
+            // title/description block like the horizontal rows.
+            "col-start-2 row-start-2 justify-self-end self-center"
           : // Overlaid on the row's end edge (above the trigger layer, z-10)
             // instead of reserving flow space, so the title/description can use
             // the full card width while the actions are hidden. The scrim fades

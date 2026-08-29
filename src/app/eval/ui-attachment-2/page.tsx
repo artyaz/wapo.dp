@@ -374,7 +374,6 @@ export default function Page() {
                 <AttachmentDescription>
                   Uploading · 78% · 3.4 MB
                 </AttachmentDescription>
-                <Progress value={78} className="mt-1 h-1!" />
               </AttachmentContent>
               <AttachmentActions className="opacity-100!">
                 <AttachmentAction
@@ -384,6 +383,12 @@ export default function Page() {
                   <XIcon />
                 </AttachmentAction>
               </AttachmentActions>
+              {/* Edge-mounted upload progress: out of flow, so the card
+                  keeps the exact height/padding rhythm of its siblings */}
+              <Progress
+                value={78}
+                className="absolute inset-x-2.5 bottom-0 h-0.5! w-auto!"
+              />
             </Attachment>
 
             {/* Composer */}

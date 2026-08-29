@@ -151,12 +151,6 @@ const ACTIVITY = [
   },
 ]
 
-function statusClasses(status: string) {
-  if (status === "online") return "text-success-600"
-  if (status === "away") return "text-warning-600"
-  return "text-muted-foreground"
-}
-
 /* ------------------------------------------------------------------ */
 /* Page                                                                */
 /* ------------------------------------------------------------------ */
@@ -208,7 +202,6 @@ export default function Page() {
                       alt="Priya Raman"
                     />
                     <AvatarFallback>PR</AvatarFallback>
-                    <AvatarBadge className="bg-success-500" />
                   </Avatar>
                   <Avatar size="sm">
                     <AvatarImage
@@ -216,7 +209,6 @@ export default function Page() {
                       alt="Tom Lindqvist"
                     />
                     <AvatarFallback>TL</AvatarFallback>
-                    <AvatarBadge className="bg-warning-500" />
                   </Avatar>
                 </AvatarGroup>
                 <p className="font-code text-xs text-muted-foreground">
@@ -421,7 +413,9 @@ export default function Page() {
                           </TableCell>
                           <TableCell>
                             {commit.checks === "passed" ? (
-                              <Badge variant="secondary">passed</Badge>
+                              <Badge className="border-transparent bg-success-100 text-success-700">
+                                passed
+                              </Badge>
                             ) : (
                               <Badge variant="outline">queued</Badge>
                             )}
@@ -537,9 +531,7 @@ export default function Page() {
                           </span>
                         </span>
                       </span>
-                      <span
-                        className={`font-code text-xs ${statusClasses(person.status)}`}
-                      >
+                      <span className="font-code text-xs text-muted-foreground">
                         {person.status}
                       </span>
                     </div>
