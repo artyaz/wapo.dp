@@ -244,16 +244,18 @@ export default function Page() {
               {CLASSES.map((cls, index) => (
                 <div
                   key={cls.time}
-                  className={`rounded-lg border border-default-border bg-card p-3 ${
-                    cls.state === "completed" ? "opacity-60" : ""
-                  }`}
+                  className="rounded-lg border border-default-border bg-card p-3"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                       <p className="font-code text-[11px] leading-none text-muted-foreground">
                         {cls.time} · {cls.meta}
                       </p>
-                      <p className="mt-1.5 text-sm font-semibold leading-none">
+                      <p
+                        className={`mt-1.5 text-sm font-semibold leading-none ${
+                          cls.state === "completed" ? "text-muted-foreground" : ""
+                        }`}
+                      >
                         {cls.name}
                       </p>
                     </div>
@@ -282,7 +284,12 @@ export default function Page() {
                       defaultOpen={index === 1}
                     />
                     {cls.state === "completed" ? (
-                      <Button variant="ghost" size="xs" disabled>
+                      <Button
+                        variant="ghost"
+                        size="xs"
+                        disabled
+                        className="disabled:opacity-70"
+                      >
                         Class ended
                       </Button>
                     ) : cls.state === "booked" ? (

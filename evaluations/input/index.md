@@ -8,3 +8,10 @@
 | [ui-input-3](ui-input-3.md) | conference event ticketing | 1920x1080 | light | PASS | 9/10 |
 | [ui-input-1](ui-input-1.md) | craft brewery tap list | 834x1112 | dark | PASS | 9/10 |
 | [ui-input-2](ui-input-2.md) | photography portfolio site | 1024x768 | dark | PASS | 9/10 |
+| [ui-input-1](ui-input-1.md) | craft brewery tap list | 834x1112 | dark | PASS | 10/10 |
+| [ui-input-2](ui-input-2.md) | photography portfolio site | 1024x768 | dark | PASS | 9/10 |
+| [ui-input-3](ui-input-3.md) | conference event ticketing | 1920x1080 | light | PASS | 10/10 |
+| [ui-input-2](ui-input-2.md) | photography portfolio site | 1024x768 | dark | PASS | 8/10 |
+| [ui-input-2](ui-input-2.md) | photography portfolio site | 1024x768 | dark | PASS | 9/10 |
+| [ui-input-2](ui-input-2.md) | photography portfolio site | 1024x768 | dark | PASS | 9/10 |
+| [ui-input-2](ui-input-2.md) | photography portfolio site | 1024x768 | dark | PASS | 10/10 |

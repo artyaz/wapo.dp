@@ -539,8 +539,14 @@ function MessageScrollerProvider({
  * soft edge fades that dissolve bubbles running past the viewport edges
  * instead of cutting them in half. Whenever the transcript can scroll, a
  * footer lane is reserved under the viewport so the floating button never
- * covers the lowest visible message. The fades only appear while there is
- * content scrolled out of view on that side.
+ * covers the lowest visible message — the lane is taller than the button
+ * (64px vs 32px) so the button floats with 16px of breathing room BOTH above
+ * (away from the fold where content is clipped) and below, reading as its own
+ * isolated overlay zone rather than sitting flush against the clipped edge.
+ * The fades only appear while there is content scrolled out of view on that
+ * side, and are tall enough (32px) that surfaces running past the edge
+ * visibly dissolve into the background instead of being cut in half, without
+ * washing out text that sits just inside the reading edge.
  */
 function MessageScroller({ className, children, ...props }: React.ComponentProps<"div">) {
   // Read the optional state context directly (rather than the throwing
@@ -553,7 +559,7 @@ function MessageScroller({ className, children, ...props }: React.ComponentProps
       data-slot="message-scroller"
       className={cn(
         "relative flex h-full min-h-0 w-full flex-col",
-        scrollable && "pb-12",
+        scrollable && "pb-16",
         className
       )}
       {...props}
@@ -562,7 +568,7 @@ function MessageScroller({ className, children, ...props }: React.ComponentProps
         aria-hidden="true"
         data-slot="message-scroller-fade-top"
         className={cn(
-          "pointer-events-none absolute inset-x-0 top-0 z-[1] h-6 bg-gradient-to-b from-background to-transparent transition-opacity duration-200",
+          "pointer-events-none absolute inset-x-0 top-0 z-[1] h-8 bg-gradient-to-b from-background to-transparent transition-opacity duration-200",
           state?.start ? "opacity-100" : "opacity-0"
         )}
       />
@@ -570,7 +576,7 @@ function MessageScroller({ className, children, ...props }: React.ComponentProps
         aria-hidden="true"
         data-slot="message-scroller-fade-bottom"
         className={cn(
-          "pointer-events-none absolute inset-x-0 bottom-12 z-[1] h-6 bg-gradient-to-t from-background to-transparent transition-opacity duration-200",
+          "pointer-events-none absolute inset-x-0 bottom-16 z-[1] h-8 bg-gradient-to-t from-background to-transparent transition-opacity duration-200",
           state?.end ? "opacity-100" : "opacity-0"
         )}
       />

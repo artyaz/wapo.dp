@@ -172,10 +172,12 @@ function ClassMenu({ cls }: { cls: FitClass }) {
       </ContextMenuGroup>
       <ContextMenuSeparator />
       <ContextMenuGroup>
-        <ContextMenuCheckboxItem defaultChecked>
+        {/* NOTE: Radix menu CheckboxItem is controlled-only (`defaultChecked`
+            is a silent no-op) — pass `checked` so the checkmark renders. */}
+        <ContextMenuCheckboxItem checked>
           Waitlist alerts
         </ContextMenuCheckboxItem>
-        <ContextMenuCheckboxItem defaultChecked>
+        <ContextMenuCheckboxItem checked>
           Check-in reminders
         </ContextMenuCheckboxItem>
         <ContextMenuCheckboxItem>

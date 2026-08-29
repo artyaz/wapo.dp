@@ -8,18 +8,18 @@
 | Viewport | 834x1112 |
 | Theme | dark |
 | Model | agy-image via https://omni.chmyl.com/v1 |
-| Date | 2026-08-28T23:50:25.921Z |
+| Date | 2026-08-29T11:37:30.037Z |
 | Verdict | **PASS** |
-| Score | 9/10 |
+| Score | 10/10 |
 
 ## Screenshot: ui-input-1.png
 
-- Verdict: PASS (score 9/10)
+- Verdict: PASS (score 10/10)
 
 ```
 VERDICT: PASS
-SCORE: 9/10
+SCORE: 10
 ISSUES:
-1. [minor] "Label art" field in "Add a beer to the tap list" card: native file input text ("Choose File No file chosen") renders with default browser button styling and unpadded inline text inside the container instead of a styled Praxis button/upload trigger.
+none
 ```
 

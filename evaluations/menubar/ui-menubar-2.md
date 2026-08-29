@@ -8,7 +8,7 @@
 | Viewport | 430x932 |
 | Theme | light |
 | Model | agy-image via https://omni.chmyl.com/v1 |
-| Date | 2026-08-29T00:43:48.668Z |
+| Date | 2026-08-29T12:51:40.328Z |
 | Verdict | **PASS** |
 | Score | 9/10 |
 
@@ -17,10 +17,11 @@
 - Verdict: PASS (score 9/10)
 
 ```
-VERDICT: PASS  
-SCORE: 9/10  
+VERDICT: PASS
+SCORE: 9/10
 
-ISSUES:  
-1. [minor] **Menu popover item text misalignment**: Inside the opened `Report` menu, unselected items (`Yesterday`, `This week`, `This month`, `Include wholesale orders`) lack a reserved icon/indicator gutter, causing their text to align flush with the bullet/checkmark glyphs rather than aligning with the label text of active items (`Today`, `Compare with last week`).
+ISSUES:
+1. [minor] Menubar popover alignment: The floating dropdown aligns to the outer border of the menubar container rather than snapping directly to the active "Report" trigger item's left edge, creating an awkward optical step.
+2. [minor] Menu item leading column congestion: In the popover menu, the selection indicators (`●` and `✓`) sit immediately adjacent to leading icons without sufficient gutter spacing, causing visual clutter in the indicator-icon-label lockup.
 ```
 

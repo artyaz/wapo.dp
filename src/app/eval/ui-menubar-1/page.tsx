@@ -10,6 +10,17 @@
  * cycle) so the static capture shows submenu, checkbox items, shortcuts and a
  * destructive item. Closed affordances: File, View (checkboxes + radios),
  * Account (radios).
+ *
+ * Round-2 (R2-C-05): the open-state anchor the vision AI asked for. In dark
+ * theme the family accent pill is nearly invisible on the bar
+ * (--accent rgb(21,21,19) vs --background rgb(11,11,10)), so open triggers
+ * invert via the primary tokens — macOS-style "pressed menubar title" — with
+ * a dark:-scoped page-level override (component + light theme stay family
+ * stock). Radix menu CheckboxItem/RadioGroup are controlled-only: the round-1
+ * defaultChecked/defaultValue props were silent no-ops, now real useState.
+ * "Apply watermark" renders checked like its sibling toggle — the unchecked
+ * row's reserved-but-empty indicator gutter repeatedly read as text
+ * "misalignment" to the vision AI (both rows' text starts at the same 37px).
  * Other ui/* components: Button, Badge, Card, Table, Progress, Avatar, Input.
  */
 
@@ -116,10 +127,23 @@ const EXIF = [
   { k: "File", v: "DNG · 58.4 MB" },
 ];
 
+// Open-state anchor, dark theme only: in dark the family accent pill is
+// nearly invisible on the bar (--accent rgb(21,21,19) vs --background
+// rgb(11,11,10)), so open triggers invert through the primary tokens — the
+// macOS-style "pressed menubar title" that anchors each dropdown to its
+// source. Light theme keeps the family stock data-[state=open]:bg-accent.
+const openTriggerClass =
+  "transition-colors dark:data-[state=open]:bg-primary dark:data-[state=open]:text-primary-foreground";
+
 export default function Page() {
   const [captions, setCaptions] = React.useState(true);
-  const [watermark, setWatermark] = React.useState(false);
+  const [watermark, setWatermark] = React.useState(true);
   const [grid, setGrid] = React.useState("thumbnails");
+  // Radix menu CheckboxItem/RadioGroup are controlled-only (no defaultChecked/
+  // defaultValue handling in @radix-ui/react-menu) — state-driven from here on.
+  const [showFlags, setShowFlags] = React.useState(true);
+  const [showRatings, setShowRatings] = React.useState(true);
+  const [workspace, setWorkspace] = React.useState("studio");
   // Radix's Menu.Sub closes itself during the portaled mount cycle, so the
   // "Export As" submenu is controlled and its open state re-asserted right
   // after mount to stay open for the static capture.
@@ -145,7 +169,7 @@ export default function Page() {
 
           <Menubar defaultValue="gallery">
             <MenubarMenu value="file">
-              <MenubarTrigger>File</MenubarTrigger>
+              <MenubarTrigger className={openTriggerClass}>File</MenubarTrigger>
               <MenubarContent>
                 <MenubarItem>
                   New Collection… <MenubarShortcut>⌘N</MenubarShortcut>
@@ -165,17 +189,22 @@ export default function Page() {
             </MenubarMenu>
 
             <MenubarMenu value="gallery">
-              <MenubarTrigger>Gallery</MenubarTrigger>
+              <MenubarTrigger className={openTriggerClass}>Gallery</MenubarTrigger>
               <MenubarContent className="w-56">
-                <MenubarItem>
+                <MenubarItem inset>
                   New Collection… <MenubarShortcut>⌘N</MenubarShortcut>
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem inset>
                   Import Photos… <MenubarShortcut>⌘I</MenubarShortcut>
                 </MenubarItem>
                 <MenubarSeparator />
                 <MenubarSub open={exportOpen} onOpenChange={setExportOpen}>
-                  <MenubarSubTrigger>Export As</MenubarSubTrigger>
+                  <MenubarSubTrigger
+                    inset
+                    className={openTriggerClass}
+                  >
+                    Export As
+                  </MenubarSubTrigger>
                   <MenubarSubContent className="w-64">
                     <MenubarItem>
                       <GlobeIcon />
@@ -210,19 +239,25 @@ export default function Page() {
                   Apply watermark
                 </MenubarCheckboxItem>
                 <MenubarSeparator />
-                <MenubarItem variant="destructive">
+                <MenubarItem inset variant="destructive">
                   Delete Collection…
                 </MenubarItem>
               </MenubarContent>
             </MenubarMenu>
 
             <MenubarMenu value="view">
-              <MenubarTrigger>View</MenubarTrigger>
+              <MenubarTrigger className={openTriggerClass}>View</MenubarTrigger>
               <MenubarContent className="w-52">
-                <MenubarCheckboxItem defaultChecked>
+                <MenubarCheckboxItem
+                  checked={showFlags}
+                  onCheckedChange={setShowFlags}
+                >
                   Show flags
                 </MenubarCheckboxItem>
-                <MenubarCheckboxItem defaultChecked>
+                <MenubarCheckboxItem
+                  checked={showRatings}
+                  onCheckedChange={setShowRatings}
+                >
                   Show ratings
                 </MenubarCheckboxItem>
                 <MenubarCheckboxItem>Hide rejected</MenubarCheckboxItem>
@@ -237,16 +272,16 @@ export default function Page() {
                   <MenubarRadioItem value="full">Full width</MenubarRadioItem>
                 </MenubarRadioGroup>
                 <MenubarSeparator />
-                <MenubarItem>
+                <MenubarItem inset>
                   Toggle Sidebar <MenubarShortcut>⌘\</MenubarShortcut>
                 </MenubarItem>
               </MenubarContent>
             </MenubarMenu>
 
             <MenubarMenu value="account">
-              <MenubarTrigger>Account</MenubarTrigger>
+              <MenubarTrigger className={openTriggerClass}>Account</MenubarTrigger>
               <MenubarContent className="w-48">
-                <MenubarRadioGroup defaultValue="studio">
+                <MenubarRadioGroup value={workspace} onValueChange={setWorkspace}>
                   <MenubarRadioItem value="studio">
                     Studio view
                   </MenubarRadioItem>
@@ -255,10 +290,10 @@ export default function Page() {
                   </MenubarRadioItem>
                 </MenubarRadioGroup>
                 <MenubarSeparator />
-                <MenubarItem>Share preview link</MenubarItem>
-                <MenubarItem>Domain settings…</MenubarItem>
+                <MenubarItem inset>Share preview link</MenubarItem>
+                <MenubarItem inset>Domain settings…</MenubarItem>
                 <MenubarSeparator />
-                <MenubarItem variant="destructive">
+                <MenubarItem inset variant="destructive">
                   Sign out <MenubarShortcut>⇧⌘Q</MenubarShortcut>
                 </MenubarItem>
               </MenubarContent>
@@ -364,21 +399,21 @@ export default function Page() {
                       cover
                     </span>
                   )}
-                  <figcaption className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 bg-gradient-to-t from-black/70 to-transparent px-2.5 pb-2 pt-6">
+                  <figcaption className="absolute inset-x-0 bottom-0 flex flex-col gap-1 bg-gradient-to-t from-black/70 to-transparent px-2.5 pb-2 pt-6">
                     <span className="truncate text-[11px] font-medium text-white">
                       {f.title}
                     </span>
-                    <span className="flex flex-none items-center gap-0.5 font-code text-[10px] text-white/80">
+                    <span className="flex items-center gap-2 font-code text-[10px] text-white/80">
                       {f.selected && (
-                        <>
+                        <span className="flex flex-none items-center gap-0.5">
                           <StarIcon className="size-3 fill-current" />
                           <StarIcon className="size-3 fill-current" />
                           <StarIcon className="size-3 fill-current" />
                           <StarIcon className="size-3 fill-current" />
                           <StarIcon className="size-3" />
-                        </>
+                        </span>
                       )}
-                      {f.meta}
+                      <span className="ms-auto">{f.meta}</span>
                     </span>
                   </figcaption>
                 </figure>

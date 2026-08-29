@@ -8,7 +8,7 @@
 | Viewport | 1280x800 |
 | Theme | light |
 | Model | agy-image via https://omni.chmyl.com/v1 |
-| Date | 2026-08-28T21:41:26.956Z |
+| Date | 2026-08-29T11:37:51.819Z |
 | Verdict | **PASS** |
 | Score | 9/10 |
 
@@ -20,7 +20,6 @@
 VERDICT: PASS
 SCORE: 9/10
 ISSUES:
-1. [minor] Inconsistent icon gutter alignment in primary Context Menu: Items without leading icons ("Pin to overview", "Alert on low margin") lack gutter reservation, causing text to misalign with icon-bearing rows above and below.
-2. [minor] Submenu vertical anchor offset: The submenu top border is misaligned with the parent "Reports" item, anchoring near its bottom edge instead of aligning flush with the top of the selected row.
+1. [minor] Submenu vertical alignment: The nested submenu ("Daily sales", "Hourly traffic", etc.) is vertically offset too low relative to its parent "Reports" item instead of anchoring to the top edge of the active menu row.
 ```
 

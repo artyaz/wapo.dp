@@ -7,3 +7,4 @@
 | [ui-kbd-1](ui-kbd-1.md) | plant care reminder app | 834x1112 | light | PASS | 9/10 |
 | [ui-kbd-1](ui-kbd-1.md) | plant care reminder app | 834x1112 | light | PASS | 8/10 |
 | [ui-kbd-1](ui-kbd-1.md) | plant care reminder app | 834x1112 | light | PASS | 9/10 |
+| [ui-kbd-1](ui-kbd-1.md) | plant care reminder app | 834x1112 | light | PASS | 9/10 |

@@ -34,7 +34,9 @@ import {
   ShieldAlertIcon,
   EyeIcon,
   TrashIcon,
+  UserMinusIcon,
   UserPlusIcon,
+  UserRoundIcon,
 } from "lucide-react";
 
 import { EvalShell } from "@/eval/EvalShell";
@@ -152,6 +154,11 @@ const NAV = [
 
 export default function Page() {
   const [watch, setWatch] = React.useState(true);
+  // Radix Menu CheckboxItem is controlled-only (`checked = false` default;
+  // `defaultChecked` is a silent no-op), so the trade-filter checkboxes are
+  // driven by explicit state to actually render their checkmarks when opened.
+  const [tradeHvac, setTradeHvac] = React.useState(true);
+  const [tradePlumbing, setTradePlumbing] = React.useState(true);
   // Radix's Menu.Sub closes itself during the portaled mount cycle around
   // hydration (its unmount cleanup fires onOpenChange(false)), so the
   // "Assign to" submenu is controlled and its initial open state re-asserted
@@ -305,10 +312,16 @@ export default function Page() {
                   />
                   <DropdownMenuContent align="end" className="w-40">
                     <DropdownMenuLabel>Filter by trade</DropdownMenuLabel>
-                    <DropdownMenuCheckboxItem defaultChecked>
+                    <DropdownMenuCheckboxItem
+                      checked={tradeHvac}
+                      onCheckedChange={setTradeHvac}
+                    >
                       HVAC
                     </DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem defaultChecked>
+                    <DropdownMenuCheckboxItem
+                      checked={tradePlumbing}
+                      onCheckedChange={setTradePlumbing}
+                    >
                       Plumbing
                     </DropdownMenuCheckboxItem>
                     <DropdownMenuCheckboxItem>
@@ -464,6 +477,41 @@ export default function Page() {
                                 </span>
                               </DropdownMenuLabel>
                               <DropdownMenuSeparator />
+                              {/* Submenu leads so the cascading panel opens
+                                  beside the top of the parent menu (fully
+                                  inside its vertical span) — the classic
+                                  nested-menu silhouette. */}
+                              <DropdownMenuSub open={assignOpen} onOpenChange={setAssignOpen}>
+                                <DropdownMenuSubTrigger>
+                                  <UserPlusIcon className="size-4" />
+                                  Assign to
+                                </DropdownMenuSubTrigger>
+                                <DropdownMenuPortal>
+                                  <DropdownMenuSubContent className="w-56">
+                                    {/* Mirrors the parent menu's icon + label
+                                        structure: 16px icon in the leading
+                                        gutter, label column at 32px. */}
+                                    <DropdownMenuItem>
+                                      <UserRoundIcon />
+                                      M. Okafor · HVAC
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                      <UserRoundIcon />
+                                      J. Reyes · Mech.
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                      <UserRoundIcon />
+                                      D. Kowalski · Apprentice
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem>
+                                      <UserMinusIcon />
+                                      Unassign crew
+                                    </DropdownMenuItem>
+                                  </DropdownMenuSubContent>
+                                </DropdownMenuPortal>
+                              </DropdownMenuSub>
+                              <DropdownMenuSeparator />
                               <DropdownMenuGroup>
                                 <DropdownMenuItem>
                                   <PencilIcon />
@@ -479,29 +527,6 @@ export default function Page() {
                                   View dependencies
                                 </DropdownMenuItem>
                               </DropdownMenuGroup>
-                              <DropdownMenuSub open={assignOpen} onOpenChange={setAssignOpen}>
-                                <DropdownMenuSubTrigger>
-                                  <UserPlusIcon />
-                                  Assign to
-                                </DropdownMenuSubTrigger>
-                                <DropdownMenuPortal>
-                                  <DropdownMenuSubContent className="w-48">
-                                    <DropdownMenuItem>
-                                      M. Okafor · HVAC
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                      J. Reyes · Mech.
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                      D. Kowalski · Apprentice
-                                    </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem>
-                                      Unassign crew
-                                    </DropdownMenuItem>
-                                  </DropdownMenuSubContent>
-                                </DropdownMenuPortal>
-                              </DropdownMenuSub>
                               <DropdownMenuSeparator />
                               <DropdownMenuCheckboxItem
                                 checked={watch}

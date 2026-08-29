@@ -8,7 +8,7 @@
 | Viewport | 1180x820 |
 | Theme | dark |
 | Model | agy-image via https://omni.chmyl.com/v1 |
-| Date | 2026-08-29T00:44:32.004Z |
+| Date | 2026-08-29T12:57:42.150Z |
 | Verdict | **PASS** |
 | Score | 9/10 |
 
@@ -20,7 +20,6 @@
 VERDICT: PASS
 SCORE: 9/10
 ISSUES:
-1. [minor] The "Export As" flyout submenu top edge is vertically misaligned with its triggering menu item, floating higher than the parent row instead of aligning flush with its top boundary.
-2. [minor] The active "File" trigger in the menubar lacks an active/focused state indicator to clearly anchor the open dropdown menu to its source.
+1. [minor] Menubar dropdown: The red color for "Delete Collection..." has relatively low luminance contrast against the dark menu surface, potentially challenging WCAG AA legibility in dark theme. Brighten the destructive red hue slightly to improve readability.
 ```
 

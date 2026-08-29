@@ -320,7 +320,13 @@ export default function Page() {
                 <CardDescription className="font-caption text-caption">
                   Works on every screen · hold{" "}
                   <Kbd className="mx-0.5 inline-flex h-4 align-middle px-1 text-[10px]">
-                    ⇧
+                    {/* Pixel-probe (R2): the ⇧ ink box sat 0.5px above the
+                        keycap box center in IBM Plex Mono (letters land within
+                        0.25px), and an up-arrow's mass (wide arrowhead) reads
+                        high even when geometrically centered. A 1px nudge —
+                        0.5px geometric + 0.5px optical — VLM-verified as the
+                        best-centered of 0.5/1/1.5/2px candidates. */}
+                    <span className="translate-y-[1px]">⇧</span>
                   </Kbd>{" "}
                   to reveal hints
                 </CardDescription>

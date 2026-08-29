@@ -17,6 +17,7 @@ import {
   Lock,
   Search,
   Ticket,
+  Upload,
   UserRound,
 } from "lucide-react";
 
@@ -78,6 +79,35 @@ const STEPS = [
   { n: "2", label: "Attendee details", state: "current" },
   { n: "3", label: "Payment", state: "next" },
 ];
+
+/**
+ * Styled file-input trigger (page-local demo pattern): the real
+ * <input type="file"> is visually hidden inside an input-shaped <label> —
+ * same border, height, radius, padding and micro-elevation as the Input
+ * family — showing the selected filename as a mono data token. Clicking the
+ * label opens the picker; keyboard focus lands on the hidden input and the
+ * label mirrors the family focus ring.
+ */
+function FileFieldTrigger({
+  id,
+  accept,
+  filename,
+}: {
+  id: string;
+  accept?: string;
+  filename: string;
+}) {
+  return (
+    <label
+      htmlFor={id}
+      className="border-input dark:bg-input/30 hover:border-ring/50 has-[input:focus-visible]:border-ring has-[input:focus-visible]:ring-ring/50 has-[input:focus-visible]:ring-[3px] flex h-9 w-full min-w-0 cursor-pointer items-center gap-2 rounded-md border bg-transparent px-3 shadow-xs transition-colors"
+    >
+      <Upload className="text-muted-foreground size-4 shrink-0" />
+      <span className="min-w-0 truncate font-code text-sm">{filename}</span>
+      <input id={id} type="file" accept={accept} className="sr-only" />
+    </label>
+  );
+}
 
 export default function Page() {
   return (
@@ -218,7 +248,14 @@ export default function Page() {
             </CardContent>
             <CardFooter className="flex-col items-start gap-2 px-5">
               <Field invalid className="w-full">
-                <FieldLabel htmlFor="promo">Promo code</FieldLabel>
+                {/* Praxis: semantic red stays on border + message — the label
+                    text itself remains neutral (weight, not hue). */}
+                <FieldLabel
+                  htmlFor="promo"
+                  className="data-[error=true]:text-foreground"
+                >
+                  Promo code
+                </FieldLabel>
                 <div className="flex w-full items-center gap-2">
                   <Input
                     id="promo"
@@ -257,7 +294,14 @@ export default function Page() {
                 <Input id="att-last" defaultValue="Costa" required />
               </Field>
               <Field invalid className="col-span-2">
-                <FieldLabel htmlFor="att-email">Email</FieldLabel>
+                {/* Praxis: semantic red stays on border + message — the label
+                    text itself remains neutral (weight, not hue). */}
+                <FieldLabel
+                  htmlFor="att-email"
+                  className="data-[error=true]:text-foreground"
+                >
+                  Email
+                </FieldLabel>
                 <Input
                   id="att-email"
                   type="email"
@@ -301,10 +345,10 @@ export default function Page() {
               </Field>
               <Field className="col-span-2">
                 <FieldLabel htmlFor="att-photo">Badge photo</FieldLabel>
-                <Input
+                <FileFieldTrigger
                   id="att-photo"
-                  type="file"
                   accept="image/png,image/jpeg"
+                  filename="ana-costa-badge.jpg"
                 />
                 <FieldDescription>PNG or JPG, square, 600×600.</FieldDescription>
               </Field>

@@ -8,7 +8,7 @@
 | Viewport | 1280x800 |
 | Theme | dark |
 | Model | agy-image via https://omni.chmyl.com/v1 |
-| Date | 2026-08-29T01:39:16.790Z |
+| Date | 2026-08-29T12:57:05.157Z |
 | Verdict | **PASS** |
 | Score | 10/10 |
 
@@ -18,7 +18,7 @@
 
 ```
 VERDICT: PASS
-SCORE: 10/10
-ISSUES: none.
+SCORE: 10
+ISSUES: none
 ```
 

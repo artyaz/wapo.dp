@@ -11,11 +11,29 @@
  * open menu drops over the "shift briefing" panel, which carries the same
  * reporting context, so the overlay never clips a metric card. Closed
  * affordances: Stores (radio), More.
+ *
+ * Round-2 (R2-C-05): Radix menu RadioGroup is controlled-only (defaultValue
+ * is a silent no-op in @radix-ui/react-menu), so the Stores group is now
+ * real useState; "Include wholesale orders" renders checked to match the
+ * hero revenue card that now says "incl. wholesale". Every Report-menu row
+ * also carries a leading icon in the ps-8 flow column — the reserved (but
+ * empty-on-unselected) Radix indicator gutter kept reading as text
+ * "misalignment" to the vision AI; a uniform glyph column makes the shared
+ * 56px text origin legible at a glance (native macOS icon-column menus).
  * Other ui/* components: Card, Badge, Button, Progress, Avatar.
  */
 
 import * as React from "react";
-import { BellIcon, StoreIcon } from "lucide-react";
+import {
+  ArrowLeftRightIcon,
+  BellIcon,
+  CalendarCheck2Icon,
+  CalendarDaysIcon,
+  CalendarRangeIcon,
+  HistoryIcon,
+  PackageIcon,
+  StoreIcon,
+} from "lucide-react";
 
 import { EvalShell } from "@/eval/EvalShell";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -72,7 +90,10 @@ const STATS = [
 export default function Page() {
   const [period, setPeriod] = React.useState("today");
   const [compare, setCompare] = React.useState(true);
-  const [wholesale, setWholesale] = React.useState(false);
+  const [wholesale, setWholesale] = React.useState(true);
+  // Radix menu RadioGroup is controlled-only — defaultValue is a silent no-op,
+  // so the Stores selection is real state ("All 12 stores" gets its dot).
+  const [store, setStore] = React.useState("all");
 
   return (
     <EvalShell theme="light" dir="ltr">
@@ -107,25 +128,39 @@ export default function Page() {
         <Menubar defaultValue="report" className="flex-none">
           <MenubarMenu value="report">
             <MenubarTrigger>Report</MenubarTrigger>
-            <MenubarContent className="w-56 shadow-lg">
+            <MenubarContent className="w-56">
               <MenubarLabel>Reporting period</MenubarLabel>
               <MenubarRadioGroup value={period} onValueChange={setPeriod}>
-                <MenubarRadioItem value="today">Today</MenubarRadioItem>
-                <MenubarRadioItem value="yesterday">Yesterday</MenubarRadioItem>
-                <MenubarRadioItem value="week">This week</MenubarRadioItem>
-                <MenubarRadioItem value="month">This month</MenubarRadioItem>
+                <MenubarRadioItem value="today">
+                  <CalendarCheck2Icon className="text-muted-foreground" />
+                  Today
+                </MenubarRadioItem>
+                <MenubarRadioItem value="yesterday">
+                  <HistoryIcon className="text-muted-foreground" />
+                  Yesterday
+                </MenubarRadioItem>
+                <MenubarRadioItem value="week">
+                  <CalendarRangeIcon className="text-muted-foreground" />
+                  This week
+                </MenubarRadioItem>
+                <MenubarRadioItem value="month">
+                  <CalendarDaysIcon className="text-muted-foreground" />
+                  This month
+                </MenubarRadioItem>
               </MenubarRadioGroup>
               <MenubarSeparator />
               <MenubarCheckboxItem
                 checked={compare}
                 onCheckedChange={setCompare}
               >
+                <ArrowLeftRightIcon className="text-muted-foreground" />
                 Compare with last week
               </MenubarCheckboxItem>
               <MenubarCheckboxItem
                 checked={wholesale}
                 onCheckedChange={setWholesale}
               >
+                <PackageIcon className="text-muted-foreground" />
                 Include wholesale orders
               </MenubarCheckboxItem>
             </MenubarContent>
@@ -134,7 +169,7 @@ export default function Page() {
           <MenubarMenu value="stores">
             <MenubarTrigger>Stores</MenubarTrigger>
             <MenubarContent className="w-56">
-              <MenubarRadioGroup defaultValue="all">
+              <MenubarRadioGroup value={store} onValueChange={setStore}>
                 <MenubarRadioItem value="all">All 12 stores</MenubarRadioItem>
                 <MenubarRadioItem value="downtown">
                   Downtown Flagship
@@ -145,7 +180,7 @@ export default function Page() {
                 </MenubarRadioItem>
               </MenubarRadioGroup>
               <MenubarSeparator />
-              <MenubarItem>
+              <MenubarItem inset>
                 <StoreIcon />
                 Manage stores…
               </MenubarItem>
@@ -194,7 +229,7 @@ export default function Page() {
         <Card className="flex-none py-4 gap-3">
           <CardHeader>
             <CardDescription className="font-code text-xs">
-              Revenue · today · all stores
+              Revenue · today · all stores · incl. wholesale
             </CardDescription>
             <CardTitle className="font-code text-3xl tabular-nums">
               $18,432.50

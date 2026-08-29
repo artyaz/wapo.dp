@@ -8,18 +8,17 @@
 | Viewport | 390x844 |
 | Theme | dark |
 | Model | agy-image via https://omni.chmyl.com/v1 |
-| Date | 2026-08-28T21:42:08.858Z |
+| Date | 2026-08-29T11:37:39.760Z |
 | Verdict | **PASS** |
-| Score | 9/10 |
+| Score | 10/10 |
 
 ## Screenshot: ui-context-menu-1.png
 
-- Verdict: PASS (score 9/10)
+- Verdict: PASS (score 10/10)
 
 ```
 VERDICT: PASS
-SCORE: 9/10
-ISSUES:
-1. [minor] Context Menu: Middle group items ("Waitlist alerts", "Check-in reminders", "Auto-book from waitlist") preserve an empty leading icon gutter to match the text baseline above, creating dead space without an icon or state toggle indicator.
+SCORE: 10
+ISSUES: none
 ```
 

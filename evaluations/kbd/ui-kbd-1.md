@@ -8,7 +8,7 @@
 | Viewport | 834x1112 |
 | Theme | light |
 | Model | agy-image via https://omni.chmyl.com/v1 |
-| Date | 2026-08-29T00:25:42.808Z |
+| Date | 2026-08-29T12:51:32.458Z |
 | Verdict | **PASS** |
 | Score | 9/10 |
 
@@ -20,7 +20,7 @@
 VERDICT: PASS
 SCORE: 9/10
 ISSUES:
-1. [minor] "Keyboard shortcuts" card subtitle: the inline `⇧` (Shift) glyph is slightly elevated above the optical vertical center of its `Kbd` bounding container.
-2. [minor] "Schedule actions" popover menu: container alignment is offset to the left of the "More" trigger button rather than anchoring directly beneath it.
+1. [minor] Menu popover alignment: The "Schedule actions" overlay is offset horizontally from its "More" trigger button rather than aligning with the trigger's edge.
+2. [minor] Kbd glyph vertical alignment: The shortcut keycap icon in the "Skip a watering day" menu row is slightly misaligned with the text baseline compared to standard alphanumeric Kbd components.
 ```
 

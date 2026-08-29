@@ -7,21 +7,26 @@
  * Box-office console for "DevSummit 2026". The account dropdown off the
  * header avatar renders OPEN at initial render (defaultOpen on the Root and
  * the "Switch event" submenu held open after mount) — label, icon items with
- * shortcuts, an open submenu switching events (radio items), a density
- * checkbox and sign-out. Portrait tablet width: single column of stacked
- * panels. Other ui/* components: Button, Badge, Avatar, Card, Progress,
- * Separator, Table.
+ * shortcuts, an open submenu switching events (uniform icon rows with a
+ * trailing check on the active event — every row reserves the same leading
+ * gutter as the parent menu), two checked preference toggles and sign-out.
+ * Portrait tablet width: single column of stacked panels (gate status strip,
+ * ticket tiers, recent orders). Other ui/* components: Button, Badge, Avatar,
+ * Card, Progress, Separator, Table.
  */
 
 import {
   ArrowLeftRightIcon,
   BarChart3Icon,
+  CheckIcon,
   DownloadIcon,
+  GlobeIcon,
   ListIcon,
   LogOutIcon,
   MegaphoneIcon,
   MoreHorizontalIcon,
   QrCodeIcon,
+  SparklesIcon,
   TicketIcon,
 } from "lucide-react";
 
@@ -40,8 +45,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuPortal,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuSub,
@@ -94,6 +97,16 @@ const TIERS = [
   },
 ];
 
+const EVENTS = [
+  {
+    id: "devsummit-2026",
+    label: "DevSummit 2026 · Columbus",
+    icon: TicketIcon,
+  },
+  { id: "devsummit-eu", label: "DevSummit EU · Berlin", icon: GlobeIcon },
+  { id: "ai-worlds", label: "AI Worlds · Austin", icon: SparklesIcon },
+];
+
 const ORDERS = [
   {
     code: "DS-84102",
@@ -104,28 +117,12 @@ const ORDERS = [
     time: "09:41",
   },
   {
-    code: "DS-84101",
-    buyer: "Kenji Aoyama",
-    detail: "1 × VIP workshop",
-    total: "$349",
-    status: "Paid",
-    time: "09:38",
-  },
-  {
     code: "DS-84100",
     buyer: "Kira Petrova",
     detail: "1 × Student",
     total: "$59",
     status: "Pending",
     time: "09:35",
-  },
-  {
-    code: "DS-84099",
-    buyer: "Tomás Ferreira",
-    detail: "4 × Standard",
-    total: "$596",
-    status: "Paid",
-    time: "09:31",
   },
   {
     code: "DS-84098",
@@ -144,7 +141,11 @@ export default function Page() {
   // re-asserted right after mount to stay open for the static capture.
   const [switchOpen, setSwitchOpen] = React.useState(true);
   const [event, setEvent] = React.useState("devsummit-2026");
-  const [showRefunded, setShowRefunded] = React.useState(false);
+  // Radix Menu CheckboxItem is controlled-only (`checked = false` default;
+  // `defaultChecked` is a silent no-op), so both preference toggles are
+  // driven by explicit state — the checkmarks actually render.
+  const [compactRows, setCompactRows] = React.useState(true);
+  const [showRefunded, setShowRefunded] = React.useState(true);
   React.useEffect(() => {
     const t = setTimeout(() => setSwitchOpen(true), 50);
     return () => clearTimeout(t);
@@ -215,21 +216,28 @@ export default function Page() {
                     Switch event
                   </DropdownMenuSubTrigger>
                   <DropdownMenuPortal>
-                    <DropdownMenuSubContent className="w-64">
-                      <DropdownMenuRadioGroup
-                        value={event}
-                        onValueChange={setEvent}
-                      >
-                        <DropdownMenuRadioItem value="devsummit-2026">
-                          DevSummit 2026 · Columbus
-                        </DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="devsummit-eu">
-                          DevSummit EU · Berlin
-                        </DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="ai-worlds">
-                          AI Worlds · Austin
-                        </DropdownMenuRadioItem>
-                      </DropdownMenuRadioGroup>
+                    <DropdownMenuSubContent className="w-[17rem]">
+                      {/* Event picker rows: every row carries a leading icon so
+                          the label column aligns with the parent menu's icon
+                          rows; the active event gets an end-anchored check
+                          (absolute, like the family's marker gutters, so long
+                          labels never wrap). */}
+                      {EVENTS.map((e) => (
+                        <DropdownMenuItem
+                          key={e.id}
+                          role="menuitemradio"
+                          aria-checked={event === e.id}
+                          onSelect={() => setEvent(e.id)}
+                        >
+                          <e.icon />
+                          {e.label}
+                          {event === e.id && (
+                            <span className="pointer-events-none absolute end-2 flex size-4 items-center justify-center">
+                              <CheckIcon className="size-4 text-foreground" />
+                            </span>
+                          )}
+                        </DropdownMenuItem>
+                      ))}
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>
                         <ListIcon />
@@ -239,7 +247,10 @@ export default function Page() {
                   </DropdownMenuPortal>
                 </DropdownMenuSub>
                 <DropdownMenuSeparator />
-                <DropdownMenuCheckboxItem defaultChecked>
+                <DropdownMenuCheckboxItem
+                  checked={compactRows}
+                  onCheckedChange={setCompactRows}
+                >
                   Compact order rows
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem
@@ -302,6 +313,17 @@ export default function Page() {
             ))}
           </div>
 
+          {/* gate & scanner status — compact strip; keeps the ticket-tier
+              rows below the open account menu's footprint so every tier
+              keeps its row-actions trigger visible */}
+          <div className="flex items-center gap-2.5 rounded-lg border border-default-border bg-card px-4 py-3">
+            <QrCodeIcon className="size-4 text-muted-foreground" />
+            <span className="text-sm font-medium">Entry gates</span>
+            <Badge variant="outline" className="font-code text-[10px]">
+              A · B · C open
+            </Badge>
+          </div>
+
           {/* ticket tiers */}
           <Card>
             <CardHeader className="pb-3">
@@ -323,7 +345,7 @@ export default function Page() {
                       {tier.tone === "warning" ? (
                         <Badge
                           variant="outline"
-                          className="border-warning-500/50 font-normal text-warning-300"
+                          className="border-warning-500/50 font-normal text-warning-500"
                         >
                           {tier.badge}
                         </Badge>
@@ -392,7 +414,7 @@ export default function Page() {
                       {order.status === "Paid" ? (
                         <Badge
                           variant="outline"
-                          className="border-success-500/50 font-normal text-success-300"
+                          className="border-success-500/50 font-normal text-success-500"
                         >
                           {order.status}
                         </Badge>

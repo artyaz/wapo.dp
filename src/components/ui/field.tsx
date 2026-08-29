@@ -152,7 +152,9 @@ function FieldLabel({
       data-error={field?.invalid || undefined}
       className={cn(
         "flex items-center gap-2 text-sm leading-none font-medium select-none",
-        "data-[error=true]:text-destructive",
+        // Error convention: the label stays neutral when the field is
+        // invalid — the destructive signal is carried by the control's
+        // border/ring (aria-invalid:*) and the FieldError helper text only.
         "peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
         "group-data-[disabled=true]/field:pointer-events-none group-data-[disabled=true]/field:opacity-50",
         className

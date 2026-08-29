@@ -2,9 +2,25 @@
 
 import * as React from "react"
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
-import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react"
+import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, CircleIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+
+/**
+ * Tracks the side the rendered submenu content ended up on (Radix may
+ * collision-flip it, e.g. near the viewport's right edge) so the
+ * SubTrigger chevron can point where the submenu will actually open.
+ */
+type DropdownMenuSubSide = "top" | "right" | "bottom" | "left" | null
+
+type DropdownMenuSubSideContextValue = {
+  side: DropdownMenuSubSide
+  setSide: React.Dispatch<React.SetStateAction<DropdownMenuSubSide>>
+  contentId: string
+}
+
+const DropdownMenuSubSideContext =
+  React.createContext<DropdownMenuSubSideContextValue | null>(null)
 
 function DropdownMenu({
   ...props
@@ -197,7 +213,17 @@ function DropdownMenuShortcut({
 function DropdownMenuSub({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
-  return <DropdownMenuPrimitive.Sub data-slot="dropdown-menu-sub" {...props} />
+  const [side, setSide] = React.useState<DropdownMenuSubSide>(null)
+  const contentId = React.useId()
+  const sideContext = React.useMemo<DropdownMenuSubSideContextValue>(
+    () => ({ side, setSide, contentId }),
+    [side, contentId]
+  )
+  return (
+    <DropdownMenuSubSideContext.Provider value={sideContext}>
+      <DropdownMenuPrimitive.Sub data-slot="dropdown-menu-sub" {...props} />
+    </DropdownMenuSubSideContext.Provider>
+  )
 }
 
 function DropdownMenuSubTrigger({
@@ -208,6 +234,8 @@ function DropdownMenuSubTrigger({
 }: React.ComponentProps<typeof DropdownMenuPrimitive.SubTrigger> & {
   inset?: boolean
 }) {
+  const subSide = React.useContext(DropdownMenuSubSideContext)?.side ?? null
+  const ChevronIcon = subSide === "left" ? ChevronLeftIcon : ChevronRightIcon
   return (
     <DropdownMenuPrimitive.SubTrigger
       data-slot="dropdown-menu-sub-trigger"
@@ -219,25 +247,57 @@ function DropdownMenuSubTrigger({
       {...props}
     >
       {children}
-      <ChevronRightIcon className="ms-auto size-4" />
+      <ChevronIcon className="ms-auto size-4" />
     </DropdownMenuPrimitive.SubTrigger>
   )
+}
+
+/**
+ * Renders nothing; mounts/unmounts together with the submenu content, so its
+ * effect runs exactly when the portaled content element exists. It locates
+ * that element (keyed by the sub's contentId) and keeps the sub-side context
+ * in sync with Radix's resolved `data-side` (which can flip asynchronously
+ * after mount when collision avoidance kicks in).
+ */
+function DropdownMenuSubSideSensor() {
+  const subSideContext = React.useContext(DropdownMenuSubSideContext)
+  React.useEffect(() => {
+    if (!subSideContext) return
+    const el = document.querySelector(
+      `[data-ddm-sub-content="${subSideContext.contentId}"]`
+    )
+    if (!el) return
+    const sync = () => {
+      const side = el.getAttribute("data-side") as DropdownMenuSubSide
+      subSideContext.setSide((prev) => (prev === side ? prev : side))
+    }
+    sync()
+    const observer = new MutationObserver(sync)
+    observer.observe(el, { attributes: true, attributeFilter: ["data-side"] })
+    return () => observer.disconnect()
+  }, [subSideContext])
+  return null
 }
 
 function DropdownMenuSubContent({
   className,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.SubContent>) {
+  const subSideContext = React.useContext(DropdownMenuSubSideContext)
   return (
     <DropdownMenuPrimitive.SubContent
       data-slot="dropdown-menu-sub-content"
+      data-ddm-sub-content={subSideContext?.contentId}
       collisionPadding={8}
       className={cn(
         "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-lg",
         className
       )}
       {...props}
-    />
+    >
+      <DropdownMenuSubSideSensor />
+      {props.children}
+    </DropdownMenuPrimitive.SubContent>
   )
 }
 

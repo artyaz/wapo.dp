@@ -69,14 +69,14 @@ const feed: FeedEntry[] = [
     time: "14:05",
     author: "Priya Nair",
     initials: "PN",
-    text: "Trimmed SOL by 12% after the second failed retest of $182. Holding the rest for a confirmed range break.",
+    text: "Trimmed SOL by 12% after the second failed retest of $182. Holding the rest for a confirmed range break — next add needs real volume above $190.",
   },
   {
     kind: "event",
     id: "alert-01",
     time: "14:09",
     label: "PRICE ALERT",
-    detail: "ETH crossed $3,500 — take-profit ladder armed at 3,540 / 3,580",
+    detail: "ETH crossed $3,500 — TP ladder armed at 3,540/3,580",
   },
   {
     kind: "note",
@@ -85,7 +85,7 @@ const feed: FeedEntry[] = [
     author: "You",
     initials: "AR",
     mine: true,
-    text: "Keep the DCA schedule flat through Friday's CPI print. No discretionary adds while drift is under 5%.",
+    text: "Keep the DCA schedule flat through Friday's CPI print. No discretionary adds while drift is under 5% — we re-anchor weights Monday either way.",
   },
   {
     kind: "event",

@@ -11,7 +11,7 @@
  * InputGroup.
  */
 
-import { Camera, Mail, Search, Send } from "lucide-react";
+import { Camera, Mail, Search, Send, Upload } from "lucide-react";
 
 import { EvalShell } from "@/eval/EvalShell";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -47,6 +47,43 @@ const AVAILABILITY = [
   { window: "Jun 26–28", note: "Format festival hold", status: "Hold" },
 ];
 
+/**
+ * Styled file-input trigger (page-local demo pattern): the real
+ * <input type="file"> is visually hidden inside an input-shaped <label> —
+ * same border, height, radius, padding and micro-elevation as the Input
+ * family — showing the selected filename as a mono data token. Clicking the
+ * label opens the picker; keyboard focus lands on the hidden input and the
+ * label mirrors the family focus ring.
+ */
+function FileFieldTrigger({
+  id,
+  accept,
+  filename,
+  multiple,
+}: {
+  id: string;
+  accept?: string;
+  filename: string;
+  multiple?: boolean;
+}) {
+  return (
+    <label
+      htmlFor={id}
+      className="border-input dark:bg-input/30 hover:border-ring/50 has-[input:focus-visible]:border-ring has-[input:focus-visible]:ring-ring/50 has-[input:focus-visible]:ring-[3px] flex h-9 w-full min-w-0 cursor-pointer items-center gap-2 rounded-md border bg-transparent px-3 shadow-xs transition-colors"
+    >
+      <Upload className="text-muted-foreground size-4 shrink-0" />
+      <span className="min-w-0 truncate font-code text-sm">{filename}</span>
+      <input
+        id={id}
+        type="file"
+        accept={accept}
+        multiple={multiple}
+        className="sr-only"
+      />
+    </label>
+  );
+}
+
 export default function Page() {
   return (
     <EvalShell theme="dark" dir="ltr">
@@ -72,11 +109,8 @@ export default function Page() {
               <InputGroupAddon align="inline-start">
                 <Search className="text-muted-foreground size-4" />
               </InputGroupAddon>
-              <InputGroupInput placeholder="Search 214 photographs…" />
+              <InputGroupInput placeholder="Search 214 photographs" />
             </InputGroup>
-            <Button size="sm" className="h-9">
-              Book
-            </Button>
           </div>
         </header>
 
@@ -102,7 +136,14 @@ export default function Page() {
                 <Input id="bk-last" placeholder="Riedel" required />
               </Field>
               <Field invalid>
-                <FieldLabel htmlFor="bk-email">Email</FieldLabel>
+                {/* Praxis: semantic red stays on border + message — the label
+                    text itself remains neutral (weight, not hue). */}
+                <FieldLabel
+                  htmlFor="bk-email"
+                  className="data-[error=true]:text-foreground"
+                >
+                  Email
+                </FieldLabel>
                 <Input
                   id="bk-email"
                   type="email"
@@ -110,9 +151,7 @@ export default function Page() {
                   aria-invalid
                   required
                 />
-                <FieldError>
-                  Missing an @ — Mara can&apos;t reply without a full address.
-                </FieldError>
+                <FieldError>Add an @ so Mara can reply.</FieldError>
               </Field>
               <Field>
                 <FieldLabel htmlFor="bk-phone">
@@ -126,6 +165,9 @@ export default function Page() {
                   type="tel"
                   placeholder="+49 30 555 0148"
                 />
+                {/* One-line helper mirrors the Email field's one-line error
+                    so the grid row keeps equal heights across columns. */}
+                <FieldDescription>Include your country code.</FieldDescription>
               </Field>
               <Field>
                 <FieldLabel htmlFor="bk-location">Shoot location</FieldLabel>
@@ -144,17 +186,29 @@ export default function Page() {
                   <InputGroupAddon align="inline-start">
                     <InputGroupText className="font-code">€</InputGroupText>
                   </InputGroupAddon>
+                  {/* Tightened start padding so the € prefix optically hugs
+                      its value (matches the inline price editor on p1). */}
                   <InputGroupInput
                     id="bk-budget"
                     inputMode="numeric"
                     defaultValue="2,400"
-                    className="font-code"
+                    className="font-code pl-2"
                   />
                 </InputGroup>
+                {/* Helper line mirrors the Mood board field's description so
+                    the grid row keeps equal heights across both columns. */}
+                <FieldDescription>
+                  Excludes travel and licensing.
+                </FieldDescription>
               </Field>
               <Field>
                 <FieldLabel htmlFor="bk-ref">Mood board</FieldLabel>
-                <Input id="bk-ref" type="file" accept="image/*,.pdf" multiple />
+                <FileFieldTrigger
+                  id="bk-ref"
+                  accept="image/*,.pdf"
+                  multiple
+                  filename="moodboard.pdf +2"
+                />
                 <FieldDescription>Up to 5 files · JPG, PNG or PDF.</FieldDescription>
               </Field>
               <Field className="col-span-2">
@@ -226,6 +280,9 @@ export default function Page() {
                 <CardTitle className="font-heading-3 text-heading-3">
                   Studio
                 </CardTitle>
+                <CardDescription>
+                  Campo de Santa Clara 42 · Lisboa
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col gap-3 px-5">
                 <div className="flex items-center gap-3">

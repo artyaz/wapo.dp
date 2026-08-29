@@ -8,19 +8,19 @@
 | Viewport | 390x844 |
 | Theme | light |
 | Model | agy-image via https://omni.chmyl.com/v1 |
-| Date | 2026-08-29T01:39:04.965Z |
+| Date | 2026-08-29T13:02:43.480Z |
 | Verdict | **PASS** |
-| Score | 9/10 |
+| Score | 8/10 |
 
 ## Screenshot: ui-message-scroller-2.png
 
-- Verdict: PASS (score 9/10)
+- Verdict: PASS (score 8/10)
 
 ```
 VERDICT: PASS
-SCORE: 9/10
+SCORE: 8/10
 ISSUES:
-1. [minor] Message bubble border radius (~12px–14px) on the sent message in the Message Scroller exceeds the geometry specification of small ~3px / large ~8px.
-2. [minor] Incomplete message clipping: The second chat message ("Morning Jordan!...") is abruptly cut off mid-line at the bottom boundary of the scroller pane without a clear scroll fade or sufficient bottom padding.
+1. [major] Message Scroller: The incoming message container below the "Sam 09:04" timestamp has missing or illegible text with insufficient contrast against the background panel, failing the legibility principle.
+2. [minor] Message Scroller: The floating scroll-down circular button is positioned with tight bottom padding, almost colliding with the component's bottom metadata bar border.
 ```
 

@@ -264,7 +264,9 @@ function StoreMenu({ store }: { store: Store }) {
       </ContextMenuGroup>
       <ContextMenuSeparator />
       <ContextMenuGroup>
-        <ContextMenuCheckboxItem defaultChecked>
+        {/* NOTE: Radix menu CheckboxItem is controlled-only (`defaultChecked`
+            is a silent no-op) — pass `checked` so the checkmark renders. */}
+        <ContextMenuCheckboxItem checked>
           Pin to overview
         </ContextMenuCheckboxItem>
         <ContextMenuCheckboxItem>

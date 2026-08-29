@@ -98,6 +98,35 @@ const KPIS = [
   { value: "64", label: "pours since open", sub: "since 11:00" },
 ];
 
+/**
+ * Styled file-input trigger (page-local demo pattern): the real
+ * <input type="file"> is visually hidden inside an input-shaped <label> —
+ * same border, height, radius, padding and micro-elevation as the Input
+ * family — showing the selected filename as a mono data token. Clicking the
+ * label opens the picker; keyboard focus lands on the hidden input and the
+ * label mirrors the family focus ring.
+ */
+function FileFieldTrigger({
+  id,
+  accept,
+  filename,
+}: {
+  id: string;
+  accept?: string;
+  filename: string;
+}) {
+  return (
+    <label
+      htmlFor={id}
+      className="border-input dark:bg-input/30 hover:border-ring/50 has-[input:focus-visible]:border-ring has-[input:focus-visible]:ring-ring/50 has-[input:focus-visible]:ring-[3px] flex h-9 w-full min-w-0 cursor-pointer items-center gap-2 rounded-md border bg-transparent px-3 shadow-xs transition-colors"
+    >
+      <Upload className="text-muted-foreground size-4 shrink-0" />
+      <span className="min-w-0 truncate font-code text-sm">{filename}</span>
+      <input id={id} type="file" accept={accept} className="sr-only" />
+    </label>
+  );
+}
+
 export default function Page() {
   return (
     <EvalShell theme="dark" dir="ltr">
@@ -250,7 +279,14 @@ export default function Page() {
             </CardHeader>
             <CardContent className="flex flex-col gap-4 px-5">
               <Field invalid>
-                <FieldLabel htmlFor="tap-req-email">Email address</FieldLabel>
+                {/* Praxis: semantic red stays on border + message — the label
+                    text itself remains neutral (weight, not hue). */}
+                <FieldLabel
+                  htmlFor="tap-req-email"
+                  className="data-[error=true]:text-foreground"
+                >
+                  Email address
+                </FieldLabel>
                 <Input
                   id="tap-req-email"
                   type="email"
@@ -328,13 +364,12 @@ export default function Page() {
             </Field>
             <Field>
               <FieldLabel htmlFor="add-label">Label art</FieldLabel>
-              <Input
+              <FileFieldTrigger
                 id="add-label"
-                type="file"
                 accept="image/png,image/svg+xml"
+                filename="nightshift-label.png"
               />
               <FieldDescription>
-                <Upload className="mr-1 inline size-3" />
                 PNG or SVG · 400×400 px minimum
               </FieldDescription>
             </Field>

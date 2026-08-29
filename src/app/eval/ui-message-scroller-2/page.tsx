@@ -70,7 +70,7 @@ const chat = [
     id: "m1",
     from: "you" as const,
     time: "09:02",
-    text: "Morning Sam! Picking up my laptop at 9 — anything I should bring besides ID?",
+    text: "Morning Sam! Picking up my laptop at 9 — anything I should bring besides my ID? Any parking tips for the office?",
   },
   {
     id: "m2",
@@ -240,7 +240,11 @@ export default function Page() {
                     aria-label="Chat with Sam Rivera"
                     className="px-1"
                   >
-                    <MessageScrollerContent className="gap-3 px-3 py-4">
+                    {/* pt-2 (not py-4) top inset: drops the fold of the
+                        scroller into the second message's bubble-top padding
+                        instead of dangling its header alone at the edge —
+                        the next turn visibly "emerges" below the fold. */}
+                    <MessageScrollerContent className="gap-3 px-3 pt-2 pb-4">
                       {chat.map((message) => {
                         const mine = message.from === "you";
                         return (
@@ -255,6 +259,14 @@ export default function Page() {
                                   {mine ? "You" : "Sam"}
                                   <span className="font-code">{message.time}</span>
                                 </MessageHeader>
+                                {/* Received bubbles keep the muted `secondary`
+                                    fill: a filled surface reads as a proper
+                                    message bubble (an outline variant reads as
+                                    a bare "white bubble" to the eye). The
+                                    scroller's tall bottom fade dissolves the
+                                    muted fill into the paper background at the
+                                    fold, so the clipped edge reads as a scroll
+                                    boundary rather than an abrupt cut. */}
                                 <Bubble variant={mine ? "primary" : "secondary"}>
                                   <BubbleContent className="max-w-[268px] text-sm">
                                     {message.text}
