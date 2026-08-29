@@ -30,7 +30,6 @@ import {
   TimelineItem,
   TimelineMarker,
   TimelineSeparator,
-  TimelineTimestamp,
   TimelineTitle,
 } from "@/components/ui/timeline"
 
@@ -166,12 +165,11 @@ export default function Page() {
               <TimelineContent>
                 <TimelineHeader>
                   <TimelineTitle>Watering due</TimelineTitle>
-                  <span className="flex items-center gap-2">
-                    <Badge className="border-warning-300 bg-warning-50 text-warning-700">
-                      Due today
-                    </Badge>
-                    <TimelineTimestamp>Today</TimelineTimestamp>
-                  </span>
+                  {/* Urgency badge carries the timing ("today") — no extra
+                      timestamp, so the header doesn't state it twice. */}
+                  <Badge className="border-warning-300 bg-warning-50 text-warning-700">
+                    Due today
+                  </Badge>
                 </TimelineHeader>
                 <TimelineDescription>
                   Soil at 22% — the two lowest leaves are starting to droop.

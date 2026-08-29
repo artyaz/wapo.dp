@@ -431,14 +431,17 @@ export default function Page() {
           <p className="font-code text-[11px] text-muted-foreground">
             170 MESSAGES · SYNCED 08:41
           </p>
-          <Button variant="ghost" size="sm" className="text-muted-foreground">
+          <Button variant="ghost" size="sm" className="text-neutral-600">
             Archive {rows.length}
           </Button>
         </footer>
 
         {/* Filter rule editor — scrimmed bottom sheet (phone pattern) */}
         <Drawer open={editorOpen} onOpenChange={setEditorOpen}>
-          <DrawerContent>
+          {/* The vaul drag handle ships bg-muted (~1.1:1 on the sheet) from
+              the shared drawer.tsx — restyled here at page level to
+              neutral-500 (~3.5:1) so the affordance clears WCAG 1.4.11. */}
+          <DrawerContent className="[&>div:first-child]:bg-neutral-500">
             <DrawerHeader className="pb-2 text-left">
               <DrawerTitle className="font-heading-3 text-base">
                 Add filter

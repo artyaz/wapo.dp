@@ -37,15 +37,15 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const SESSIONS = [
   {
-    time: "7:00 – 8:30 PM",
+    time: "7:00–8:30 PM",
     title: "CS 146 · Problem set 5",
-    sub: "B-tree operations · Green Library 2F",
+    sub: "B-trees · Green Library 2F",
     badge: "Due Fri",
   },
   {
-    time: "9:00 – 9:15 PM",
+    time: "9:00–9:15 PM",
     title: "SPAN 101 · Flashcards",
-    sub: "Subjunctive mood · 40 cards",
+    sub: "Subjunctive · 40 cards",
     badge: "15 min",
   },
 ]
@@ -139,12 +139,18 @@ export default function Page() {
                     <button
                       type="button"
                       aria-label="Full course details for MATH 214"
-                      className="flex w-fit max-w-full cursor-help items-center rounded-sm border bg-background px-2 py-1 text-left text-sm font-medium"
+                      className="flex w-fit max-w-full cursor-help flex-col items-start gap-0.5 rounded-sm border bg-background px-2 py-1 text-left"
                     />
                   }
                 >
-                  <span className="truncate">
-                    MATH 214 · Linear Algebra II — Prof. Dvořák · Engle Hall 204
+                  {/* Two-line chip (title + meta) instead of one truncated
+                      line: the full string measured 417px vs 306px available,
+                      so it clipped "Engle Hall 204" mid-course-code. */}
+                  <span className="max-w-full truncate text-sm font-medium">
+                    MATH 214 · Linear Algebra II
+                  </span>
+                  <span className="max-w-full truncate text-xs text-muted-foreground">
+                    Prof. Dvořák · Engle Hall 204
                   </span>
                 </TooltipTrigger>
                 <TooltipContent side="bottom" align="start" sideOffset={6}>
@@ -187,7 +193,9 @@ export default function Page() {
             {SESSIONS.map((s, i) => (
               <div key={s.title}>
                 {i > 0 ? <Separator /> : null}
-                <div className="flex items-center gap-3 px-4 py-3">
+                {/* gap-2 + unspaced time ranges free enough width for
+                    full un-truncated titles and subtitles before the badges. */}
+                <div className="flex items-center gap-2 px-4 py-3">
                   <span className="font-code text-xs text-muted-foreground">
                     {s.time}
                   </span>

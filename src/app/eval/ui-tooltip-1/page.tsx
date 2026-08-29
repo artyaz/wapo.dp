@@ -67,7 +67,9 @@ const OUTBOUND = [
     dur: "4h 15m",
     stops: "Nonstop",
     craft: "E75L",
-    craftFull: "Embraer E175 · regional jet · no Wi-Fi",
+    // Short enough that the centered bubble (~164px) stays fully inside
+    // the viewport when centered on the badge near the page gutter.
+    craftFull: "Embraer E175 · no Wi-Fi",
     price: "$348",
     best: false,
     openTip: true,
@@ -203,12 +205,24 @@ export default function Page() {
                       >
                         {f.craft}
                       </TooltipTrigger>
-                      <TooltipContent side="bottom" align="start" sideOffset={6}>
+                      {/* Centered UNDER the badge, opening below the last
+                          card over the page background — same backdrop as the
+                          fare-hold tooltip, so both bubbles render the
+                          shared shadow-default elevation identically (inside
+                          the card the shadow reads "heavier" against the
+                          panel surface). align=center puts the caret at the
+                          bubble's center = the badge's optical center; the
+                          copy is sized so the centered bubble never hits the
+                          viewport edge (probe: x 27–191, card left 24). */}
+                      <TooltipContent side="bottom" sideOffset={6}>
                         <p>{f.craftFull}</p>
                       </TooltipContent>
                     </Tooltip>
+                    {/* secondary chip (not solid primary) so in-flow
+                        metadata never shares material with the floating
+                        tooltip bubbles and the primary CTA */}
                     {f.best ? (
-                      <Badge variant="default">Best value</Badge>
+                      <Badge variant="secondary">Best value</Badge>
                     ) : null}
                     <span className="ms-auto flex items-center gap-2.5 text-muted-foreground">
                       <Wifi className="size-3.5" />
@@ -220,74 +234,87 @@ export default function Page() {
             </div>
 
             {/* Fare summary */}
-            <Card className="col-span-5">
-              <CardHeader className="pb-2">
-                <CardTitle className="font-heading-3 text-sm">
-                  Price summary
-                </CardTitle>
-                <p className="text-xs text-muted-foreground">
-                  MA 482 · SFO → ORD · Saver
-                </p>
-              </CardHeader>
-              <CardContent className="flex flex-col gap-3">
-                <div className="flex flex-col gap-1.5 text-sm">
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">
-                      Base fare · Adult
-                    </span>
-                    <span className="font-code">$171.40</span>
+            <div className="col-span-5 flex flex-col gap-3">
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="font-heading-3 text-sm">
+                    Price summary
+                  </CardTitle>
+                  <p className="text-xs text-muted-foreground">
+                    MA 482 · SFO → ORD · Saver
+                  </p>
+                </CardHeader>
+                <CardContent className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-1.5 text-sm">
+                    <div className="flex items-center justify-between">
+                      <span className="text-muted-foreground">
+                        Base fare · Adult
+                      </span>
+                      <span className="font-code">$171.40</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-1.5 text-muted-foreground">
+                        Taxes &amp; fees
+                        <Tooltip>
+                          <TooltipTrigger
+                            render={
+                              <button
+                                type="button"
+                                aria-label="Tax and fee breakdown"
+                                className="text-muted-foreground hover:text-foreground"
+                              />
+                            }
+                          >
+                            <Info className="size-3.5" />
+                          </TooltipTrigger>
+                          <TooltipContent side="left" className="w-56">
+                            <p>
+                              US transportation tax $38.20 · segment fees $4.40 ·
+                              Sept. 11 security fee $5.60
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </span>
+                      <span className="font-code">$48.20</span>
+                    </div>
+                    <Separator className="my-1" />
+                    <div className="flex items-center justify-between font-semibold">
+                      <span>Total</span>
+                      <span className="font-code">$219.60</span>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="flex items-center gap-1.5 text-muted-foreground">
-                      Taxes &amp; fees
-                      <Tooltip>
-                        <TooltipTrigger
-                          render={
-                            <button
-                              type="button"
-                              aria-label="Tax and fee breakdown"
-                              className="text-muted-foreground hover:text-foreground"
-                            />
-                          }
-                        >
-                          <Info className="size-3.5" />
-                        </TooltipTrigger>
-                        <TooltipContent side="left" className="w-56">
-                          <p>
-                            US transportation tax $38.20 · segment fees $4.40 ·
-                            Sept. 11 security fee $5.60
-                          </p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </span>
-                    <span className="font-code">$48.20</span>
+                  <div className="flex flex-col gap-1.5">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>Seats left at this price</span>
+                      <span className="font-code">5 of 24</span>
+                    </div>
+                    <Progress value={21} />
                   </div>
-                  <Separator className="my-1" />
-                  <div className="flex items-center justify-between font-semibold">
-                    <span>Total</span>
-                    <span className="font-code">$219.60</span>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <span>Seats left at this price</span>
-                    <span className="font-code">5 of 24</span>
-                  </div>
-                  <Progress value={21} />
-                </div>
-                <Button className="w-full">Continue to seat map</Button>
+                  <Button className="w-full">Continue to seat map</Button>
+                </CardContent>
+              </Card>
+              {/* Fare-hold hint sits below the card so the open tooltip
+                  floats into empty page space with full vertical clearance
+                  from the card's hairline border. The ⓘ icon ALONE is the
+                  trigger: the caret anchors optically to it, and the 338px
+                  bubble centered on the end-of-line icon spans the fare
+                  column almost exactly (probe: 634–972) — clear of the
+                  flights column and the 1024px viewport edge. */}
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs text-muted-foreground">
+                  24-hour free hold available
+                </span>
                 <Tooltip defaultOpen>
                   <TooltipTrigger
                     render={
                       <button
                         type="button"
                         aria-label="Hold policy"
-                        className="mx-auto flex cursor-help items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+                        className="cursor-help text-muted-foreground hover:text-foreground"
                       />
                     }
                   >
                     <Info className="size-3" />
-                    24-hour free hold available
                   </TooltipTrigger>
                   <TooltipContent side="bottom">
                     <p>
@@ -296,8 +323,8 @@ export default function Page() {
                     </p>
                   </TooltipContent>
                 </Tooltip>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </main>
 

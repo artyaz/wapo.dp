@@ -1,9 +1,14 @@
 "use client"
 // EVAL page — toast p2 — podcast player and episode library — 1024x768 dark
-// Toast front and center: a download-progress toast pinned open (progress
-// track + rate/ETA copy + Cancel action) above a just-completed download
-// notification. Dispatched a beat after mount through the app-level
-// <Toaster /> (root layout) and pinned with a 10-minute duration.
+// Toast front and center: a download-progress toast pinned open (edge-to-edge
+// progress strip along the card's bottom edge + episode/byte/ETA copy +
+// Cancel action) above a just-completed download notification. The Cancel
+// action is anchored to the toast's footer row — its bottom edge aligns with
+// the mono byte/ETA line — while the progress track is absolutely pinned to
+// the card's bottom edge instead of occupying an in-flow row, so no text
+// hangs beneath the action and the whole card reads as one aligned column.
+// Dispatched a beat after mount through the app-level <Toaster /> (root
+// layout) and pinned with a 10-minute duration.
 // The persistent player sits directly under the header (Apple-Podcasts
 // style) so the bottom-right toast stack never covers transport controls.
 // Co-stars: Card, Button, Badge, Progress, Input, Avatar.
@@ -77,15 +82,22 @@ export default function Page() {
         title: "Downloading episode",
         description: (
           <span className="block">
-            <span className="flex items-baseline justify-between gap-4">
-              <span className="truncate text-sm">
-                The Missing Mass
-                <span className="font-code text-xs"> · EP-142</span>
-              </span>
-              <span className="shrink-0 font-code text-xs">68%</span>
+            <span className="block truncate text-sm">
+              The Missing Mass
+              <span className="font-code text-xs"> · EP-142 · 68%</span>
             </span>
+            <span className="mt-1.5 block font-code text-xs">
+              34.1 of 50.2 MB · 2 min left
+            </span>
+            {/* Edge-to-edge determinate strip pinned to the card's bottom
+                edge (the toast root is the nearest positioned ancestor, and
+                its overflow-hidden + rounded-lg clip the track to the panel
+                geometry) — so no in-flow row hangs beneath the Cancel action
+                and the text block reads as one aligned column. The track's
+                own rounded-b-lg corners follow the panel radius instead of
+                being diagonally cut by it. */}
             <span
-              className="mt-1.5 block h-2 w-full overflow-hidden rounded-full bg-primary/20"
+              className="pointer-events-none absolute inset-x-0 bottom-0 block h-1.5 overflow-hidden rounded-b-lg bg-primary/20"
               role="progressbar"
               aria-valuenow={68}
               aria-valuemin={0}
@@ -93,16 +105,17 @@ export default function Page() {
               aria-label="Downloading EP-142, 68 percent"
             >
               <span
-                className="block h-full rounded-full bg-primary"
+                className="block h-full bg-primary"
                 style={{ width: "68%" }}
               />
             </span>
-            <span className="mt-1.5 block font-code text-xs">
-              34.1 of 50.2 MB · 2 min left
-            </span>
           </span>
         ),
-        actionProps: { children: "Cancel" },
+        // self-end anchors the action to the toast's footer row (its bottom
+        // edge aligns with the mono byte/ETA line), so the action reads as
+        // part of the text block instead of floating mid-card with copy
+        // hanging beneath it. Page-level via the forwarded action className.
+        actionProps: { children: "Cancel", className: "self-end" },
         duration: 600000,
       })
     }, 450)

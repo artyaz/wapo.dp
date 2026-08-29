@@ -134,8 +134,14 @@ function Page() {
           </CardContent>
         </Card>
 
-        {/* Adoption application — the questionnaire */}
-        <Card className="gap-4 py-5">
+        {/* Adoption application — the questionnaire.
+            Dark-page-only override: the shortcut kbd numerals use the family
+            Kbd token pair (bg-muted + text-muted-foreground = 5.4:1 here),
+            but the chip bg (neutral-100) equals the card surface exactly, so
+            10px mono digits read dim against the near-black card. Bump the
+            numerals to foreground/70 (~8.3:1) on this dark page only; light
+            pages keep the family-muted keycap look. */}
+        <Card className="dark:[&_kbd]:text-foreground/70 gap-4 py-5">
           <Questionnaire
             items={items}
             item={item}
@@ -193,11 +199,13 @@ function Page() {
                   Select everyone who lives with you. Pepper is herdy — young
                   children are assessed separately.
                 </QuestionnaireDescription>
-                <CardAction>
-                  <QuestionnaireProgress />
-                </CardAction>
               </CardHeader>
               <CardContent className="flex flex-col gap-3 px-4">
+                {/* Full-width progress row (same pattern as the pet card
+                    above and p2's step header) — the side-column CardAction
+                    placement squeezed the serif title onto two lines at
+                    430px. */}
+                <QuestionnaireProgress />
                 <QuestionnaireChoices>
                   <QuestionnaireChoice value="partner">
                     <span>Partner</span>

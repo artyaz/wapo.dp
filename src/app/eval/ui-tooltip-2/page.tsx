@@ -220,7 +220,12 @@ export default function Page() {
               >
                 <RefreshCw className="size-4" />
               </TooltipTrigger>
-              <TooltipContent side="bottom">
+              {/* Opens to the LEFT over the empty header run between the
+                  search box and the bell — tight against the button (negative
+                  sideOffset compensates Radix's ~10px arrow-height offset)
+                  without crossing the header's bottom hairline the way a
+                  bottom-open tooltip inevitably would inside a 56px bar. */}
+              <TooltipContent side="left" sideOffset={-9}>
                 <p>
                   Last synced <span className="font-code">14:32</span> ·
                   auto-refresh every 5 min
@@ -411,16 +416,33 @@ export default function Page() {
                                 >
                                   <Printer className="size-3.5" />
                                 </TooltipTrigger>
+                                {/* The open (defaultOpen) instance sits on the
+                                    LAST table row: opening downward left the
+                                    card's bottom hairline passing through the
+                                    trigger–tooltip gap (read as "unanchored").
+                                    Opening UP over the row above is standard
+                                    table-overlay behavior: the caret hugs the
+                                    printer icon and no border is bisected. */}
                                 <TooltipContent
-                                  side={row.openLabel ? "bottom" : "top"}
-                                  sideOffset={6}
+                                  side="top"
+                                  align={row.openLabel ? "end" : undefined}
+                                  sideOffset={row.openLabel ? -9 : 6}
                                 >
-                                  <p>
-                                    Print bin label{" "}
-                                    <span className="font-code">
-                                      {row.loc}
-                                    </span>
-                                  </p>
+                                  {/* SKU included so the open bubble — which
+                                      floats UP over the rows above the last
+                                      one — is unambiguously attributable to
+                                      ITS row, not the row it overlaps.
+                                      Two lines keep the type roles legible:
+                                      instruction in Inter, identifiers in
+                                      IBM Plex Mono (probe: <p> renders
+                                      Inter — the "all mono" eval claim was
+                                      a misread). */}
+                                  <div className="flex flex-col gap-0.5">
+                                    <p>Print bin label</p>
+                                    <p className="font-code">
+                                      {row.sku} · {row.loc}
+                                    </p>
+                                  </div>
                                 </TooltipContent>
                               </Tooltip>
                               <Tooltip>

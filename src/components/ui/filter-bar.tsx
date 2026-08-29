@@ -490,7 +490,7 @@ function FilterRuleEditor({
             variant="ghost"
             size="sm"
             onClick={onRemove}
-            className="text-muted-foreground hover:text-destructive"
+            className="text-neutral-600 hover:text-destructive"
           >
             <XIcon aria-hidden="true" />
             {removeLabel}
@@ -806,7 +806,10 @@ function FilterBar({
             variant="ghost"
             size="sm"
             onClick={handleClear}
-            className="text-muted-foreground"
+            // Interactive text must clear AA (4.5:1) — neutral-600 lands
+            // 5.3:1 on the light card and 7.3:1 on the dark card, where
+            // muted-foreground (neutral-500) only reaches ~3.6:1.
+            className="text-neutral-600"
           >
             {clearLabel}
           </Button>

@@ -58,8 +58,8 @@ export default function Page() {
                 Shift notes
               </h1>
               <p className="text-muted-foreground mt-1 text-xs">
-                Harborline Community Kitchen · Saturday dinner service ·
-                Nov 14, 16:00–20:00
+                Harborline Community Kitchen · Saturday dinner service · Nov
+                14, <span className="font-code">16:00–20:00</span>
               </p>
             </div>
           </div>
@@ -230,8 +230,8 @@ export default function Page() {
               <TriangleAlertIcon />
               <AlertTitle>Dessert station uncovered</AlertTitle>
               <AlertDescription>
-                18:00–19:00 still has no signed-up volunteer. Ask a floater
-                before the second seating.
+                <span className="font-code">18:00–19:00</span> still has no
+                signed-up volunteer. Ask a floater before the second seating.
               </AlertDescription>
             </Alert>
           </div>

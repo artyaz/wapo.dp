@@ -127,13 +127,10 @@ function SideRow({ side }: { side: Side }) {
   return (
     <div className="flex flex-1 items-center justify-between gap-3 px-3">
       <div className="flex min-w-0 items-center gap-2">
-        <span
-          className={
-            emph
-              ? "font-code text-[10px] text-foreground"
-              : "font-code text-[10px] text-foreground/75"
-          }
-        >
+        {/* team tag — full foreground: 10px mono must survive the 50%
+            scrim (rendered ceiling ≈ 4.5:1); size keeps it subordinate to
+            the 14px team names beside it */}
+        <span className="font-code text-[10px] text-foreground">
           {side.tag}
         </span>
         <span
@@ -178,7 +175,10 @@ function MatchPanel({
     >
       <div className="flex flex-none items-center justify-between gap-2 border-b border-default-border px-3 py-1.5">
         <div className="flex items-center gap-2">
-          <span className="font-code text-[10px] font-medium text-muted-foreground">
+          {/* card index — full foreground: 10px mono meta needs the
+              brightest token to stay legible under the black/50 scrim
+              (alpha-muted variants render < 3.5:1 behind the overlay). */}
+          <span className="font-code text-[10px] font-medium text-foreground">
             {match.label}
           </span>
           {match.status === "live" && (
@@ -190,7 +190,7 @@ function MatchPanel({
         {match.status === "live" ? (
           children
         ) : (
-          <span className="font-code text-[10px] text-muted-foreground">
+          <span className="font-code text-[10px] text-foreground">
             {match.meta}
           </span>
         )}
@@ -216,7 +216,7 @@ function StubIn() {
 
 function ColumnLabel({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="font-code text-[10px] font-medium tracking-widest text-muted-foreground uppercase">
+    <h2 className="font-code text-[10px] font-medium tracking-widest text-foreground/80 uppercase">
       {children}
     </h2>
   );
@@ -278,8 +278,13 @@ export default function Page() {
             </p>
           </div>
 
-          {/* bracket — hairline tree connectors between columns */}
-          <main className="grid min-h-0 flex-1 grid-cols-[1.05fr_1fr_0.9fr] gap-4 px-4 py-4">
+          {/* bracket — hairline tree connectors between columns.
+              pr-[452px] reserves the open sheet's 420px + a 32px quiet
+              moat, so no card runs into the sheet's left hairline. On
+              near-black dark surfaces a black scrim can't create optical
+              separation (bg #0b0b0a vs scrimmed bg rgb(5,5,5)), so the
+              bracket canvas keeps clear of the overlay edge instead. */}
+          <main className="grid min-h-0 flex-1 grid-cols-[1.05fr_1fr_0.9fr] gap-4 py-4 pl-4 pr-[452px]">
             <section className="flex min-h-0 flex-col">
               <ColumnLabel>Quarterfinals · Bo3</ColumnLabel>
               {[QUARTERFINALS.slice(0, 2), QUARTERFINALS.slice(2, 4)].map(
@@ -456,27 +461,17 @@ export default function Page() {
               <TableBody>
                 {MAP_RESULTS.map((row) => (
                   <TableRow key={row.map} className="hover:bg-transparent">
-                    <TableCell className="px-4 py-2.5 text-sm">
-                      <span className="flex items-center gap-1.5">
-                        {/* reserved live-dot slot keeps map names optically
-                            aligned across finished and live rows */}
-                        <span
-                          className={
-                            row.live
-                              ? "size-1.5 flex-none rounded-full bg-destructive"
-                              : "size-1.5 flex-none"
-                          }
-                        />
-                        {row.map}
-                      </span>
-                    </TableCell>
+                    <TableCell className="px-4 py-2.5 text-sm">{row.map}</TableCell>
                     <TableCell className="py-2.5 font-code text-xs tabular-nums text-muted-foreground">
                       {row.score}
                     </TableCell>
+                    {/* live status lives in the Win column in semantic red
+                        (matches the bracket's LIVE badges) — map names keep a
+                        strict left-aligned text edge with no inline marker */}
                     <TableCell
                       className={
                         row.live
-                          ? "py-2.5 font-code text-xs text-foreground"
+                          ? "py-2.5 font-code text-xs font-medium text-destructive"
                           : "py-2.5 font-code text-xs text-muted-foreground"
                       }
                     >

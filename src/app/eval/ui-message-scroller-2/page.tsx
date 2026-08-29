@@ -7,7 +7,6 @@ import {
   BellIcon,
   CalendarCheckIcon,
   HomeIcon,
-  ListChecksIcon,
   MessageCircleIcon,
   SendIcon,
   UserIcon,
@@ -41,25 +40,21 @@ const tasks = [
   {
     id: "laptop",
     label: "Collect laptop & badge",
-    meta: "IT desk · 9:00 AM · done",
     done: true,
   },
   {
     id: "forms",
     label: "Sign NDA & payroll forms",
-    meta: "People team · DocuSign · done",
     done: true,
   },
   {
     id: "sso",
     label: "Set up SSO & password manager",
-    meta: "1Password · done",
     done: true,
   },
   {
     id: "benefits",
     label: "Benefits enrollment",
-    meta: "Vision add-on picked",
     done: false,
     due: "Due Fri",
   },
@@ -130,10 +125,10 @@ function ChatScrollStatus() {
       ? "Mid-conversation · both ways"
       : end
         ? "At the start · newer below"
-        : "Caught up with Sam";
+        : "Caught up · 9 messages";
 
   return (
-    <span className="shrink-0 whitespace-nowrap font-code text-[10px] text-muted-foreground">
+    <span className="ml-auto shrink-0 whitespace-nowrap font-code text-[10px] text-muted-foreground">
       {label}
     </span>
   );
@@ -165,34 +160,24 @@ export default function Page() {
           </Button>
         </header>
 
-        <div className="flex min-h-0 flex-1 flex-col gap-4 p-4">
-          {/* Progress */}
-          <section className="flex shrink-0 flex-col gap-2">
-            <div className="flex items-baseline justify-between">
-              <h1 className="font-heading-3 text-heading-3">Onboarding</h1>
+        <div className="flex min-h-0 flex-1 flex-col gap-3 px-4 py-3">
+          {/* Onboarding checklist — heading, progress, and Day 1 rows in one panel */}
+          <Card className="shrink-0 gap-0 py-3">
+            <div className="flex items-baseline justify-between px-4">
+              <h1 className="font-heading-3 text-heading-3">
+                Onboarding checklist
+              </h1>
               <span className="font-code text-xs text-muted-foreground">
-                5 of 12 tasks
+                5 of 12
               </span>
             </div>
-            <Progress value={42} aria-label="Onboarding progress" />
-            <p className="text-xs text-muted-foreground">
-              Next up: benefits enrollment · closes Friday 5 PM
-            </p>
-          </section>
-
-          {/* Day 1 checklist — compact single-line rows */}
-          <Card className="shrink-0 gap-0 py-3">
-            <div className="flex items-center gap-2 px-4 pb-1">
-              <ListChecksIcon className="size-4 text-muted-foreground" />
-              <span className="text-sm font-semibold">Day 1 checklist</span>
-              <Badge variant="outline" className="ml-auto font-code text-[10px]">
-                1 left
-              </Badge>
+            <div className="px-4 pt-2">
+              <Progress value={42} aria-label="Onboarding progress" />
             </div>
-            <ul className="flex flex-col px-3">
+            <ul className="flex flex-col px-3 pt-2">
               {tasks.map((task) => (
                 <li key={task.id}>
-                  <label className="flex cursor-pointer items-center gap-3 rounded-md px-1 py-2">
+                  <label className="flex cursor-pointer items-center gap-3 rounded-md px-1 py-1.5">
                     <Checkbox
                       id={task.id}
                       defaultChecked={task.done}
@@ -216,35 +201,37 @@ export default function Page() {
             </ul>
           </Card>
 
-          {/* Onboarding buddy chat */}
-          <MessageScrollerProvider defaultScrollPosition="start">
+          {/* Onboarding buddy chat — opens caught up at the live edge (`end` +
+              `autoScroll`), so the newest message is fully in view, the bottom
+              edge fade and the jump button are both dismissed, and the fold
+              lands in the gutter between the previous turn and the newest
+              header (`pb-8` tunes it): no text is clipped at the top edge,
+              so the page hides the scroller's top fade and keeps a clean
+              hairline edge under the card header. The scroller still keeps
+              its footer lane reserved, so the jump button (when it appears
+              mid-scroll) never sits over message text. */}
+          <MessageScrollerProvider defaultScrollPosition="end" autoScroll>
             <Card className="flex min-h-0 flex-1 flex-col gap-0 overflow-hidden bg-background py-0">
-              <div className="flex h-11 shrink-0 items-center gap-2.5 border-b px-4">
+              <div className="flex h-10 shrink-0 items-center gap-2.5 border-b px-4">
                 <Avatar size="sm">
                   <AvatarFallback>SR</AvatarFallback>
                 </Avatar>
                 <div className="min-w-0 flex-1 leading-tight">
                   <p className="truncate text-[13px] font-medium">Sam Rivera</p>
                   <p className="truncate text-[11px] text-muted-foreground">
-                    Onboarding buddy · Design Ops
+                    Onboarding buddy
                   </p>
                 </div>
-                <Badge variant="secondary" className="font-code text-[10px]">
-                  Online
-                </Badge>
+                <ChatScrollStatus />
               </div>
 
               <div className="min-h-0 flex-1 overflow-hidden">
-                <MessageScroller>
+                <MessageScroller className="[&_[data-slot=message-scroller-fade-top]]:hidden">
                   <MessageScrollerViewport
                     aria-label="Chat with Sam Rivera"
                     className="px-1"
                   >
-                    {/* pt-2 (not py-4) top inset: drops the fold of the
-                        scroller into the second message's bubble-top padding
-                        instead of dangling its header alone at the edge —
-                        the next turn visibly "emerges" below the fold. */}
-                    <MessageScrollerContent className="gap-3 px-3 pt-2 pb-4">
+                    <MessageScrollerContent className="gap-3 px-3 pt-4 pb-8">
                       {chat.map((message) => {
                         const mine = message.from === "you";
                         return (
@@ -261,12 +248,9 @@ export default function Page() {
                                 </MessageHeader>
                                 {/* Received bubbles keep the muted `secondary`
                                     fill: a filled surface reads as a proper
-                                    message bubble (an outline variant reads as
-                                    a bare "white bubble" to the eye). The
-                                    scroller's tall bottom fade dissolves the
-                                    muted fill into the paper background at the
-                                    fold, so the clipped edge reads as a scroll
-                                    boundary rather than an abrupt cut. */}
+                                    message bubble, and its muted fill dissolves
+                                    cleanly into the paper background where an
+                                    older turn runs past the top edge. */}
                                 <Bubble variant={mine ? "primary" : "secondary"}>
                                   <BubbleContent className="max-w-[268px] text-sm">
                                     {message.text}
@@ -283,27 +267,20 @@ export default function Page() {
                 </MessageScroller>
               </div>
 
-              <div className="flex h-9 shrink-0 items-center justify-between gap-2 border-t px-4">
-                <span className="shrink-0 font-code text-[10px] text-muted-foreground">
-                  9 messages
-                </span>
-                <ChatScrollStatus />
+              {/* Composer lives inside the chat card, right under the
+                  scroller's reserved footer lane */}
+              <div className="flex shrink-0 items-center gap-2 border-t px-2 py-1.5">
+                <Input
+                  placeholder="Ask Sam anything…"
+                  aria-label="Message Sam Rivera"
+                  className="h-8"
+                />
+                <Button size="icon-sm" aria-label="Send message">
+                  <SendIcon />
+                </Button>
               </div>
             </Card>
           </MessageScrollerProvider>
-
-          {/* Composer */}
-          <div className="flex shrink-0 items-center gap-2">
-            <Input
-              placeholder="Ask Sam anything…"
-              aria-label="Message Sam Rivera"
-              className="h-9"
-            />
-            <Button size="icon-sm" aria-label="Send message">
-              <SendIcon />
-            </Button>
-          </div>
-
         </div>
 
         {/* Bottom tab bar */}

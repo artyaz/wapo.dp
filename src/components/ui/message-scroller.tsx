@@ -146,6 +146,12 @@ function MessageScrollerProvider({
   const previousItemPeekRef = React.useRef(scrollPreviousItemPeek)
   const initialPositionAppliedRef = React.useRef(false)
   const updateFrameRef = React.useRef<number | null>(null)
+  /** Set while a `"end"` opening position still needs re-applying: the
+   * scrollability lane reserves space under the viewport right after the
+   * initial scroll, resizing it and pushing the newest message back under
+   * the fold until the position is re-pinned. */
+  const pendingInitialScrollEndRef = React.useRef(false)
+  const repinnedInitialScrollEndRef = React.useRef(false)
 
   React.useEffect(() => {
     autoScrollRef.current = autoScroll
@@ -221,6 +227,13 @@ function MessageScrollerProvider({
     }
 
     atBottomRef.current = atBottom
+
+    // A re-pinned "end" opening has settled once metrics confirm the reader
+    // is back at the bottom edge with the final viewport geometry.
+    if (atBottom && repinnedInitialScrollEndRef.current) {
+      pendingInitialScrollEndRef.current = false
+      repinnedInitialScrollEndRef.current = false
+    }
 
     setState((previous) => {
       const unchanged =
@@ -441,6 +454,13 @@ function MessageScrollerProvider({
       viewport.scrollTo({ top: 0, behavior: "instant" })
     } else if (defaultScrollPosition === "end") {
       viewport.scrollTo({ top: viewport.scrollHeight, behavior: "instant" })
+      // Marking the scrollability lane (pb-16) as soon as the first metrics
+      // pass sees the transcript can scroll resizes the viewport AFTER this
+      // scroll, which pushes the newest message back under the fold. Flag
+      // the requested position so the resize handler re-applies it until
+      // the geometry settles.
+      pendingInitialScrollEndRef.current = true
+      repinnedInitialScrollEndRef.current = false
     } else {
       const orderedItems = getOrderedItems()
       const lastAnchor = [...orderedItems]
@@ -475,7 +495,13 @@ function MessageScrollerProvider({
     viewport.addEventListener("scroll", handleScroll, { passive: true })
 
     const resizeObserver = new ResizeObserver(() => {
-      if (autoScrollRef.current && atBottomRef.current) {
+      if (pendingInitialScrollEndRef.current) {
+        // Re-apply the "end" opening once the lane reservation (or any
+        // other first-pass layout shift) has resized the viewport, so the
+        // transcript still opens on the newest message.
+        viewport.scrollTo({ top: viewport.scrollHeight, behavior: "instant" })
+        repinnedInitialScrollEndRef.current = true
+      } else if (autoScrollRef.current && atBottomRef.current) {
         viewport.scrollTo({ top: viewport.scrollHeight, behavior: "instant" })
       }
 

@@ -737,8 +737,12 @@ function MentionPopup({
       data-placement={placement}
       className={cn(
         "animate-in fade-in-0 zoom-in-95 absolute z-50 w-64 duration-150",
+        // The popup is anchored to the caret line (~12px inside the field),
+        // so lifting by 100% + 20px keeps ~8px of clear air between the
+        // popup's bottom border and the field's top border — the floating
+        // surface reads as a distinct overlay instead of sitting flush.
         placement === "top"
-          ? "[transform:translateY(calc(-100%_-_12px))]"
+          ? "[transform:translateY(calc(-100%_-_20px))]"
           : "translate-y-1.5",
         className
       )}
@@ -768,7 +772,10 @@ function MentionPopup({
           renderOption={renderOption}
         />
         {showHints ? (
-          <div className="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-1 border-t px-2.5 py-1.5">
+          // Tight gaps/padding keep all three hint groups on one line inside
+          // the w-64 popup (~218px of content); flex-wrap stays as the
+          // graceful fallback if font metrics ever change.
+          <div className="text-muted-foreground flex flex-wrap items-center gap-x-2 gap-y-1 border-t px-2 py-1.5">
             <span className="flex items-center gap-1 text-[11px]">
               <Kbd>↑</Kbd>
               <Kbd>↓</Kbd>

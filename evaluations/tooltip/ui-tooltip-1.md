@@ -8,20 +8,19 @@
 | Viewport | 1024x768 |
 | Theme | light |
 | Model | agy-image via https://omni.chmyl.com/v1 |
-| Date | 2026-08-29T06:01:44.181Z |
+| Date | 2026-08-29T15:01:18.155Z |
 | Verdict | **PASS** |
-| Score | 8/10 |
+| Score | 9/10 |
 
 ## Screenshot: ui-tooltip-1.png
 
-- Verdict: PASS (score 8/10)
+- Verdict: PASS (score 9/10)
 
 ```
 VERDICT: PASS
-SCORE: 8/10
+SCORE: 9/10
+
 ISSUES:
-1. [minor] The tooltip beneath the "Price summary" card ("Price locked until...") overlaps directly across the card's bottom hairline border without vertical clearance, causing visual collision between the overlay and container boundary.
-2. [minor] Flight card departure and arrival timestamps contain unnatural, exaggerated spacing around the colons (e.g., "08 : 45", "10 : 15", "13 : 30").
-3. [minor] The bottom-left tooltip arrow is offset from the center of the "E75L" badge trigger it targets.
+1. [minor] Tooltip caret misalignment on flight card 3 (bottom-left): The tooltip containing "Embraer E175 · no Wi-Fi" has its arrow anchored beneath the airline code `PS 92` rather than centered under the relevant trigger target (the `E75L` aircraft badge or the muted Wi-Fi icon). Align the tooltip container and pointer to the specific component it describes.
 ```
 

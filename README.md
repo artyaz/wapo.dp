@@ -1,6 +1,6 @@
 # Praxis — Design System
 
-A calm, monochrome design-system documentation site built with liquid-glass materials. Praxis documents **58 production-ready components** — from primitives (Button, Card, TextField) through data-dense tooling surfaces (Sparkline, LayerTreeRow, InspectorRow) to a full **AI chat element family** (UserMessage, ThoughtHeader, PayloadInspector, JumpToLatest).
+A calm, monochrome design-system documentation site built with liquid-glass materials. Praxis documents **58 Subframe design-system components** plus a **71-component shadcn/ui family** (`src/components/ui/`) — from primitives (Button, Card, Input) through complex surfaces (Kanban Board, Filter Bar / Query Builder, Mention Input) to a full **AI chat element family** (Bubble, Message, Message Scroller, Attachment).
 
 ## Highlights
 
@@ -13,6 +13,7 @@ A calm, monochrome design-system documentation site built with liquid-glass mate
 - **Three-role typography** — Inter for interface, Source Serif 4 for reading, IBM Plex Mono for data and code (`next/font`, zero layout shift).
 - **AI chat surface family** — 8 components covering the full assistant transcript pattern: user message bubbles, collapsible execution/thought headers, aggregated tool summaries, granular action traces, a syntax-highlighted payload inspector, inline semantic chips (integration avatars, code pills, file-reference chips), the assistant response block, and a floating jump-to-latest button.
 - **Verified at every width** — every component was screenshotted at wide / square / narrow aspect ratios and audited with a vision model; all blockers and majors are resolved.
+- **71-component UI family with an AI-audited QA pipeline** — all 71 `ui/` components (63 existing + 8 new: Direction, Code Block, File Upload, Stepper, Timeline, Filter Bar, Kanban Board, Mention Input) ship with live demos and were verified through a two-round vision-model pipeline: 152 eval pages under `src/app/eval/ui-*` (random topics, viewports from 390px phones to 1920px desktops, light **and** dark themes), screenshot-audited against the design doctrine, with every recorded issue fixed and re-verified. Full reports live in `evaluations/<component>/`.
 
 ## Getting started
 

@@ -8,19 +8,17 @@
 | Viewport | 390x844 |
 | Theme | light |
 | Model | agy-image via https://omni.chmyl.com/v1 |
-| Date | 2026-08-29T13:02:43.480Z |
+| Date | 2026-08-29T14:01:24.492Z |
 | Verdict | **PASS** |
-| Score | 8/10 |
+| Score | 10/10 |
 
 ## Screenshot: ui-message-scroller-2.png
 
-- Verdict: PASS (score 8/10)
+- Verdict: PASS (score 10/10)
 
 ```
 VERDICT: PASS
-SCORE: 8/10
-ISSUES:
-1. [major] Message Scroller: The incoming message container below the "Sam 09:04" timestamp has missing or illegible text with insufficient contrast against the background panel, failing the legibility principle.
-2. [minor] Message Scroller: The floating scroll-down circular button is positioned with tight bottom padding, almost colliding with the component's bottom metadata bar border.
+SCORE: 10
+ISSUES: none
 ```
 

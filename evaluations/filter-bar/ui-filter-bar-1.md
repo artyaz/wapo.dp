@@ -8,19 +8,17 @@
 | Viewport | 390x844 |
 | Theme | light |
 | Model | agy-image via https://omni.chmyl.com/v1 |
-| Date | 2026-08-29T08:49:30.816Z |
+| Date | 2026-08-29T15:56:50.036Z |
 | Verdict | **PASS** |
-| Score | 9/10 |
+| Score | 10/10 |
 
 ## Screenshot: ui-filter-bar-1.png
 
-- Verdict: PASS (score 9/10)
+- Verdict: PASS (score 10/10)
 
 ```
 VERDICT: PASS
-SCORE: 9/10
-ISSUES:
-1. [minor] The "Clear all" text link inside the filter panel has low contrast against the panel background. Increase font weight or darken text color to meet minimum contrast ratios.
-2. [minor] The top drag indicator pill on the bottom sheet overlay has insufficient contrast against the sheet surface, making it difficult to distinguish.
+SCORE: 10/10
+ISSUES: none
 ```
 
