@@ -941,7 +941,7 @@ function QuestionnaireChoice({
       data-disabled={isDisabled || undefined}
       data-invalid={item.invalid || undefined}
       className={cn(
-        "group/questionnaire-choice flex w-full cursor-pointer items-start gap-3 rounded-lg border border-input bg-background p-3 text-sm shadow-xs outline-none transition-[color,border-color,background-color,box-shadow]",
+        "group/questionnaire-choice flex w-full cursor-pointer items-start gap-3 rounded-lg border border-input bg-background p-3 text-sm shadow-xs outline-none transition-[color,border-color,background-color]",
         "has-[:focus-visible]:border-ring has-[:focus-visible]:ring-ring/50 has-[:focus-visible]:ring-[3px]",
         "data-[state=checked]:border-primary data-[state=checked]:bg-primary/5 dark:data-[state=checked]:bg-primary/10",
         "data-[state=unchecked]:hover:border-primary/40",
@@ -973,12 +973,12 @@ function QuestionnaireChoice({
         aria-hidden="true"
         className={cn(
           "mt-0.5 flex size-4 shrink-0 items-center justify-center border shadow-xs transition-[border-color,background-color,color]",
-          item.multiple ? "rounded-[4px]" : "rounded-full",
+          item.multiple ? "rounded-sm" : "rounded-full",
           isChecked
             ? item.multiple
               ? "border-primary bg-primary text-primary-foreground"
-              : "border-primary"
-            : "border-input"
+              : "border-primary dark:bg-input/30"
+            : "border-input dark:border-muted-foreground"
         )}
       >
         {isChecked ? (
@@ -995,7 +995,7 @@ function QuestionnaireChoice({
       {shortcutLabel ? (
         <kbd
           aria-hidden="true"
-          className="text-muted-foreground pointer-events-none ms-auto mt-0.5 self-start rounded border border-input bg-muted px-1.5 font-mono text-[10px] font-medium leading-4"
+          className="text-muted-foreground pointer-events-none ms-auto mt-0.5 self-start rounded-sm border border-input bg-muted px-1.5 font-code text-[10px] font-medium leading-4"
         >
           {shortcutLabel}
         </kbd>
@@ -1031,7 +1031,7 @@ function QuestionnaireInput({
       aria-invalid={item.invalid || undefined}
       disabled={item.disabled || undefined}
       className={cn(
-        "border-input placeholder:text-muted-foreground dark:bg-input/30 flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-sm shadow-xs transition-[color,box-shadow] outline-none",
+        "border-input placeholder:text-muted-foreground dark:bg-input/30 flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-sm shadow-xs transition-colors outline-none",
         "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
         "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
         className

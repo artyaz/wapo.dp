@@ -5,6 +5,10 @@ import * as LabelPrimitive from "@radix-ui/react-label"
 
 import { cn } from "@/lib/utils"
 
+// Praxis audit: compliant — no hue classes (foreground token only), Inter
+// interface role at text-sm/medium, no geometry (radii/shadows) or animated
+// properties on a non-interactive text element, correct disabled states via
+// peer/group data attributes, token-agnostic in both themes.
 function Label({
   className,
   ...props

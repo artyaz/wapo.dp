@@ -62,7 +62,15 @@ function RadioGroupItem({
     <RadioGroupPrimitive.Item
       data-slot="radio-group-item"
       className={cn(
-        "border-input text-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 aspect-square size-4 shrink-0 rounded-full border shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
+        // Praxis: no shadow on in-flow content and color/opacity-only
+        // transitions (150ms default) — never animated shadows. `rounded-full`
+        // is the functional radio affordance (circular control + dot
+        // indicator), not a radius-token violation.
+        // dark:data-[state=unchecked]:not-aria-invalid:border-muted-foreground
+        // lifts the unchecked ring above the dark panel (border-input alone is
+        // neutral-200-on-neutral-100 in dark ≈ invisible) — same fix as the
+        // checkbox sibling.
+        "border-input dark:data-[state=unchecked]:not-aria-invalid:border-muted-foreground text-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 aspect-square size-4 shrink-0 rounded-full border transition-[color,background-color,border-color,opacity] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       {...props}

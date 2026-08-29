@@ -49,7 +49,10 @@ function ScrollBar({
     >
       <ScrollAreaPrimitive.ScrollAreaThumb
         data-slot="scroll-area-thumb"
-        className="bg-border relative flex-1 rounded-full"
+        // Praxis: thumb matches the system-wide thin-scrollbar tone
+        // (globals.css native fallback = neutral-300); one step up in dark
+        // so it stays legible on dark panels. Color-only hover transition.
+        className="bg-neutral-300 hover:bg-neutral-400 dark:bg-neutral-400 dark:hover:bg-neutral-500 relative flex-1 rounded-full transition-colors"
       />
     </ScrollAreaPrimitive.ScrollAreaScrollbar>
   )

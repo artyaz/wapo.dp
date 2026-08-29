@@ -23,7 +23,9 @@ function Kbd({
       // glyph order nor flips flex row order. An explicit `dir` still wins.
       dir={dir}
       className={cn(
-        "bg-muted text-muted-foreground pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded-sm border border-b-2 px-1.5 font-mono text-xs font-medium",
+        // Type role 3: keycaps are "tokens" — IBM Plex Mono via font-code
+        // (plain font-mono falls back to the raw ui-monospace stack).
+        "bg-muted text-muted-foreground pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded-sm border border-b-2 px-1.5 font-code text-xs font-medium",
         className
       )}
       {...props}

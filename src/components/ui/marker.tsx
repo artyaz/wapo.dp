@@ -22,11 +22,11 @@ function Marker({
       data-slot="marker"
       data-variant={variant}
       className={cn(
-        "flex w-full items-center justify-center gap-2 text-xs text-muted-foreground",
+        "flex w-full items-center justify-center gap-2 text-xs text-muted-foreground transition-colors outline-none [a]:hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50",
         variant === "separator" &&
           "gap-3 before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border",
         variant === "border" &&
-          "justify-start rounded-md border border-input bg-background px-2.5 py-1.5",
+          "justify-start rounded-md border border-input bg-background px-2.5 py-1.5 focus-visible:border-ring",
         className
       )}
       {...props}

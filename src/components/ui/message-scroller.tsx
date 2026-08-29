@@ -609,7 +609,7 @@ function MessageScrollerViewport({
       data-slot="message-scroller-viewport"
       tabIndex={0}
       className={cn(
-        "min-h-0 flex-1 overflow-y-auto overscroll-contain scroll-smooth outline-none",
+        "min-h-0 flex-1 overflow-y-auto overscroll-contain scroll-smooth outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50",
         className
       )}
       onScroll={(event) => {
